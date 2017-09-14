@@ -1,0 +1,169 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 14/09/2017, 13:58:42
+    Author     : andersonalves
+*/
+nav{
+    background-color: #006B43 !important;
+}
+nav > .material-icons{
+    color: #006B43;
+}
+.corLogo{
+    color: #006B43;
+}
+.dropdown-button{
+    background-color: #006B43;
+}
+
+.material-icons{
+    cursor: pointer;
+}
+
+.ulNav> li.active {
+    background-color: #006B43 !important;
+}
+
+a{
+    cursor: pointer;
+}
+.ulNav > li.active{
+    background-color: rgba(0, 0, 0, 0.4) !important;
+}
+.side-nav li > a{
+    color: #006B43 !important; 
+}
+.side-nav li > a > i{
+    color: #006B43 !important; 
+}
+
+.side-nav li.active > a{
+    color: white !important; 
+}
+.side-nav li.active > a > i{
+    color: white !important; 
+}
+.container { 
+    min-height: 75%;
+    height: auto !important;
+}
+
+footer{
+    background-color: #006B43;
+    color: white;
+    padding:30px 0;
+}
+
+
+footer a{
+    font-size:14px;
+    color: white !important;
+    opacity: 0.8;
+}
+footer a:hover{
+    text-decoration:none;
+    opacity: 1;
+}
+
+footer section h5{
+    margin:0 0 20px 0;
+    font-weight:400;
+    color:#7dc48a;
+    text-align: left !important;
+    /*letter-spacing:2px; */
+    /*text-transform:uppercase;*/
+}
+@media screen and (max-width: 767px) {
+    footer section h5{
+        margin-top:30px;
+        margin-bottom:4px;
+    }
+}
+footer section ul{
+    margin:0;
+}
+footer section li a{
+    padding: 3px 0;
+    display: inline-block;
+}
+footer #newsletter{
+    margin-top:20px;
+    border-left: 0.5px dotted white;
+    padding-left: 6px;
+}
+@media screen and (min-width: 768px) {
+    footer #newsletter{
+        margin-top:0px;
+    }
+}
+footer #newsletter .input-group{
+    display:block;
+}
+footer #newsletter .form-control{
+    height:42px;
+    border:none;
+    padding-right:55px;
+    border-radius:3px;
+    display:block;
+    float:none;
+}
+footer #newsletter .input-group-btn{
+    position:absolute;
+    right:0;top:5px;
+    bottom:5px;
+    padding:0 5px;
+    border-left:1px solid #e2e4e8;
+    display:block;
+    width:49px;
+    height:32px;
+    z-index:99;
+}
+footer #newsletter .input-group-btn .btn{
+    width:38px;
+    height:32px;
+    line-height:30px;
+    padding:0;
+    text-align:center;
+    font-size:24px;
+    margin:0;
+    border-radius:3px;
+}
+footer #copyright{
+    padding-top:20px;
+    color:#7dc48a;
+}
+footer #copyright ul{
+    margin:0;
+}
+footer #copyright li{
+    display:inline-block;
+    vertical-align:middle;
+}
+footer #copyright img{
+    max-height:26px;
+    width:auto;
+    margin-right:30px;
+}footer #social{
+    padding-top:20px;
+    text-align:right;
+}
+@media screen and (max-width: 767px) {
+    footer #social{
+        text-align:center;
+    }
+}
+footer #social li{
+    display:inline-block;
+    padding:0 15px;
+}
+footer #social li:first-child{
+    padding-left:0;
+}
+footer #social li:last-child{
+    padding-right:0;
+}
+
