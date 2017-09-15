@@ -9,9 +9,10 @@
         <link href='css/nav_footer.css' rel='stylesheet' />
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.1/js/materialize.min.js"></script>
+        <script src='js/location_js.js'></script>
         <script src='js/lib/moment.min.js'></script>
         <script src='js/fullcalendar.min.js'></script>
-        <script src='js/location_js.js'></script>
+
         <style>
             body{
                 font-family: 'Verdana', 'sans-serif' !important;
@@ -31,6 +32,27 @@
                 font-weight: bold;
                 margin-bottom: 2%;
             }
+            .equipamento{
+                margin: 10px;
+            }
+            .equipamento img{
+                width: 120px;
+                height: 100px;
+            }
+            .servicos{
+                margin: 10px;
+            }
+            .servicos img{
+                width: 120px;
+                height: 100px;
+            }
+            .refeicoes{
+                margin: 10px;
+            }
+            .refeicoes img{
+                width: 120px;
+                height: 100px;
+            }
         </style>
     </head>
     <body>
@@ -46,7 +68,7 @@
                     </ul>
                     <ul class="right hide-on-med-and-down ulNav">             
                         <li >
-                            <a href="#"><i class="material-icons left">queue</i>Cadastros</a>
+                            <a href="#" class="openModalAdicionarEvento"><i class="material-icons left">queue</i>Cadastros</a>
                         </li>
                         <li >
                             <a href="#"><i class="material-icons left">assessment</i>Relatórios</a>
@@ -70,7 +92,7 @@
                         <li> <a href="JavaScript: window.history.back();"> <i class="material-icons left">undo</i>Voltar </a> </li>
                         <li> <a href="#"> <i class="material-icons left">home</i>Início </a> </li>
                         <li >
-                            <a href="#"><i class="material-icons left">queue</i>Cadastros</a>
+                            <a href="#" class="openModalAdicionarEvento"><i class="material-icons left">queue</i>Cadastros</a>
                         </li>
                         <li >
                             <a href="#"><i class="material-icons left">assessment</i>Relatórios</a>
@@ -84,72 +106,125 @@
         </nav>
         <!--       Container para Modal e Adicionar Evento-->
         <div class="container">
-            <div id="modalAdicionarEvento" class="modal">
+            <div id="modalAdicionarEventoClickDay" class="modal">
                 <div class="modal-content">
                     <h4 class="center">Adicionar Eventos</h4>
                     <div class="divider"></div>
                     <br>
                     <div class="row">
-                        <div class="input-field col s12 m6">
-                            <input id="icon_prefix" type="text" class="validate nomeEvento">
-                            <label for="icon_prefix">Nome do Evento:</label>
-                        </div>
-                        <div class="input-field col s12 m6">
-                            <input id="icon_prefix" type="text" class="validate solicitante">
-                            <label for="icon_prefix">Solicitante:</label>
-                        </div>
-                        <div class="input-field col s12 m12">
-                            <textarea id="opiniao" class="materialize-textarea" name="opiniao" data-length="200" maxlength="201"></textarea>
-                            <label for="textarea1">Por favor, digite o evento</label>
-                        </div>
-                        <div class="input-field col s12 m6">
-                            <select name="tipo">
-                                <option value="" disabled selected>Escolha sua opção</option>
-                                <!--                            <option value="1">Servidor</option>
-                                                            <option value="2">Aluno</option>
-                                                            <option value="3">Tercerizado</option>
-                                                            <option value="4">Mestrado</option>
-                                                            <option value="5">Bolsista</option>-->
-                            </select>
-                            <label>Tipo: </label>
-                        </div>
-                        <div class="input-field col s12 m6">
-                            <select name="ambiente">
-                                <option value="" disabled selected>Escolha sua opção</option>
-                                <!--                            <option value="1">Servidor</option>
-                                                            <option value="2">Aluno</option>
-                                                            <option value="3">Tercerizado</option>
-                                                            <option value="4">Mestrado</option>
-                                                            <option value="5">Bolsista</option>-->
-                            </select>
-                            <label>Ambiente: </label>
-                        </div>
-                        <div class="input-field col s12 m3">
-                            <input id="icon_prefix" type="text" class="dataInicio">
-                            <label for="icon_prefix">Data Início:</label>
-                        </div>
-                        <div class="input-field col s12 m3">
-                            <input id="icon_prefix" type="text" class="horaInicio">
-                            <label for="icon_prefix">Hora Início:</label>
-                        </div>
-                        <div class="input-field col s12 m3">
-                            <input id="icon_prefix" type="text" class="dataFim">
-                            <label for="icon_prefix">Data Fim:</label>
-                        </div>
-                        <div class="input-field col s12 m3">
-                            <input id="icon_prefix" type="text" class="horaFim">
-                            <label for="icon_prefix">Hora Fim:</label>
-                        </div>
-                        <div class="col s12">
-                            <ul id="tabs-swipe-demo" class="tabs">
-                                <li class="tab col s3 active"><a class="active" href="#test-swipe-1">Equipamentos</a></li>
-                                <li class="tab col s3"><a href="#test-swipe-2">Serviços</a></li>
-                                <li class="tab col s3"><a href="#test-swipe-3">Refeições</a></li>
-                            </ul>
-                        </div>
-                        <div id="test-swipe-1" class="col s12 m12">Test 1</div>
-                        <div id="test-swipe-2" class="col s12 m12">Test 2</div>
-                        <div id="test-swipe-3" class="col s12 m12">Test 3</div>
+                        <form class="col s12">
+                            <div class="input-field col s12 m6">
+                                <input id="icon_prefix" type="text" class="validate nomeEvento" placeholder="Digite o nome do Evento">
+                                <label for="icon_prefix" class="active">Nome do Evento:</label>
+                            </div>
+                            <div class="input-field col s12 m6">
+                                <input id="icon_prefix" type="text" class="validate solicitante" placeholder="Digite o nome do Solicitante">
+                                <label for="icon_prefix" class="active">Solicitante:</label>
+                            </div>
+                            <div class="input-field col s12 m12">
+                                <textarea id="opiniao" class="materialize-textarea" name="opiniao" data-length="200" maxlength="201"></textarea>
+                                <label for="textarea1">Por favor, digite a descrição do evento</label>
+                            </div>
+                            <div class="input-field col s12 m6">
+                                <select name="tipo">
+                                    <option value="" disabled selected>Escolha sua opção</option>
+                                    <!--                            <option value="1">Servidor</option>
+                                                                <option value="2">Aluno</option>
+                                                                <option value="3">Tercerizado</option>
+                                                                <option value="4">Mestrado</option>
+                                                                <option value="5">Bolsista</option>-->
+                                </select>
+                                <label>Tipo: </label>
+                            </div>
+                            <div class="input-field col s12 m6">
+                                <select name="ambiente">
+                                    <option value="" disabled selected>Escolha sua opção</option>
+                                    <!--                            <option value="1">Servidor</option>
+                                                                <option value="2">Aluno</option>
+                                                                <option value="3">Tercerizado</option>
+                                                                <option value="4">Mestrado</option>
+                                                                <option value="5">Bolsista</option>-->
+                                </select>
+                                <label>Ambiente: </label>
+                            </div>
+                            <div class="input-field col s12 m3">
+                                <input id="icon_prefix" type="text" class="dataInicio" disabled placeholder="Escolha a Data Inicial">
+                                <label for="icon_prefix" class="active">Data Início:</label>
+                            </div>
+                            <div class="input-field col s12 m3">
+                                <input id="icon_prefix" type="text" class="horaInicio" placeholder="Escolha a Hora Inicial">
+                                <label for="icon_prefix" class="active">Hora Início:</label>
+                            </div>
+                            <div class="input-field col s12 m3">
+                                <input id="icon_prefix" type="text" class="dataFim" placeholder="Escolha a Data Final">
+                                <label for="icon_prefix" class="active">Data Fim:</label>
+                            </div>
+                            <div class="input-field col s12 m3">
+                                <input id="icon_prefix" type="text" class="horaFim" placeholder="Escolha a Hora Final">
+                                <label for="icon_prefix" class="active">Hora Fim:</label>
+                            </div>
+                            <div class="col s12">
+                                <ul id="tabs-swipe-demo" class="tabs">
+                                    <li class="tab col s3 active"><a class="active" href="#equipamentos">Equipamentos</a></li>
+                                    <li class="tab col s3"><a href="#servicos">Serviços</a></li>
+                                    <li class="tab col s3"><a href="#refeicoes">Refeições</a></li>
+                                </ul>
+                            </div>
+                            <div id="equipamentos" class="col s12 m12">
+                                <div class="row equipamento">
+                                    <div class="col s12 m2">
+                                        <img src="img/datashow.png">
+                                        <p>
+                                            <input type="checkbox" class="filled-in" id="filled-in-box" />
+                                            <label for="filled-in-box">Qtd: 1</label>
+                                        </p>
+                                    </div>
+                                    <div class="col s12 m2">
+                                        <img src="img/microfone.png">
+                                        <p>
+                                            <input type="checkbox" class="filled-in" id="filled-in-box2" />
+                                            <label for="filled-in-box2">Qtd: 1</label>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="servicos" class="col s12 m12">
+                                <div class="row servicos">
+                                    <div class="col s12 m2">
+                                        <img src="img/construcao.png">
+                                        <p>
+                                            <input type="checkbox" class="filled-in" id="servicos1" />
+                                            <label for="servicos1">Qtd: 1</label>
+                                        </p>
+                                    </div>
+                                    <div class="col s12 m2">
+                                        <img src="img/construcao.png">
+                                        <p>
+                                            <input type="checkbox" class="filled-in" id="servicos2" />
+                                            <label for="servicos2">Qtd: 1</label>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="refeicoes" class="col s12 m12">
+                                <div class="row refeicoes">
+                                    <div class="col s12 m2">
+                                        <img src="img/construcao.png">
+                                        <p>
+                                            <input type="checkbox" class="filled-in" id="refeicoes1" />
+                                            <label for="refeicoes1">Qtd: 1</label>
+                                        </p>
+                                    </div>
+                                    <div class="col s12 m2">
+                                        <img src="img/construcao.png">
+                                        <p>
+                                            <input type="checkbox" class="filled-in" id="refeicoes2" />
+                                            <label for="refeicoes2">Qtd: 1</label>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -162,6 +237,135 @@
                 <h3>SysReserva</h3>
             </div>
             <div id='calendar'></div>
+
+            <!--Modal Adicionar Evento Click BtnCadastros-->
+            <div id="modalAdicionarEventoClickBtnCadastro" class="modal">
+                <div class="modal-content">
+                    <h4 class="center">Adicionar Eventos</h4>
+                    <div class="divider"></div>
+                    <br>
+                    <div class="row">
+                        <form class="col s12">
+                            <div class="input-field col s12 m6">
+                                <input id="icon_prefix" type="text" class="validate nomeEvento" placeholder="Digite o nome do Evento">
+                                <label for="icon_prefix" class="active">Nome do Evento:</label>
+                            </div>
+                            <div class="input-field col s12 m6">
+                                <input id="icon_prefix" type="text" class="validate solicitante" placeholder="Digite o nome do Solicitante">
+                                <label for="icon_prefix" class="active">Solicitante:</label>
+                            </div>
+                            <div class="input-field col s12 m12">
+                                <textarea id="opiniao" class="materialize-textarea" name="opiniao" data-length="200" maxlength="201"></textarea>
+                                <label for="textarea1">Por favor, digite a descrição do evento</label>
+                            </div>
+                            <div class="input-field col s12 m6">
+                                <select name="tipo">
+                                    <option value="" disabled selected>Escolha sua opção</option>
+                                    <!--                            <option value="1">Servidor</option>
+                                                                <option value="2">Aluno</option>
+                                                                <option value="3">Tercerizado</option>
+                                                                <option value="4">Mestrado</option>
+                                                                <option value="5">Bolsista</option>-->
+                                </select>
+                                <label>Tipo: </label>
+                            </div>
+                            <div class="input-field col s12 m6">
+                                <select name="ambiente">
+                                    <option value="" disabled selected>Escolha sua opção</option>
+                                    <!--                            <option value="1">Servidor</option>
+                                                                <option value="2">Aluno</option>
+                                                                <option value="3">Tercerizado</option>
+                                                                <option value="4">Mestrado</option>
+                                                                <option value="5">Bolsista</option>-->
+                                </select>
+                                <label>Ambiente: </label>
+                            </div>
+                            <div class="input-field col s12 m3">
+                                <input id="icon_prefix" type="text" class="dataInicio" disabled placeholder="Escolha a Data Inicial">
+                                <label for="icon_prefix" class="active">Data Início:</label>
+                            </div>
+                            <div class="input-field col s12 m3">
+                                <input id="icon_prefix" type="text" class="horaInicio" placeholder="Escolha a Hora Inicial">
+                                <label for="icon_prefix" class="active">Hora Início:</label>
+                            </div>
+                            <div class="input-field col s12 m3">
+                                <input id="icon_prefix" type="text" class="dataFim" placeholder="Escolha a Data Final">
+                                <label for="icon_prefix" class="active">Data Fim:</label>
+                            </div>
+                            <div class="input-field col s12 m3">
+                                <input id="icon_prefix" type="text" class="horaFim" placeholder="Escolha a Hora Final">
+                                <label for="icon_prefix" class="active">Hora Fim:</label>
+                            </div>
+                            <div class="col s12">
+                                <ul id="tabs-swipe-demo" class="tabs">
+                                    <li class="tab col s3 active"><a class="active" href="#equipamentos2">Equipamentos</a></li>
+                                    <li class="tab col s3"><a href="#servicos2">Serviços</a></li>
+                                    <li class="tab col s3"><a href="#refeicoes2">Refeições</a></li>
+                                </ul>
+                            </div>
+                            <div id="equipamentos2" class="col s12 m12">
+                                <div class="row equipamento">
+                                    <div class="col s12 m2">
+                                        <img src="img/datashow.png">
+                                        <p>
+                                            <input type="checkbox" class="filled-in" id="filled-in-box" />
+                                            <label for="filled-in-box">Qtd: 1</label>
+                                        </p>
+                                    </div>
+                                    <div class="col s12 m2">
+                                        <img src="img/microfone.png">
+                                        <p>
+                                            <input type="checkbox" class="filled-in" id="filled-in-box2" />
+                                            <label for="filled-in-box2">Qtd: 1</label>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="servicos2" class="col s12 m12">
+                                <div class="row servicos">
+                                    <div class="col s12 m2">
+                                        <img src="img/construcao.png">
+                                        <p>
+                                            <input type="checkbox" class="filled-in" id="servicos1" />
+                                            <label for="servicos1">Qtd: 1</label>
+                                        </p>
+                                    </div>
+                                    <div class="col s12 m2">
+                                        <img src="img/construcao.png">
+                                        <p>
+                                            <input type="checkbox" class="filled-in" id="servicos2" />
+                                            <label for="servicos2">Qtd: 1</label>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="refeicoes2" class="col s12 m12">
+                                <div class="row refeicoes">
+                                    <div class="col s12 m2">
+                                        <img src="img/construcao.png">
+                                        <p>
+                                            <input type="checkbox" class="filled-in" id="refeicoes1" />
+                                            <label for="refeicoes1">Qtd: 1</label>
+                                        </p>
+                                    </div>
+                                    <div class="col s12 m2">
+                                        <img src="img/construcao.png">
+                                        <p>
+                                            <input type="checkbox" class="filled-in" id="refeicoes2" />
+                                            <label for="refeicoes2">Qtd: 1</label>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btnModal buttonOkay">OK</button>
+                    <button class="btnModal buttonCancel">CANCEL</button>
+                    <!--                <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Agree</a>-->
+                </div>
+            </div>
         </div>
 
         <footer>

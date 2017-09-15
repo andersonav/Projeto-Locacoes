@@ -10,6 +10,12 @@
 $(document).ready(function () {
     $("select").material_select();
 
+    $(".openModalAdicionarEvento").click(function () {
+        $('ul.tabs').tabs();
+        $("#modalAdicionarEventoClickBtnCadastro").modal();
+        $("#modalAdicionarEventoClickBtnCadastro").modal('open');
+    });
+
     $('#calendar').fullCalendar({
         monthNames: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro',
             'Outubro', 'Novembro', 'Dezembro'],
@@ -32,15 +38,17 @@ $(document).ready(function () {
         selectable: true,
         selectHelper: true,
         select: function (start, end) {
-            $('.modal').modal();
+            start = $.fullCalendar.formatRange(start, start, 'DD/MM/YYYY');
+            $('#modalAdicionarEventoClickDay').modal();
             $('ul.tabs').tabs();
-            $(".modal").modal({
+            $(".dataInicio").val(start);
+            $("#modalAdicionarEventoClickDay").modal({
                 complete: function teste() {
                     start = null;
                 }
             });
             var title;
-            $(".modal").modal('open');
+            $("#modalAdicionarEventoClickDay").modal('open');
 
             var eventData;
             $(".buttonOkay").click(function () {
