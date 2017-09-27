@@ -7,18 +7,22 @@
         <link href='css/fullcalendar.min.css' rel='stylesheet' />
         <link href='css/fullcalendar.print.min.css' rel='stylesheet' media='print' />
         <link href='css/nav_footer.css' rel='stylesheet' />
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.1/js/materialize.min.js"></script>
-        <script src='js/location_js.js'></script>
         <script src='js/lib/moment.min.js'></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
         <script src='js/fullcalendar.min.js'></script>
-
+        <script src='js/locale-all.js'></script>
+        <script src='js/locale/pt-br.js'></script>
+        <script src='js/location_js.js'></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.1/js/materialize.min.js"></script>
         <style>
             body{
                 font-family: 'Verdana', 'sans-serif' !important;
 
             }
             #calendar {
+                margin: 15px auto;
+            }
+            #calendar2 {
                 margin: 15px auto;
             }
             .btnModal{
@@ -52,6 +56,47 @@
             .refeicoes img{
                 width: 120px;
                 height: 100px;
+            }
+            .textRepeat{
+                margin: 4px auto; 
+                text-align: center;
+            }
+            .repeatSwitch{
+                margin: 3px auto;
+                border: 2px solid black;
+                border-radius: 5px;
+                cursor: pointer;
+                text-align: center;
+            }
+            .active_repeat{
+                background-color: #006B43;
+                color: white;
+            }
+            .cadastroClickBtn{
+                display: none !important;
+            }
+            #calendar td {
+                vertical-align: middle !important;
+            }
+            #calendar2 td {
+                vertical-align: middle !important;
+            }
+            .fc-axis {
+                text-align: center !important;
+            }
+
+            .fc-axis td {
+                padding: 0;
+                vertical-align: middle !important;
+            }
+            .teste{
+                margin-top: 10px;
+            }
+            #calendar2 .fc-center h2{
+                display: none;
+            }
+            #calendar2 .fc-left{
+                display: none;
             }
         </style>
     </head>
@@ -111,8 +156,9 @@
                     <h4 class="center">Adicionar Eventos</h4>
                     <div class="divider"></div>
                     <br>
-                    <div class="row">
-                        <form class="col s12">
+                    <form class="col s12">
+                        <div class="row">
+
                             <div class="input-field col s12 m6">
                                 <input id="icon_prefix" type="text" class="validate nomeEvento" placeholder="Digite o nome do Evento">
                                 <label for="icon_prefix" class="active">Nome do Evento:</label>
@@ -156,7 +202,7 @@
                                 <label for="icon_prefix" class="active">Hora Início:</label>
                             </div>
                             <div class="input-field col s12 m3">
-                                <input id="icon_prefix" type="text" class="dataFim" placeholder="Escolha a Data Final">
+                                <input id="icon_prefix" type="text" class="dataFim" disabled placeholder="Escolha a Data Final">
                                 <label for="icon_prefix" class="active">Data Fim:</label>
                             </div>
                             <div class="input-field col s12 m3">
@@ -224,8 +270,31 @@
                                     </div>
                                 </div>
                             </div>
-                        </form>
-                    </div>
+                        </div>
+                        <div class="row cadastroClickBtn mostrarWhenClickBtn center" style="margin: 3px auto; width: 50%;">
+                            <div class="col s12 m3 textRepeat">Repetir: </div>
+                            <div class="col s12 m3 repeatSwitch" id="nao">Não</div>
+                            <div class="col s12 m3 repeatSwitch" id="semana">Semana</div>
+                            <div class="col s12 m3 repeatSwitch" id="semestre">Semestre</div>
+                            <br><br>
+                            <div class="aula">
+                                <div class="col s12 m3 teste">Aula? </div>
+                                <div class="col s12 m3" id="">
+                                    <select name="escolhaAula">
+                                        <option value="" disabled>Opção</option>
+                                        <option value="1" selected>Sim</option>
+                                        <option value="2">Não</option>
+                                    </select>
+                                </div>
+                                <div class="col s12 m6 DivInputProfessor" id="">
+                                    <input type="text" class="InputProfessor validate" placeholder="Nome do Professor">
+                                </div>
+                            </div>
+
+                        </div>
+                        <!--<div id="calendar2" class="cadastroClickBtn calendar2"></div>;-->
+                    </form>
+
                 </div>
                 <div class="modal-footer">
                     <button class="btnModal buttonOkay">OK</button>
@@ -237,135 +306,6 @@
                 <h3>SysReserva</h3>
             </div>
             <div id='calendar'></div>
-
-            <!--Modal Adicionar Evento Click BtnCadastros-->
-            <div id="modalAdicionarEventoClickBtnCadastro" class="modal">
-                <div class="modal-content">
-                    <h4 class="center">Adicionar Eventos</h4>
-                    <div class="divider"></div>
-                    <br>
-                    <div class="row">
-                        <form class="col s12">
-                            <div class="input-field col s12 m6">
-                                <input id="icon_prefix" type="text" class="validate nomeEvento" placeholder="Digite o nome do Evento">
-                                <label for="icon_prefix" class="active">Nome do Evento:</label>
-                            </div>
-                            <div class="input-field col s12 m6">
-                                <input id="icon_prefix" type="text" class="validate solicitante" placeholder="Digite o nome do Solicitante">
-                                <label for="icon_prefix" class="active">Solicitante:</label>
-                            </div>
-                            <div class="input-field col s12 m12">
-                                <textarea id="opiniao" class="materialize-textarea" name="opiniao" data-length="200" maxlength="201"></textarea>
-                                <label for="textarea1">Por favor, digite a descrição do evento</label>
-                            </div>
-                            <div class="input-field col s12 m6">
-                                <select name="tipo">
-                                    <option value="" disabled selected>Escolha sua opção</option>
-                                    <!--                            <option value="1">Servidor</option>
-                                                                <option value="2">Aluno</option>
-                                                                <option value="3">Tercerizado</option>
-                                                                <option value="4">Mestrado</option>
-                                                                <option value="5">Bolsista</option>-->
-                                </select>
-                                <label>Tipo: </label>
-                            </div>
-                            <div class="input-field col s12 m6">
-                                <select name="ambiente">
-                                    <option value="" disabled selected>Escolha sua opção</option>
-                                    <!--                            <option value="1">Servidor</option>
-                                                                <option value="2">Aluno</option>
-                                                                <option value="3">Tercerizado</option>
-                                                                <option value="4">Mestrado</option>
-                                                                <option value="5">Bolsista</option>-->
-                                </select>
-                                <label>Ambiente: </label>
-                            </div>
-                            <div class="input-field col s12 m3">
-                                <input id="icon_prefix" type="text" class="dataInicio" disabled placeholder="Escolha a Data Inicial">
-                                <label for="icon_prefix" class="active">Data Início:</label>
-                            </div>
-                            <div class="input-field col s12 m3">
-                                <input id="icon_prefix" type="text" class="horaInicio" placeholder="Escolha a Hora Inicial">
-                                <label for="icon_prefix" class="active">Hora Início:</label>
-                            </div>
-                            <div class="input-field col s12 m3">
-                                <input id="icon_prefix" type="text" class="dataFim" placeholder="Escolha a Data Final">
-                                <label for="icon_prefix" class="active">Data Fim:</label>
-                            </div>
-                            <div class="input-field col s12 m3">
-                                <input id="icon_prefix" type="text" class="horaFim" placeholder="Escolha a Hora Final">
-                                <label for="icon_prefix" class="active">Hora Fim:</label>
-                            </div>
-                            <div class="col s12">
-                                <ul id="tabs-swipe-demo" class="tabs">
-                                    <li class="tab col s3 active"><a class="active" href="#equipamentos2">Equipamentos</a></li>
-                                    <li class="tab col s3"><a href="#servicos2">Serviços</a></li>
-                                    <li class="tab col s3"><a href="#refeicoes2">Refeições</a></li>
-                                </ul>
-                            </div>
-                            <div id="equipamentos2" class="col s12 m12">
-                                <div class="row equipamento">
-                                    <div class="col s12 m2">
-                                        <img src="img/datashow.png">
-                                        <p>
-                                            <input type="checkbox" class="filled-in" id="filled-in-box" />
-                                            <label for="filled-in-box">Qtd: 1</label>
-                                        </p>
-                                    </div>
-                                    <div class="col s12 m2">
-                                        <img src="img/microfone.png">
-                                        <p>
-                                            <input type="checkbox" class="filled-in" id="filled-in-box2" />
-                                            <label for="filled-in-box2">Qtd: 1</label>
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div id="servicos2" class="col s12 m12">
-                                <div class="row servicos">
-                                    <div class="col s12 m2">
-                                        <img src="img/construcao.png">
-                                        <p>
-                                            <input type="checkbox" class="filled-in" id="servicos1" />
-                                            <label for="servicos1">Qtd: 1</label>
-                                        </p>
-                                    </div>
-                                    <div class="col s12 m2">
-                                        <img src="img/construcao.png">
-                                        <p>
-                                            <input type="checkbox" class="filled-in" id="servicos2" />
-                                            <label for="servicos2">Qtd: 1</label>
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div id="refeicoes2" class="col s12 m12">
-                                <div class="row refeicoes">
-                                    <div class="col s12 m2">
-                                        <img src="img/construcao.png">
-                                        <p>
-                                            <input type="checkbox" class="filled-in" id="refeicoes1" />
-                                            <label for="refeicoes1">Qtd: 1</label>
-                                        </p>
-                                    </div>
-                                    <div class="col s12 m2">
-                                        <img src="img/construcao.png">
-                                        <p>
-                                            <input type="checkbox" class="filled-in" id="refeicoes2" />
-                                            <label for="refeicoes2">Qtd: 1</label>
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button class="btnModal buttonOkay">OK</button>
-                    <button class="btnModal buttonCancel">CANCEL</button>
-                    <!--                <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Agree</a>-->
-                </div>
-            </div>
         </div>
 
         <footer>
