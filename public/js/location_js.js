@@ -220,6 +220,48 @@ $(document).ready(function () {
         defaultView: "agendaWeek"
     });
 
+    $('#calendarUser').fullCalendar({
+        monthNames: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro',
+            'Outubro', 'Novembro', 'Dezembro'],
+        monthNamesShort: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Aug', 'Set', 'Out', 'Nov', 'Dez'],
+        dayNames: ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'],
+        dayNamesShort: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab'],
+        lang: 'pt-br',
+        locale: 'pt-br',
+        timeFormat: 'HH:mm',
+        buttonText: {
+            today: 'Hoje',
+            month: 'Mês',
+            week: 'Semana',
+            day: 'Dia'
+        },
+        header: {
+            left: 'prev,next today',
+            center: 'title',
+            right: 'month,agendaDay'
+        },
+        navLinks: true,
+        selectable: true,
+        selectHelper: true,
+        editable: true,
+        eventLimit: true,
+        dayClick: function (date, jsEvent, view) {
+            console.log("Clicou no dia: " + date.format("DD/MM/YYYY"));
+        },
+        allDayText: 'Dia Inteiro',
+        minTime: '07:00:00',
+        maxTime: '20:30:00',
+        slotDuration: '00:30:00',
+        slotLabelInterval: 30,
+        slotLabelFormat: 'HH:mm',
+        slotMinutes: 30
+//        events: [
+//            {
+//                title: 'All Day Event',
+//                start: '2017-09-01'
+//            }
+//        ],
+    });
 
     $(".fc-axis.fc-widget-header").append("<a href='#'>IFCE</a>");
 //    $(".fc-next-button").removeClass("fc-state-hover");
