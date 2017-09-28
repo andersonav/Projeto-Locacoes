@@ -101,6 +101,19 @@
                 font-size: 2.56rem !important;
                 line-height: 85% !important;
             }
+            .btn-confirmar {
+                border: none;
+                border-radius: 2px;
+                width: 100%;
+                font-size: 13px;
+                line-height: 36px;
+                text-transform: uppercase;
+                background-color: #005E30;
+                -webkit-box-shadow: none;
+                color: white !important;
+                font-weight: bold;
+                cursor: pointer;
+            }
         </style>
     </head>
     <body>
@@ -154,6 +167,7 @@
         </nav>
         <!--       Container para Modal e Adicionar Evento-->
         <div class="container">
+
             <div id="modalAdicionarEventoClickDay" class="modal">
                 <div class="modal-content">
                     <h4 class="center">Adicionar Eventos</h4>
@@ -161,7 +175,6 @@
                     <br>
                     <form class="col s12">
                         <div class="row">
-
                             <div class="input-field col s12 m6">
                                 <input id="icon_prefix" type="text" class="validate nomeEvento" placeholder="Digite o nome do Evento">
                                 <label for="icon_prefix" class="active">Nome do Evento:</label>
@@ -305,9 +318,50 @@
                     <!--                <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Agree</a>-->
                 </div>
             </div>
-            <div class="texto">
-                <h3>SysReserva</h3>
+            <div class="row topo">
+                <div class="col s12 m3 logo center"> 
+                    <img class="" src="../public/img/logo_sysreserva.png" style="width: 150px; height: 90px; margin: 10px;"/>
+                </div>
+                <div class="col s12 m9 btnPesquisar">
+                    <form class="col s12 m12" style="margin: 15px;">
+                        <div class="input-field col s12 m12">
+                            <i class="material-icons prefix">search</i>
+                            <input id="icon_prefix" type="text" class="validate solicitante" placeholder="Pesquisar">
+                            <label>Pesquise um evento</label>
+                        </div>
+                    </form>
+                </div>
             </div>
+            <div class="row">
+                <div class="input-field col s12 m4">
+                    <select name="tipo">
+                        <option value="" disabled selected>Escolha sua opção</option>
+                        <option value="1">Servidor</option>
+                        <option value="2">Aluno</option>
+                        <option value="3">Tercerizado</option>
+                        <option value="4">Mestrado</option>
+                        <option value="5">Bolsista</option>
+                    </select>
+                    <label>Tipo de Evento: </label>
+                </div>
+                <div class="input-field col s12 m4">
+                    <select name="ambiente">
+                        <option value="" disabled selected>Escolha sua opção</option>
+                        <option value="1">Servidor</option>
+                        <option value="2">Aluno</option>
+                        <option value="3">Tercerizado</option>
+                        <option value="4">Mestrado</option>
+                        <option value="5">Bolsista</option>
+                    </select>
+                    <label>Ambiente: </label>
+                </div>
+                <div class="input-field col s12 m4">
+                    <input id="icon_prefix" type="submit" class="btn-confirmar" value="Adicionar Evento">
+                </div>
+            </div>
+            <!--            <div class="texto">
+                            <h3>SysReserva</h3>
+                        </div>-->
             <div id='calendar'></div>
         </div>
 
