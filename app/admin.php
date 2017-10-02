@@ -7,114 +7,14 @@
         <link href='../public/css/fullcalendar.min.css' rel='stylesheet' />
         <link href='../public/css/fullcalendar.print.min.css' rel='stylesheet' media='print' />
         <link href='../public/css/nav_footer.css' rel='stylesheet' />
+        <link href='../public/css/location_style.css' rel='stylesheet' />
         <script src='../public/js/lib/moment.min.js'></script>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script src='../public/js/lib/jquery.min.js'></script>
         <script src='../public/js/fullcalendar.min.js'></script>
         <script src='../public/js/locale-all.js'></script>
         <script src='../public/js/locale/pt-br.js'></script>
         <script src='../public/js/location_js.js'></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.1/js/materialize.min.js"></script>
-        <style>
-            body{
-                font-family: 'Verdana', 'sans-serif' !important;
-            }
-            #calendar {
-                margin: 15px auto;
-            }
-            #calendar2 {
-                margin: 15px auto;
-            }
-            .btnModal{
-                border: solid 2px white;
-                padding: 10px;
-                min-width: 10%;
-                display: block;
-                margin-top: 2%;
-                margin-left: 2%;
-                float: right;
-                font-weight: bold;
-                margin-bottom: 2%;
-            }
-            .equipamento{
-                margin: 10px;
-            }
-            .equipamento img{
-                width: 120px;
-                height: 100px;
-            }
-            .servicos{
-                margin: 10px;
-            }
-            .servicos img{
-                width: 120px;
-                height: 100px;
-            }
-            .refeicoes{
-                margin: 10px;
-            }
-            .refeicoes img{
-                width: 120px;
-                height: 100px;
-            }
-            .textRepeat{
-                margin: 4px auto; 
-                text-align: center;
-            }
-            .repeatSwitch{
-                margin: 3px auto;
-                border: 2px solid black;
-                border-radius: 5px;
-                cursor: pointer;
-                text-align: center;
-            }
-            .active_repeat{
-                background-color: #006B43;
-                color: white;
-            }
-            .cadastroClickBtn{
-                display: none !important;
-            }
-            #calendar td {
-                vertical-align: middle !important;
-            }
-            #calendar2 td {
-                vertical-align: middle !important;
-            }
-            .fc-axis {
-                text-align: center !important;
-            }
-
-            .fc-axis td {
-                padding: 0;
-                vertical-align: middle !important;
-            }
-            .teste{
-                margin-top: 10px;
-            }
-            #calendar2 .fc-center h2{
-                display: none;
-            }
-            #calendar2 .fc-left{
-                display: none;
-            }
-            h2 {
-                font-size: 2.56rem !important;
-                line-height: 85% !important;
-            }
-            .btn-confirmar {
-                border: none;
-                border-radius: 2px;
-                width: 100%;
-                font-size: 13px;
-                line-height: 36px;
-                text-transform: uppercase;
-                background-color: #005E30;
-                -webkit-box-shadow: none;
-                color: white !important;
-                font-weight: bold;
-                cursor: pointer;
-            }
-        </style>
     </head>
     <body>
         <nav>
@@ -327,7 +227,7 @@
                         <div class="input-field col s12 m12">
                             <i class="material-icons prefix">search</i>
                             <input id="icon_prefix" type="text" class="validate solicitante" placeholder="Pesquisar">
-                            <label>Pesquise um evento</label>
+                            <label class="corLogo-text">Pesquise um evento</label>
                         </div>
                     </form>
                 </div>
@@ -336,27 +236,35 @@
                 <div class="input-field col s12 m4">
                     <select name="tipo">
                         <option value="" disabled selected>Escolha sua opção</option>
-                        <option value="1">Servidor</option>
-                        <option value="2">Aluno</option>
-                        <option value="3">Tercerizado</option>
-                        <option value="4">Mestrado</option>
-                        <option value="5">Bolsista</option>
+                        <!--                        <option value="1">Servidor</option>
+                                                <option value="2">Aluno</option>
+                                                <option value="3">Tercerizado</option>
+                                                <option value="4">Mestrado</option>
+                                                <option value="5">Bolsista</option>-->
                     </select>
-                    <label>Tipo de Evento: </label>
+                    <label class="corLogo-text">Tipo de Evento: </label>
+                </div>
+                <div class="input-field col s12 m4">
+                    <select name="bloco">
+                        <option value="" disabled selected>Escolha sua opção</option>
+                        <!--                        <option value="1">Servidor</option>
+                                                <option value="2">Aluno</option>
+                                                <option value="3">Tercerizado</option>
+                                                <option value="4">Mestrado</option>
+                                                <option value="5">Bolsista</option>-->
+                    </select>
+                    <label class="corLogo-text">Bloco: </label>
                 </div>
                 <div class="input-field col s12 m4">
                     <select name="ambiente">
                         <option value="" disabled selected>Escolha sua opção</option>
-                        <option value="1">Servidor</option>
-                        <option value="2">Aluno</option>
-                        <option value="3">Tercerizado</option>
-                        <option value="4">Mestrado</option>
-                        <option value="5">Bolsista</option>
+                        <!--                        <option value="1">Servidor</option>
+                                                <option value="2">Aluno</option>
+                                                <option value="3">Tercerizado</option>
+                                                <option value="4">Mestrado</option>
+                                                <option value="5">Bolsista</option>-->
                     </select>
-                    <label>Ambiente: </label>
-                </div>
-                <div class="input-field col s12 m4">
-                    <input id="icon_prefix" type="submit" class="btn-confirmar" value="Adicionar Evento">
+                    <label class="corLogo-text">Ambiente: </label>
                 </div>
             </div>
             <!--            <div class="texto">

@@ -1,0 +1,107 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 02/10/2017, 13:42:51
+    Author     : andersonalves
+*/
+
+body{
+    font-family: 'Verdana', 'sans-serif' !important;
+}
+.corLogo-text {
+    color: #006B43 !important;
+}
+#calendar {
+    margin: 15px auto;
+}
+.btnModal{
+    border: solid 2px white;
+    padding: 10px;
+    min-width: 10%;
+    display: block;
+    margin-top: 2%;
+    margin-left: 2%;
+    float: right;
+    font-weight: bold;
+    margin-bottom: 2%;
+}
+.equipamento{
+    margin: 10px;
+}
+.equipamento img{
+    width: 120px;
+    height: 100px;
+}
+.servicos{
+    margin: 10px;
+}
+.servicos img{
+    width: 120px;
+    height: 100px;
+}
+.refeicoes{
+    margin: 10px;
+}
+.refeicoes img{
+    width: 120px;
+    height: 100px;
+}
+.textRepeat{
+    margin: 4px auto; 
+    text-align: center;
+}
+.repeatSwitch{
+    margin: 3px auto;
+    border: 2px solid black;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+}
+.active_repeat{
+    background-color: #006B43;
+    color: white;
+}
+.cadastroClickBtn{
+    display: none !important;
+}
+#calendar td {
+    vertical-align: middle !important;
+}
+.fc-axis {
+    text-align: center !important;
+}
+
+.fc-axis td {
+    padding: 0;
+    vertical-align: middle !important;
+}
+.teste{
+    margin-top: 10px;
+}
+h2 {
+    font-size: 2.56rem !important;
+    line-height: 85% !important;
+}
+.btn-confirmar {
+    border: none;
+    border-radius: 2px;
+    width: 100%;
+    font-size: 13px;
+    line-height: 36px;
+    text-transform: uppercase;
+    background-color: #005E30;
+    -webkit-box-shadow: none;
+    color: white !important;
+    font-weight: bold;
+    cursor: pointer;
+}
+.fc-state-active, .fc-event-dot, button:focus{
+    background-color: #006B43;
+    color: white;
+}
+.fc-day-number, .fc-list-heading-main, .fc-list-heading-alt{
+    color: #006B43;
+}
