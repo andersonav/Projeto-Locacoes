@@ -13,7 +13,7 @@
         <script src='../public/js/fullcalendar.min.js'></script>
         <script src='../public/js/locale-all.js'></script>
         <script src='../public/js/locale/pt-br.js'></script>
-        <script src='../public/js/location_js.js'></script>
+        <script src='../public/js/app.js'></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.1/js/materialize.min.js"></script>
     </head>
     <body>
@@ -67,7 +67,7 @@
         </nav>
         <!--       Container para Modal e Adicionar Evento-->
         <div class="container">
-
+            <input type="hidden" name="pagina" value="admin">
             <div id="modalAdicionarEventoClickDay" class="modal">
                 <div class="modal-content">
                     <h4 class="center">Adicionar Eventos</h4>
@@ -77,15 +77,15 @@
                         <div class="row">
                             <div class="input-field col s12 m6">
                                 <input id="icon_prefix" type="text" class="validate nomeEvento" placeholder="Digite o nome do Evento">
-                                <label for="icon_prefix" class="active">Nome do Evento:</label>
+                                <label for="icon_prefix" class="corLogo-text active">Nome do Evento:</label>
                             </div>
                             <div class="input-field col s12 m6">
                                 <input id="icon_prefix" type="text" class="validate solicitante" placeholder="Digite o nome do Solicitante">
-                                <label for="icon_prefix" class="active">Solicitante:</label>
+                                <label for="icon_prefix" class="corLogo-text active">Solicitante:</label>
                             </div>
                             <div class="input-field col s12 m12">
                                 <textarea id="opiniao" class="materialize-textarea" name="opiniao" data-length="200" maxlength="201"></textarea>
-                                <label for="textarea1">Por favor, digite a descrição do evento</label>
+                                <label for="textarea1" class="corLogo-text">Por favor, digite a descrição do evento</label>
                             </div>
                             <div class="input-field col s12 m6">
                                 <select name="tipo">
@@ -96,7 +96,7 @@
                                                                 <option value="4">Mestrado</option>
                                                                 <option value="5">Bolsista</option>-->
                                 </select>
-                                <label>Tipo: </label>
+                                <label class="corLogo-text">Tipo: </label>
                             </div>
                             <div class="input-field col s12 m6">
                                 <select name="ambiente">
@@ -107,23 +107,23 @@
                                                                 <option value="4">Mestrado</option>
                                                                 <option value="5">Bolsista</option>-->
                                 </select>
-                                <label>Ambiente: </label>
+                                <label class="corLogo-text">Ambiente: </label>
                             </div>
                             <div class="input-field col s12 m3">
                                 <input id="icon_prefix" type="text" class="dataInicio" disabled placeholder="Escolha a Data Inicial">
-                                <label for="icon_prefix" class="active">Data Início:</label>
+                                <label for="icon_prefix" class="corLogo-text active">Data Início:</label>
                             </div>
                             <div class="input-field col s12 m3">
                                 <input id="icon_prefix" type="text" class="horaInicio" placeholder="Escolha a Hora Inicial">
-                                <label for="icon_prefix" class="active">Hora Início:</label>
+                                <label for="icon_prefix" class="corLogo-text active">Hora Início:</label>
                             </div>
                             <div class="input-field col s12 m3">
                                 <input id="icon_prefix" type="text" class="dataFim" disabled placeholder="Escolha a Data Final">
-                                <label for="icon_prefix" class="active">Data Fim:</label>
+                                <label for="icon_prefix" class="corLogo-text active">Data Fim:</label>
                             </div>
                             <div class="input-field col s12 m3">
                                 <input id="icon_prefix" type="text" class="horaFim" placeholder="Escolha a Hora Final">
-                                <label for="icon_prefix" class="active">Hora Fim:</label>
+                                <label for="icon_prefix" class="corLogo-text active">Hora Fim:</label>
                             </div>
                             <div class="col s12">
                                 <ul id="tabs-swipe-demo" class="tabs">
@@ -234,8 +234,7 @@
             </div>
             <div class="row">
                 <div class="input-field col s12 m4">
-                    <select name="tipo">
-                        <option value="" disabled selected>Escolha sua opção</option>
+                    <select name="tipo" class="sel-tipo-evento">
                         <!--                        <option value="1">Servidor</option>
                                                 <option value="2">Aluno</option>
                                                 <option value="3">Tercerizado</option>

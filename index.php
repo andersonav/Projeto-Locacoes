@@ -14,7 +14,7 @@
         <script src='public/js/fullcalendar.min.js'></script>
         <script src='public/js/locale-all.js'></script>
         <script src='public/js/locale/pt-br.js'></script>
-        <script src='public/js/location_js.js'></script>
+        <script src='public/js/app.js'></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.1/js/materialize.min.js"></script>
     </head>
     <body>
@@ -54,21 +54,22 @@
                     <ul class="side-nav" id="mobile-demo">
                         <li> <a href="JavaScript: window.history.back();"> <i class="material-icons left">undo</i>Voltar </a> </li>
                         <li> <a href="#"> <i class="material-icons left">home</i>Início </a> </li>
-                        <!--                        <li >
-                                                    <a href="#" class="openModalAdicionarEvento"><i class="material-icons left">queue</i>Cadastros</a>
-                                                </li>
-                                                <li >
-                                                    <a href="#"><i class="material-icons left">assessment</i>Relatórios</a>
-                                                </li>
-                                                <li >
-                                                    <a href="#"><i class="material-icons left">settings</i>Utilitários</a>
-                                                </li>-->
+                        <li >
+                            <a href="#" class="openModalAdicionarEvento"><i class="material-icons left">queue</i>Cadastros</a>
+                        </li>
+                        <li >
+                            <a href="#"><i class="material-icons left">assessment</i>Relatórios</a>
+                        </li>
+                        <li >
+                            <a href="#"><i class="material-icons left">settings</i>Utilitários</a>
+                        </li>
                     </ul>
                 </div>
             </div>
         </nav>
         <!--       Container para Modal e Adicionar Evento-->
         <div class="container">
+            <input type="hidden" name="pagina" value="usuario">
             <div class="row topo">
                 <div class="col s12 m3 logo center"> 
                     <img class="" src="public/img/logo_sysreserva.png" style="width: 150px; height: 90px; margin: 10px;"/>
@@ -85,8 +86,7 @@
             </div>
             <div class="row">
                 <div class="input-field col s12 m4">
-                    <select name="tipo">
-                        <option value="" disabled selected>Escolha sua opção</option>
+                    <select name="tipo" class="sel-tipo-evento">
                         <!--                        <option value="1">Servidor</option>
                                                 <option value="2">Aluno</option>
                                                 <option value="3">Tercerizado</option>
@@ -95,8 +95,8 @@
                     </select>
                     <label class="corLogo-text">Tipo de Evento: </label>
                 </div>
-                <div class="input-field col s12 m4">
-                    <select name="bloco">
+                <div class="input-field col s12 m4 divSelBloco">
+                    <select name="bloco" class="sel-bloco">
                         <option value="" disabled selected>Escolha sua opção</option>
                         <!--                        <option value="1">Servidor</option>
                                                 <option value="2">Aluno</option>
@@ -106,8 +106,8 @@
                     </select>
                     <label class="corLogo-text">Bloco: </label>
                 </div>
-                <div class="input-field col s12 m4">
-                    <select name="ambiente">
+                <div class="input-field col s12 m4 divSelAmbiente">
+                    <select name="ambiente" class="sel-ambiente">
                         <option value="" disabled selected>Escolha sua opção</option>
                         <!--                        <option value="1">Servidor</option>
                                                 <option value="2">Aluno</option>
