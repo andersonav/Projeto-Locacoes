@@ -97,7 +97,7 @@
                 </div>
                 <div class="input-field col s12 m4 divSelBloco">
                     <select name="bloco" class="sel-bloco" id="sel-bloco">
-<!--                        <option value="" disabled selected>Escolha sua opção</option>-->
+                        <!--                        <option value="" disabled selected>Escolha sua opção</option>-->
                         <!--                        <option value="1">Servidor</option>
                                                 <option value="2">Aluno</option>
                                                 <option value="3">Tercerizado</option>

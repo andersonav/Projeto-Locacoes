@@ -309,6 +309,7 @@ $(function () {
                     $("#sel-bloco").append(data);
                     $("#sel-bloco").material_select();
                     $(".divSelBloco").show();
+                    $(".divSelAmbiente").hide();
                 }
             });
         });
@@ -329,6 +330,46 @@ $(function () {
                     $("#sel-bloco").append(data);
                     $("#sel-bloco").material_select();
                     $(".divSelBloco").show();
+                    $(".divSelAmbiente").hide();
+                }
+            });
+        });
+    }
+    function getAmbienteByBloco() {
+        $(".sel-bloco").change(function () {
+            var valorBloco = $(this).val();
+            $.ajax({
+                url: controllerToAdmin,
+                type: "POST",
+                data: {
+                    action: "AmbienteLogica.getAmbienteByBloco",
+                    valorBloco: valorBloco
+                },
+                success: function (data) {
+                    $("#sel-ambiente").empty();
+                    $("#sel-ambiente").append(data);
+                    $("#sel-ambiente").material_select();
+                    $(".divSelAmbiente").show();
+                }
+            });
+        });
+    }
+
+    function getAmbienteByBlocoPageUser() {
+        $(".sel-bloco").change(function () {
+            var valorBloco = $(this).val();
+            $.ajax({
+                url: controllerToUser,
+                type: "POST",
+                data: {
+                    action: "AmbienteLogica.getAmbienteByBloco",
+                    valorBloco: valorBloco
+                },
+                success: function (data) {
+                    $("#sel-ambiente").empty();
+                    $("#sel-ambiente").append(data);
+                    $("#sel-ambiente").material_select();
+                    $(".divSelAmbiente").show();
                 }
             });
         });
@@ -343,6 +384,7 @@ $(function () {
         pickHoraInicio();
         pickHoraFim();
         getBlocoBySetor();
+        getAmbienteByBloco();
     } else {
         getSetorPageUser();
         calendarUser();
@@ -351,6 +393,7 @@ $(function () {
         pickHoraInicio();
         pickHoraFim();
         getBlocoBySetorPageUser();
+        getAmbienteByBlocoPageUser();
     }
 
 });

@@ -7,7 +7,7 @@
  */
 
 /**
- * Description of BlocoLogica
+ * Description of AmbienteLogica
  *
  * @author Anderson Alves
  */
@@ -15,7 +15,7 @@ require_once '../autoload.php';
 spl_autoload_register('autoloadDao');
 spl_autoload_register('autoloadView');
 
-class BlocoLogica {
+class AmbienteLogica {
 
     private static $instance;
 
@@ -26,14 +26,15 @@ class BlocoLogica {
     public static function getInstance() {
 
         if (!isset(self::$instance))
-            self::$instance = new BlocoLogica();
+            self::$instance = new AmbienteLogica();
 
         return self::$instance;
     }
 
-    public function getBlocoBySetor() {
-        $tipoEvento = $_REQUEST['valorTipoEvento'];
-        return BlocoView::getInstance()->htmlSelectBloco(BlocoDao::getInstance()->getBlocoBySetor($tipoEvento));
+    public function getAmbienteByBloco() {
+        $valorBloco = $_REQUEST['valorBloco'];
+        
+        return AmbienteView::getInstance()->htmlSelectAmbiente(AmbienteDao::getInstance()->getAmbienteByBloco($valorBloco));
     }
 
 }
