@@ -86,7 +86,7 @@
             </div>
             <div class="row">
                 <div class="input-field col s12 m4">
-                    <select name="tipo" class="sel-tipo-evento">
+                    <select name="tipo" class="sel-tipo-evento" id="sel-tipo-evento">
                         <!--                        <option value="1">Servidor</option>
                                                 <option value="2">Aluno</option>
                                                 <option value="3">Tercerizado</option>
@@ -96,8 +96,8 @@
                     <label class="corLogo-text">Tipo de Evento: </label>
                 </div>
                 <div class="input-field col s12 m4 divSelBloco">
-                    <select name="bloco" class="sel-bloco">
-                        <option value="" disabled selected>Escolha sua opção</option>
+                    <select name="bloco" class="sel-bloco" id="sel-bloco">
+<!--                        <option value="" disabled selected>Escolha sua opção</option>-->
                         <!--                        <option value="1">Servidor</option>
                                                 <option value="2">Aluno</option>
                                                 <option value="3">Tercerizado</option>
@@ -107,8 +107,8 @@
                     <label class="corLogo-text">Bloco: </label>
                 </div>
                 <div class="input-field col s12 m4 divSelAmbiente">
-                    <select name="ambiente" class="sel-ambiente">
-                        <option value="" disabled selected>Escolha sua opção</option>
+                    <select name="ambiente" class="sel-ambiente" id="sel-ambiente">
+                        <!--<option value="" disabled selected>Escolha sua opção</option>-->
                         <!--                        <option value="1">Servidor</option>
                                                 <option value="2">Aluno</option>
                                                 <option value="3">Tercerizado</option>

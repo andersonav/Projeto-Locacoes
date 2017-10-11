@@ -27,7 +27,6 @@ $(function () {
             }
         });
     }
-
     function getSetorPageUser() {
         $.ajax({
             url: controllerToUser,
@@ -37,7 +36,7 @@ $(function () {
             },
             success: function (data) {
                 $(".sel-tipo-evento").html(data);
-                $("select").material_select();
+                $(".sel-tipo-evento").material_select();
             }
         });
     }
@@ -295,6 +294,45 @@ $(function () {
         $(".mostrarWhenClickBtn").removeClass("cadastroClickBtn");
     });
 
+    function getBlocoBySetorPageUser() {
+        $(".sel-tipo-evento").change(function () {
+            var valorTipoEvento = $(this).val();
+            $.ajax({
+                url: controllerToUser,
+                type: "POST",
+                data: {
+                    action: "BlocoLogica.getBlocoBySetor",
+                    valorTipoEvento: valorTipoEvento
+                },
+                success: function (data) {
+                    $("#sel-bloco").empty();
+                    $("#sel-bloco").append(data);
+                    $("#sel-bloco").material_select();
+                    $(".divSelBloco").show();
+                }
+            });
+        });
+    }
+
+    function getBlocoBySetor() {
+        $(".sel-tipo-evento").change(function () {
+            var valorTipoEvento = $(this).val();
+            $.ajax({
+                url: controllerToAdmin,
+                type: "POST",
+                data: {
+                    action: "BlocoLogica.getBlocoBySetor",
+                    valorTipoEvento: valorTipoEvento
+                },
+                success: function (data) {
+                    $("#sel-bloco").empty();
+                    $("#sel-bloco").append(data);
+                    $("#sel-bloco").material_select();
+                    $(".divSelBloco").show();
+                }
+            });
+        });
+    }
     if (pagina == "admin") {
         $('ul.tabs').tabs();
         $("#nao").addClass("active_repeat");
@@ -304,6 +342,7 @@ $(function () {
         pickDataFim();
         pickHoraInicio();
         pickHoraFim();
+        getBlocoBySetor();
     } else {
         getSetorPageUser();
         calendarUser();
@@ -311,6 +350,7 @@ $(function () {
         pickDataFim();
         pickHoraInicio();
         pickHoraFim();
+        getBlocoBySetorPageUser();
     }
 
 });
