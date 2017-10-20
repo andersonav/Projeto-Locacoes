@@ -73,7 +73,7 @@
                     <h4 class="center">Adicionar Eventos</h4>
                     <div class="divider"></div>
                     <br>
-                    <form class="col s12">
+                    <form class="col s12" id="form_add_event">
                         <div class="row">
                             <div class="input-field col s12 m6">
                                 <input id="icon_prefix" type="text" class="validate nomeEvento" placeholder="Digite o nome do Evento">
@@ -84,7 +84,7 @@
                                 <label for="icon_prefix" class="corLogo-text active">Solicitante:</label>
                             </div>
                             <div class="input-field col s12 m12">
-                                <textarea id="opiniao" class="materialize-textarea" name="opiniao" data-length="200" maxlength="201"></textarea>
+                                <textarea id="opiniao" class="validate materialize-textarea" name="opiniao" data-length="200" maxlength="201"></textarea>
                                 <label for="textarea1" class="corLogo-text">Por favor, digite a descrição do evento</label>
                             </div>
                             <div class="input-field col s12 m6">
@@ -110,19 +110,19 @@
                                 <label class="corLogo-text">Ambiente: </label>
                             </div>
                             <div class="input-field col s12 m3">
-                                <input id="icon_prefix" type="text" class="dataInicio" disabled placeholder="Escolha a Data Inicial">
+                                <input id="icon_prefix" type="text" class="validate dataInicio" placeholder="Escolha a Data Inicial">
                                 <label for="icon_prefix" class="corLogo-text active">Data Início:</label>
                             </div>
                             <div class="input-field col s12 m3">
-                                <input id="icon_prefix" type="text" class="horaInicio" placeholder="Escolha a Hora Inicial">
+                                <input id="icon_prefix" type="text" class="validate horaInicio" placeholder="Escolha a Hora Inicial">
                                 <label for="icon_prefix" class="corLogo-text active">Hora Início:</label>
                             </div>
                             <div class="input-field col s12 m3">
-                                <input id="icon_prefix" type="text" class="dataFim" disabled placeholder="Escolha a Data Final">
+                                <input id="icon_prefix" type="text" class="validate dataFim" disabled placeholder="Escolha a Data Final">
                                 <label for="icon_prefix" class="corLogo-text active">Data Fim:</label>
                             </div>
                             <div class="input-field col s12 m3">
-                                <input id="icon_prefix" type="text" class="horaFim" placeholder="Escolha a Hora Final">
+                                <input id="icon_prefix" type="text" class="validate horaFim" placeholder="Escolha a Hora Final">
                                 <label for="icon_prefix" class="corLogo-text active">Hora Fim:</label>
                             </div>
                             <div class="col s12">
@@ -153,14 +153,14 @@
                             <div id="servicos" class="col s12 m12">
                                 <div class="row servicos">
                                     <div class="col s12 m2">
-                                        <img src="img/construcao.png">
+                                        <img src="../public/img/construcao.png">
                                         <p>
                                             <input type="checkbox" class="filled-in" id="servicos1" />
                                             <label for="servicos1">Qtd: 1</label>
                                         </p>
                                     </div>
                                     <div class="col s12 m2">
-                                        <img src="img/construcao.png">
+                                        <img src="../public/img/construcao.png">
                                         <p>
                                             <input type="checkbox" class="filled-in" id="servicos2" />
                                             <label for="servicos2">Qtd: 1</label>
@@ -171,14 +171,14 @@
                             <div id="refeicoes" class="col s12 m12">
                                 <div class="row refeicoes">
                                     <div class="col s12 m2">
-                                        <img src="img/construcao.png">
+                                        <img src="../public/img/construcao.png">
                                         <p>
                                             <input type="checkbox" class="filled-in" id="refeicoes1" />
                                             <label for="refeicoes1">Qtd: 1</label>
                                         </p>
                                     </div>
                                     <div class="col s12 m2">
-                                        <img src="img/construcao.png">
+                                        <img src="../public/img/construcao.png">
                                         <p>
                                             <input type="checkbox" class="filled-in" id="refeicoes2" />
                                             <label for="refeicoes2">Qtd: 1</label>

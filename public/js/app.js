@@ -11,6 +11,10 @@ $(function () {
     var controllerToAdmin = "controller/FrontController.php";
     var controllerToUser = "app/controller/FrontController.php";
     var pagina = $("input[name=pagina]").val();
+    var hoje = new Date();
+    var hora = hoje.getHours();
+    var minutos = hoje.getMinutes();
+    var horaAtual = hora + ":" + minutos;
     $(".divSelBloco").hide();
     $(".divSelAmbiente").hide();
 
@@ -70,15 +74,34 @@ $(function () {
                 console.log("Clicou no dia: " + date.format());
             },
             select: function (start, end) {
-//            start = $.fullCalendar.formatDate(start, "YYYY-MM-DD HH:mm:ss");
-//            end = $.fullCalendar.formatDate(end, "YYYY-MM-DD HH:mm:ss");
+                start = $.fullCalendar.formatDate(start, "YYYY-MM-DD HH:mm:ss");
+                diaInicio = start.substr(8, 2);
+                mesInicio = start.substr(5, 2);
+                anoInicio = start.substr(0, 4);
+                horaInicio = start.substr(11, 8);
+                var inicio = diaInicio + "/" + mesInicio + "/" + anoInicio;
+                end = $.fullCalendar.formatDate(end, "YYYY-MM-DD HH:mm:ss");
+                diaFim = end.substr(8, 2);
+                mesFim = end.substr(5, 2);
+                anoFim = end.substr(0, 4);
+                horaFim = end.substr(11, 8);
+                var fim = diaFim + "/" + mesFim + "/" + anoFim;
                 $('#modalAdicionarEventoClickDay').modal();
-                $(".dataInicio").val(start);
-                $(".dataFim").val(end);
+                $(".dataInicio").attr('disabled', 'disabled');
+                $(".dataFim").attr('disabled', 'disabled');
+                $(".horaInicio").attr('disabled', 'disabled');
+                $(".horaFim").attr('disabled', 'disabled');
+                $(".dataInicio").val(inicio);
+                $(".horaInicio").val(horaInicio);
+                $(".dataFim").val(fim);
+                $(".horaFim").val(horaFim);
                 $("#modalAdicionarEventoClickDay").modal({
                     complete: function teste() {
                         start = null;
                         end = null;
+                        $('#form_add_event').each(function () {
+                            this.reset();
+                        });
                     }
                 });
                 var title;
@@ -207,6 +230,7 @@ $(function () {
             // Formato da data que aparece no input
             format: 'dd/mm/yyyy',
             formatSubmit: 'yyyy-mm-dd',
+            min: hoje,
             // Dia possível de ser marcado
             onClose: function () {
                 $(document.activeElement).blur();
@@ -238,6 +262,7 @@ $(function () {
             // Formato da data que aparece no input
             format: 'dd/mm/yyyy',
             formatSubmit: 'yyyy-mm-dd',
+            min: hoje,
             // Dia possível de ser marcado
             onClose: function () {
                 $(document.activeElement).blur();
@@ -247,7 +272,7 @@ $(function () {
 
     function pickHoraInicio() {
         $('.horaInicio').pickatime({
-            default: 'now', // Set default time: 'now', '1:30AM', '16:30'
+            default: 'now', horaAtual, // Set default time: 'now', '1:30AM', '16:30'
             fromnow: 0, // set default time to * milliseconds from now (using with default = 'now')
             twelvehour: false, // Use AM/PM or 24-hour format
             donetext: 'OK', // text for done-button
@@ -261,7 +286,7 @@ $(function () {
 
     function pickHoraFim() {
         $('.horaFim').pickatime({
-            default: 'now', // Set default time: 'now', '1:30AM', '16:30'
+            default: 'now', horaAtual, // Set default time: 'now', '1:30AM', '16:30'
             fromnow: 0, // set default time to * milliseconds from now (using with default = 'now')
             twelvehour: false, // Use AM/PM or 24-hour format
             donetext: 'OK', // text for done-button
@@ -291,6 +316,10 @@ $(function () {
     $(".openModalAdicionarEvento").click(function () {
         $("#modalAdicionarEventoClickDay").modal();
         $("#modalAdicionarEventoClickDay").modal('open');
+        $(".dataInicio").removeAttr("disabled");
+        $(".dataFim").removeAttr("disabled");
+        $(".horaInicio").removeAttr("disabled");
+        $(".horaFim").removeAttr("disabled");
         $(".mostrarWhenClickBtn").removeClass("cadastroClickBtn");
     });
 
