@@ -15,6 +15,12 @@ $(function () {
     var hora = hoje.getHours();
     var minutos = hoje.getMinutes();
     var horaAtual = hora + ":" + minutos;
+    var idAmbiente = 1;
+    var idBloco = 1;
+    var idSetor = 1;
+//    var idAmbiente = $("#sel-ambiente").val();
+//    var idBloco = $("#sel-bloco").val();
+//    var idSetor = $("#sel-tipo-evento").val();
     $(".divSelBloco").hide();
     $(".divSelAmbiente").hide();
 
@@ -161,7 +167,7 @@ $(function () {
         });
     }
 
-    function calendarUser() {
+    function calendarUser(idAmbiente, idBloco, idSetor) {
         $('#calendarUser').fullCalendar({
             monthNames: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro',
                 'Outubro', 'Novembro', 'Dezembro'],
@@ -196,13 +202,17 @@ $(function () {
             slotDuration: '00:30:00',
             slotLabelInterval: 30,
             slotLabelFormat: 'HH:mm',
-            slotMinutes: 30
-//        events: [
-//            {
-//                title: 'All Day Event',
-//                start: '2017-09-01'
-//            }
-//        ],
+            slotMinutes: 30,
+            events: {
+                url: controllerToUser,
+                type: "POST",
+                data: {
+                    action: "EventoLogica.getEventoByAmbiente",
+                    idAmbiente: idAmbiente,
+                    idBloco: idBloco,
+                    idSetor: idSetor
+                }
+            }
         });
     }
 
@@ -416,7 +426,7 @@ $(function () {
         getAmbienteByBloco();
     } else {
         getSetorPageUser();
-        calendarUser();
+        calendarUser(idAmbiente, idBloco, idSetor);
         pickDataInicio();
         pickDataFim();
         pickHoraInicio();
