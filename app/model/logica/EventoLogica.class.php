@@ -39,4 +39,21 @@ class EventoLogica {
         return EventoView::getInstance()->jsonCarregarEventos(EventoDao::getInstance()->getEventoByAmbiente($idAmbiente, $idBloco, $idSetor));
     }
 
+    public function insertEventoSelecionado() {
+        $nomeEvento = $_REQUEST['nomeEvento'];
+        $descricaoEvento = $_REQUEST['descricaoEvento'];
+        $solicitanteEvento = $_REQUEST['solicitanteEvento'];
+        $dataInicioEvento = $_REQUEST['dataInicioEvento'];
+        $dataFimEvento = $_REQUEST['dataFimEvento'];
+
+        $ambienteEvento = $_REQUEST['ambienteEvento'];
+
+        $insert = EventoDao::getInstance()->insertEventoSelecionado($nomeEvento, $descricaoEvento, $solicitanteEvento, $dataInicioEvento, $dataFimEvento, $ambienteEvento);
+        if ($insert) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
 }

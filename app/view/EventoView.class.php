@@ -29,13 +29,18 @@ class EventoView {
 
     public function jsonCarregarEventos($eventos) {
         print_r($eventos);
-        echo json_encode($eventos);
-//        $arrayEvento = array(
-//            "title" => $eventos->getDescricaoEvento(),
-//            "start" => $eventos->getDataInicioEvento(),
-//            "end" => $eventos->getDataFimEvento()
-//        );
-//        echo json_encode($arrayEvento);
+//        $arrayEvento = array();
+//        foreach ($eventos as $evento) {
+//            $arrayEvento = array(
+//                "title" => $evento->eve_desc,
+//                "start" => $evento->eve_data_inicio,
+//                "end" => $evento->eve_data_fim
+//            );
+//        }
+
+        echo json_encode($arrayEvento);
+
+//        echo json_encode($eventos);
     }
 
 }

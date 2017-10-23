@@ -74,4 +74,23 @@ class EventoDao {
         }
     }
 
+    public function insertEventoSelecionado($nomeEvento, $descricaoEvento, $solicitanteEvento, $dataInicioEvento, $dataFimEvento, $ambienteEvento) {
+
+        try {
+
+            $sql = "INSERT INTO eventos (eve_nome, eve_desc, eve_solicitante, eve_data_inicio, eve_data_fim, eve_tip_rep_id, eve_amb_id)"
+                    . "VALUES (?,?,?,?,?,1,?)";
+            $p_sql = ConexaoMysql::getInstance()->prepare($sql);
+            $p_sql->bindParam(1, $nomeEvento);
+            $p_sql->bindParam(2, $descricaoEvento);
+            $p_sql->bindParam(3, $solicitanteEvento);
+            $p_sql->bindParam(4, $dataInicioEvento);
+            $p_sql->bindParam(5, $dataFimEvento);
+            $p_sql->bindParam(6, $ambienteEvento);
+            return $p_sql->execute();
+        } catch (Exception $e) {
+            echo $e->getTraceAsString();
+        }
+    }
+
 }

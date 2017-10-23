@@ -2,6 +2,13 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group/>
+        <group>
+            <file>file:/var/www/html/Projeto_Locacoes/app/autoload.php</file>
+            <file>file:/var/www/html/Projeto_Locacoes/app/model/dao/BlocoDao.class.php</file>
+            <file>file:/var/www/html/Projeto_Locacoes/index.php</file>
+            <file>file:/var/www/html/Projeto_Locacoes/app/admin.php</file>
+            <file>file:/var/www/html/Projeto_Locacoes/public/js/app.js</file>
+            <file>file:/var/www/html/Projeto_Locacoes/app/controller/FrontController.php</file>
+        </group>
     </open-files>
 </project-private>

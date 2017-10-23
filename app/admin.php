@@ -84,12 +84,12 @@
                                 <label for="icon_prefix" class="corLogo-text active">Solicitante:</label>
                             </div>
                             <div class="input-field col s12 m12">
-                                <textarea id="opiniao" class="validate materialize-textarea" name="opiniao" data-length="200" maxlength="201"></textarea>
+                                <textarea id="descricaoEvento" class="validate materialize-textarea descricaoEvento" name="opiniao" data-length="200" maxlength="201"></textarea>
                                 <label for="textarea1" class="corLogo-text">Por favor, digite a descrição do evento</label>
                             </div>
-                            <div class="input-field col s12 m6">
-                                <select name="tipo">
-                                    <option value="" disabled selected>Escolha sua opção</option>
+                            <div class="input-field col s12 m4">
+                                <select name="tipo" class="sel-tipo-evento" id="sel-tipo-evento">
+                                    <!--                                    <option value="" disabled selected>Escolha sua opção</option>-->
                                     <!--                            <option value="1">Servidor</option>
                                                                 <option value="2">Aluno</option>
                                                                 <option value="3">Tercerizado</option>
@@ -98,8 +98,19 @@
                                 </select>
                                 <label class="corLogo-text">Tipo: </label>
                             </div>
-                            <div class="input-field col s12 m6">
-                                <select name="ambiente">
+                            <div class="input-field col s12 m4">
+                                <select name="bloco" class="sel-bloco" id="sel-bloco">
+                                    <option value="" disabled selected>Escolha sua opção</option>
+                                    <!--                            <option value="1">Servidor</option>
+                                                                <option value="2">Aluno</option>
+                                                                <option value="3">Tercerizado</option>
+                                                                <option value="4">Mestrado</option>
+                                                                <option value="5">Bolsista</option>-->
+                                </select>
+                                <label class="corLogo-text">Bloco: </label>
+                            </div>
+                            <div class="input-field col s12 m4">
+                                <select name="ambiente" class="sel-ambiente" id="sel-ambiente">
                                     <option value="" disabled selected>Escolha sua opção</option>
                                     <!--                            <option value="1">Servidor</option>
                                                                 <option value="2">Aluno</option>
@@ -213,7 +224,7 @@
 
                 </div>
                 <div class="modal-footer">
-                    <button class="btnModal buttonOkay">OK</button>
+                    <button class="btnModal buttonOkay">CADASTRAR</button>
                     <button class="btnModal buttonCancel">CANCEL</button>
                     <!--                <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Agree</a>-->
                 </div>
@@ -234,8 +245,9 @@
             </div>
             <div class="row">
                 <div class="input-field col s12 m4">
-                    <select name="tipo" class="sel-tipo-evento" id="sel-tipo-evento">
-                        <!--                        <option value="1">Servidor</option>
+                    <select name="tipo" class="sel-tipo-evento-pesquisa" id="sel-tipo-evento-pesquisa">
+                        <option value="" disabled selected>Escolha sua opção</option>
+                        <!--                       <option value="1">Servidor</option>
                                                 <option value="2">Aluno</option>
                                                 <option value="3">Tercerizado</option>
                                                 <option value="4">Mestrado</option>
@@ -243,9 +255,9 @@
                     </select>
                     <label class="corLogo-text">Tipo de Evento: </label>
                 </div>
-                <div class="input-field col s12 m4 divSelBloco">
-                    <select name="bloco" class="sel-bloco" id="sel-bloco">
-                        <!--<option value="" disabled selected>Escolha sua opção</option>-->
+                <div class="input-field col s12 m4">
+                    <select name="bloco" class="sel-bloco-pesquisa" id="sel-bloco-pesquisa">
+                        <option value="" disabled selected>Escolha sua opção</option>
                         <!--                        <option value="1">Servidor</option>
                                                 <option value="2">Aluno</option>
                                                 <option value="3">Tercerizado</option>
@@ -254,8 +266,8 @@
                     </select>
                     <label class="corLogo-text">Bloco: </label>
                 </div>
-                <div class="input-field col s12 m4 divSelAmbiente">
-                    <select name="ambiente" class="sel-ambiente" id="sel-ambiente">
+                <div class="input-field col s12 m4">
+                    <select name="ambiente" class="sel-ambiente-pesquisa" id="sel-ambiente-pesquisa">
                         <option value="" disabled selected>Escolha sua opção</option>
                         <!--                        <option value="1">Servidor</option>
                                                 <option value="2">Aluno</option>
