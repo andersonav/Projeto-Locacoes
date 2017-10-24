@@ -25,12 +25,12 @@ class EventoDao {
     public function getObjEvento($row) {
 
         $evento = new Evento();
-        $evento->setIdEvento($row->eve_id);
+        $evento->setIdEvento($row->id);
         $evento->setNomeEvento($row->eve_nome);
-        $evento->setDescricaoEvento($row->eve_desc);
+        $evento->setDescricaoEvento($row->title);
         $evento->setSolicitanteEvento($row->eve_solicitante);
-        $evento->setDataInicioEvento($row->eve_data_inicio);
-        $evento->setDataFimEvento($row->eve_data_fim);
+        $evento->setDataInicioEvento($row->start);
+        $evento->setDataFimEvento($row->end);
         $evento->setAmbienteIdEvento($row->amb_eve_id);
         $evento->setAmbienteDescricaoEvento($row->amb_eve_desc);
         $evento->setBlocoIdEvento($row->blo_eve_id);
@@ -56,7 +56,10 @@ class EventoDao {
 
         try {
 
-            $sql = "SELECT * from eventos eve 
+            $sql = "SELECT eve.eve_id as id, eve.eve_nome, eve.eve_desc as title,
+                    eve.eve_solicitante, eve.eve_data_inicio as start, eve.eve_data_fim as end,
+                    amb.amb_eve_id, amb.amb_eve_desc, blo.blo_eve_id, blo.blo_eve_desc, sev.set_eve_id,
+                    sev.set_eve_desc, evt.eve_tip_rep_id, evt.eve_tip_rep_desc from eventos eve 
                     JOIN ambiente_evento amb ON amb.amb_eve_id = eve.eve_amb_id
                     JOIN bloco_evento blo ON blo.blo_eve_id = amb.amb_blo_eve_id 
                     JOIN setor_evento sev ON sev.set_eve_id = blo.blo_set_eve_id

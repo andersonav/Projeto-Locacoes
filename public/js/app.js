@@ -15,12 +15,7 @@ $(function () {
     var hora = hoje.getHours();
     var minutos = hoje.getMinutes();
     var horaAtual = hora + ":" + minutos;
-    var idAmbiente = 1;
-    var idBloco = 1;
-    var idSetor = 1;
-//    var idAmbiente = $("#sel-ambiente").val();
-//    var idBloco = $("#sel-bloco").val();
-//    var idSetor = $("#sel-tipo-evento").val();
+
 
     function getSetor() {
         $.ajax({
@@ -44,8 +39,8 @@ $(function () {
                 action: "SetorLogica.getSetor"
             },
             success: function (data) {
-                $(".sel-tipo-evento").html(data);
-                $(".sel-tipo-evento").material_select();
+                $(".sel-tipo-evento-pesquisa").html(data);
+                $(".sel-tipo-evento-pesquisa").material_select();
                 $("select").material_select();
             }
         });
@@ -203,7 +198,7 @@ $(function () {
             navLinks: true,
             selectable: true,
             selectHelper: true,
-            editable: true,
+            editable: false,
             eventLimit: true,
             dayClick: function (date, jsEvent, view) {
                 console.log("Clicou no dia: " + date.format("DD/MM/YYYY"));
@@ -215,15 +210,29 @@ $(function () {
             slotLabelInterval: 30,
             slotLabelFormat: 'HH:mm',
             slotMinutes: 30,
-            events: {
-                url: controllerToUser,
-                type: "POST",
-                data: {
-                    action: "EventoLogica.getEventoByAmbiente",
-                    idAmbiente: idAmbiente,
-                    idBloco: idBloco,
-                    idSetor: idSetor
-                }
+            events: function (start, end, timezone, callback) {
+                $.ajax({
+                    url: controllerToUser,
+                    type: 'POST',
+                    data: {
+                        action: "EventoLogica.getEventoByAmbiente",
+                        idAmbiente: idAmbiente,
+                        idBloco: idBloco,
+                        idSetor: idSetor
+                    },
+                    success: function (data) {
+                        var events = [];
+                        dados = $.parseJSON(data);
+//                        console.log(dados.length);
+                        events.push({
+                            id: dados.id,
+                            title: dados.title,
+                            start: dados.start,
+                            end: dados.end
+                        });
+                        callback(events);
+                    }
+                });
             }
         });
     }
@@ -355,10 +364,10 @@ $(function () {
     });
 
     function getBlocoBySetorPageUser() {
-        $(".sel-tipo-evento").change(function () {
-            $("#sel-ambiente").empty();
-            $("#sel-ambiente").append('<option value="" disabled selected>Escolha sua opção</option>');
-            $("#sel-ambiente").material_select();
+        $(".sel-tipo-evento-pesquisa").change(function () {
+            $("#sel-ambiente-pesquisa").empty();
+            $("#sel-ambiente-pesquisa").append('<option value="" disabled selected>Escolha sua opção</option>');
+            $("#sel-ambiente-pesquisa").material_select();
             var valorTipoEvento = $(this).val();
             $.ajax({
                 url: controllerToUser,
@@ -368,9 +377,9 @@ $(function () {
                     valorTipoEvento: valorTipoEvento
                 },
                 success: function (data) {
-                    $("#sel-bloco").empty();
-                    $("#sel-bloco").append(data);
-                    $("#sel-bloco").material_select();
+                    $("#sel-bloco-pesquisa").empty();
+                    $("#sel-bloco-pesquisa").append(data);
+                    $("#sel-bloco-pesquisa").material_select();
                 }
             });
         });
@@ -454,7 +463,7 @@ $(function () {
     }
 
     function getAmbienteByBlocoPageUser() {
-        $(".sel-bloco").change(function () {
+        $(".sel-bloco-pesquisa").change(function () {
             var valorBloco = $(this).val();
             $.ajax({
                 url: controllerToUser,
@@ -464,13 +473,25 @@ $(function () {
                     valorBloco: valorBloco
                 },
                 success: function (data) {
-                    $("#sel-ambiente").empty();
-                    $("#sel-ambiente").append(data);
-                    $("#sel-ambiente").material_select();
+                    $("#sel-ambiente-pesquisa").empty();
+                    $("#sel-ambiente-pesquisa").append(data);
+                    $("#sel-ambiente-pesquisa").material_select();
                 }
             });
         });
     }
+
+
+
+    $(".sel-ambiente-pesquisa").change(function () {
+        var idAmbiente = $("#sel-ambiente-pesquisa").val();
+        var idBloco = $("#sel-bloco-pesquisa").val();
+        var idSetor = $("#sel-tipo-evento-pesquisa").val();
+        alert(idAmbiente);
+        calendarUser(idAmbiente, idBloco, idSetor);
+    });
+
+
 
     function insertEventoSelecionado(nomeEvento, solicitanteEvento, tipoEvento, blocoEvento, ambienteEvento, title, start, end) {
         $.ajax({
@@ -506,7 +527,7 @@ $(function () {
         getAmbienteByBloco();
     } else {
         getSetorPageUser();
-        calendarUser(idAmbiente, idBloco, idSetor);
+        calendarUser(1, 1, 1);
         pickDataInicio();
         pickDataFim();
         pickHoraInicio();

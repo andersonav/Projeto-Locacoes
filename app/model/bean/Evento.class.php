@@ -17,12 +17,12 @@ class Evento {
         
     }
 
-    private $idEvento;
+    public $idEvento;
     private $nomeEvento;
-    private $descricaoEvento;
+    public $descricaoEvento;
     private $solicitanteEvento;
-    private $dataInicioEvento;
-    private $dataFimEvento;
+    public $dataInicioEvento;
+    public $dataFimEvento;
     private $ambienteIdEvento;
     private $ambienteDescricaoEvento;
     private $blocoIdEvento;

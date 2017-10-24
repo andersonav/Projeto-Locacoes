@@ -86,7 +86,7 @@
             </div>
             <div class="row">
                 <div class="input-field col s12 m4">
-                    <select name="tipo" class="sel-tipo-evento" id="sel-tipo-evento">
+                    <select name="tipo" class="sel-tipo-evento-pesquisa" id="sel-tipo-evento-pesquisa">
                         <option value="" disabled selected>Escolha sua opção</option>
                         <!--                        <option value="1">Servidor</option>
                                                 <option value="2">Aluno</option>
@@ -97,7 +97,7 @@
                     <label class="corLogo-text">Tipo de Evento: </label>
                 </div>
                 <div class="input-field col s12 m4 divSelBloco">
-                    <select name="bloco" class="sel-bloco" id="sel-bloco">
+                    <select name="bloco" class="sel-bloco-pesquisa" id="sel-bloco-pesquisa">
                         <option value="" disabled selected>Escolha sua opção</option>
                         <!--                        <option value="1">Servidor</option>
                                                 <option value="2">Aluno</option>
@@ -108,7 +108,7 @@
                     <label class="corLogo-text">Bloco: </label>
                 </div>
                 <div class="input-field col s12 m4 divSelAmbiente">
-                    <select name="ambiente" class="sel-ambiente" id="sel-ambiente">
+                    <select name="ambiente" class="sel-ambiente-pesquisa" id="sel-ambiente-pesquisa">
                         <option value="" disabled selected>Escolha sua opção</option>
                         <!--<option value="" disabled selected>Escolha sua opção</option>-->
                         <!--                        <option value="1">Servidor</option>

@@ -45,7 +45,6 @@ class EventoLogica {
         $solicitanteEvento = $_REQUEST['solicitanteEvento'];
         $dataInicioEvento = $_REQUEST['dataInicioEvento'];
         $dataFimEvento = $_REQUEST['dataFimEvento'];
-
         $ambienteEvento = $_REQUEST['ambienteEvento'];
 
         $insert = EventoDao::getInstance()->insertEventoSelecionado($nomeEvento, $descricaoEvento, $solicitanteEvento, $dataInicioEvento, $dataFimEvento, $ambienteEvento);
