@@ -6,11 +6,11 @@
  */
 
 /**
- * Description of Setor
+ * Description of CorEventoView
  *
  * @author Anderson Alves
  */
-class SetorView {
+class CorEventoView {
 
     private static $instance;
 
@@ -21,19 +21,20 @@ class SetorView {
     public static function getInstance() {
 
         if (!isset(self::$instance))
-            self::$instance = new SetorView();
+            self::$instance = new CorEventoView();
 
         return self::$instance;
     }
 
-    public function htmlSelectSetor($setores) {
+    public function htmlSelectColorEvento($cores) {
         ?>
         <option value="" disabled selected>Escolha sua opção</option>
         <?php
-        foreach ($setores as $setor) {
+        foreach ($cores as $cor) {
             ?>
-            <option value="<?= $setor->getId(); ?>"><?= $setor->getDescricao(); ?></option>
+            <option value="<?= $cor->getIdColorEvento(); ?>"><?= $cor->getDescricaoColorEvento(); ?></option>
             <?php
         }
     }
+
 }

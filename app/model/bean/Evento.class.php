@@ -31,6 +31,8 @@ class Evento {
     private $setorDescricaoEvento;
     private $tipoRepeticaoIdEvento;
     private $tipoRepeticaoDescricaoEvento;
+    public $colorIdEvento;
+    public $colorDescricaoEvento;
 
     function getIdEvento() {
         return $this->idEvento;
@@ -88,6 +90,14 @@ class Evento {
         return $this->tipoRepeticaoDescricaoEvento;
     }
 
+    function getColorIdEvento() {
+        return $this->colorIdEvento;
+    }
+
+    function getColorDescricaoEvento() {
+        return $this->colorDescricaoEvento;
+    }
+
     function setIdEvento($idEvento) {
         $this->idEvento = $idEvento;
     }
@@ -142,6 +152,14 @@ class Evento {
 
     function setTipoRepeticaoDescricaoEvento($tipoRepeticaoDescricaoEvento) {
         $this->tipoRepeticaoDescricaoEvento = $tipoRepeticaoDescricaoEvento;
+    }
+
+    function setColorIdEvento($colorIdEvento) {
+        $this->colorIdEvento = $colorIdEvento;
+    }
+
+    function setColorDescricaoEvento($colorDescricaoEvento) {
+        $this->colorDescricaoEvento = $colorDescricaoEvento;
     }
 
 }

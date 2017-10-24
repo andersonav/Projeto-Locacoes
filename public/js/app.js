@@ -31,6 +31,20 @@ $(function () {
             }
         });
     }
+
+    function getColorEvento() {
+        $.ajax({
+            url: controllerToAdmin,
+            type: "POST",
+            data: {
+                action: "CorEventoLogica.getColorEvento"
+            },
+            success: function (data) {
+                $("#sel-color").html(data);
+                $("#sel-color").material_select();
+            }
+        });
+    }
     function getSetorPageUser() {
         $.ajax({
             url: controllerToUser,
@@ -45,7 +59,8 @@ $(function () {
             }
         });
     }
-    function calendarAdmin() {
+    function calendarAdmin(idAmbiente, idBloco, idSetor) {
+        $('#calendar').fullCalendar('destroy');
         $('#calendar').fullCalendar({
             monthNames: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro',
                 'Outubro', 'Novembro', 'Dezembro'],
@@ -69,8 +84,8 @@ $(function () {
             navLinks: true,
             selectable: true,
             selectHelper: true,
-            editable: true,
-            eventLimit: true,
+            editable: false,
+            eventLimit: false,
             dayClick: function (date, jsEvent, view) {
                 console.log("Clicou no dia: " + date.format());
             },
@@ -116,24 +131,26 @@ $(function () {
                     var tipoEvento = $("#sel-tipo-evento").val();
                     var blocoEvento = $("#sel-bloco").val();
                     var ambienteEvento = $("#sel-ambiente").val();
+                    var corEvento = $("#sel-color").val();
                     title = $(".descricaoEvento").val();
-                    console.log("Nome Evento " + nomeEvento + " Solicitante Evento : " + solicitanteEvento + " Tipo Evento " + tipoEvento + " Bloco Evento " + blocoEvento + " Ambiente Evento : " + ambienteEvento)
-                    if (nomeEvento != "" || title != "" || solicitanteEvento != "" || tipoEvento != null || blocoEvento != null || ambienteEvento != null) {
+//                    console.log("Nome Evento " + nomeEvento + " Solicitante Evento : " + solicitanteEvento + " Tipo Evento " + tipoEvento + " Bloco Evento " + blocoEvento + " Ambiente Evento : " + ambienteEvento)
+                    if (nomeEvento != "" || title != "" || solicitanteEvento != "" || tipoEvento != null || blocoEvento != null || ambienteEvento != null || corEvento != null) {
                         eventData = {
                             title: title,
                             start: start,
-                            end: end
+                            end: end,
+                            color: "default"
                         };
                         $('#calendar').fullCalendar('renderEvent', eventData, true); // stick? = true
 //                        var teste = $(".active_repeat").attr("id");
-                        insertEventoSelecionado(nomeEvento, solicitanteEvento, tipoEvento, blocoEvento, ambienteEvento, title, start, end);
+                        insertEventoSelecionado(nomeEvento, solicitanteEvento, tipoEvento, blocoEvento, ambienteEvento, corEvento, title, start, end);
                         $(".repeatSwitch").removeClass(".active_repeat");
                         start = null;
                         end = null;
-                        console.log("Campos Preenchidos");
-                        $(".modal").modal('close');
+                        $("#modalAdicionarEventoClickDay").modal('close');
                     } else {
-                        console.log("Campos nulos!");
+                        $("#modalCamposNulos").modal();
+                        $("#modalCamposNulos").modal("open");
                     }
 
 
@@ -147,34 +164,55 @@ $(function () {
 
             },
             allDayText: 'Dia Inteiro',
+            allDaySlot: false,
             minTime: '07:00:00',
             maxTime: '20:30:00',
             slotDuration: '00:30:00',
             slotLabelInterval: 30,
             slotLabelFormat: 'HH:mm',
             slotMinutes: 30,
+            events: function (start, end, timezone, callback) {
+                $.ajax({
+                    url: controllerToAdmin,
+                    type: 'POST',
+                    data: {
+                        action: "EventoLogica.getEventoByAmbiente",
+                        idAmbiente: idAmbiente,
+                        idBloco: idBloco,
+                        idSetor: idSetor
+                    },
+                    success: function (data) {
+                        var events = [];
+                        dados = $.parseJSON(data);
+                        if (dados.length != 0) {
+                            for (var i = 0; i < dados.length; i++) {
+                                events.push({
+                                    id: dados[i].idEvento,
+                                    title: dados[i].descricaoEvento,
+                                    start: dados[i].dataInicioEvento,
+                                    end: dados[i].dataFimEvento,
+                                    color: dados[i].colorDescricaoEvento
+                                });
+                            }
+                            callback(events);
+                        } else {
+                            $("#modalEventoNulo").modal();
+                            $("#modalEventoNulo").modal("open");
+                        }
 
-//        events: [
-//            {
-//                title: 'All Day Event',
-//                start: '2017-09-01'
-//            }
-//        ],
+                    }
+                });
+            },
             eventRender: function (event, eventElement) {
-//            var new_description =
-//                    moment(event.start).format("HH:mm") + '-'
-//                    + moment(event.end).format("HH:mm") + '<br/>'
-//                    + event.customer + '<br/>'
-//                    + '<strong>Address: </strong><br/>' + event.address + '<br/>'
-//                    + '<strong>Task: </strong><br/>' + event.task + '<br/>'
-//                    + '<strong>Place: </strong>' + event.place + '<br/>';
 
             },
             defaultView: "agendaWeek"
         });
+        $(".fc-axis.fc-widget-header").append("<a href='#'>IFCE</a>");
     }
 
     function calendarUser(idAmbiente, idBloco, idSetor) {
+        $('#calendarUser').fullCalendar('destroy');
         $('#calendarUser').fullCalendar({
             monthNames: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro',
                 'Outubro', 'Novembro', 'Dezembro'],
@@ -199,7 +237,7 @@ $(function () {
             selectable: true,
             selectHelper: true,
             editable: false,
-            eventLimit: true,
+            eventLimit: false,
             dayClick: function (date, jsEvent, view) {
                 console.log("Clicou no dia: " + date.format("DD/MM/YYYY"));
             },
@@ -223,18 +261,29 @@ $(function () {
                     success: function (data) {
                         var events = [];
                         dados = $.parseJSON(data);
-//                        console.log(dados.length);
-                        events.push({
-                            id: dados.id,
-                            title: dados.title,
-                            start: dados.start,
-                            end: dados.end
-                        });
-                        callback(events);
+                        if (dados.length != 0) {
+                            for (var i = 0; i < dados.length; i++) {
+                                events.push({
+                                    id: dados[i].idEvento,
+                                    title: dados[i].descricaoEvento,
+                                    start: dados[i].dataInicioEvento,
+                                    end: dados[i].dataFimEvento,
+                                    color: dados[i].colorDescricaoEvento
+                                });
+                            }
+                            callback(events);
+                        } else {
+                            $("#modalEventoNulo").modal();
+                            $("#modalEventoNulo").modal("open");
+                        }
+
+
                     }
                 });
             }
         });
+
+
     }
 
     function pickDataInicio() {
@@ -335,7 +384,7 @@ $(function () {
             console.log($(this).attr('id'));
         });
     });
-    $(".fc-axis.fc-widget-header").append("<a href='#'>IFCE</a>");
+
     $("select[name=escolhaAula]").change(function () {
         var valorSelect = $(this).val();
         if (valorSelect == 2) {
@@ -487,13 +536,16 @@ $(function () {
         var idAmbiente = $("#sel-ambiente-pesquisa").val();
         var idBloco = $("#sel-bloco-pesquisa").val();
         var idSetor = $("#sel-tipo-evento-pesquisa").val();
-        alert(idAmbiente);
-        calendarUser(idAmbiente, idBloco, idSetor);
+        if (pagina == "admin") {
+            calendarAdmin(idAmbiente, idBloco, idSetor);
+        } else {
+            calendarUser(idAmbiente, idBloco, idSetor);
+        }
     });
 
 
 
-    function insertEventoSelecionado(nomeEvento, solicitanteEvento, tipoEvento, blocoEvento, ambienteEvento, title, start, end) {
+    function insertEventoSelecionado(nomeEvento, solicitanteEvento, tipoEvento, blocoEvento, ambienteEvento, corEvento, title, start, end) {
         $.ajax({
             type: "POST",
             url: controllerToAdmin,
@@ -503,6 +555,7 @@ $(function () {
                 solicitanteEvento: solicitanteEvento,
                 ambienteEvento: ambienteEvento,
                 descricaoEvento: title,
+                corEvento: corEvento,
                 dataInicioEvento: start,
                 dataFimEvento: end
             }, success: function (data, textStatus, jqXHR) {
@@ -518,13 +571,14 @@ $(function () {
         $('ul.tabs').tabs();
         $("#nao").addClass("active_repeat");
         getSetor();
-        calendarAdmin();
+        calendarAdmin(1, 1, 1);
         pickDataInicio();
         pickDataFim();
         pickHoraInicio();
         pickHoraFim();
         getBlocoBySetor();
         getAmbienteByBloco();
+        getColorEvento();
     } else {
         getSetorPageUser();
         calendarUser(1, 1, 1);

@@ -1,4 +1,5 @@
 <?php
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -6,11 +7,15 @@
  */
 
 /**
- * Description of Setor
+ * Description of CorEventoLogica
  *
  * @author Anderson Alves
  */
-class SetorView {
+require_once '../autoload.php';
+spl_autoload_register('autoloadDao');
+spl_autoload_register('autoloadView');
+
+class CorEventoLogica {
 
     private static $instance;
 
@@ -21,19 +26,13 @@ class SetorView {
     public static function getInstance() {
 
         if (!isset(self::$instance))
-            self::$instance = new SetorView();
+            self::$instance = new CorEventoLogica();
 
         return self::$instance;
     }
 
-    public function htmlSelectSetor($setores) {
-        ?>
-        <option value="" disabled selected>Escolha sua opção</option>
-        <?php
-        foreach ($setores as $setor) {
-            ?>
-            <option value="<?= $setor->getId(); ?>"><?= $setor->getDescricao(); ?></option>
-            <?php
-        }
+    public function getColorEvento() {
+        return CorEventoView::getInstance()->htmlSelectColorEvento(CorEventoDao::getInstance()->getCorEvento());
     }
+
 }

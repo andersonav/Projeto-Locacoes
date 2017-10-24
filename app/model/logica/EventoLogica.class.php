@@ -46,8 +46,9 @@ class EventoLogica {
         $dataInicioEvento = $_REQUEST['dataInicioEvento'];
         $dataFimEvento = $_REQUEST['dataFimEvento'];
         $ambienteEvento = $_REQUEST['ambienteEvento'];
+        $corEvento = $_REQUEST['corEvento'];
 
-        $insert = EventoDao::getInstance()->insertEventoSelecionado($nomeEvento, $descricaoEvento, $solicitanteEvento, $dataInicioEvento, $dataFimEvento, $ambienteEvento);
+        $insert = EventoDao::getInstance()->insertEventoSelecionado($nomeEvento, $descricaoEvento, $solicitanteEvento, $dataInicioEvento, $dataFimEvento, $ambienteEvento, $corEvento);
         if ($insert) {
             return true;
         } else {

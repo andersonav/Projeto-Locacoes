@@ -68,6 +68,25 @@
         <!--       Container para Modal e Adicionar Evento-->
         <div class="container">
             <input type="hidden" name="pagina" value="admin">
+            <div id="modalEventoNulo" class="modal">
+                <div class="modal-content">
+                    <h4>Alerta</h4>
+                    <p>Eventos no ambiente selecionado não existem!</p>
+                </div>
+                <div class="modal-footer">
+                    <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Fechar</a>
+                </div>
+            </div>
+            <div id="modalCamposNulos" class="modal">
+                <div class="modal-content">
+                    <h4>Alerta</h4>
+                    <p>Por favor preencha todos os campos!</p>
+                </div>
+                <div class="modal-footer">
+                    <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Fechar</a>
+                </div>
+            </div>
+
             <div id="modalAdicionarEventoClickDay" class="modal">
                 <div class="modal-content">
                     <h4 class="center">Adicionar Eventos</h4>
@@ -87,7 +106,18 @@
                                 <textarea id="descricaoEvento" class="validate materialize-textarea descricaoEvento" name="opiniao" data-length="200" maxlength="201"></textarea>
                                 <label for="textarea1" class="corLogo-text">Por favor, digite a descrição do evento</label>
                             </div>
-                            <div class="input-field col s12 m4">
+                            <div class="input-field col s12 m3">
+                                <select name="cor" class="sel-color" id="sel-color">
+                                    <!--                                    <option value="" disabled selected>Escolha sua opção</option>-->
+                                    <!--                            <option value="1">Servidor</option>
+                                                                <option value="2">Aluno</option>
+                                                                <option value="3">Tercerizado</option>
+                                                                <option value="4">Mestrado</option>
+                                                                <option value="5">Bolsista</option>-->
+                                </select>
+                                <label class="corLogo-text">Cor do Evento: </label>
+                            </div>
+                            <div class="input-field col s12 m3">
                                 <select name="tipo" class="sel-tipo-evento" id="sel-tipo-evento">
                                     <!--                                    <option value="" disabled selected>Escolha sua opção</option>-->
                                     <!--                            <option value="1">Servidor</option>
@@ -98,7 +128,7 @@
                                 </select>
                                 <label class="corLogo-text">Tipo: </label>
                             </div>
-                            <div class="input-field col s12 m4">
+                            <div class="input-field col s12 m3">
                                 <select name="bloco" class="sel-bloco" id="sel-bloco">
                                     <option value="" disabled selected>Escolha sua opção</option>
                                     <!--                            <option value="1">Servidor</option>
@@ -109,7 +139,7 @@
                                 </select>
                                 <label class="corLogo-text">Bloco: </label>
                             </div>
-                            <div class="input-field col s12 m4">
+                            <div class="input-field col s12 m3">
                                 <select name="ambiente" class="sel-ambiente" id="sel-ambiente">
                                     <option value="" disabled selected>Escolha sua opção</option>
                                     <!--                            <option value="1">Servidor</option>

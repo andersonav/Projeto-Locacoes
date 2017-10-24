@@ -70,6 +70,15 @@
         <!--       Container para Modal e Adicionar Evento-->
         <div class="container">
             <input type="hidden" name="pagina" value="usuario">
+            <div id="modalEventoNulo" class="modal">
+                <div class="modal-content">
+                    <h4>Alerta</h4>
+                    <p>Eventos no ambiente selecionado não existem!</p>
+                </div>
+                <div class="modal-footer">
+                    <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Fechar</a>
+                </div>
+            </div>
             <div class="row topo">
                 <div class="col s12 m3 logo center"> 
                     <img class="" src="public/img/logo_sysreserva.png" style="width: 150px; height: 90px; margin: 10px;"/>
