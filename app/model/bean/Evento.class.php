@@ -18,18 +18,18 @@ class Evento {
     }
 
     public $idEvento;
-    private $nomeEvento;
+    public $nomeEvento;
     public $descricaoEvento;
-    private $solicitanteEvento;
+    public $solicitanteEvento;
     public $dataInicioEvento;
     public $dataFimEvento;
-    private $ambienteIdEvento;
+    public $ambienteIdEvento;
     private $ambienteDescricaoEvento;
-    private $blocoIdEvento;
+    public $blocoIdEvento;
     private $blocoDescricaoEvento;
-    private $setorIdEvento;
+    public $setorIdEvento;
     private $setorDescricaoEvento;
-    private $tipoRepeticaoIdEvento;
+    public $tipoRepeticaoIdEvento;
     private $tipoRepeticaoDescricaoEvento;
     public $colorIdEvento;
     public $colorDescricaoEvento;

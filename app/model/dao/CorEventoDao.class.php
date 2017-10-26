@@ -42,11 +42,24 @@ class CorEventoDao {
     }
 
     public function getCorEvento() {
-
         try {
 
             $sql = "SELECT * from color_eventos";
             $p_sql = ConexaoMysql::getInstance()->prepare($sql);
+            $p_sql->execute();
+
+            return $this->getListObjCorEvento($p_sql->fetchAll(PDO::FETCH_OBJ));
+        } catch (Exception $e) {
+            echo $e->getTraceAsString();
+        }
+    }
+
+    public function getDescricaoCorEvento($corEvento) {
+        try {
+
+            $sql = "SELECT * from color_eventos WHERE col_eve_id = ?";
+            $p_sql = ConexaoMysql::getInstance()->prepare($sql);
+            $p_sql->bindParam(1, $corEvento);
             $p_sql->execute();
 
             return $this->getListObjCorEvento($p_sql->fetchAll(PDO::FETCH_OBJ));

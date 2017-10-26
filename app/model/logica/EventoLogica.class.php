@@ -56,4 +56,39 @@ class EventoLogica {
         }
     }
 
+    public function getEventById() {
+        $idEvento = $_REQUEST['idEvento'];
+
+        return EventoView::getInstance()->htmlModalToUpdateEvent(EventoDao::getInstance()->getEventById($idEvento));
+    }
+    
+    public function getEventByIdPageUser() {
+        $idEvento = $_REQUEST['idEvento'];
+
+        return EventoView::getInstance()->htmlModalToInformationEvent(EventoDao::getInstance()->getEventById($idEvento));
+    }
+
+    public function updateEventById() {
+        $idEvento = $_REQUEST['idEvento'];
+        $nomeEvento = $_REQUEST['nomeEvento'];
+        $solicitante = $_REQUEST['solicitante'];
+        $descricaoEvento = $_REQUEST['descricaoEvento'];
+        $colorEvento = $_REQUEST['colorEvento'];
+        $tipoEvento = $_REQUEST['tipoEvento'];
+        $blocoEvento = $_REQUEST['blocoEvento'];
+        $ambienteEvento = $_REQUEST['ambienteEvento'];
+        $dataInicio = $_REQUEST['dataInicio'];
+        $dataFim = $_REQUEST['dataFim'];
+
+        return EventoDao::getInstance()->updateEventById($idEvento, $nomeEvento, $solicitante, $descricaoEvento, $colorEvento, $tipoEvento, $blocoEvento, $ambienteEvento, $dataInicio, $dataFim);
+    }
+
+    public function verifyDates() {
+        $dataInicio = $_REQUEST['dataInicio'];
+        $dataFim = $_REQUEST['dataFim'];
+        $ambienteEvento = $_REQUEST['ambienteEvento'];
+
+        return EventoView::getInstance()->jsonVerifyDates(EventoDao::getInstance()->verifyDates($dataInicio, $dataFim, $ambienteEvento));
+    }
+
 }

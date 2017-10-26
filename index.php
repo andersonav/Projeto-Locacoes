@@ -79,6 +79,15 @@
                     <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Fechar</a>
                 </div>
             </div>
+             <div id="modalInformationEvent" class="modal">
+                <div class="modal-content" id="contentInformationEvent">
+<!--                    <h4>Alerta</h4>
+                    <p>Por favor preencha todos os campos!</p>-->
+                </div>
+                <div class="modal-footer">
+                    <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Fechar</a>
+                </div>
+            </div>
             <div class="row topo">
                 <div class="col s12 m3 logo center"> 
                     <img class="" src="public/img/logo_sysreserva.png" style="width: 150px; height: 90px; margin: 10px;"/>

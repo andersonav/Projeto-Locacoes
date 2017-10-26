@@ -34,5 +34,10 @@ class CorEventoLogica {
     public function getColorEvento() {
         return CorEventoView::getInstance()->htmlSelectColorEvento(CorEventoDao::getInstance()->getCorEvento());
     }
+    
+    public function getDescricaoCorEvento() {
+        $corEvento = $_REQUEST['corEvento'];
+        return CorEventoView::getInstance()->jsonDescricaoCorEvento(CorEventoDao::getInstance()->getDescricaoCorEvento($corEvento));
+    }
 
 }

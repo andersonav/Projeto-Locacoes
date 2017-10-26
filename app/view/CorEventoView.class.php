@@ -36,5 +36,9 @@ class CorEventoView {
             <?php
         }
     }
+    
+     public function jsonDescricaoCorEvento($corDescricao) {
+        echo json_encode($corDescricao);
+    }
 
 }

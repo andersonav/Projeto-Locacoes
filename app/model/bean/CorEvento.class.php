@@ -19,7 +19,7 @@ class CorEvento {
 
     private $idColorEvento;
     private $descricaoColorEvento;
-    private $descricaoInglesColorEvento;
+    public $descricaoInglesColorEvento;
 
     function getIdColorEvento() {
         return $this->idColorEvento;

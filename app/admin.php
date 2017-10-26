@@ -86,7 +86,33 @@
                     <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Fechar</a>
                 </div>
             </div>
-
+            <div id="modalDataAnterior" class="modal">
+                <div class="modal-content">
+                    <h4>Alerta</h4>
+                    <p>Não é possível adicionar eventos em datas ou horas anteriores a atual!</p>
+                </div>
+                <div class="modal-footer">
+                    <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Fechar</a>
+                </div>
+            </div>
+            <div id="modalDataInicioMaiorQueFinal" class="modal">
+                <div class="modal-content">
+                    <h4>Alerta</h4>
+                    <p>A sua data inicial é maior que a final, por favor corrija isso!</p>
+                </div>
+                <div class="modal-footer">
+                    <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Fechar</a>
+                </div>
+            </div>
+            <div id="modalDatasIguais" class="modal">
+                <div class="modal-content">
+                    <h4>Alerta</h4>
+                    <p>No ambiente selecionado já existe um evento com esse horário, por favor selecione um novo ambiente ou um novo horário.</p>
+                </div>
+                <div class="modal-footer">
+                    <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Fechar</a>
+                </div>
+            </div>
             <div id="modalAdicionarEventoClickDay" class="modal">
                 <div class="modal-content">
                     <h4 class="center">Adicionar Eventos</h4>
@@ -103,8 +129,8 @@
                                 <label for="icon_prefix" class="corLogo-text active">Solicitante:</label>
                             </div>
                             <div class="input-field col s12 m12">
-                                <textarea id="descricaoEvento" class="validate materialize-textarea descricaoEvento" name="opiniao" data-length="200" maxlength="201"></textarea>
-                                <label for="textarea1" class="corLogo-text">Por favor, digite a descrição do evento</label>
+                                <input type="text" id="descricaoEvento" class="validate descricaoEvento" data-length="200" maxlength="201" placeholder="Digite a descrição do Evento">
+                                <label for="icon_prefix" class="corLogo-text active">Descrição do Evento</label>
                             </div>
                             <div class="input-field col s12 m3">
                                 <select name="cor" class="sel-color" id="sel-color">
@@ -159,7 +185,7 @@
                                 <label for="icon_prefix" class="corLogo-text active">Hora Início:</label>
                             </div>
                             <div class="input-field col s12 m3">
-                                <input id="icon_prefix" type="text" class="validate dataFim" disabled placeholder="Escolha a Data Final">
+                                <input id="icon_prefix" type="text" class="validate dataFim" placeholder="Escolha a Data Final">
                                 <label for="icon_prefix" class="corLogo-text active">Data Fim:</label>
                             </div>
                             <div class="input-field col s12 m3">
@@ -257,6 +283,16 @@
                     <button class="btnModal buttonOkay">CADASTRAR</button>
                     <button class="btnModal buttonCancel">CANCEL</button>
                     <!--                <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Agree</a>-->
+                </div>
+            </div>
+            <div id="modalUpdateEvent" class="modal">
+                <div class="modal-content" id="contentUpdateEvent">
+<!--                    <h4>Alerta</h4>
+                    <p>Por favor preencha todos os campos!</p>-->
+                </div>
+                <div class="modal-footer">
+                    <button class="btnModal buttonUpdate">ATUALIZAR</button>
+                    <button class="btnModal buttonCancel">CANCEL</button>
                 </div>
             </div>
             <div class="row topo">
