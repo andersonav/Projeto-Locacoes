@@ -2,8 +2,9 @@
 <html>
     <head>
         <meta charset='utf-8' />
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.1/css/materialize.min.css">
+        <!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.1/css/materialize.min.css">-->
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <link href="../public/css/materialize.min.css" rel="stylesheet" />
         <link href='../public/css/fullcalendar.min.css' rel='stylesheet' />
         <link href='../public/css/fullcalendar.print.min.css' rel='stylesheet' media='print' />
         <link href='../public/css/nav_footer.css' rel='stylesheet' />
@@ -14,7 +15,8 @@
         <script src='../public/js/locale-all.js'></script>
         <script src='../public/js/locale/pt-br.js'></script>
         <script src='../public/js/app.js'></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.1/js/materialize.min.js"></script>
+        <script src='../public/js/materialize.min.js'></script>
+        <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.1/js/materialize.min.js"></script>-->
     </head>
     <body>
         <nav>
@@ -104,10 +106,28 @@
                     <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Fechar</a>
                 </div>
             </div>
+            <div id="modalCheckNulo" class="modal">
+                <div class="modal-content">
+                    <h4>Alerta</h4>
+                    <p>Por favor, selecione um equipamento!</p>
+                </div>
+                <div class="modal-footer">
+                    <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Fechar</a>
+                </div>
+            </div>
             <div id="modalDatasIguais" class="modal">
                 <div class="modal-content">
                     <h4>Alerta</h4>
                     <p>No ambiente selecionado já existe um evento com esse horário, por favor selecione um novo ambiente ou um novo horário.</p>
+                </div>
+                <div class="modal-footer">
+                    <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Fechar</a>
+                </div>
+            </div>
+            <div id="modalQuantidadeSolicitadaMaiorQueDisponivel" class="modal">
+                <div class="modal-content">
+                    <h4>Alerta</h4>
+                    <p>Quantidade solicitada para este equipamento é maior que a disponível, por favor diminua a mesma.</p>
                 </div>
                 <div class="modal-footer">
                     <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Fechar</a>
@@ -133,51 +153,38 @@
                                 <label for="icon_prefix" class="corLogo-text active">Descrição do Evento</label>
                             </div>
                             <div class="input-field col s12 m3">
+                                <select name="aula" class="sel-aula" id="sel-aula">
+                                </select>
+                                <label class="corLogo-text">Aula?</label>
+                            </div>
+                            <div class="input-field col s12 m9 divInputProfessor">
+                                <input id="icon_prefix" type="text" class="validate nomeProfessor" placeholder="Digite o nome do professor" disabled>
+                                <label for="icon_prefix" class="corLogo-text active">Professor:</label>
+                            </div>
+                            <div class="input-field col s12 m3">
                                 <select name="cor" class="sel-color" id="sel-color">
-                                    <!--                                    <option value="" disabled selected>Escolha sua opção</option>-->
-                                    <!--                            <option value="1">Servidor</option>
-                                                                <option value="2">Aluno</option>
-                                                                <option value="3">Tercerizado</option>
-                                                                <option value="4">Mestrado</option>
-                                                                <option value="5">Bolsista</option>-->
                                 </select>
                                 <label class="corLogo-text">Cor do Evento: </label>
                             </div>
                             <div class="input-field col s12 m3">
                                 <select name="tipo" class="sel-tipo-evento" id="sel-tipo-evento">
-                                    <!--                                    <option value="" disabled selected>Escolha sua opção</option>-->
-                                    <!--                            <option value="1">Servidor</option>
-                                                                <option value="2">Aluno</option>
-                                                                <option value="3">Tercerizado</option>
-                                                                <option value="4">Mestrado</option>
-                                                                <option value="5">Bolsista</option>-->
                                 </select>
                                 <label class="corLogo-text">Tipo: </label>
                             </div>
                             <div class="input-field col s12 m3">
                                 <select name="bloco" class="sel-bloco" id="sel-bloco">
                                     <option value="" disabled selected>Escolha sua opção</option>
-                                    <!--                            <option value="1">Servidor</option>
-                                                                <option value="2">Aluno</option>
-                                                                <option value="3">Tercerizado</option>
-                                                                <option value="4">Mestrado</option>
-                                                                <option value="5">Bolsista</option>-->
                                 </select>
                                 <label class="corLogo-text">Bloco: </label>
                             </div>
                             <div class="input-field col s12 m3">
                                 <select name="ambiente" class="sel-ambiente" id="sel-ambiente">
                                     <option value="" disabled selected>Escolha sua opção</option>
-                                    <!--                            <option value="1">Servidor</option>
-                                                                <option value="2">Aluno</option>
-                                                                <option value="3">Tercerizado</option>
-                                                                <option value="4">Mestrado</option>
-                                                                <option value="5">Bolsista</option>-->
                                 </select>
                                 <label class="corLogo-text">Ambiente: </label>
                             </div>
                             <div class="input-field col s12 m3">
-                                <input id="icon_prefix" type="text" class="validate dataInicio" placeholder="Escolha a Data Inicial">
+                                <input id="icon_prefix" type="text" class="dataInicio" placeholder="Escolha a Data Inicial">
                                 <label for="icon_prefix" class="corLogo-text active">Data Início:</label>
                             </div>
                             <div class="input-field col s12 m3">
@@ -185,7 +192,7 @@
                                 <label for="icon_prefix" class="corLogo-text active">Hora Início:</label>
                             </div>
                             <div class="input-field col s12 m3">
-                                <input id="icon_prefix" type="text" class="validate dataFim" placeholder="Escolha a Data Final">
+                                <input id="icon_prefix" type="text" class="dataFim" placeholder="Escolha a Data Final">
                                 <label for="icon_prefix" class="corLogo-text active">Data Fim:</label>
                             </div>
                             <div class="input-field col s12 m3">
@@ -201,77 +208,24 @@
                             </div>
                             <div id="equipamentos" class="col s12 m12">
                                 <div class="row equipamento">
-                                    <div class="col s12 m2">
-                                        <img src="../public/img/datashow.png">
-                                        <p>
-                                            <input type="checkbox" class="filled-in" id="filled-in-box" />
-                                            <label for="filled-in-box">Qtd: 1</label>
-                                        </p>
-                                    </div>
-                                    <div class="col s12 m2">
-                                        <img src="../public/img/microfone.png">
-                                        <p>
-                                            <input type="checkbox" class="filled-in" id="filled-in-box2" />
-                                            <label for="filled-in-box2">Qtd: 1</label>
-                                        </p>
-                                    </div>
                                 </div>
                             </div>
                             <div id="servicos" class="col s12 m12">
                                 <div class="row servicos">
-                                    <div class="col s12 m2">
-                                        <img src="../public/img/construcao.png">
-                                        <p>
-                                            <input type="checkbox" class="filled-in" id="servicos1" />
-                                            <label for="servicos1">Qtd: 1</label>
-                                        </p>
-                                    </div>
-                                    <div class="col s12 m2">
-                                        <img src="../public/img/construcao.png">
-                                        <p>
-                                            <input type="checkbox" class="filled-in" id="servicos2" />
-                                            <label for="servicos2">Qtd: 1</label>
-                                        </p>
-                                    </div>
+
                                 </div>
                             </div>
                             <div id="refeicoes" class="col s12 m12">
                                 <div class="row refeicoes">
-                                    <div class="col s12 m2">
-                                        <img src="../public/img/construcao.png">
-                                        <p>
-                                            <input type="checkbox" class="filled-in" id="refeicoes1" />
-                                            <label for="refeicoes1">Qtd: 1</label>
-                                        </p>
-                                    </div>
-                                    <div class="col s12 m2">
-                                        <img src="../public/img/construcao.png">
-                                        <p>
-                                            <input type="checkbox" class="filled-in" id="refeicoes2" />
-                                            <label for="refeicoes2">Qtd: 1</label>
-                                        </p>
-                                    </div>
+
                                 </div>
                             </div>
                         </div>
-                        <div class="row cadastroClickBtn mostrarWhenClickBtn center" style="margin: 3px auto; width: 50%;">
-                            <div class="col s12 m3 textRepeat">Repetir: </div>
-                            <div class="col s12 m3 repeatSwitch" id="nao">Não</div>
-                            <div class="col s12 m3 repeatSwitch" id="semana">Semana</div>
-                            <div class="col s12 m3 repeatSwitch" id="semestre">Semestre</div>
-                            <br><br>
-                            <div class="aula">
-                                <div class="col s12 m3 teste">Aula? </div>
-                                <div class="col s12 m3" id="">
-                                    <select name="escolhaAula">
-                                        <option value="" disabled>Opção</option>
-                                        <option value="1" selected>Sim</option>
-                                        <option value="2">Não</option>
-                                    </select>
-                                </div>
-                                <div class="col s12 m6 DivInputProfessor" id="">
-                                    <input type="text" class="InputProfessor validate" placeholder="Nome do Professor">
-                                </div>
+                        <div class="row cadastroClickBtn mostrarWhenClickBtn center">
+                            <div class="input-field col s12 m5">
+                                <select name="tipoRepeticao" class="sel-tip-repeticao" id="sel-tip-repeticao">
+                                </select>
+                                <label class="corLogo-text">Repetir: </label>
                             </div>
 
                         </div>
@@ -287,8 +241,8 @@
             </div>
             <div id="modalUpdateEvent" class="modal">
                 <div class="modal-content" id="contentUpdateEvent">
-<!--                    <h4>Alerta</h4>
-                    <p>Por favor preencha todos os campos!</p>-->
+                    <!--                    <h4>Alerta</h4>
+                                        <p>Por favor preencha todos os campos!</p>-->
                 </div>
                 <div class="modal-footer">
                     <button class="btnModal buttonUpdate">ATUALIZAR</button>

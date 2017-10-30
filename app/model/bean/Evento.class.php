@@ -31,8 +31,15 @@ class Evento {
     private $setorDescricaoEvento;
     public $tipoRepeticaoIdEvento;
     private $tipoRepeticaoDescricaoEvento;
+    public $aulaIdEvento;
+    private $aulaDescricaoEvento;
+    public $nomeProfessorEvento;
+    public $equipamentoIdEvento;
+    public $equipamentoDescricaoEvento;
+    public $equipamentoQtdUtilizadaEvento;
     public $colorIdEvento;
     public $colorDescricaoEvento;
+    private $colorDescricaoPortEvento;
 
     function getIdEvento() {
         return $this->idEvento;
@@ -90,12 +97,40 @@ class Evento {
         return $this->tipoRepeticaoDescricaoEvento;
     }
 
+    function getAulaIdEvento() {
+        return $this->aulaIdEvento;
+    }
+
+    function getAulaDescricaoEvento() {
+        return $this->aulaDescricaoEvento;
+    }
+
+    function getNomeProfessorEvento() {
+        return $this->nomeProfessorEvento;
+    }
+
+    function getEquipamentoIdEvento() {
+        return $this->equipamentoIdEvento;
+    }
+
+    function getEquipamentoDescricaoEvento() {
+        return $this->equipamentoDescricaoEvento;
+    }
+
+    function getEquipamentoQtdUtilizadaEvento() {
+        return $this->equipamentoQtdUtilizadaEvento;
+    }
+
     function getColorIdEvento() {
         return $this->colorIdEvento;
     }
 
     function getColorDescricaoEvento() {
         return $this->colorDescricaoEvento;
+    }
+
+    function getColorDescricaoPortEvento() {
+        return $this->colorDescricaoPortEvento;
     }
 
     function setIdEvento($idEvento) {
@@ -154,12 +189,40 @@ class Evento {
         $this->tipoRepeticaoDescricaoEvento = $tipoRepeticaoDescricaoEvento;
     }
 
+    function setAulaIdEvento($aulaIdEvento) {
+        $this->aulaIdEvento = $aulaIdEvento;
+    }
+
+    function setAulaDescricaoEvento($aulaDescricaoEvento) {
+        $this->aulaDescricaoEvento = $aulaDescricaoEvento;
+    }
+
+    function setNomeProfessorEvento($nomeProfessorEvento) {
+        $this->nomeProfessorEvento = $nomeProfessorEvento;
+    }
+
+    function setEquipamentoIdEvento($equipamentoIdEvento) {
+        $this->equipamentoIdEvento = $equipamentoIdEvento;
+    }
+
+    function setEquipamentoDescricaoEvento($equipamentoDescricaoEvento) {
+        $this->equipamentoDescricaoEvento = $equipamentoDescricaoEvento;
+    }
+
+    function setEquipamentoQtdUtilizadaEvento($equipamentoQtdUtilizadaEvento) {
+        $this->equipamentoQtdUtilizadaEvento = $equipamentoQtdUtilizadaEvento;
+    }
+
     function setColorIdEvento($colorIdEvento) {
         $this->colorIdEvento = $colorIdEvento;
     }
 
     function setColorDescricaoEvento($colorDescricaoEvento) {
         $this->colorDescricaoEvento = $colorDescricaoEvento;
+    }
+
+    function setColorDescricaoPortEvento($colorDescricaoPortEvento) {
+        $this->colorDescricaoPortEvento = $colorDescricaoPortEvento;
     }
 
 }

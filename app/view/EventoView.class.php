@@ -35,12 +35,9 @@ class EventoView {
         foreach ($eventos as $evento) {
             ?>
             <h4 class="center">Atualizar Eventos</h4>
-            <h6 class="center">Setor: <b><?= $evento->getSetorDescricaoEvento(); ?></b>. Bloco:  <b><?= $evento->getBlocoDescricaoEvento(); ?></b>. Ambiente: <b><?= $evento->getAmbienteDescricaoEvento(); ?></b>.</h6>
-            <br>
             <div class="divider"></div>
             <br>
             <form class="col s12" id="form_add_event">
-
                 <div class="row">
                     <div class="input-field col s12 m6">
                         <input id="icon_prefix" type="text" class="validate nomeEvento" placeholder="Digite o nome do Evento" value="<?= $evento->getNomeEvento(); ?>">
@@ -55,24 +52,26 @@ class EventoView {
                         <label for="icon_prefix" class="corLogo-text active">Descrição do Evento</label>
                     </div>
                     <div class="input-field col s12 m3">
-                        <select name="cor" class="sel-color-update" id="sel-color-update">          
+                        <select name="cor" class="sel-color-update" id="sel-color-update">  
+                            <option value="<?= $evento->getColorIdEvento(); ?>"><?= $evento->getColorDescricaoPortEvento(); ?></option>
                         </select>
                         <label class="corLogo-text">Cor do Evento: </label>
                     </div>
                     <div class="input-field col s12 m3">
                         <select name="tipo" class="sel-tipo-evento-update" id="sel-tipo-evento-update">
+                            <option value="<?= $evento->getSetorIdEvento(); ?>"><?= $evento->getSetorDescricaoEvento(); ?></option>
                         </select>
                         <label class="corLogo-text">Tipo de Evento: </label>
                     </div>
                     <div class="input-field col s12 m3">
                         <select name="bloco" class="sel-bloco-update" id="sel-bloco-update">
-                            <option value="" disabled selected>Escolha sua opção</option>
+                            <option value="<?= $evento->getBlocoIdEvento(); ?>"><?= $evento->getBlocoDescricaoEvento(); ?></option>
                         </select>
                         <label class="corLogo-text">Bloco: </label>
                     </div>
                     <div class="input-field col s12 m3">
                         <select name="ambiente" class="sel-ambiente-update" id="sel-ambiente-update">
-                            <option value="" disabled selected>Escolha sua opção</option>
+                            <option value="<?= $evento->getAmbienteIdEvento(); ?>"><?= $evento->getAmbienteDescricaoEvento(); ?></option>
                         </select>
                         <label class="corLogo-text">Ambiente: </label>
                     </div>
@@ -100,81 +99,16 @@ class EventoView {
                         </ul>
                     </div>
                     <div id="equipamentos-update" class="col s12 m12">
-                        <div class="row equipamento">
-                            <div class="col s12 m2">
-                                <img src="../public/img/datashow.png">
-                                <p>
-                                    <input type="checkbox" class="filled-in" id="filled-in-box" />
-                                    <label for="filled-in-box">Qtd: 1</label>
-                                </p>
-                            </div>
-                            <div class="col s12 m2">
-                                <img src="../public/img/microfone.png">
-                                <p>
-                                    <input type="checkbox" class="filled-in" id="filled-in-box2" />
-                                    <label for="filled-in-box2">Qtd: 1</label>
-                                </p>
-                            </div>
-                        </div>
+
                     </div>
                     <div id="servicos-update" class="col s12 m12">
-                        <div class="row servicos">
-                            <div class="col s12 m2">
-                                <img src="../public/img/construcao.png">
-                                <p>
-                                    <input type="checkbox" class="filled-in" id="servicos1" />
-                                    <label for="servicos1">Qtd: 1</label>
-                                </p>
-                            </div>
-                            <div class="col s12 m2">
-                                <img src="../public/img/construcao.png">
-                                <p>
-                                    <input type="checkbox" class="filled-in" id="servicos2" />
-                                    <label for="servicos2">Qtd: 1</label>
-                                </p>
-                            </div>
-                        </div>
+
                     </div>
                     <div id="refeicoes-update" class="col s12 m12">
-                        <div class="row refeicoes">
-                            <div class="col s12 m2">
-                                <img src="../public/img/construcao.png">
-                                <p>
-                                    <input type="checkbox" class="filled-in" id="refeicoes1" />
-                                    <label for="refeicoes1">Qtd: 1</label>
-                                </p>
-                            </div>
-                            <div class="col s12 m2">
-                                <img src="../public/img/construcao.png">
-                                <p>
-                                    <input type="checkbox" class="filled-in" id="refeicoes2" />
-                                    <label for="refeicoes2">Qtd: 1</label>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row center" style="margin: 3px auto; width: 50%;">
-                    <div class="col s12 m3 textRepeat">Repetir: </div>
-                    <div class="col s12 m3 repeatSwitch" id="nao">Não</div>
-                    <div class="col s12 m3 repeatSwitch" id="semana">Semana</div>
-                    <div class="col s12 m3 repeatSwitch" id="semestre">Semestre</div>
-                    <br><br>
-                    <div class="aula">
-                        <div class="col s12 m3 teste">Aula? </div>
-                        <div class="col s12 m3" id="">
-                            <select name="escolhaAula">
-                                <option value="" disabled>Opção</option>
-                                <option value="1" selected>Sim</option>
-                                <option value="2">Não</option>
-                            </select>
-                        </div>
-                        <div class="col s12 m6 DivInputProfessor" id="">
-                            <input type="text" class="InputProfessor validate" placeholder="Nome do Professor">
-                        </div>
-                    </div>
 
+                    </div>
                 </div>
+
 
                 <!--<div id="calendar2" class="cadastroClickBtn calendar2"></div>;-->
             </form>
@@ -182,7 +116,7 @@ class EventoView {
             <?php
         }
     }
-    
+
     public function htmlModalToInformationEvent($eventos) {
 
         foreach ($eventos as $evento) {
@@ -207,8 +141,18 @@ class EventoView {
                         <label for="icon_prefix" class="corLogo-text active">Descrição do Evento</label>
                     </div>
                     <div class="input-field col s12 m3">
+                        <select name="aula" class="sel-aula" id="sel-aula" disabled>
+                            <option value="<?= $evento->getAulaIdEvento(); ?>"><?= $evento->getAulaDescricaoEvento(); ?></option>
+                        </select>
+                        <label class="corLogo-text">Aula</label>
+                    </div>
+                    <div class="input-field col s12 m9 divInputProfessor">
+                        <input id="icon_prefix" type="text" class="validate nomeProfessor" placeholder="" disabled value="<?= $evento->getNomeProfessorEvento(); ?>">
+                        <label for="icon_prefix" class="corLogo-text active">Professor:</label>
+                    </div>
+                    <div class="input-field col s12 m3">
                         <select name="cor" class="sel-color-update" id="sel-color-update" disabled>   
-                            <option value="<?= $evento->getColorIdEvento(); ?>"><?= $evento->getColorDescricaoEvento(); ?></option>
+                            <option value="<?= $evento->getColorIdEvento(); ?>"><?= $evento->getColorDescricaoPortEvento(); ?></option>
                         </select>
                         <label class="corLogo-text">Cor do Evento: </label>
                     </div>
@@ -246,7 +190,7 @@ class EventoView {
                         <input id="icon_prefix" type="text" class="validate horaFim" placeholder="Escolha a Hora Final" value="<?= date_format(date_create($evento->getDataFimEvento()), 'H:i:s'); ?>" disabled>
                         <label for="icon_prefix" class="corLogo-text active">Hora Fim:</label>
                     </div>
-<!--                    <div class="col s12">
+                    <div class="col s12">
                         <ul id="tabs-user" class="tabs">
                             <li class="tab col s3 active"><a class="active" href="#equipamentos-user">Equipamentos</a></li>
                             <li class="tab col s3"><a href="#servicos-user">Serviços</a></li>
@@ -254,82 +198,16 @@ class EventoView {
                         </ul>
                     </div>
                     <div id="equipamentos-user" class="col s12 m12">
-                        <div class="row equipamento">
-                            <div class="col s12 m2">
-                                <img src="../public/img/datashow.png">
-                                <p>
-                                    <input type="checkbox" class="filled-in" id="filled-in-box" />
-                                    <label for="filled-in-box">Qtd: 1</label>
-                                </p>
-                            </div>
-                            <div class="col s12 m2">
-                                <img src="../public/img/microfone.png">
-                                <p>
-                                    <input type="checkbox" class="filled-in" id="filled-in-box2" />
-                                    <label for="filled-in-box2">Qtd: 1</label>
-                                </p>
-                            </div>
-                        </div>
+
                     </div>
                     <div id="servicos-user" class="col s12 m12">
-                        <div class="row servicos">
-                            <div class="col s12 m2">
-                                <img src="../public/img/construcao.png">
-                                <p>
-                                    <input type="checkbox" class="filled-in" id="servicos1" />
-                                    <label for="servicos1">Qtd: 1</label>
-                                </p>
-                            </div>
-                            <div class="col s12 m2">
-                                <img src="../public/img/construcao.png">
-                                <p>
-                                    <input type="checkbox" class="filled-in" id="servicos2" />
-                                    <label for="servicos2">Qtd: 1</label>
-                                </p>
-                            </div>
-                        </div>
+
                     </div>
                     <div id="refeicoes-user" class="col s12 m12">
-                        <div class="row refeicoes">
-                            <div class="col s12 m2">
-                                <img src="../public/img/construcao.png">
-                                <p>
-                                    <input type="checkbox" class="filled-in" id="refeicoes1" />
-                                    <label for="refeicoes1">Qtd: 1</label>
-                                </p>
-                            </div>
-                            <div class="col s12 m2">
-                                <img src="../public/img/construcao.png">
-                                <p>
-                                    <input type="checkbox" class="filled-in" id="refeicoes2" />
-                                    <label for="refeicoes2">Qtd: 1</label>
-                                </p>
-                            </div>
-                        </div>
-                    </div>-->
-                </div>
-<!--                <div class="row center" style="margin: 3px auto; width: 50%;">
-                    <div class="col s12 m3 textRepeat">Repetir: </div>
-                    <div class="col s12 m3 repeatSwitch" id="nao">Não</div>
-                    <div class="col s12 m3 repeatSwitch" id="semana">Semana</div>
-                    <div class="col s12 m3 repeatSwitch" id="semestre">Semestre</div>
-                    <br><br>
-                    <div class="aula">
-                        <div class="col s12 m3 teste">Aula? </div>
-                        <div class="col s12 m3" id="">
-                            <select name="escolhaAula">
-                                <option value="" disabled>Opção</option>
-                                <option value="1" selected>Sim</option>
-                                <option value="2">Não</option>
-                            </select>
-                        </div>
-                        <div class="col s12 m6 DivInputProfessor" id="">
-                            <input type="text" class="InputProfessor validate" placeholder="Nome do Professor">
-                        </div>
+
                     </div>
 
-                </div>-->
-
+                </div>
                 <!--<div id="calendar2" class="cadastroClickBtn calendar2"></div>;-->
             </form>
 
@@ -339,6 +217,10 @@ class EventoView {
 
     public function jsonVerifyDates($eventos) {
         echo json_encode($eventos);
+    }
+
+    public function jsonEventByAmbienteAndStartAndEnd($evento) {
+        echo json_encode($evento);
     }
 
 }

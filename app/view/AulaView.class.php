@@ -6,11 +6,11 @@
  */
 
 /**
- * Description of BlocoView
+ * Description of AulaView
  *
  * @author Anderson Alves
  */
-class BlocoView {
+class AulaView {
 
     private static $instance;
 
@@ -21,18 +21,18 @@ class BlocoView {
     public static function getInstance() {
 
         if (!isset(self::$instance))
-            self::$instance = new BlocoView();
+            self::$instance = new AulaView();
 
         return self::$instance;
     }
 
-    public function htmlSelectBloco($blocos) {
+    public function htmlSelectAula($aulas) {
         ?>
         <option value="" disabled selected>Escolha sua opção</option>
         <?php
-        foreach ($blocos as $bloco) {
+        foreach ($aulas as $aula) {
             ?>
-            <option value="<?= $bloco->getIdBloco(); ?>"><?= $bloco->getDescricao(); ?></option>
+            <option value="<?= $aula->getIdAula(); ?>"><?= $aula->getDescricaoAula(); ?></option>
             <?php
         }
     }

@@ -9,56 +9,11 @@
  */
 $(function () {
     var controllerToAdmin = "controller/FrontController.php";
-    var controllerToUser = "app/controller/FrontController.php";
-    var pagina = $("input[name=pagina]").val();
     var hoje = new Date();
     var hora = hoje.getHours();
     var minutos = hoje.getMinutes();
     var horaAtual = hora + ":" + minutos;
-    function getSetor() {
-        $.ajax({
-            url: controllerToAdmin,
-            type: "POST",
-            data: {
-                action: "SetorLogica.getSetor"
-            },
-            success: function (data) {
-                $("#sel-tipo-evento").html(data);
-                $("#sel-tipo-evento-pesquisa").html(data);
-                $("#sel-tipo-evento-update").html(data);
-                $("select").material_select();
-            }
-        });
-    }
-    function getColorEvento() {
-        $.ajax({
-            url: controllerToAdmin,
-            type: "POST",
-            data: {
-                action: "CorEventoLogica.getColorEvento"
-            },
-            success: function (data) {
-                $("#sel-color").html(data);
-                $("#sel-color").material_select();
-                $("#sel-color-update").html(data);
-                $("#sel-color-update").material_select();
-            }
-        });
-    }
-    function getSetorPageUser() {
-        $.ajax({
-            url: controllerToUser,
-            type: "POST",
-            data: {
-                action: "SetorLogica.getSetor"
-            },
-            success: function (data) {
-                $(".sel-tipo-evento-pesquisa").html(data);
-                $(".sel-tipo-evento-pesquisa").material_select();
-                $("select").material_select();
-            }
-        });
-    }
+
     function calendarAdmin(idAmbiente, idBloco, idSetor) {
         $('#calendar').fullCalendar('destroy');
         $('#calendar').fullCalendar({
@@ -85,11 +40,14 @@ $(function () {
             selectable: true,
             selectHelper: true,
             editable: false,
-            eventLimit: false,
+            eventLimit: true,
             dayClick: function (date, jsEvent, view) {
-                console.log("Clicou no dia: " + date.format());
+//                console.log("Clicou no dia: " + date.format());
             },
             select: function (start, end) {
+                isNumeric();
+                habilitarQutdSolicitada();
+                verifyCheck();
                 start = $.fullCalendar.formatDate(start, "YYYY-MM-DD HH:mm:ss");
                 var ano = hoje.getFullYear();
                 var mes = hoje.getMonth() + 1;
@@ -104,16 +62,16 @@ $(function () {
                     $("#modalDataAnterior").modal();
                     $("#modalDataAnterior").modal('open');
                 } else {
-                    diaInicio = start.substr(8, 2);
-                    mesInicio = start.substr(5, 2);
-                    anoInicio = start.substr(0, 4);
-                    horaInicio = start.substr(11, 8);
+                    var diaInicio = start.substr(8, 2);
+                    var mesInicio = start.substr(5, 2);
+                    var anoInicio = start.substr(0, 4);
+                    var horaInicio = start.substr(11, 8);
                     var inicio = diaInicio + "/" + mesInicio + "/" + anoInicio;
                     end = $.fullCalendar.formatDate(end, "YYYY-MM-DD HH:mm:ss");
-                    diaFim = end.substr(8, 2);
-                    mesFim = end.substr(5, 2);
-                    anoFim = end.substr(0, 4);
-                    horaFim = end.substr(11, 8);
+                    var diaFim = end.substr(8, 2);
+                    var mesFim = end.substr(5, 2);
+                    var anoFim = end.substr(0, 4);
+                    var horaFim = end.substr(11, 8);
                     var fim = diaFim + "/" + mesFim + "/" + anoFim;
                     $('#modalAdicionarEventoClickDay').modal();
                     $(".dataInicio").attr('disabled', 'disabled');
@@ -133,10 +91,11 @@ $(function () {
                             });
                         }
                     });
-                    var title;
+
                     $("#modalAdicionarEventoClickDay").modal('open');
+//                     compararQtdSolicitadaComQtdDisponivel();
                     $(".mostrarWhenClickBtn").addClass("cadastroClickBtn");
-//            $(".calendar2").addClass("cadastroClickBtn");
+                    var title;
                     var eventData;
                     $(".buttonOkay").click(function () {
                         var nomeEvento = $(".nomeEvento").val();
@@ -145,29 +104,87 @@ $(function () {
                         var blocoEvento = $("#sel-bloco").val();
                         var ambienteEvento = $("#sel-ambiente").val();
                         var corEvento = $("#sel-color").val();
+                        var idAula = $("#sel-aula").val();
                         title = $(".descricaoEvento").val();
-//                    console.log("Nome Evento " + nomeEvento + " Solicitante Evento : " + solicitanteEvento + " Tipo Evento " + tipoEvento + " Bloco Evento " + blocoEvento + " Ambiente Evento : " + ambienteEvento)
-                        if (nomeEvento != "" || title != "" || solicitanteEvento != "" || tipoEvento != null || blocoEvento != null || ambienteEvento != null || corEvento != null) {
-                            var descricaoCorIngles = getDescricaoCorEvento(corEvento);
-                            eventData = {
-                                title: title,
-                                start: start,
-                                end: end,
-                                color: descricaoCorIngles
-                            };
-                            $('#calendar').fullCalendar('renderEvent', eventData, true); // stick? = true
-//                        var teste = $(".active_repeat").attr("id");
-                            insertEventoSelecionado(nomeEvento, solicitanteEvento, tipoEvento, blocoEvento, ambienteEvento, corEvento, title, start, end);
-                            $(".repeatSwitch").removeClass(".active_repeat");
-                            start = null;
-                            end = null;
-                            $("#modalAdicionarEventoClickDay").modal('close');
+                        if (nomeEvento != "" || title != "" || solicitanteEvento != "" || tipoEvento != null || blocoEvento != null || ambienteEvento != null || corEvento != null || idAula != null) {
+                            if ($(".idEquipamento").is(":checked")) {
+                                var descricaoCorIngles = getDescricaoCorEvento(corEvento);
+                                eventData = {
+                                    title: title,
+                                    start: start,
+                                    end: end,
+                                    color: descricaoCorIngles,
+                                    imageurl: "../public/img/informacoes.png"
+                                };
+                                var valorBoolean = verifyDates(start, end, ambienteEvento);
+                                alert(valorBoolean);
+                                if (valorBoolean == true) {
+                                    var eventoTipoRepeticao = 1;
+                                    var nomeProfessor = $(".nomeProfessor").val();
+                                    if ((idAula == 1) && (nomeProfessor == "")) {
+                                        $("#modalCamposNulos").modal();
+                                        $("#modalCamposNulos").modal('open');
+                                    } else {
+                                        if ($("#input1").is(":checked")) {
+                                            if (insertEventoSelecionado(nomeEvento, solicitanteEvento, tipoEvento, blocoEvento, ambienteEvento, corEvento, eventoTipoRepeticao, idAula, title, start, end) == true) {
+                                                var valorIdEvento = getEventByAmbienteAndStartAndEnd(ambienteEvento, start, end);
+                                                if (valorIdEvento != 0) {
+                                                    var valorCheck = $("#input1").val();
+                                                    insertInTabelEventEquipamentUsed(valorIdEvento, valorCheck, "-");
+                                                    if (idAula == 1) {
+                                                        insertIntoTableAulaDetalhes(valorIdEvento, idAula, nomeProfessor);
+                                                    }
+                                                    start = null;
+                                                    end = null;
+                                                }
+                                                $("#modalAdicionarEventoClickDay").modal('close');
+                                            }
+                                        } else {
+                                            var errorCampoNulo = 0;
+                                            $(".getQtd").each(function () {
+                                                var qtdEquipamento = $(this).val();
+                                                if (qtdEquipamento == "") {
+                                                    errorCampoNulo++;
+                                                }
+                                            });
+                                            if (errorCampoNulo != 0) {
+                                                $("#modalCamposNulos").modal();
+                                                $("#modalCamposNulos").modal('open');
+                                            } else {
+                                                if (insertEventoSelecionado(nomeEvento, solicitanteEvento, tipoEvento, blocoEvento, ambienteEvento, corEvento, eventoTipoRepeticao, idAula, title, start, end) == true) {
+                                                    var valorIdEvento = getEventByAmbienteAndStartAndEnd(ambienteEvento, start, end);
+                                                    $(".getQtd").each(function () {
+                                                        if (valorIdEvento != 0) {
+                                                            var valorEquipamento = $(this).attr('id');
+                                                            var qtdEquipamento = $(this).val();
+                                                            insertInTabelEventEquipamentUsed(valorIdEvento, valorEquipamento, qtdEquipamento);
+                                                        }
+                                                    });
+                                                    if (idAula == 1) {
+                                                        insertIntoTableAulaDetalhes(valorIdEvento, idAula, nomeProfessor);
+                                                    }
+                                                    start = null;
+                                                    end = null;
+                                                    $("#modalAdicionarEventoClickDay").modal('close');
+                                                }
+                                            }
+                                        }
+                                        location.reload();
+                                    }
+                                } else {
+                                    $("#modalDatasIguais").modal();
+                                    $("#modalDatasIguais").modal('open');
+                                }
+
+                            } else {
+                                $("#modalCheckNulo").modal();
+                                $("#modalCheckNulo").modal('open');
+                            }
+//                            $('#calendar').fullCalendar('renderEvent', eventData, true); // stick? = true
                         } else {
                             $("#modalCamposNulos").modal();
                             $("#modalCamposNulos").modal("open");
                         }
-
-
                     });
                     $(".buttonCancel").click(function () {
                         $("#modalAdicionarEventoClickDay").modal('close');
@@ -205,7 +222,8 @@ $(function () {
                                     title: dados[i].descricaoEvento,
                                     start: dados[i].dataInicioEvento,
                                     end: dados[i].dataFimEvento,
-                                    color: dados[i].colorDescricaoEvento
+                                    color: dados[i].colorDescricaoEvento,
+                                    imageurl: '../public/img/update.png'
                                 });
                             }
                             callback(events);
@@ -213,7 +231,6 @@ $(function () {
                             $("#modalEventoNulo").modal();
                             $("#modalEventoNulo").modal("open");
                         }
-
                     }
                 });
             },
@@ -233,222 +250,25 @@ $(function () {
                         pickDataFim();
                         pickHoraInicio();
                         pickHoraFim();
-                        getColorEvento();
                         getSetor();
+                        getColorEvento();
                         getBlocoBySetorModalUpdate();
                         getAmbienteByBlocoModalUpdate();
                         updateEventById(event.id);
                     }
                 });
-//                event.title = "CLICKED!";
-                //Abrir Modal e mostrar parâmetros pra pessoa digitar e atualizar o evento
                 $('#calendar').fullCalendar('updateEvent', event);
             },
-            eventRender: function (event, eventElement) {
-
+            eventRender: function (event, eventElement, element) {
+                if (event.imageurl) {
+                    eventElement.find("div.fc-content").prepend("<img src='" + event.imageurl + "' class='eventImg'>");
+                }
             },
             defaultView: "agendaWeek"
         });
         $(".fc-axis.fc-widget-header").append("<a href='#'>IFCE</a>");
     }
 
-    function calendarUser(idAmbiente, idBloco, idSetor) {
-        $('#calendarUser').fullCalendar('destroy');
-        $('#calendarUser').fullCalendar({
-            monthNames: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro',
-                'Outubro', 'Novembro', 'Dezembro'],
-            monthNamesShort: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Aug', 'Set', 'Out', 'Nov', 'Dez'],
-            dayNames: ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'],
-            dayNamesShort: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab'],
-            lang: 'pt-br',
-            locale: 'pt-br',
-            timeFormat: 'HH:mm',
-            buttonText: {
-                today: 'Hoje',
-                month: 'Mês',
-                week: 'Semana',
-                day: 'Dia'
-            },
-            header: {
-                left: 'prev,next today',
-                center: 'title',
-                right: 'month,agendaDay'
-            },
-            navLinks: true,
-            selectable: true,
-            selectHelper: true,
-            editable: false,
-            eventLimit: false,
-            dayClick: function (date, jsEvent, view) {
-                console.log("Clicou no dia: " + date.format("DD/MM/YYYY"));
-            },
-            allDayText: 'Dia Inteiro',
-            minTime: '07:00:00',
-            maxTime: '20:30:00',
-            slotDuration: '00:30:00',
-            slotLabelInterval: 30,
-            slotLabelFormat: 'HH:mm',
-            slotMinutes: 30,
-            events: function (start, end, timezone, callback) {
-                $.ajax({
-                    url: controllerToUser,
-                    type: 'POST',
-                    data: {
-                        action: "EventoLogica.getEventoByAmbiente",
-                        idAmbiente: idAmbiente,
-                        idBloco: idBloco,
-                        idSetor: idSetor
-                    },
-                    success: function (data) {
-                        var events = [];
-                        dados = $.parseJSON(data);
-                        if (dados.length != 0) {
-                            for (var i = 0; i < dados.length; i++) {
-                                events.push({
-                                    id: dados[i].idEvento,
-                                    title: dados[i].descricaoEvento,
-                                    start: dados[i].dataInicioEvento,
-                                    end: dados[i].dataFimEvento,
-                                    color: dados[i].colorDescricaoEvento
-                                });
-                            }
-                            callback(events);
-                        } else {
-                            $("#modalEventoNulo").modal();
-                            $("#modalEventoNulo").modal("open");
-                        }
-                    }
-                });
-            },
-            eventClick: function (event, element) {
-                $.ajax({
-                    url: controllerToUser,
-                    type: 'POST',
-                    data: {
-                        action: "EventoLogica.getEventByIdPageUser",
-                        idEvento: event.id
-                    }, success: function (data, textStatus, jqXHR) {
-                        $("#modalInformationEvent").modal();
-                        $("#modalInformationEvent").modal('open');
-                        $("#contentInformationEvent").html(data);
-                        $('.tabs#tabs-user').tabs();
-                        $("select").material_select();
-                    }
-                });
-//                event.title = "CLICKED!";
-                //Abrir Modal e mostrar parâmetros pra pessoa digitar e atualizar o evento
-//                $('#calendar').fullCalendar('updateEvent', event);
-            }
-        });
-    }
-
-    function pickDataInicio() {
-        $('.dataInicio').pickadate({
-            selectMonths: true,
-            selectYears: 15,
-            // Título dos botões de navegação
-            labelMonthNext: 'Próximo Mês',
-            labelMonthPrev: 'Mês Anterior',
-            // Título dos seletores de mês e ano
-            labelMonthSelect: 'Selecione o Mês',
-            labelYearSelect: 'Selecione o Ano',
-            // Meses e dias da semana
-            monthsFull: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],
-            monthsShort: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'],
-            weekdaysFull: ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'],
-            weekdaysShort: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab'],
-            // Letras da semana
-            weekdaysLetter: ['D', 'S', 'T', 'Q', 'Q', 'S', 'S'],
-            //Botões
-            today: 'Hoje',
-            clear: 'Limpar',
-            close: 'Confirmar',
-            // Formato da data que aparece no input
-            format: 'dd/mm/yyyy',
-            formatSubmit: 'yyyy-mm-dd',
-            min: hoje,
-            // Dia possível de ser marcado
-            onClose: function () {
-                $(document.activeElement).blur();
-            }
-        });
-    }
-
-    function pickDataFim() {
-        $('.dataFim').pickadate({
-            selectMonths: true,
-            selectYears: 15,
-            // Título dos botões de navegação
-            labelMonthNext: 'Próximo Mês',
-            labelMonthPrev: 'Mês Anterior',
-            // Título dos seletores de mês e ano
-            labelMonthSelect: 'Selecione o Mês',
-            labelYearSelect: 'Selecione o Ano',
-            // Meses e dias da semana
-            monthsFull: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],
-            monthsShort: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'],
-            weekdaysFull: ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'],
-            weekdaysShort: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab'],
-            // Letras da semana
-            weekdaysLetter: ['D', 'S', 'T', 'Q', 'Q', 'S', 'S'],
-            //Botões
-            today: 'Hoje',
-            clear: 'Limpar',
-            close: 'Confirmar',
-            // Formato da data que aparece no input
-            format: 'dd/mm/yyyy',
-            formatSubmit: 'yyyy-mm-dd',
-            min: hoje,
-            // Dia possível de ser marcado
-            onClose: function () {
-                $(document.activeElement).blur();
-            }
-        });
-    }
-
-    function pickHoraInicio() {
-        $('.horaInicio').pickatime({
-            default: 'now', horaAtual, // Set default time: 'now', '1:30AM', '16:30'
-            fromnow: 0, // set default time to * milliseconds from now (using with default = 'now')
-            twelvehour: false, // Use AM/PM or 24-hour format
-            donetext: 'OK', // text for done-button
-            cleartext: 'Clear', // text for clear-button
-            canceltext: 'Cancel', // Text for cancel-button
-            autoclose: false, // automatic close timepicker
-            ampmclickable: true, // make AM PM clickable
-            aftershow: function () {} //Function for after opening timepicker
-        });
-    }
-
-    function pickHoraFim() {
-        $('.horaFim').pickatime({
-            default: 'now', horaAtual, // Set default time: 'now', '1:30AM', '16:30'
-            fromnow: 0, // set default time to * milliseconds from now (using with default = 'now')
-            twelvehour: false, // Use AM/PM or 24-hour format
-            donetext: 'OK', // text for done-button
-            cleartext: 'Clear', // text for clear-button
-            canceltext: 'Cancel', // Text for cancel-button
-            autoclose: false, // automatic close timepicker
-            ampmclickable: true, // make AM PM clickable
-            aftershow: function () {} //Function for after opening timepicker
-        });
-    }
-    $(".repeatSwitch").each(function () {
-        $(this).on("click", function () {
-            $(this).siblings().removeClass("active_repeat");
-            $(this).addClass("active_repeat");
-            console.log($(this).attr('id'));
-        });
-    });
-
-    $("select[name=escolhaAula]").change(function () {
-        var valorSelect = $(this).val();
-        if (valorSelect == 2) {
-            $(".DivInputProfessor").hide(1000);
-        } else {
-            $(".DivInputProfessor").show(1000);
-        }
-    });
     $(".openModalAdicionarEvento").click(function () {
         $(".dataInicio").removeAttr("disabled");
         $(".dataFim").removeAttr("disabled");
@@ -463,28 +283,242 @@ $(function () {
             }
         });
         $("#modalAdicionarEventoClickDay").modal('open');
-        insertEvento();
+        isNumeric();
+        habilitarQutdSolicitada();
+        verifyCheck();
+        verifyCampos();
     });
 
-    function getBlocoBySetorPageUser() {
-        $(".sel-tipo-evento-pesquisa").change(function () {
-            $("#sel-ambiente-pesquisa").empty();
-            $("#sel-ambiente-pesquisa").append('<option value="" disabled selected>Escolha sua opção</option>');
-            $("#sel-ambiente-pesquisa").material_select();
-            var valorTipoEvento = $(this).val();
-            $.ajax({
-                url: controllerToUser,
-                type: "POST",
-                data: {
-                    action: "BlocoLogica.getBlocoBySetor",
-                    valorTipoEvento: valorTipoEvento
-                },
-                success: function (data) {
-                    $("#sel-bloco-pesquisa").empty();
-                    $("#sel-bloco-pesquisa").append(data);
-                    $("#sel-bloco-pesquisa").material_select();
-                }
+    function pickDataInicio() {
+        $('.dataInicio').pickadate({
+            selectMonths: true,
+            selectYears: 15,
+            labelMonthNext: 'Próximo Mês',
+            labelMonthPrev: 'Mês Anterior',
+            labelMonthSelect: 'Selecione o Mês',
+            labelYearSelect: 'Selecione o Ano',
+            monthsFull: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],
+            monthsShort: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'],
+            weekdaysFull: ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'],
+            weekdaysShort: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab'],
+            weekdaysLetter: ['D', 'S', 'T', 'Q', 'Q', 'S', 'S'],
+            today: 'Hoje',
+            clear: 'Limpar',
+            close: 'Confirmar',
+            format: 'dd/mm/yyyy',
+            formatSubmit: 'yyyy-mm-dd',
+            min: hoje,
+            onClose: function () {
+                $(document.activeElement).blur();
+            }
+        });
+    }
+
+    function pickDataFim() {
+        $('.dataFim').pickadate({
+            selectMonths: true,
+            selectYears: 15,
+            labelMonthNext: 'Próximo Mês',
+            labelMonthPrev: 'Mês Anterior',
+            labelMonthSelect: 'Selecione o Mês',
+            labelYearSelect: 'Selecione o Ano',
+            monthsFull: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],
+            monthsShort: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'],
+            weekdaysFull: ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'],
+            weekdaysShort: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab'],
+            weekdaysLetter: ['D', 'S', 'T', 'Q', 'Q', 'S', 'S'],
+            today: 'Hoje',
+            clear: 'Limpar',
+            close: 'Confirmar',
+            format: 'dd/mm/yyyy',
+            formatSubmit: 'yyyy-mm-dd',
+            min: hoje,
+            onClose: function () {
+                $(document.activeElement).blur();
+            }
+        });
+    }
+
+    function pickHoraInicio() {
+        $('.horaInicio').pickatime({
+            default: 'now', horaAtual,
+            fromnow: 0,
+            twelvehour: false,
+            donetext: 'OK',
+            cleartext: 'Clear',
+            canceltext: 'Cancel',
+            autoclose: false,
+            ampmclickable: true,
+            aftershow: function () {}
+        });
+    }
+
+    function pickHoraFim() {
+        $('.horaFim').pickatime({
+            default: 'now', horaAtual,
+            fromnow: 0,
+            twelvehour: false,
+            donetext: 'OK',
+            cleartext: 'Clear',
+            canceltext: 'Cancel',
+            autoclose: false,
+            ampmclickable: true,
+            aftershow: function () {}
+        });
+    }
+
+    $("select[name=aula]").change(function () {
+        var valorSelect = $(this).val();
+        if (valorSelect == 2) {
+            $(".nomeProfessor").attr("disabled", "disabled");
+        } else {
+            $(".nomeProfessor").removeAttr("disabled");
+        }
+    });
+
+    function verifyCampos() {
+        $(".buttonOkay").click(function () {
+            var ano = hoje.getFullYear();
+            var mes = hoje.getMonth() + 1;
+            var dia = hoje.getDate();
+            var hora = hoje.getHours();
+            var minutos = hoje.getMinutes();
+            var segundos = hoje.getSeconds();
+            var hojeFormatada = ano + "-" + mes + "-" + dia + " " + hora + ":" + minutos + ":" + segundos;
+            var nomeEvento = $(".nomeEvento").val();
+            var solicitanteEvento = $(".solicitante").val();
+            var tipoEvento = $("#sel-tipo-evento").val();
+            var blocoEvento = $("#sel-bloco").val();
+            var ambienteEvento = $("#sel-ambiente").val();
+            var corEvento = $("#sel-color").val();
+            var idAula = $("#sel-aula").val();
+            var tipoRepeticao = $("#sel-tip-repeticao").val();
+            var descricaoEvento = $(".descricaoEvento").val();
+            var dataInicio = $(".dataInicio").val();
+            var horaInicio = $(".horaInicio").val();
+            var dataFim = $(".dataFim").val();
+            var horaFim = $(".horaFim").val();
+            var contadorInput = 0;
+            var contadorSelect = 0;
+            $("#form_add_event input:enabled").each(function () {
+                $(this).val() == "" ? contadorInput++ : "";
             });
+            $("#form_add_event select").each(function () {
+                $(this).val() == null ? contadorSelect++ : "";
+            });
+            if ((contadorInput == 0) && (contadorSelect == 0)) {
+                var inicio = dataInicio.substr(6, 4) + "-" + dataInicio.substr(3, 2) + "-" + dataInicio.substr(0, 2) + " " + horaInicio;
+                var fim = dataFim.substr(6, 4) + "-" + dataFim.substr(3, 2) + "-" + dataFim.substr(0, 2) + " " + horaFim;
+                if (inicio < hojeFormatada) {
+                    $("#modalDataAnterior").modal();
+                    $("#modalDataAnterior").modal('open');
+                } else {
+                    if (inicio > fim) {
+                        $("#modalDataInicioMaiorQueFinal").modal();
+                        $("#modalDataInicioMaiorQueFinal").modal('open');
+                    } else {
+                        var valorBoolean = verifyDates(inicio, fim, ambienteEvento);
+                        if (valorBoolean == true) {
+                            if ($(".idEquipamento").is(":checked")) {
+                                var nomeProfessor = $(".nomeProfessor").val();
+                                if ((idAula == 1) && (nomeProfessor == "")) {
+                                    $("#modalCamposNulos").modal();
+                                    $("#modalCamposNulos").modal('open');
+                                } else {
+                                    if ($("#input1").is(":checked")) {
+                                        if (insertEventoSelecionado(nomeEvento, solicitanteEvento, tipoEvento, blocoEvento, ambienteEvento, corEvento, tipoRepeticao, idAula, descricaoEvento, inicio, fim) == true) {
+                                            var valorIdEvento = getEventByAmbienteAndStartAndEnd(ambienteEvento, inicio, fim);
+                                            if (valorIdEvento != 0) {
+                                                var valorCheck = $("#input1").val();
+                                                insertInTabelEventEquipamentUsed(valorIdEvento, valorCheck, "-");
+                                                if (idAula == 1) {
+                                                    insertIntoTableAulaDetalhes(valorIdEvento, idAula, nomeProfessor);
+                                                }
+                                            }
+                                            $("#modalAdicionarEventoClickDay").modal('close');
+                                        }
+                                    } else {
+                                        var errorCampoNulo = 0;
+                                        $(".getQtd").each(function () {
+                                            var qtdEquipamento = $(this).val();
+                                            if (qtdEquipamento == "") {
+                                                errorCampoNulo++;
+                                            }
+                                        });
+                                        if (errorCampoNulo != 0) {
+                                            $("#modalCamposNulos").modal();
+                                            $("#modalCamposNulos").modal('open');
+                                        } else {
+                                            if (insertEventoSelecionado(nomeEvento, solicitanteEvento, tipoEvento, blocoEvento, ambienteEvento, corEvento, tipoRepeticao, idAula, descricaoEvento, inicio, fim) == true) {
+                                                var valorIdEvento = getEventByAmbienteAndStartAndEnd(ambienteEvento, inicio, fim);
+                                                $(".getQtd").each(function () {
+                                                    if (valorIdEvento != 0) {
+                                                        var valorEquipamento = $(this).attr('id');
+                                                        var qtdEquipamento = $(this).val();
+                                                        insertInTabelEventEquipamentUsed(valorIdEvento, valorEquipamento, qtdEquipamento);
+                                                    }
+                                                });
+                                                if (idAula == 1) {
+                                                    insertIntoTableAulaDetalhes(valorIdEvento, idAula, nomeProfessor);
+                                                }
+                                                $("#modalAdicionarEventoClickDay").modal('close');
+                                            }
+                                        }
+                                    }
+                                    location.reload();
+                                }
+                            } else {
+                                $("#modalCheckNulo").modal();
+                                $("#modalCheckNulo").modal('open');
+                            }
+                        } else {
+                            $("#modalDatasIguais").modal();
+                            $("#modalDatasIguais").modal('open');
+                        }
+                    }
+
+                }
+//                            $('#calendar').fullCalendar('renderEvent', eventData, true); // stick? = true
+            } else {
+                $("#modalCamposNulos").modal();
+                $("#modalCamposNulos").modal("open");
+            }
+
+        });
+        $(".buttonCancel").click(function () {
+            $("#modalAdicionarEventoClickDay").modal('close');
+        });
+    }
+
+    function getSetor() {
+        $.ajax({
+            url: controllerToAdmin,
+            type: "POST",
+            data: {
+                action: "SetorLogica.getSetor"
+            },
+            success: function (data) {
+                $("#sel-tipo-evento").html(data);
+                $("#sel-tipo-evento-pesquisa").html(data);
+                $("#sel-tipo-evento-update").html(data);
+                $("select").material_select();
+            }
+        });
+    }
+
+    function getColorEvento() {
+        $.ajax({
+            url: controllerToAdmin,
+            type: "POST",
+            data: {
+                action: "CorEventoLogica.getColorEvento"
+            },
+            success: function (data) {
+                $("#sel-color").html(data);
+                $("#sel-color").material_select();
+                $("#sel-color-update").html(data);
+                $("#sel-color-update").material_select();
+            }
         });
     }
 
@@ -529,6 +563,7 @@ $(function () {
             });
         });
     }
+
     function getAmbienteByBloco() {
         $(".sel-bloco").change(function () {
             var valorBloco = $(this).val();
@@ -565,24 +600,6 @@ $(function () {
         });
     }
 
-    function getAmbienteByBlocoPageUser() {
-        $(".sel-bloco-pesquisa").change(function () {
-            var valorBloco = $(this).val();
-            $.ajax({
-                url: controllerToUser,
-                type: "POST",
-                data: {
-                    action: "AmbienteLogica.getAmbienteByBloco",
-                    valorBloco: valorBloco
-                },
-                success: function (data) {
-                    $("#sel-ambiente-pesquisa").empty();
-                    $("#sel-ambiente-pesquisa").append(data);
-                    $("#sel-ambiente-pesquisa").material_select();
-                }
-            });
-        });
-    }
     function getBlocoBySetorModalUpdate() {
         $(".sel-tipo-evento-update").change(function () {
             $("#sel-ambiente-update").empty();
@@ -605,6 +622,7 @@ $(function () {
         });
 
     }
+
     function getAmbienteByBlocoModalUpdate() {
         $(".sel-bloco-update").change(function () {
             var valorBloco = $(this).val();
@@ -623,20 +641,20 @@ $(function () {
             });
         });
     }
+
     $(".sel-ambiente-pesquisa").change(function () {
         var idAmbiente = $("#sel-ambiente-pesquisa").val();
         var idBloco = $("#sel-bloco-pesquisa").val();
         var idSetor = $("#sel-tipo-evento-pesquisa").val();
-        if (pagina == "admin") {
-            calendarAdmin(idAmbiente, idBloco, idSetor);
-        } else {
-            calendarUser(idAmbiente, idBloco, idSetor);
-        }
+        calendarAdmin(idAmbiente, idBloco, idSetor);
     });
-    function insertEventoSelecionado(nomeEvento, solicitanteEvento, tipoEvento, blocoEvento, ambienteEvento, corEvento, title, start, end) {
+
+    function insertEventoSelecionado(nomeEvento, solicitanteEvento, tipoEvento, blocoEvento, ambienteEvento, corEvento, eventoTipoRepeticao, idAula, title, start, end) {
+        var boolean;
         $.ajax({
             type: "POST",
             url: controllerToAdmin,
+            async: false,
             data: {
                 action: "EventoLogica.insertEventoSelecionado",
                 nomeEvento: nomeEvento,
@@ -644,12 +662,51 @@ $(function () {
                 ambienteEvento: ambienteEvento,
                 descricaoEvento: title,
                 corEvento: corEvento,
+                eventoTipoRepeticao: eventoTipoRepeticao,
+                idAula: idAula,
                 dataInicioEvento: start,
                 dataFimEvento: end
             }, success: function (data, textStatus, jqXHR) {
-                location.reload();
+                boolean = true;
             }
         });
+        return boolean;
+    }
+
+    function insertIntoTableAulaDetalhes(valorIdEvento, idAula, nomeProfessor) {
+        $.ajax({
+            url: controllerToAdmin,
+            type: 'POST',
+            data: {
+                action: 'EventoLogica.insertIntoTableAulaDetalhes',
+                valorIdEvento: valorIdEvento,
+                idAula: idAula,
+                nomeProfessor: nomeProfessor
+            }, success: function (data, textStatus, jqXHR) {
+//                console.log("Insert deu certo na tabela aulaDetails");
+            }
+        });
+    }
+
+    function getEventByAmbienteAndStartAndEnd(ambienteEvento, start, end) {
+        var eventoId;
+        $.ajax({
+            url: controllerToAdmin,
+            type: 'POST',
+            async: false,
+            data: {
+                action: 'EventoLogica.getEventByAmbienteAndStartAndEnd',
+                ambienteEvento: ambienteEvento,
+                start: start,
+                end: end
+            }, success: function (data, textStatus, jqXHR) {
+                dados = $.parseJSON(data);
+                for (var i = 0; i < dados.length; i++) {
+                    eventoId = dados[i].idEvento;
+                }
+            }
+        });
+        return eventoId;
     }
 
     function updateEventById(idEvento) {
@@ -677,7 +734,7 @@ $(function () {
                     $("#modalDataInicioMaiorQueFinal").modal();
                     $("#modalDataInicioMaiorQueFinal").modal('open');
                 } else {
-                    if (verifyDates(dataInicioUtilizada, dataFimUtilizada, ambienteEvento) == true) {
+                    if (verifyDatesToUpdate(dataInicioUtilizada, dataFimUtilizada, ambienteEvento, idEvento) == true) {
                         $.ajax({
                             url: controllerToAdmin,
                             type: 'POST',
@@ -705,14 +762,13 @@ $(function () {
                 }
             }
         });
-
         $(".buttonCancel").click(function () {
             $("#modalUpdateEvent").modal('close');
         });
     }
 
     function verifyDates(dataInicioUtilizada, dataFimUtilizada, ambienteEvento) {
-        var boolean = true;
+        var boolean;
         $.ajax({
             url: controllerToAdmin,
             type: 'POST',
@@ -724,11 +780,41 @@ $(function () {
                 ambienteEvento: ambienteEvento
             }, success: function (data, textStatus, jqXHR) {
                 dados = $.parseJSON(data);
-                console.log(dados.length);
                 if (dados.length == 0) {
                     boolean = true;
                 } else {
                     boolean = false;
+                }
+            }
+        });
+        return boolean;
+    }
+
+    function verifyDatesToUpdate(dataInicioUtilizada, dataFimUtilizada, ambienteEvento, idEvento) {
+        var boolean;
+        $.ajax({
+            url: controllerToAdmin,
+            type: 'POST',
+            async: false,
+            data: {
+                action: "EventoLogica.verifyDates",
+                dataInicio: dataInicioUtilizada,
+                dataFim: dataFimUtilizada,
+                ambienteEvento: ambienteEvento
+            }, success: function (data, textStatus, jqXHR) {
+                dados = $.parseJSON(data);
+                if (dados.length == 0) {
+                    boolean = true;
+                } else {
+                    var retorno = 0;
+                    for (var i = 0; i < dados.length; i++) {
+                        retorno = dados[i].idEvento;
+                    }
+                    if (retorno == idEvento) {
+                        boolean = true;
+                    } else {
+                        boolean = false;
+                    }
                 }
             }
         });
@@ -753,26 +839,188 @@ $(function () {
         });
         return descricao;
     }
-    if (pagina == "admin") {
-        $('#tabs-swipe-demo.tabs').tabs();
-        $("#nao").addClass("active_repeat");
-        getSetor();
-        calendarAdmin(1, 1, 1);
-        pickDataInicio();
-        pickDataFim();
-        pickHoraInicio();
-        pickHoraFim();
-        getBlocoBySetor();
-        getAmbienteByBloco();
-        getColorEvento();
-    } else {
-        getSetorPageUser();
-        calendarUser(1, 1, 1);
-        pickDataInicio();
-        pickDataFim();
-        pickHoraInicio();
-        pickHoraFim();
-        getBlocoBySetorPageUser();
-        getAmbienteByBlocoPageUser();
+
+    function getEquipamentos() {
+        $.ajax({
+            url: controllerToAdmin,
+            type: 'POST',
+            data: {
+                action: 'EquipamentoLogica.getEquipamentos'
+            }, success: function (data, textStatus, jqXHR) {
+                $(".equipamento").html(data);
+            }
+        });
     }
+
+    function getAula() {
+        $.ajax({
+            url: controllerToAdmin,
+            type: 'POST',
+            data: {
+                action: 'AulaLogica.getAula'
+            }, success: function (data, textStatus, jqXHR) {
+                $("#sel-aula").append(data);
+                $("#sel-aula").material_select();
+            }
+        });
+    }
+
+    function getTipoRepeticao() {
+        $.ajax({
+            url: controllerToAdmin,
+            type: 'POST',
+            data: {
+                action: 'TipoRepeticaoLogica.getTipoRepeticao'
+            }, success: function (data, textStatus, jqXHR) {
+                $("#sel-tip-repeticao").append(data);
+                $("#sel-tip-repeticao").material_select();
+            }
+        });
+    }
+
+    function isNumeric() {
+        $(".txt-quantidade-solicitada").on("keypress keyup blur", function (event) {
+            $(this).val($(this).val().replace(/[^0-9\.]/g, ''));
+            if ((event.which != 46 || $(this).val().indexOf('.') != -1) && (event.which < 48 || event.which > 57)) {
+                event.preventDefault();
+            }
+        });
+    }
+
+    function compararQtdSolicitadaComQtdDisponivel() {
+        $(".txt-quantidade-solicitada").on("keyup", function () {
+            var idEquipamento = $(this).attr('id');
+            var qtdSolicitada = $(this).val();
+            $.ajax({
+                url: controllerToAdmin,
+                type: 'POST',
+                data: {
+                    action: 'EquipamentoLogica.verifyQtdSolicitadaByIdEquipamento',
+                    idEquipamento: idEquipamento
+
+                }, success: function (data, textStatus, jqXHR) {
+                    dados = $.parseJSON(data);
+                    console.log("Id Equipamento : " + dados.idEquipamento);
+                    if (qtdSolicitada <= dados.qtdDisponivel || dados.qtdDisponivel >= qtdSolicitada) {
+                        console.log("Quantidade solicitada: " + qtdSolicitada);
+                        console.log("Quantidade disponível do Equipamento: " + dados.qtdDisponivel);
+                    } else {
+                        $(".txt-quantidade-solicitada").val($(".txt-quantidade-solicitada").val().replace(/,/g, ""));
+                    }
+//                            updateQtdDisponivelByQtdSolicitada(valorDigitado, dados.idEquipamento, dados.qtdDisponivel);
+
+                }
+            });
+        });
+
+    }
+
+//    function updateQtdDisponivelByQtdSolicitada(qtdSolicitada, idEquipamento, qtdDisponivel) {
+//        var valorDisponivelAtual = qtdDisponivel - qtdSolicitada;
+//        $.ajax({
+//            url: controllerToAdmin,
+//            type: 'POST',
+//            data: {
+//                action: 'EquipamentoLogica.updateQtdDisponivelByIdEquipamento',
+//                idEquipamento: idEquipamento,
+//                qtdDisponivelAtual: valorDisponivelAtual
+//            }, success: function (data, textStatus, jqXHR) {
+//                getEquipamentos();
+//                $("#"+idEquipamento).val(qtdSolicitada);
+//                $("#"+idEquipamento).removeAttr('disabled');
+//                console.log("Deu certo");
+//            }
+//        });
+//    }
+
+    function habilitarQutdSolicitada() {
+        $(".idEquipamento").click(function () {
+            var valor = $(this).val();
+            if (valor == 1) {
+                $(this).each(function () {
+                    $('.txt-quantidade-solicitada').each(function () {
+                        var valorIdInput = $(this).attr('id');
+                        if (valor == valorIdInput) {
+                            $(this).attr('disabled', 'disabled');
+                            $(this).removeClass('getQtd');
+                        }
+                    });
+                });
+            } else {
+                if ($(this).prop('checked')) {
+                    $(this).each(function () {
+                        var check = $(this).val();
+                        $('.txt-quantidade-solicitada').each(function () {
+                            var valorIdInput = $(this).attr('id');
+                            if (check == valorIdInput) {
+                                $(this).removeAttr('disabled');
+                                $(this).addClass('getQtd');
+                            }
+                        });
+                    });
+                } else {
+                    $(this).each(function () {
+                        var check = $(this).val();
+                        $('.txt-quantidade-solicitada').each(function () {
+                            var valorIdInput = $(this).attr('id');
+                            if (check == valorIdInput) {
+                                $(this).attr('disabled', 'disabled');
+                                $(this).removeClass('getQtd');
+                            }
+                        });
+                    });
+
+                }
+            }
+        });
+    }
+
+    function verifyCheck() {
+        $(".idEquipamento").click(function () {
+            var valorClicado = $(this).val();
+            if (valorClicado == 1) {
+                $("input:checked").each(function () {
+                    $(this).prop("checked", false);
+                });
+                $(".txt-quantidade-solicitada").attr('disabled', 'disabled');
+                $("#input" + valorClicado).prop("checked", true);
+            } else {
+                $("#input1").prop("checked", false);
+                if ($("#input" + valorClicado).is(":checked")) {
+                    $(this).prop("checked", true);
+                } else {
+                    $(this).prop("checked", false);
+                }
+            }
+        });
+
+    }
+
+    function insertInTabelEventEquipamentUsed(valorIdEvento, idEquipamento, qtdEquipamento) {
+        $.ajax({
+            url: controllerToAdmin,
+            type: 'POST',
+            data: {
+                action: 'EventoLogica.insertInTabelEventEquipamentUsed',
+                valorIdEvento: valorIdEvento,
+                idEquipamento: idEquipamento,
+                qtdEquipamento: qtdEquipamento
+            }, success: function (data, textStatus, jqXHR) {
+//                console.log("Acessou a função");
+            }
+        });
+    }
+    $('#tabs-swipe-demo.tabs').tabs();
+    getSetor();
+    calendarAdmin(1, 1, 1);
+    pickDataInicio();
+    pickDataFim();
+    pickHoraInicio();
+    pickHoraFim();
+    getBlocoBySetor();
+    getAmbienteByBloco();
+    getColorEvento();
+    getEquipamentos();
+    getAula();
+    getTipoRepeticao();
 });

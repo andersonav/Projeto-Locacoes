@@ -47,8 +47,10 @@ class EventoLogica {
         $dataFimEvento = $_REQUEST['dataFimEvento'];
         $ambienteEvento = $_REQUEST['ambienteEvento'];
         $corEvento = $_REQUEST['corEvento'];
-
-        $insert = EventoDao::getInstance()->insertEventoSelecionado($nomeEvento, $descricaoEvento, $solicitanteEvento, $dataInicioEvento, $dataFimEvento, $ambienteEvento, $corEvento);
+        $eventoTipoRepeticao = $_REQUEST['eventoTipoRepeticao'];
+        $idAula = $_REQUEST['idAula'];
+        
+        $insert = EventoDao::getInstance()->insertEventoSelecionado($nomeEvento, $descricaoEvento, $solicitanteEvento, $dataInicioEvento, $dataFimEvento, $ambienteEvento, $corEvento, $eventoTipoRepeticao, $idAula);
         if ($insert) {
             return true;
         } else {
@@ -61,7 +63,7 @@ class EventoLogica {
 
         return EventoView::getInstance()->htmlModalToUpdateEvent(EventoDao::getInstance()->getEventById($idEvento));
     }
-    
+
     public function getEventByIdPageUser() {
         $idEvento = $_REQUEST['idEvento'];
 
@@ -89,6 +91,30 @@ class EventoLogica {
         $ambienteEvento = $_REQUEST['ambienteEvento'];
 
         return EventoView::getInstance()->jsonVerifyDates(EventoDao::getInstance()->verifyDates($dataInicio, $dataFim, $ambienteEvento));
+    }
+
+    public function getEventByAmbienteAndStartAndEnd() {
+        $ambienteEvento = $_REQUEST['ambienteEvento'];
+        $start = $_REQUEST['start'];
+        $end = $_REQUEST['end'];
+
+        return EventoView::getInstance()->jsonEventByAmbienteAndStartAndEnd(EventoDao::getInstance()->getEventByAmbienteAndStartAndEnd($ambienteEvento, $start, $end));
+    }
+
+    public function insertInTabelEventEquipamentUsed() {
+        $valorIdEvento = $_REQUEST['valorIdEvento'];
+        $idEquipamento = $_REQUEST['idEquipamento'];
+        $qtdEquipamento = $_REQUEST['qtdEquipamento'];
+
+        return EventoDao::getInstance()->insertInTabelEventEquipamentUsed($valorIdEvento, $idEquipamento, $qtdEquipamento);
+    }
+
+    public function insertIntoTableAulaDetalhes() {
+        $valorIdEvento = $_REQUEST['valorIdEvento'];
+        $idAula = $_REQUEST['idAula'];
+        $nomeProfessor = $_REQUEST['nomeProfessor'];
+
+        return EventoDao::getInstance()->insertIntoTableAulaDetalhes($valorIdEvento, $idAula, $nomeProfessor);
     }
 
 }

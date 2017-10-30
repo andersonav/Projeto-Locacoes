@@ -2,8 +2,9 @@
 <html>
     <head>
         <meta charset='utf-8' />
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.1/css/materialize.min.css">
+        <!--        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.1/css/materialize.min.css">-->
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <link href="public/css/materialize.min.css" rel="stylesheet" />
         <link href='public/css/fullcalendar.min.css' rel='stylesheet' />
         <link href='public/css/fullcalendar.print.min.css' rel='stylesheet' media='print' />
         <link href='public/css/nav_footer.css' rel='stylesheet' />
@@ -14,8 +15,9 @@
         <script src='public/js/fullcalendar.min.js'></script>
         <script src='public/js/locale-all.js'></script>
         <script src='public/js/locale/pt-br.js'></script>
-        <script src='public/js/app.js'></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.1/js/materialize.min.js"></script>
+        <script src='public/js/app_user.js'></script>
+        <script src='public/js/materialize.min.js'></script>
+        <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.1/js/materialize.min.js"></script>-->
     </head>
     <body>
         <nav>
@@ -79,10 +81,10 @@
                     <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Fechar</a>
                 </div>
             </div>
-             <div id="modalInformationEvent" class="modal">
+            <div id="modalInformationEvent" class="modal">
                 <div class="modal-content" id="contentInformationEvent">
-<!--                    <h4>Alerta</h4>
-                    <p>Por favor preencha todos os campos!</p>-->
+                    <!--                    <h4>Alerta</h4>
+                                        <p>Por favor preencha todos os campos!</p>-->
                 </div>
                 <div class="modal-footer">
                     <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Fechar</a>

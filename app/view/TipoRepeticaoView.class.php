@@ -6,11 +6,11 @@
  */
 
 /**
- * Description of BlocoView
+ * Description of TipoRepeticaoView
  *
  * @author Anderson Alves
  */
-class BlocoView {
+class TipoRepeticaoView {
 
     private static $instance;
 
@@ -21,18 +21,18 @@ class BlocoView {
     public static function getInstance() {
 
         if (!isset(self::$instance))
-            self::$instance = new BlocoView();
+            self::$instance = new TipoRepeticaoView();
 
         return self::$instance;
     }
 
-    public function htmlSelectBloco($blocos) {
+    public function htmlSelectTipoRepeticao($tipos) {
         ?>
         <option value="" disabled selected>Escolha sua opção</option>
         <?php
-        foreach ($blocos as $bloco) {
+        foreach ($tipos as $tipo) {
             ?>
-            <option value="<?= $bloco->getIdBloco(); ?>"><?= $bloco->getDescricao(); ?></option>
+            <option value="<?= $tipo->getIdTipoRepeticao(); ?>"><?= $tipo->getDescricaoTipoRepeticao(); ?></option>
             <?php
         }
     }

@@ -1,4 +1,5 @@
 <?php
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -6,11 +7,15 @@
  */
 
 /**
- * Description of BlocoView
+ * Description of AulaLogica
  *
  * @author Anderson Alves
  */
-class BlocoView {
+require_once '../autoload.php';
+spl_autoload_register('autoloadDao');
+spl_autoload_register('autoloadView');
+
+class AulaLogica {
 
     private static $instance;
 
@@ -21,20 +26,14 @@ class BlocoView {
     public static function getInstance() {
 
         if (!isset(self::$instance))
-            self::$instance = new BlocoView();
+            self::$instance = new AulaLogica();
 
         return self::$instance;
     }
 
-    public function htmlSelectBloco($blocos) {
-        ?>
-        <option value="" disabled selected>Escolha sua opção</option>
-        <?php
-        foreach ($blocos as $bloco) {
-            ?>
-            <option value="<?= $bloco->getIdBloco(); ?>"><?= $bloco->getDescricao(); ?></option>
-            <?php
-        }
+    public function getAula() {
+        
+        return AulaView::getInstance()->htmlSelectAula(AulaDao::getInstance()->getAula());
     }
 
 }

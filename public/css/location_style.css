@@ -11,6 +11,30 @@ and open the template in the editor.
 body{
     font-family: 'Verdana', 'sans-serif' !important;
 }
+.eventImg{
+    width:20px;
+    height:20px;
+  
+}
+.scroll{
+    overflow: scroll;
+    width: 100%;
+}
+.tabelaEquipamentos {
+    border-collapse: collapse;
+
+}
+.tabelaEquipamentos thead {
+    font-weight: bold;
+}
+.tabelaEquipamentos th {
+    font-weight: normal;
+    text-align: left;
+}
+.tabelaEquipamentos th, .tabelaEquipamentos td {
+    padding: 0.1em 1em;
+    font-weight: bold;
+}
 .corLogo-text {
     color: #006B43 !important;
 }
@@ -98,10 +122,20 @@ h2 {
     font-weight: bold;
     cursor: pointer;
 }
-.fc-state-active, .fc-event-dot, button:focus{
-    background-color: #006B43;
-    color: white;
+button:focus{
+    background-color: #006B43 !important;
+    color: white !important;
+}
+button:active{
+    background-color: #006B43 !important;
+    color: white !important;
 }
 .fc-day-number, .fc-list-heading-main, .fc-list-heading-alt{
     color: #006B43;
+}
+.fc-state-hover {
+    background-position: 0px !important;
+}
+.fc-state-default{
+    background-repeat: inherit !important; 
 }
