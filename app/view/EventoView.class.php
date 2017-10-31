@@ -51,25 +51,19 @@ class EventoView {
                         <input type="text" id="descricaoEvento" class="validate descricaoEvento" data-length="200" maxlength="201" value="<?= $evento->getDescricaoEvento(); ?>" placeholder="Digite a descrição do Evento">
                         <label for="icon_prefix" class="corLogo-text active">Descrição do Evento</label>
                     </div>
-                    <div class="input-field col s12 m3">
-                        <select name="cor" class="sel-color-update" id="sel-color-update">  
-                            <option value="<?= $evento->getColorIdEvento(); ?>"><?= $evento->getColorDescricaoPortEvento(); ?></option>
-                        </select>
-                        <label class="corLogo-text">Cor do Evento: </label>
-                    </div>
-                    <div class="input-field col s12 m3">
+                    <div class="input-field col s12 m4">
                         <select name="tipo" class="sel-tipo-evento-update" id="sel-tipo-evento-update">
                             <option value="<?= $evento->getSetorIdEvento(); ?>"><?= $evento->getSetorDescricaoEvento(); ?></option>
                         </select>
                         <label class="corLogo-text">Tipo de Evento: </label>
                     </div>
-                    <div class="input-field col s12 m3">
+                    <div class="input-field col s12 m4">
                         <select name="bloco" class="sel-bloco-update" id="sel-bloco-update">
                             <option value="<?= $evento->getBlocoIdEvento(); ?>"><?= $evento->getBlocoDescricaoEvento(); ?></option>
                         </select>
                         <label class="corLogo-text">Bloco: </label>
                     </div>
-                    <div class="input-field col s12 m3">
+                    <div class="input-field col s12 m4">
                         <select name="ambiente" class="sel-ambiente-update" id="sel-ambiente-update">
                             <option value="<?= $evento->getAmbienteIdEvento(); ?>"><?= $evento->getAmbienteDescricaoEvento(); ?></option>
                         </select>
@@ -150,25 +144,19 @@ class EventoView {
                         <input id="icon_prefix" type="text" class="validate nomeProfessor" placeholder="" disabled value="<?= $evento->getNomeProfessorEvento(); ?>">
                         <label for="icon_prefix" class="corLogo-text active">Professor:</label>
                     </div>
-                    <div class="input-field col s12 m3">
-                        <select name="cor" class="sel-color-update" id="sel-color-update" disabled>   
-                            <option value="<?= $evento->getColorIdEvento(); ?>"><?= $evento->getColorDescricaoPortEvento(); ?></option>
-                        </select>
-                        <label class="corLogo-text">Cor do Evento: </label>
-                    </div>
-                    <div class="input-field col s12 m3">
+                    <div class="input-field col s12 m4">
                         <select name="tipo" class="sel-tipo-evento-update" id="sel-tipo-evento-update" disabled>
                             <option value="<?= $evento->getSetorIdEvento(); ?>"><?= $evento->getSetorDescricaoEvento(); ?></option>
                         </select>
                         <label class="corLogo-text">Tipo de Evento: </label>
                     </div>
-                    <div class="input-field col s12 m3">
+                    <div class="input-field col s12 m4">
                         <select name="bloco" class="sel-bloco-update" id="sel-bloco-update" disabled>
                             <option value="<?= $evento->getBlocoIdEvento(); ?>"><?= $evento->getBlocoDescricaoEvento(); ?></option>
                         </select>
                         <label class="corLogo-text">Bloco: </label>
                     </div>
-                    <div class="input-field col s12 m3">
+                    <div class="input-field col s12 m4">
                         <select name="ambiente" class="sel-ambiente-update" id="sel-ambiente-update" disabled>
                             <option value="<?= $evento->getAmbienteIdEvento(); ?>"><?= $evento->getAmbienteDescricaoEvento(); ?></option>
                         </select>

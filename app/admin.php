@@ -161,23 +161,18 @@
                                 <input id="icon_prefix" type="text" class="validate nomeProfessor" placeholder="Digite o nome do professor" disabled>
                                 <label for="icon_prefix" class="corLogo-text active">Professor:</label>
                             </div>
-                            <div class="input-field col s12 m3">
-                                <select name="cor" class="sel-color" id="sel-color">
-                                </select>
-                                <label class="corLogo-text">Cor do Evento: </label>
-                            </div>
-                            <div class="input-field col s12 m3">
+                            <div class="input-field col s12 m4">
                                 <select name="tipo" class="sel-tipo-evento" id="sel-tipo-evento">
                                 </select>
                                 <label class="corLogo-text">Tipo: </label>
                             </div>
-                            <div class="input-field col s12 m3">
+                            <div class="input-field col s12 m4">
                                 <select name="bloco" class="sel-bloco" id="sel-bloco">
                                     <option value="" disabled selected>Escolha sua opção</option>
                                 </select>
                                 <label class="corLogo-text">Bloco: </label>
                             </div>
-                            <div class="input-field col s12 m3">
+                            <div class="input-field col s12 m4">
                                 <select name="ambiente" class="sel-ambiente" id="sel-ambiente">
                                     <option value="" disabled selected>Escolha sua opção</option>
                                 </select>

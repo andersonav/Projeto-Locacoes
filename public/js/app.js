@@ -219,10 +219,9 @@ $(function () {
                             for (var i = 0; i < dados.length; i++) {
                                 events.push({
                                     id: dados[i].idEvento,
-                                    title: dados[i].descricaoEvento,
+                                    title: dados[i].nomeEvento,
                                     start: dados[i].dataInicioEvento,
                                     end: dados[i].dataFimEvento,
-                                    color: dados[i].colorDescricaoEvento,
                                     imageurl: '../public/img/update.png'
                                 });
                             }
@@ -251,7 +250,6 @@ $(function () {
                         pickHoraInicio();
                         pickHoraFim();
                         getSetor();
-                        getColorEvento();
                         getBlocoBySetorModalUpdate();
                         getAmbienteByBlocoModalUpdate();
                         updateEventById(event.id);
@@ -506,22 +504,6 @@ $(function () {
         });
     }
 
-    function getColorEvento() {
-        $.ajax({
-            url: controllerToAdmin,
-            type: "POST",
-            data: {
-                action: "CorEventoLogica.getColorEvento"
-            },
-            success: function (data) {
-                $("#sel-color").html(data);
-                $("#sel-color").material_select();
-                $("#sel-color-update").html(data);
-                $("#sel-color-update").material_select();
-            }
-        });
-    }
-
     function getBlocoBySetor() {
         $(".sel-tipo-evento").change(function () {
             $("#sel-ambiente").empty();
@@ -714,7 +696,6 @@ $(function () {
             var nomeEvento = $("#modalUpdateEvent .nomeEvento").val();
             var solicitante = $("#modalUpdateEvent .solicitante").val();
             var descricaoEvento = $("#modalUpdateEvent .descricaoEvento").val();
-            var colorEvento = $("#sel-color-update").val();
             var tipoEvento = $("#sel-tipo-evento-update").val();
             var blocoEvento = $("#sel-bloco-update").val();
             var ambienteEvento = $("#sel-ambiente-update").val();
@@ -726,7 +707,7 @@ $(function () {
             var horaFimEvento = $("#modalUpdateEvent .horaFim").val();
             var dataInicioUtilizada = dataInicioFormatada + " " + horaInicioEvento;
             var dataFimUtilizada = dataFimFormatada + " " + horaFimEvento;
-            if (nomeEvento == "" || solicitante == "" || descricaoEvento == "" || dataInicioUtilizada == "" || dataFimUtilizada == "" || colorEvento == null || tipoEvento == null || blocoEvento == null || ambienteEvento == null) {
+            if (nomeEvento == "" || solicitante == "" || descricaoEvento == "" || dataInicioUtilizada == "" || dataFimUtilizada == "" || tipoEvento == null || blocoEvento == null || ambienteEvento == null) {
                 $("#modalCamposNulos").modal();
                 $("#modalCamposNulos").modal('open');
             } else {
@@ -734,7 +715,8 @@ $(function () {
                     $("#modalDataInicioMaiorQueFinal").modal();
                     $("#modalDataInicioMaiorQueFinal").modal('open');
                 } else {
-                    if (verifyDatesToUpdate(dataInicioUtilizada, dataFimUtilizada, ambienteEvento, idEvento) == true) {
+                    var valorBoolean = verifyDatesToUpdate(dataInicioUtilizada, dataFimUtilizada, ambienteEvento, idEvento);
+                    if (valorBoolean == true) {
                         $.ajax({
                             url: controllerToAdmin,
                             type: 'POST',
@@ -745,7 +727,6 @@ $(function () {
                                 nomeEvento: nomeEvento,
                                 solicitante: solicitante,
                                 descricaoEvento: descricaoEvento,
-                                colorEvento: colorEvento,
                                 tipoEvento: tipoEvento,
                                 blocoEvento: blocoEvento,
                                 ambienteEvento: ambienteEvento,
@@ -768,6 +749,7 @@ $(function () {
     }
 
     function verifyDates(dataInicioUtilizada, dataFimUtilizada, ambienteEvento) {
+        alert(dataInicioUtilizada + " " + dataFimUtilizada);
         var boolean;
         $.ajax({
             url: controllerToAdmin,
@@ -792,6 +774,7 @@ $(function () {
 
     function verifyDatesToUpdate(dataInicioUtilizada, dataFimUtilizada, ambienteEvento, idEvento) {
         var boolean;
+        alert(dataInicioUtilizada + " " + dataFimUtilizada);
         $.ajax({
             url: controllerToAdmin,
             type: 'POST',
@@ -1019,7 +1002,6 @@ $(function () {
     pickHoraFim();
     getBlocoBySetor();
     getAmbienteByBloco();
-    getColorEvento();
     getEquipamentos();
     getAula();
     getTipoRepeticao();

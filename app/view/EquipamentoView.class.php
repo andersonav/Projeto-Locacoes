@@ -33,9 +33,13 @@ class EquipamentoView {
                 <thead>
                     <tr> 
                         <!--<i class="material-icons">check</i>-->
-                        <th>Marcar</th>
+                        <th></th>
                         <th>Equipamento</th>
                         <th>Qtd Disponível</th>
+                        <th>Data Início</th>
+                        <th>Hora Início</th>
+                        <th>Data Final</th>
+                        <th>Hora Final</th>
                         <th>Qtd Solicitada</th>
                     </tr>
                 </thead>
@@ -48,6 +52,10 @@ class EquipamentoView {
                             <td><input type="checkbox" id="input<?= $equipamento->getIdEquipamento(); ?>" value="<?= $equipamento->getIdEquipamento(); ?>" class="idEquipamento"/><label for="input<?= $equipamento->getIdEquipamento(); ?>"></label></td>
                             <td><strong><?= $equipamento->getDescricaoEquipamento(); ?></strong></td>
                             <td><strong><?= $equipamento->getQuantidadeEquipamento(); ?></strong></td>
+                            <td><strong><input type="text" class="txt-data-inicial" placeholder="Digite a data inicial" id="<?= $equipamento->getIdEquipamento(); ?>" disabled></strong></td>
+                            <td><strong><input type="text" class="txt-hora-inicial" placeholder="Digite a hora inicial" id="<?= $equipamento->getIdEquipamento(); ?>" disabled></strong></td>
+                            <td><strong><input type="text" class="txt-data-final" placeholder="Digite a data final" id="<?= $equipamento->getIdEquipamento(); ?>" disabled></strong></td>
+                            <td><strong><input type="text" class="txt-hora-final" placeholder="Digite a hora final" id="<?= $equipamento->getIdEquipamento(); ?>" disabled></strong></td>
                             <td><strong><input type="text" class="txt-quantidade-solicitada" placeholder="Digite a quantidade solicitada" id="<?= $equipamento->getIdEquipamento(); ?>" disabled max="<?= $equipamento->getQuantidadeEquipamento(); ?>"></strong></td>
                         </tr>
                         <?php

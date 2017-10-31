@@ -37,9 +37,6 @@ class Evento {
     public $equipamentoIdEvento;
     public $equipamentoDescricaoEvento;
     public $equipamentoQtdUtilizadaEvento;
-    public $colorIdEvento;
-    public $colorDescricaoEvento;
-    private $colorDescricaoPortEvento;
 
     function getIdEvento() {
         return $this->idEvento;
@@ -121,18 +118,6 @@ class Evento {
         return $this->equipamentoQtdUtilizadaEvento;
     }
 
-    function getColorIdEvento() {
-        return $this->colorIdEvento;
-    }
-
-    function getColorDescricaoEvento() {
-        return $this->colorDescricaoEvento;
-    }
-
-    function getColorDescricaoPortEvento() {
-        return $this->colorDescricaoPortEvento;
-    }
-
     function setIdEvento($idEvento) {
         $this->idEvento = $idEvento;
     }
@@ -211,18 +196,6 @@ class Evento {
 
     function setEquipamentoQtdUtilizadaEvento($equipamentoQtdUtilizadaEvento) {
         $this->equipamentoQtdUtilizadaEvento = $equipamentoQtdUtilizadaEvento;
-    }
-
-    function setColorIdEvento($colorIdEvento) {
-        $this->colorIdEvento = $colorIdEvento;
-    }
-
-    function setColorDescricaoEvento($colorDescricaoEvento) {
-        $this->colorDescricaoEvento = $colorDescricaoEvento;
-    }
-
-    function setColorDescricaoPortEvento($colorDescricaoPortEvento) {
-        $this->colorDescricaoPortEvento = $colorDescricaoPortEvento;
     }
 
 }

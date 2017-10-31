@@ -46,11 +46,10 @@ class EventoLogica {
         $dataInicioEvento = $_REQUEST['dataInicioEvento'];
         $dataFimEvento = $_REQUEST['dataFimEvento'];
         $ambienteEvento = $_REQUEST['ambienteEvento'];
-        $corEvento = $_REQUEST['corEvento'];
         $eventoTipoRepeticao = $_REQUEST['eventoTipoRepeticao'];
         $idAula = $_REQUEST['idAula'];
         
-        $insert = EventoDao::getInstance()->insertEventoSelecionado($nomeEvento, $descricaoEvento, $solicitanteEvento, $dataInicioEvento, $dataFimEvento, $ambienteEvento, $corEvento, $eventoTipoRepeticao, $idAula);
+        $insert = EventoDao::getInstance()->insertEventoSelecionado($nomeEvento, $descricaoEvento, $solicitanteEvento, $dataInicioEvento, $dataFimEvento, $ambienteEvento, $eventoTipoRepeticao, $idAula);
         if ($insert) {
             return true;
         } else {
@@ -75,14 +74,13 @@ class EventoLogica {
         $nomeEvento = $_REQUEST['nomeEvento'];
         $solicitante = $_REQUEST['solicitante'];
         $descricaoEvento = $_REQUEST['descricaoEvento'];
-        $colorEvento = $_REQUEST['colorEvento'];
         $tipoEvento = $_REQUEST['tipoEvento'];
         $blocoEvento = $_REQUEST['blocoEvento'];
         $ambienteEvento = $_REQUEST['ambienteEvento'];
         $dataInicio = $_REQUEST['dataInicio'];
         $dataFim = $_REQUEST['dataFim'];
 
-        return EventoDao::getInstance()->updateEventById($idEvento, $nomeEvento, $solicitante, $descricaoEvento, $colorEvento, $tipoEvento, $blocoEvento, $ambienteEvento, $dataInicio, $dataFim);
+        return EventoDao::getInstance()->updateEventById($idEvento, $nomeEvento, $solicitante, $descricaoEvento, $tipoEvento, $blocoEvento, $ambienteEvento, $dataInicio, $dataFim);
     }
 
     public function verifyDates() {

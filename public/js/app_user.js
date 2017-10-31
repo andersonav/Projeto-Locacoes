@@ -84,11 +84,9 @@ $(function () {
                             for (var i = 0; i < dados.length; i++) {
                                 events.push({
                                     id: dados[i].idEvento,
-                                    title: dados[i].descricaoEvento,
+                                    title: dados[i].nomeEvento,
                                     start: dados[i].dataInicioEvento,
-                                    end: dados[i].dataFimEvento,
-                                    color: dados[i].colorDescricaoEvento,
-                                    imageurl: "public/img/informacoes.png"
+                                    end: dados[i].dataFimEvento
                                 });
                             }
                             callback(events);
@@ -117,9 +115,8 @@ $(function () {
                 });
             },
             eventRender: function (event, eventElement, element) {
-                if (event.imageurl) {
-                    eventElement.find("div.fc-content").prepend("<img src='" + event.imageurl + "' class='eventImg'>");
-                }
+                
+                
                 // If you want it on a lin
             }
         });
