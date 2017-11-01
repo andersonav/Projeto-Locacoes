@@ -49,12 +49,8 @@ class EventoLogica {
         $eventoTipoRepeticao = $_REQUEST['eventoTipoRepeticao'];
         $idAula = $_REQUEST['idAula'];
         
-        $insert = EventoDao::getInstance()->insertEventoSelecionado($nomeEvento, $descricaoEvento, $solicitanteEvento, $dataInicioEvento, $dataFimEvento, $ambienteEvento, $eventoTipoRepeticao, $idAula);
-        if ($insert) {
-            return true;
-        } else {
-            return false;
-        }
+        return EventoDao::getInstance()->insertEventoSelecionado($nomeEvento, $descricaoEvento, $solicitanteEvento, $dataInicioEvento, $dataFimEvento, $ambienteEvento, $eventoTipoRepeticao, $idAula);
+      
     }
 
     public function getEventById() {

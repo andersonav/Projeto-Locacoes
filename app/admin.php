@@ -152,14 +152,17 @@
                                 <input type="text" id="descricaoEvento" class="validate descricaoEvento" data-length="200" maxlength="201" placeholder="Digite a descrição do Evento">
                                 <label for="icon_prefix" class="corLogo-text active">Descrição do Evento</label>
                             </div>
-                            <div class="input-field col s12 m3">
-                                <select name="aula" class="sel-aula" id="sel-aula">
-                                </select>
-                                <label class="corLogo-text">Aula?</label>
-                            </div>
-                            <div class="input-field col s12 m9 divInputProfessor">
-                                <input id="icon_prefix" type="text" class="validate nomeProfessor" placeholder="Digite o nome do professor" disabled>
-                                <label for="icon_prefix" class="corLogo-text active">Professor:</label>
+                            <div class="divAula">
+                                <div class="input-field col s12 m3">
+                                    <select name="aula" class="sel-aula" id="sel-aula">
+                                    </select>
+                                    <label class="corLogo-text">Aula?</label>
+                                </div>
+
+                                <div class="input-field col s12 m9 divInputProfessor">
+                                    <input id="icon_prefix" type="text" class="validate nomeProfessor" placeholder="Digite o nome do professor" disabled>
+                                    <label for="icon_prefix" class="corLogo-text active">Professor:</label>
+                                </div>
                             </div>
                             <div class="input-field col s12 m4">
                                 <select name="tipo" class="sel-tipo-evento" id="sel-tipo-evento">

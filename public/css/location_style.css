@@ -41,6 +41,11 @@ body{
 #calendar {
     margin: 15px auto;
 }
+
+.esconderDivAula{
+    display: none;
+}
+
 .btnModal{
     border: solid 2px white;
     padding: 10px;

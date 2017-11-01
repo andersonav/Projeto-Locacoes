@@ -88,7 +88,7 @@ class EventoDao {
         try {
 
             $sql = "INSERT INTO eventos (eve_nome, eve_desc, eve_solicitante, eve_data_inicio, eve_data_fim, eve_tip_rep_id, eve_aula_id, eve_amb_id)"
-                    . "VALUES (?,?,?,?,?,?,?,?,?)";
+                    . "VALUES (?,?,?,?,?,?,?,?)";
             $p_sql = ConexaoMysql::getInstance()->prepare($sql);
             $p_sql->bindParam(1, $nomeEvento);
             $p_sql->bindParam(2, $descricaoEvento);

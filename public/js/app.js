@@ -46,12 +46,19 @@ $(function () {
             },
             select: function (start, end) {
                 isNumeric();
-                habilitarQutdSolicitada();
+                habilitarInputsEquipamentos();
                 verifyCheck();
+                pickDataInicio();
+                pickHoraInicio();
+                pickDataFim();
+                pickHoraFim();
                 start = $.fullCalendar.formatDate(start, "YYYY-MM-DD HH:mm:ss");
                 var ano = hoje.getFullYear();
                 var mes = hoje.getMonth() + 1;
                 var dia = hoje.getDate();
+                if (dia < 10) {
+                    dia = 0 + "" + dia;
+                }
                 var hora = hoje.getHours();
                 var minutos = hoje.getMinutes();
                 var segundos = hoje.getSeconds();
@@ -73,6 +80,7 @@ $(function () {
                     var anoFim = end.substr(0, 4);
                     var horaFim = end.substr(11, 8);
                     var fim = diaFim + "/" + mesFim + "/" + anoFim;
+                    $(".divAula").addClass('esconderDivAula');
                     $('#modalAdicionarEventoClickDay').modal();
                     $(".dataInicio").attr('disabled', 'disabled');
                     $(".dataFim").attr('disabled', 'disabled');
@@ -103,74 +111,61 @@ $(function () {
                         var tipoEvento = $("#sel-tipo-evento").val();
                         var blocoEvento = $("#sel-bloco").val();
                         var ambienteEvento = $("#sel-ambiente").val();
-                        var corEvento = $("#sel-color").val();
-                        var idAula = $("#sel-aula").val();
+                        var eventoTipoRepeticao = 1;
+                        var idAula = 2;
                         title = $(".descricaoEvento").val();
-                        if (nomeEvento != "" || title != "" || solicitanteEvento != "" || tipoEvento != null || blocoEvento != null || ambienteEvento != null || corEvento != null || idAula != null) {
+                        if (nomeEvento != "" || title != "" || solicitanteEvento != "" || tipoEvento != null || blocoEvento != null || ambienteEvento != null) {
                             if ($(".idEquipamento").is(":checked")) {
-                                var descricaoCorIngles = getDescricaoCorEvento(corEvento);
                                 eventData = {
                                     title: title,
                                     start: start,
                                     end: end,
-                                    color: descricaoCorIngles,
                                     imageurl: "../public/img/informacoes.png"
                                 };
                                 var valorBoolean = verifyDates(start, end, ambienteEvento);
-                                alert(valorBoolean);
                                 if (valorBoolean == true) {
-                                    var eventoTipoRepeticao = 1;
-                                    var nomeProfessor = $(".nomeProfessor").val();
-                                    if ((idAula == 1) && (nomeProfessor == "")) {
-                                        $("#modalCamposNulos").modal();
-                                        $("#modalCamposNulos").modal('open');
-                                    } else {
-                                        if ($("#input1").is(":checked")) {
-                                            if (insertEventoSelecionado(nomeEvento, solicitanteEvento, tipoEvento, blocoEvento, ambienteEvento, corEvento, eventoTipoRepeticao, idAula, title, start, end) == true) {
-                                                var valorIdEvento = getEventByAmbienteAndStartAndEnd(ambienteEvento, start, end);
-                                                if (valorIdEvento != 0) {
-                                                    var valorCheck = $("#input1").val();
-                                                    insertInTabelEventEquipamentUsed(valorIdEvento, valorCheck, "-");
-                                                    if (idAula == 1) {
-                                                        insertIntoTableAulaDetalhes(valorIdEvento, idAula, nomeProfessor);
-                                                    }
-                                                    start = null;
-                                                    end = null;
-                                                }
-                                                $("#modalAdicionarEventoClickDay").modal('close');
+                                    if ($("#input1").is(":checked")) {
+                                        if (insertEventoSelecionado(nomeEvento, solicitanteEvento, tipoEvento, blocoEvento, ambienteEvento, eventoTipoRepeticao, idAula, title, start, end) == true) {
+                                            var valorIdEvento = getEventByAmbienteAndStartAndEnd(ambienteEvento, start, end);
+                                            if (valorIdEvento != 0) {
+                                                var valorCheck = $("#input1").val();
+                                                insertInTabelEventEquipamentUsed(valorIdEvento, valorCheck, "-");
+                                                start = null;
+                                                end = null;
                                             }
+                                            $("#modalAdicionarEventoClickDay").modal('close');
+                                        }
+                                    } else {
+                                        var errorCampoNulo = 0;
+                                        $(".getInformationsEquipaments").each(function () {
+                                            var qtdEquipamento = $(this).val();
+                                            if (qtdEquipamento == "") {
+                                                errorCampoNulo++;
+                                            }
+                                        });
+
+                                        if (errorCampoNulo != 0) {
+                                            $("#modalCamposNulos").modal();
+                                            $("#modalCamposNulos").modal('open');
                                         } else {
-                                            var errorCampoNulo = 0;
-                                            $(".getQtd").each(function () {
-                                                var qtdEquipamento = $(this).val();
-                                                if (qtdEquipamento == "") {
-                                                    errorCampoNulo++;
-                                                }
-                                            });
-                                            if (errorCampoNulo != 0) {
-                                                $("#modalCamposNulos").modal();
-                                                $("#modalCamposNulos").modal('open');
-                                            } else {
-                                                if (insertEventoSelecionado(nomeEvento, solicitanteEvento, tipoEvento, blocoEvento, ambienteEvento, corEvento, eventoTipoRepeticao, idAula, title, start, end) == true) {
-                                                    var valorIdEvento = getEventByAmbienteAndStartAndEnd(ambienteEvento, start, end);
-                                                    $(".getQtd").each(function () {
-                                                        if (valorIdEvento != 0) {
-                                                            var valorEquipamento = $(this).attr('id');
-                                                            var qtdEquipamento = $(this).val();
-                                                            insertInTabelEventEquipamentUsed(valorIdEvento, valorEquipamento, qtdEquipamento);
-                                                        }
-                                                    });
-                                                    if (idAula == 1) {
-                                                        insertIntoTableAulaDetalhes(valorIdEvento, idAula, nomeProfessor);
+                                            if (insertEventoSelecionado(nomeEvento, solicitanteEvento, tipoEvento, blocoEvento, ambienteEvento, eventoTipoRepeticao, idAula, title, start, end) == true) {
+                                                var valorIdEvento = getEventByAmbienteAndStartAndEnd(ambienteEvento, start, end);
+                                                $(".getInformationsEquipaments").each(function () {
+                                                    if (valorIdEvento != 0) {
+                                                        var valorEquipamento = $(this).attr('id');
+                                                        var dadosEquipamentos = $(this).val();
+                                                        alert(dadosEquipamentos);
+//                                                        insertInTabelEventEquipamentUsed(valorIdEvento, valorEquipamento, qtdEquipamento);
                                                     }
-                                                    start = null;
-                                                    end = null;
-                                                    $("#modalAdicionarEventoClickDay").modal('close');
-                                                }
+                                                });
+                                                start = null;
+                                                end = null;
+                                                $("#modalAdicionarEventoClickDay").modal('close');
+//                                                location.reload();
                                             }
                                         }
-                                        location.reload();
                                     }
+
                                 } else {
                                     $("#modalDatasIguais").modal();
                                     $("#modalDatasIguais").modal('open');
@@ -281,8 +276,9 @@ $(function () {
             }
         });
         $("#modalAdicionarEventoClickDay").modal('open');
+        $(".divAula").removeClass('esconderDivAula');
         isNumeric();
-        habilitarQutdSolicitada();
+        habilitarInputsEquipamentos();
         verifyCheck();
         verifyCampos();
     });
@@ -437,7 +433,7 @@ $(function () {
                                         }
                                     } else {
                                         var errorCampoNulo = 0;
-                                        $(".getQtd").each(function () {
+                                        $(".getInformationsEquipaments").each(function () {
                                             var qtdEquipamento = $(this).val();
                                             if (qtdEquipamento == "") {
                                                 errorCampoNulo++;
@@ -449,7 +445,7 @@ $(function () {
                                         } else {
                                             if (insertEventoSelecionado(nomeEvento, solicitanteEvento, tipoEvento, blocoEvento, ambienteEvento, corEvento, tipoRepeticao, idAula, descricaoEvento, inicio, fim) == true) {
                                                 var valorIdEvento = getEventByAmbienteAndStartAndEnd(ambienteEvento, inicio, fim);
-                                                $(".getQtd").each(function () {
+                                                $(".getInformationsEquipaments").each(function () {
                                                     if (valorIdEvento != 0) {
                                                         var valorEquipamento = $(this).attr('id');
                                                         var qtdEquipamento = $(this).val();
@@ -631,7 +627,7 @@ $(function () {
         calendarAdmin(idAmbiente, idBloco, idSetor);
     });
 
-    function insertEventoSelecionado(nomeEvento, solicitanteEvento, tipoEvento, blocoEvento, ambienteEvento, corEvento, eventoTipoRepeticao, idAula, title, start, end) {
+    function insertEventoSelecionado(nomeEvento, solicitanteEvento, tipoEvento, blocoEvento, ambienteEvento, eventoTipoRepeticao, idAula, title, start, end) {
         var boolean;
         $.ajax({
             type: "POST",
@@ -643,7 +639,6 @@ $(function () {
                 solicitanteEvento: solicitanteEvento,
                 ambienteEvento: ambienteEvento,
                 descricaoEvento: title,
-                corEvento: corEvento,
                 eventoTipoRepeticao: eventoTipoRepeticao,
                 idAula: idAula,
                 dataInicioEvento: start,
@@ -749,7 +744,6 @@ $(function () {
     }
 
     function verifyDates(dataInicioUtilizada, dataFimUtilizada, ambienteEvento) {
-        alert(dataInicioUtilizada + " " + dataFimUtilizada);
         var boolean;
         $.ajax({
             url: controllerToAdmin,
@@ -802,25 +796,6 @@ $(function () {
             }
         });
         return boolean;
-    }
-
-    function getDescricaoCorEvento(corEvento) {
-        var descricao;
-        $.ajax({
-            url: controllerToAdmin,
-            type: 'POST',
-            async: false,
-            data: {
-                action: 'CorEventoLogica.getDescricaoCorEvento',
-                corEvento: corEvento
-            }, success: function (data, textStatus, jqXHR) {
-                dados = $.parseJSON(data);
-                for (var i = 0; i < dados.length; i++) {
-                    descricao = dados[i].descricaoInglesColorEvento;
-                }
-            }
-        });
-        return descricao;
     }
 
     function getEquipamentos() {
@@ -916,39 +891,36 @@ $(function () {
 //        });
 //    }
 
-    function habilitarQutdSolicitada() {
+    function habilitarInputsEquipamentos() {
         $(".idEquipamento").click(function () {
             var valor = $(this).val();
             if (valor == 1) {
                 $(this).each(function () {
-                    $('.txt-quantidade-solicitada').each(function () {
-                        var valorIdInput = $(this).attr('id');
-                        if (valor == valorIdInput) {
-                            $(this).attr('disabled', 'disabled');
-                            $(this).removeClass('getQtd');
-                        }
+                    $('input[type=text]').each(function () {
+                        $(this).attr('disabled', 'disabled');
+                        $(this).removeClass('getInformationsEquipaments');
                     });
                 });
             } else {
                 if ($(this).prop('checked')) {
                     $(this).each(function () {
                         var check = $(this).val();
-                        $('.txt-quantidade-solicitada').each(function () {
+                        $('.tabelaEquipamentos input:disabled').each(function () {
                             var valorIdInput = $(this).attr('id');
                             if (check == valorIdInput) {
                                 $(this).removeAttr('disabled');
-                                $(this).addClass('getQtd');
+                                $(this).addClass('getInformationsEquipaments');
                             }
                         });
                     });
                 } else {
                     $(this).each(function () {
                         var check = $(this).val();
-                        $('.txt-quantidade-solicitada').each(function () {
+                        $('.tabelaEquipamentos input:disabled').each(function () {
                             var valorIdInput = $(this).attr('id');
                             if (check == valorIdInput) {
                                 $(this).attr('disabled', 'disabled');
-                                $(this).removeClass('getQtd');
+                                $(this).removeClass('getInformationsEquipaments');
                             }
                         });
                     });
@@ -965,14 +937,19 @@ $(function () {
                 $("input:checked").each(function () {
                     $(this).prop("checked", false);
                 });
-                $(".txt-quantidade-solicitada").attr('disabled', 'disabled');
                 $("#input" + valorClicado).prop("checked", true);
             } else {
                 $("#input1").prop("checked", false);
                 if ($("#input" + valorClicado).is(":checked")) {
-                    $(this).prop("checked", true);
                 } else {
                     $(this).prop("checked", false);
+                    $('.tabelaEquipamentos input:enabled').each(function () {
+                        var valorIdInput = $(this).attr('id');
+                        if (valorClicado == valorIdInput) {
+                            $(this).attr('disabled', 'disabled');
+                            $(this).removeClass('getInformationsEquipaments');
+                        }
+                    });
                 }
             }
         });
