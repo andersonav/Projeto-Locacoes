@@ -48,9 +48,8 @@ class EventoLogica {
         $ambienteEvento = $_REQUEST['ambienteEvento'];
         $eventoTipoRepeticao = $_REQUEST['eventoTipoRepeticao'];
         $idAula = $_REQUEST['idAula'];
-        
+
         return EventoDao::getInstance()->insertEventoSelecionado($nomeEvento, $descricaoEvento, $solicitanteEvento, $dataInicioEvento, $dataFimEvento, $ambienteEvento, $eventoTipoRepeticao, $idAula);
-      
     }
 
     public function getEventById() {
@@ -99,8 +98,10 @@ class EventoLogica {
         $valorIdEvento = $_REQUEST['valorIdEvento'];
         $idEquipamento = $_REQUEST['idEquipamento'];
         $qtdEquipamento = $_REQUEST['qtdEquipamento'];
+        $dataInicio = $_REQUEST['dataInicio'];
+        $dataFim = $_REQUEST['dataFim'];
 
-        return EventoDao::getInstance()->insertInTabelEventEquipamentUsed($valorIdEvento, $idEquipamento, $qtdEquipamento);
+        return EventoDao::getInstance()->insertInTabelEventEquipamentUsed($valorIdEvento, $idEquipamento, $qtdEquipamento, $dataInicio, $dataFim);
     }
 
     public function insertIntoTableAulaDetalhes() {

@@ -172,18 +172,18 @@ class EventoDao {
                     JOIN evento_tipo_repeticao evt ON evt.eve_tip_rep_id = eve.eve_tip_rep_id 
                     JOIN evento_aula eva ON eva.eve_aula_id = eve.eve_aula_id
                     LEFT JOIN evento_aula_detalhes evad ON evad.eve_aula_det_fkeve_id = eve.eve_aula_id 
-                    WHERE (DATE_FORMAT(eve_data_inicio, '%H:%i') <= (DATE_FORMAT(?, '%H:%i'))
-                    AND DATE_FORMAT(eve_data_inicio, '%H:%i') >= (DATE_FORMAT(?, '%H:%i')))
-                    OR (DATE_FORMAT(eve_data_fim, '%H:%i') <= (DATE_FORMAT(?, '%H:%i'))
-                    AND DATE_FORMAT(eve_data_fim, '%H:%i') >= (DATE_FORMAT(?, '%H:%i')))
-                    AND DATE(eve_data_inicio) >= DATE(?) AND DATE(eve_data_fim) <= DATE(?)
+                    WHERE DATE(eve_data_inicio) >= DATE(?) AND DATE(eve_data_fim) <= DATE(?)
+                    AND DATE_FORMAT(eve_data_inicio, '%H:%i') >= DATE_FORMAT(?, '%H:%i')
+                    OR DATE_FORMAT(eve_data_inicio, '%H:%i') <= DATE_FORMAT(?, '%H:%i')
+                    AND DATE_FORMAT(eve_data_fim, '%H:%i') > DATE_FORMAT(?, '%H:%i')
+                    OR DATE_FORMAT(eve_data_fim, '%H:%i') < DATE_FORMAT(?, '%H:%i')
                     AND eve.eve_amb_id = ?";
             $p_sql = ConexaoMysql::getInstance()->prepare($sql);
-            $p_sql->bindParam(1, $dataFim);
-            $p_sql->bindParam(2, $dataInicio);
-            $p_sql->bindParam(3, $dataFim);
+            $p_sql->bindParam(1, $dataInicio);
+            $p_sql->bindParam(2, $dataFim);
+            $p_sql->bindParam(3, $dataInicio);
             $p_sql->bindParam(4, $dataInicio);
-            $p_sql->bindParam(5, $dataInicio);
+            $p_sql->bindParam(5, $dataFim);
             $p_sql->bindParam(6, $dataFim);
             $p_sql->bindParam(7, $ambienteEvento);
             $p_sql->execute();
@@ -212,14 +212,16 @@ class EventoDao {
         }
     }
 
-    public function insertInTabelEventEquipamentUsed($valorIdEvento, $idEquipamento, $qtdEquipamento) {
+    public function insertInTabelEventEquipamentUsed($valorIdEvento, $idEquipamento, $qtdEquipamento, $dataInicio, $dataFim) {
         try {
-            $sql = "INSERT INTO evento_equipamento_utilizado(eve_equi_uti_fkeve_id, eve_equi_uti_fkequi_id, eve_equi_uti_qtd)"
-                    . "VALUES (?,?,?)";
+            $sql = "INSERT INTO evento_equipamento_utilizado(eve_equi_uti_fkeve_id, eve_equi_uti_fkequi_id, eve_equi_uti_qtd, eve_equi_uti_data_inicio, eve_equi_uti_data_fim)"
+                    . "VALUES (?,?,?,?,?)";
             $p_sql = ConexaoMysql::getInstance()->prepare($sql);
             $p_sql->bindParam(1, $valorIdEvento);
             $p_sql->bindParam(2, $idEquipamento);
             $p_sql->bindParam(3, $qtdEquipamento);
+            $p_sql->bindParam(4, $dataInicio);
+            $p_sql->bindParam(5, $dataFim);
             return $p_sql->execute();
         } catch (Exception $e) {
             echo $e->getTraceAsString();

@@ -52,11 +52,11 @@ class EquipamentoView {
                             <td><input type="checkbox" id="input<?= $equipamento->getIdEquipamento(); ?>" value="<?= $equipamento->getIdEquipamento(); ?>" class="idEquipamento"/><label for="input<?= $equipamento->getIdEquipamento(); ?>"></label></td>
                             <td><strong><?= $equipamento->getDescricaoEquipamento(); ?></strong></td>
                             <td><strong><?= $equipamento->getQuantidadeEquipamento(); ?></strong></td>
-                            <td><strong><input type="text" class="txt-data-inicial" placeholder="Digite a data inicial" id="<?= $equipamento->getIdEquipamento(); ?>" disabled></strong></td>
-                            <td><strong><input type="text" class="txt-hora-inicial" placeholder="Digite a hora inicial" id="<?= $equipamento->getIdEquipamento(); ?>" disabled></strong></td>
-                            <td><strong><input type="text" class="txt-data-final" placeholder="Digite a data final" id="<?= $equipamento->getIdEquipamento(); ?>" disabled></strong></td>
-                            <td><strong><input type="text" class="txt-hora-final" placeholder="Digite a hora final" id="<?= $equipamento->getIdEquipamento(); ?>" disabled></strong></td>
-                            <td><strong><input type="text" class="txt-quantidade-solicitada" placeholder="Digite a quantidade solicitada" id="<?= $equipamento->getIdEquipamento(); ?>" disabled max="<?= $equipamento->getQuantidadeEquipamento(); ?>"></strong></td>
+                            <td><strong><input type="text" class="txt-data-inicial dataInicio" placeholder="Digite a data inicial" id="input<?= $equipamento->getIdEquipamento(); ?>" disabled></strong></td>
+                            <td><strong><input type="text" class="txt-hora-inicial horaInicio" placeholder="Digite a hora inicial" id="input<?= $equipamento->getIdEquipamento(); ?>" disabled></strong></td>
+                            <td><strong><input type="text" class="txt-data-final dataFim" placeholder="Digite a data final" id="input<?= $equipamento->getIdEquipamento(); ?>" disabled></strong></td>
+                            <td><strong><input type="text" class="txt-hora-final horaFim" placeholder="Digite a hora final" id="input<?= $equipamento->getIdEquipamento(); ?>" disabled></strong></td>
+                            <td><strong><input type="text" class="txt-quantidade-solicitada" placeholder="Digite a quantidade solicitada" id="input<?= $equipamento->getIdEquipamento(); ?>" disabled max="<?= $equipamento->getQuantidadeEquipamento(); ?>"></strong></td>
                         </tr>
                         <?php
                     }
