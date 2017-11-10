@@ -14,24 +14,24 @@ body{
 .eventImg{
     width:20px;
     height:20px;
-  
+
 }
 .scroll{
     overflow: scroll;
     width: 100%;
 }
-.tabelaEquipamentos {
+.tabelaEquipamentos, .tabelaServicos, .tabelaRefeicoes {
     border-collapse: collapse;
 
 }
-.tabelaEquipamentos thead {
+.tabelaEquipamentos thead, .tabelaServicos thead, .tabelaRefeicoes thead  {
     font-weight: bold;
 }
-.tabelaEquipamentos th {
+.tabelaEquipamentos th, .tabelaServicos th, .tabelaRefeicoes th {
     font-weight: normal;
     text-align: left;
 }
-.tabelaEquipamentos th, .tabelaEquipamentos td {
+.tabelaEquipamentos th, .tabelaServicos th, .tabelaRefeicoes th, .tabelaEquipamentos td, .tabelaServicos td, .tabelaRefeicoes td {
     padding: 0.1em 1em;
     font-weight: bold;
 }

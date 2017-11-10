@@ -47,7 +47,11 @@ $(function () {
             select: function (start, end) {
                 isNumeric();
                 habilitarInputsEquipamentos();
+                habilitarInputsServicos();
+                habilitarInputsRefeicoes();
                 verifyCheck();
+                verifyCheckServices();
+                verifyCheckRefeicoes();
                 pickDataInicio();
                 pickHoraInicio();
                 pickDataFim();
@@ -82,10 +86,10 @@ $(function () {
                     var fim = diaFim + "/" + mesFim + "/" + anoFim;
                     $(".divAula").addClass('esconderDivAula');
                     $('#modalAdicionarEventoClickDay').modal();
-                    $(".dataInicio").attr('disabled', 'disabled');
-                    $(".dataFim").attr('disabled', 'disabled');
-                    $(".horaInicio").attr('disabled', 'disabled');
-                    $(".horaFim").attr('disabled', 'disabled');
+                    $("#form_add_event .dataInicio").attr('disabled', 'disabled');
+                    $("#form_add_event .dataFim").attr('disabled', 'disabled');
+                    $("#form_add_event .horaInicio").attr('disabled', 'disabled');
+                    $("#form_add_event .horaFim").attr('disabled', 'disabled');
                     $(".dataInicio").val(inicio);
                     $(".horaInicio").val(horaInicio);
                     $(".dataFim").val(fim);
@@ -270,10 +274,10 @@ $(function () {
     }
 
     $(".openModalAdicionarEvento").click(function () {
-        $(".dataInicio").removeAttr("disabled");
-        $(".dataFim").removeAttr("disabled");
-        $(".horaInicio").removeAttr("disabled");
-        $(".horaFim").removeAttr("disabled");
+        $("#formDataInicio").removeAttr("disabled");
+        $("#formDataFim").removeAttr("disabled");
+        $("#formHoraInicio").removeAttr("disabled");
+        $("#formHoraFim").removeAttr("disabled");
         $(".mostrarWhenClickBtn").removeClass("cadastroClickBtn");
         $("#modalAdicionarEventoClickDay").modal({
             complete: function () {
@@ -285,8 +289,16 @@ $(function () {
         $("#modalAdicionarEventoClickDay").modal('open');
         $(".divAula").removeClass('esconderDivAula');
         isNumeric();
+        pickDataInicio();
+        pickDataFim();
+        pickHoraInicio();
+        pickHoraFim();
         habilitarInputsEquipamentos();
+        habilitarInputsServicos();
+        habilitarInputsRefeicoes();
         verifyCheck();
+        verifyCheckServices();
+        verifyCheckRefeicoes();
         verifyCampos();
     });
 
@@ -826,6 +838,30 @@ $(function () {
         });
     }
 
+    function getServicos() {
+        $.ajax({
+            url: controllerToAdmin,
+            type: 'POST',
+            data: {
+                action: 'ServicoLogica.getServicos'
+            }, success: function (data, textStatus, jqXHR) {
+                $(".servicos").html(data);
+            }
+        });
+    }
+
+    function getRefeicoes() {
+        $.ajax({
+            url: controllerToAdmin,
+            type: 'POST',
+            data: {
+                action: 'RefeicaoLogica.getRefeicoes'
+            }, success: function (data, textStatus, jqXHR) {
+                $(".refeicoes").html(data);
+            }
+        });
+    }
+
     function getAula() {
         $.ajax({
             url: controllerToAdmin,
@@ -946,20 +982,97 @@ $(function () {
         });
     }
 
+    function habilitarInputsServicos() {
+        $(".idServico").click(function () {
+            var valor = $(this).val();
+            if (valor == 1) {
+                $(this).each(function () {
+                    $('.tabelaServicos input[type=text]').each(function () {
+                        $(this).attr('disabled', 'disabled');
+                        $(this).removeClass('getInformationsServices');
+                    });
+                });
+            } else {
+                if ($(this).prop('checked')) {
+                    $(this).each(function () {
+                        var check = $(this).attr('id');
+                        $('.tabelaServicos input:disabled').each(function () {
+                            var valorIdInput = $(this).attr('id');
+                            if (check == valorIdInput) {
+                                $(this).removeAttr('disabled');
+                                $(this).addClass('getInformationsServices');
+                            }
+                        });
+                    });
+                } else {
+                    $(this).each(function () {
+                        var check = $(this).attr('id');
+                        $('.tabelaServicos input:disabled').each(function () {
+                            var valorIdInput = $(this).attr('id');
+                            if (check == valorIdInput) {
+                                $(this).attr('disabled', 'disabled');
+                                $(this).removeClass('getInformationsServices');
+                            }
+                        });
+                    });
+                }
+            }
+        });
+    }
+
+    function habilitarInputsRefeicoes() {
+        $(".idRefeicao").click(function () {
+            var valor = $(this).val();
+            if (valor == 1) {
+                $(this).each(function () {
+                    $('.tabelaRefeicoes input[type=text]').each(function () {
+                        $(this).attr('disabled', 'disabled');
+                        $(this).removeClass('getInformationsRefeicoes');
+                    });
+                });
+            } else {
+                if ($(this).prop('checked')) {
+                    $(this).each(function () {
+                        var check = $(this).attr('id');
+                        $('.tabelaRefeicoes input:disabled').each(function () {
+                            var valorIdInput = $(this).attr('id');
+                            if (check == valorIdInput) {
+                                $(this).removeAttr('disabled');
+                                $(this).addClass('getInformationsRefeicoes');
+                            }
+                        });
+                    });
+                } else {
+                    $(this).each(function () {
+                        var check = $(this).attr('id');
+                        $('.tabelaRefeicoes input:disabled').each(function () {
+                            var valorIdInput = $(this).attr('id');
+                            if (check == valorIdInput) {
+                                $(this).attr('disabled', 'disabled');
+                                $(this).removeClass('getInformationsRefeicoes');
+                            }
+                        });
+                    });
+                }
+            }
+        });
+    }
+
     function verifyCheck() {
         $(".idEquipamento").click(function () {
             var valorClicado = $(this).attr('id');
             if (valorClicado == "input1") {
-                $("input:checked").each(function () {
+                $(".tabelaEquipamentos input:checked").each(function () {
                     $(this).prop("checked", false);
                 });
-                $("#" + valorClicado).prop("checked", true);
+                $(".tabelaEquipamentos #" + valorClicado).prop("checked", true);
             } else {
-                $("#input1").prop("checked", false);
-                if ($("#" + valorClicado).is(":checked")) {
+                $(".tabelaEquipamentos #input1").prop("checked", false);
+                if ($(".tabelaEquipamentos #" + valorClicado).is(":checked")) {
+
                 } else {
                     $(this).prop("checked", false);
-                    $('.tabelaEquipamentos input:enabled').each(function () {
+                    $('.tabelaEquipamentos input[type=text]:enabled').each(function () {
                         var valorIdInput = $(this).attr('id');
                         if (valorClicado == valorIdInput) {
                             $(this).attr('disabled', 'disabled');
@@ -969,7 +1082,56 @@ $(function () {
                 }
             }
         });
+    }
 
+    function verifyCheckServices() {
+        $(".idServico").click(function () {
+            var valorClicado = $(this).attr('id');
+            if (valorClicado == "inputSer1") {
+                $(".tabelaServicos input:checked").each(function () {
+                    $(this).prop("checked", false);
+                });
+                $(".tabelaServicos #" + valorClicado).prop("checked", true);
+            } else {
+                $(".tabelaServicos #inputSer1").prop("checked", false);
+                if ($(".tabelaServicos #" + valorClicado).is(":checked")) {
+                } else {
+                    $(this).prop("checked", false);
+                    $('.tabelaServicos input[type=text]:enabled').each(function () {
+                        var valorIdInput = $(this).attr('id');
+                        if (valorClicado == valorIdInput) {
+                            $(this).attr('disabled', 'disabled');
+                            $(this).removeClass('getInformationsServices');
+                        }
+                    });
+                }
+            }
+        });
+    }
+
+    function verifyCheckRefeicoes() {
+        $(".idRefeicao").click(function () {
+            var valorClicado = $(this).attr('id');
+            if (valorClicado == "inputRef1") {
+                $(".tabelaRefeicoes input:checked").each(function () {
+                    $(this).prop("checked", false);
+                });
+                $(".tabelaRefeicoes #" + valorClicado).prop("checked", true);
+            } else {
+                $(".tabelaRefeicoes #inputRef1").prop("checked", false);
+                if ($(".tabelaRefeicoes #" + valorClicado).is(":checked")) {
+                } else {
+                    $(this).prop("checked", false);
+                    $('.tabelaRefeicoes input[type=text]:enabled').each(function () {
+                        var valorIdInput = $(this).attr('id');
+                        if (valorClicado == valorIdInput) {
+                            $(this).attr('disabled', 'disabled');
+                            $(this).removeClass('getInformationsRefeicoes');
+                        }
+                    });
+                }
+            }
+        });
     }
 
     function insertInTabelEventEquipamentUsed(valorIdEvento, idEquipamento, qtdEquipamento, dataInicio, dataFim) {
@@ -998,6 +1160,8 @@ $(function () {
     getBlocoBySetor();
     getAmbienteByBloco();
     getEquipamentos();
+    getServicos();
+    getRefeicoes();
     getAula();
     getTipoRepeticao();
 });

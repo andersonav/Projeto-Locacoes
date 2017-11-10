@@ -182,19 +182,19 @@
                                 <label class="corLogo-text">Ambiente: </label>
                             </div>
                             <div class="input-field col s12 m3">
-                                <input id="icon_prefix" type="text" class="dataInicio" placeholder="Escolha a Data Inicial">
+                                <input id="formDataInicio" type="text" class="dataInicio" placeholder="Escolha a Data Inicial">
                                 <label for="icon_prefix" class="corLogo-text active">Data Início:</label>
                             </div>
                             <div class="input-field col s12 m3">
-                                <input id="icon_prefix" type="text" class="validate horaInicio" placeholder="Escolha a Hora Inicial">
+                                <input id="formHoraInicio" type="text" class="validate horaInicio" placeholder="Escolha a Hora Inicial">
                                 <label for="icon_prefix" class="corLogo-text active">Hora Início:</label>
                             </div>
                             <div class="input-field col s12 m3">
-                                <input id="icon_prefix" type="text" class="dataFim" placeholder="Escolha a Data Final">
+                                <input id="formDataFim" type="text" class="dataFim" placeholder="Escolha a Data Final">
                                 <label for="icon_prefix" class="corLogo-text active">Data Fim:</label>
                             </div>
                             <div class="input-field col s12 m3">
-                                <input id="icon_prefix" type="text" class="validate horaFim" placeholder="Escolha a Hora Final">
+                                <input id="formHoraFim" type="text" class="validate horaFim" placeholder="Escolha a Hora Final">
                                 <label for="icon_prefix" class="corLogo-text active">Hora Fim:</label>
                             </div>
                             <div class="col s12">

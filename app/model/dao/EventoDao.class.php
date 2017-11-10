@@ -174,19 +174,18 @@ class EventoDao {
                     LEFT JOIN evento_aula_detalhes evad ON evad.eve_aula_det_fkeve_id = eve.eve_aula_id 
                     WHERE DATE(eve_data_inicio) >= DATE(?) 
                     AND DATE(eve_data_fim) <= DATE(?)
-                    AND (
-                            (DATE_FORMAT(eve_data_inicio, '%H:%i') >= DATE_FORMAT('2017-11-09 08:30:00', '%H:%i')
-                            AND DATE_FORMAT(eve_data_fim, '%H:%i') <= DATE_FORMAT('2017-11-09 10:00:00', '%H:%i'))
-                            OR 
-                    (DATE_FORMAT(eve_data_inicio, '%H:%i') < DATE_FORMAT('2017-11-09 08:30:00', '%H:%i')
-                            AND DATE_FORMAT(eve_data_fim, '%H:%i') > DATE_FORMAT('2017-11-09 08:30:00', '%H:%i'))
-                            OR
-                            (DATE_FORMAT(eve_data_inicio, '%H:%i') < DATE_FORMAT('2017-11-09 10:00:00', '%H:%i')
-                            AND DATE_FORMAT(eve_data_fim, '%H:%i') > DATE_FORMAT('2017-11-09 10:00:00', '%H:%i'))
-                            OR
-                    (DATE_FORMAT(eve_data_inicio, '%H:%i') <= DATE_FORMAT('2017-11-09 08:30:00', '%H:%i')
-                            AND DATE_FORMAT(eve_data_fim, '%H:%i') >= DATE_FORMAT('2017-11-09 10:00:00', '%H:%i')))
-	AND eve.eve_amb_id = 1";
+                    AND ((DATE_FORMAT(eve_data_inicio, '%H:%i') >= DATE_FORMAT(?, '%H:%i')
+                    AND DATE_FORMAT(eve_data_fim, '%H:%i') <= DATE_FORMAT(?, '%H:%i'))
+                    OR 
+                    (DATE_FORMAT(eve_data_inicio, '%H:%i') < DATE_FORMAT(?, '%H:%i')
+                    AND DATE_FORMAT(eve_data_fim, '%H:%i') > DATE_FORMAT(?, '%H:%i'))
+                    OR
+                    (DATE_FORMAT(eve_data_inicio, '%H:%i') < DATE_FORMAT(?, '%H:%i')
+                    AND DATE_FORMAT(eve_data_fim, '%H:%i') > DATE_FORMAT(?, '%H:%i'))
+                    OR
+                    (DATE_FORMAT(eve_data_inicio, '%H:%i') <= DATE_FORMAT(?, '%H:%i')
+                    AND DATE_FORMAT(eve_data_fim, '%H:%i') >= DATE_FORMAT(?, '%H:%i')))
+                    AND eve.eve_amb_id = ?";
             $p_sql = ConexaoMysql::getInstance()->prepare($sql);
             $p_sql->bindParam(1, $dataInicio);
             $p_sql->bindParam(2, $dataFim);
