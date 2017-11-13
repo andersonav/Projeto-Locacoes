@@ -34,13 +34,14 @@ class EquipamentoView {
                     <tr> 
                         <!--<i class="material-icons">check</i>-->
                         <th></th>
-                        <th>Equipamento</th>
-                        <th>Qtd Disponível</th>
-                        <th>Data Início</th>
-                        <th>Hora Início</th>
-                        <th>Data Final</th>
-                        <th>Hora Final</th>
-                        <th>Qtd Solicitada</th>
+                        <th class="corLogo-text">Equipamento</th>
+                        <th class="corLogo-text">Qtd Disponível</th>
+                        <th class="corLogo-text">Qtd Solicitada</th>
+                        <th class="corLogo-text">Data Início</th>
+                        <th class="corLogo-text">Hora Início</th>
+                        <th class="corLogo-text">Data Final</th>
+                        <th class="corLogo-text">Hora Final</th>
+
                     </tr>
                 </thead>
                 <tbody>
@@ -52,11 +53,11 @@ class EquipamentoView {
                             <td><input type="checkbox" id="input<?= $equipamento->getIdEquipamento(); ?>" value="<?= $equipamento->getIdEquipamento(); ?>" class="idEquipamento"/><label for="input<?= $equipamento->getIdEquipamento(); ?>"></label></td>
                             <td><strong><?= $equipamento->getDescricaoEquipamento(); ?></strong></td>
                             <td><strong><?= $equipamento->getQuantidadeEquipamento(); ?></strong></td>
+                            <td><strong><input type="text" class="txt-quantidade-solicitada" placeholder="Digite a quantidade solicitada" id="input<?= $equipamento->getIdEquipamento(); ?>" disabled max="<?= $equipamento->getQuantidadeEquipamento(); ?>"></strong></td>
                             <td><strong><input type="text" class="txt-data-inicial dataInicio" placeholder="Digite a data inicial" id="input<?= $equipamento->getIdEquipamento(); ?>" disabled></strong></td>
                             <td><strong><input type="text" class="txt-hora-inicial horaInicio" placeholder="Digite a hora inicial" id="input<?= $equipamento->getIdEquipamento(); ?>" disabled></strong></td>
                             <td><strong><input type="text" class="txt-data-final dataFim" placeholder="Digite a data final" id="input<?= $equipamento->getIdEquipamento(); ?>" disabled></strong></td>
                             <td><strong><input type="text" class="txt-hora-final horaFim" placeholder="Digite a hora final" id="input<?= $equipamento->getIdEquipamento(); ?>" disabled></strong></td>
-                            <td><strong><input type="text" class="txt-quantidade-solicitada" placeholder="Digite a quantidade solicitada" id="input<?= $equipamento->getIdEquipamento(); ?>" disabled max="<?= $equipamento->getQuantidadeEquipamento(); ?>"></strong></td>
                         </tr>
                         <?php
                     }
@@ -67,13 +68,13 @@ class EquipamentoView {
         </div> 
         <?php
     }
-    
+
     public function jsonVerifyQtdSolicitadaByIdEquipamento($equipamento) {
         $array = array();
         foreach ($equipamento as $equipament) {
             $array = array(
-                "idEquipamento"=>$equipament->getIdEquipamento(),
-                "qtdDisponivel"=>$equipament->getQuantidadeEquipamento()
+                "idEquipamento" => $equipament->getIdEquipamento(),
+                "qtdDisponivel" => $equipament->getQuantidadeEquipamento()
             );
         }
         echo json_encode($array);

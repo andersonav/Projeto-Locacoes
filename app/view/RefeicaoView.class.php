@@ -34,13 +34,14 @@ class RefeicaoView {
                     <tr> 
                         <!--<i class="material-icons">check</i>-->
                         <th></th>
-                        <th>Refeição</th>
-                        <th>Qtd Disponível</th>
-                        <th>Data Início</th>
-                        <th>Hora Início</th>
-                        <th>Data Final</th>
-                        <th>Hora Final</th>
-                        <th>Qtd Solicitada</th>
+                        <th class="corLogo-text">Refeição</th>
+                        <th class="corLogo-text">Qtd Disponível</th>
+                        <th class="corLogo-text">Qtd Solicitada</th>
+                        <th class="corLogo-text">Data Início</th>
+                        <th class="corLogo-text">Hora Início</th>
+                        <th class="corLogo-text">Data Final</th>
+                        <th class="corLogo-text">Hora Final</th>
+
                     </tr>
                 </thead>
                 <tbody>
@@ -52,11 +53,11 @@ class RefeicaoView {
                             <td><input type="checkbox" id="inputRef<?= $refeicao->getIdRefeicao(); ?>" value="<?= $refeicao->getIdRefeicao(); ?>" class="idRefeicao"/><label for="inputRef<?= $refeicao->getIdRefeicao(); ?>"></label></td>
                             <td><strong><?= $refeicao->getDescricaoRefeicao(); ?></strong></td>
                             <td><strong><?= $refeicao->getQuantidadeRefeicao(); ?></strong></td>
-                            <td><strong><input type="text" class="txt-data-inicial-servico dataInicio" placeholder="Digite a data inicial" id="inputRef<?= $refeicao->getIdRefeicao(); ?>" disabled></strong></td>
-                            <td><strong><input type="text" class="txt-hora-inicial-servico horaInicio" placeholder="Digite a hora inicial" id="inputRef<?= $refeicao->getIdRefeicao(); ?>" disabled></strong></td>
-                            <td><strong><input type="text" class="txt-data-final-servico dataFim" placeholder="Digite a data final" id="inputRef<?= $refeicao->getIdRefeicao(); ?>" disabled></strong></td>
-                            <td><strong><input type="text" class="txt-hora-final-servico horaFim" placeholder="Digite a hora final" id="inputRef<?= $refeicao->getIdRefeicao(); ?>" disabled></strong></td>
-                            <td><strong><input type="text" class="txt-quantidade-solicitada-servico" placeholder="Digite a quantidade solicitada" id="inputRef<?= $refeicao->getIdRefeicao(); ?>" disabled max="<?= $refeicao->getQuantidadeRefeicao(); ?>"></strong></td>
+                            <td><strong><input type="text" class="txt-quantidade-solicitada-refeicao" placeholder="Digite a quantidade solicitada" id="inputRef<?= $refeicao->getIdRefeicao(); ?>" disabled max="<?= $refeicao->getQuantidadeRefeicao(); ?>"></strong></td>
+                            <td><strong><input type="text" class="txt-data-inicial-refeicao dataInicio" placeholder="Digite a data inicial" id="inputRef<?= $refeicao->getIdRefeicao(); ?>" disabled></strong></td>
+                            <td><strong><input type="text" class="txt-hora-inicial-refeicao horaInicio" placeholder="Digite a hora inicial" id="inputRef<?= $refeicao->getIdRefeicao(); ?>" disabled></strong></td>
+                            <td><strong><input type="text" class="txt-data-final-refeicao dataFim" placeholder="Digite a data final" id="inputRef<?= $refeicao->getIdRefeicao(); ?>" disabled></strong></td>
+                            <td><strong><input type="text" class="txt-hora-final-refeicao horaFim" placeholder="Digite a hora final" id="inputRef<?= $refeicao->getIdRefeicao(); ?>" disabled></strong></td>
                         </tr>
                         <?php
                     }

@@ -34,13 +34,13 @@ class ServicoView {
                     <tr> 
                         <!--<i class="material-icons">check</i>-->
                         <th></th>
-                        <th>Serviço</th>
-                        <th>Qtd Disponível</th>
-                        <th>Data Início</th>
-                        <th>Hora Início</th>
-                        <th>Data Final</th>
-                        <th>Hora Final</th>
-                        <th>Qtd Solicitada</th>
+                        <th class="corLogo-text">Serviço</th>
+                        <th class="corLogo-text">Qtd Disponível</th>
+                        <th class="corLogo-text">Qtd Solicitada</th>
+                        <th class="corLogo-text">Data Início</th>
+                        <th class="corLogo-text">Hora Início</th>
+                        <th class="corLogo-text">Data Final</th>
+                        <th class="corLogo-text">Hora Final</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -52,11 +52,11 @@ class ServicoView {
                             <td><input type="checkbox" id="inputSer<?= $servico->getIdServico(); ?>" value="<?= $servico->getIdServico(); ?>" class="idServico"/><label for="inputSer<?= $servico->getIdServico(); ?>"></label></td>
                             <td><strong><?= $servico->getDescricaoServico(); ?></strong></td>
                             <td><strong><?= $servico->getQuantidadeServico(); ?></strong></td>
+                            <td><strong><input type="text" class="txt-quantidade-solicitada-servico" placeholder="Digite a quantidade solicitada" id="inputSer<?= $servico->getIdServico(); ?>" disabled max="<?= $servico->getQuantidadeServico(); ?>"></strong></td>
                             <td><strong><input type="text" class="txt-data-inicial-servico dataInicio" placeholder="Digite a data inicial" id="inputSer<?= $servico->getIdServico(); ?>" disabled></strong></td>
                             <td><strong><input type="text" class="txt-hora-inicial-servico horaInicio" placeholder="Digite a hora inicial" id="inputSer<?= $servico->getIdServico(); ?>" disabled></strong></td>
                             <td><strong><input type="text" class="txt-data-final-servico dataFim" placeholder="Digite a data final" id="inputSer<?= $servico->getIdServico(); ?>" disabled></strong></td>
                             <td><strong><input type="text" class="txt-hora-final-servico horaFim" placeholder="Digite a hora final" id="inputSer<?= $servico->getIdServico(); ?>" disabled></strong></td>
-                            <td><strong><input type="text" class="txt-quantidade-solicitada-servico" placeholder="Digite a quantidade solicitada" id="inputSer<?= $servico->getIdServico(); ?>" disabled max="<?= $servico->getQuantidadeServico(); ?>"></strong></td>
                         </tr>
                         <?php
                     }

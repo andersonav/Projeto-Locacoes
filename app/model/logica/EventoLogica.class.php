@@ -104,6 +104,26 @@ class EventoLogica {
         return EventoDao::getInstance()->insertInTabelEventEquipamentUsed($valorIdEvento, $idEquipamento, $qtdEquipamento, $dataInicio, $dataFim);
     }
 
+    public function insertInTabelEventServiceUsed() {
+        $valorIdEvento = $_REQUEST['valorIdEvento'];
+        $idServico = $_REQUEST['idServico'];
+        $qtdServico = $_REQUEST['qtdServico'];
+        $dataInicio = $_REQUEST['dataInicio'];
+        $dataFim = $_REQUEST['dataFim'];
+
+        return EventoDao::getInstance()->insertInTabelEventServiceUsed($valorIdEvento, $idServico, $qtdServico, $dataInicio, $dataFim);
+    }
+
+    public function insertInTabelEventRefeicaoUsed() {
+        $valorIdEvento = $_REQUEST['valorIdEvento'];
+        $idRefeicao = $_REQUEST['idRefeicao'];
+        $qtdRefeicao = $_REQUEST['qtdRefeicao'];
+        $dataInicio = $_REQUEST['dataInicio'];
+        $dataFim = $_REQUEST['dataFim'];
+
+        return EventoDao::getInstance()->insertInTabelEventRefeicaoUsed($valorIdEvento, $idRefeicao, $qtdRefeicao, $dataInicio, $dataFim);
+    }
+
     public function insertIntoTableAulaDetalhes() {
         $valorIdEvento = $_REQUEST['valorIdEvento'];
         $idAula = $_REQUEST['idAula'];

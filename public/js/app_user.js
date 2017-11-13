@@ -32,6 +32,7 @@ $(function () {
 
     function calendarUser(idAmbiente, idBloco, idSetor) {
         $('#calendarUser').fullCalendar('destroy');
+        $('#readyCalendarUser').fullCalendar('destroy');
         $('#calendarUser').fullCalendar({
             monthNames: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro',
                 'Outubro', 'Novembro', 'Dezembro'],
@@ -115,10 +116,23 @@ $(function () {
                 });
             },
             eventRender: function (event, eventElement, element) {
-                
-                
+
+
                 // If you want it on a lin
             }
+        });
+    }
+
+    function mostrarInPage() {
+        $('#readyCalendarUser').fullCalendar({
+            header: {
+                left: 'prev today',
+                center: 'title',
+                right: 'next'
+            },
+            height: 300,
+            noEventsMessage: 'Selecione um local para visualizar eventos cadastrados.',
+            defaultView: 'listWeek'
         });
     }
 
@@ -432,7 +446,7 @@ $(function () {
 
 
     getSetorPageUser();
-    calendarUser(1, 1, 1);
+    mostrarInPage();
     pickDataInicio();
     pickDataFim();
     pickHoraInicio();

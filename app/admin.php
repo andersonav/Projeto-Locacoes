@@ -68,12 +68,11 @@
             </div>
         </nav>
         <!--       Container para Modal e Adicionar Evento-->
-        <div class="container">
-            <input type="hidden" name="pagina" value="admin">
-            <div id="modalEventoNulo" class="modal">
-                <div class="modal-content">
-                    <h4>Alerta</h4>
-                    <p>Eventos no ambiente selecionado não existem!</p>
+        <div class="container"> 
+            <div id="modalEventoNulo" class="modal" style="width: 20% !important; margin-top: 10% !important;">
+                <div class="modal-content" >
+                    <h4 class="center">Aviso</h4>
+                    <p class="center">Não há eventos cadastrados neste ambiente!</p>
                 </div>
                 <div class="modal-footer">
                     <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Fechar</a>
@@ -109,7 +108,7 @@
             <div id="modalCheckNulo" class="modal">
                 <div class="modal-content">
                     <h4>Alerta</h4>
-                    <p>Por favor, selecione um equipamento!</p>
+                    <p>Por favor, Equipamento, Serviço e Refeição precisam ser preenchidos!</p>
                 </div>
                 <div class="modal-footer">
                     <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Fechar</a>
@@ -152,18 +151,7 @@
                                 <input type="text" id="descricaoEvento" class="validate descricaoEvento" data-length="200" maxlength="201" placeholder="Digite a descrição do Evento">
                                 <label for="icon_prefix" class="corLogo-text active">Descrição do Evento</label>
                             </div>
-                            <div class="divAula">
-                                <div class="input-field col s12 m3">
-                                    <select name="aula" class="sel-aula" id="sel-aula">
-                                    </select>
-                                    <label class="corLogo-text">Aula?</label>
-                                </div>
 
-                                <div class="input-field col s12 m9 divInputProfessor">
-                                    <input id="icon_prefix" type="text" class="validate nomeProfessor" placeholder="Digite o nome do professor" disabled>
-                                    <label for="icon_prefix" class="corLogo-text active">Professor:</label>
-                                </div>
-                            </div>
                             <div class="input-field col s12 m4">
                                 <select name="tipo" class="sel-tipo-evento" id="sel-tipo-evento">
                                 </select>
@@ -182,19 +170,19 @@
                                 <label class="corLogo-text">Ambiente: </label>
                             </div>
                             <div class="input-field col s12 m3">
-                                <input id="formDataInicio" type="text" class="dataInicio" placeholder="Escolha a Data Inicial">
+                                <input id="formDataInicio" type="text" class="dataInicio" placeholder="Escolha a Data Inicial" name="dataInicio">
                                 <label for="icon_prefix" class="corLogo-text active">Data Início:</label>
                             </div>
                             <div class="input-field col s12 m3">
-                                <input id="formHoraInicio" type="text" class="validate horaInicio" placeholder="Escolha a Hora Inicial">
+                                <input id="formHoraInicio" type="text" class="validate horaInicio" placeholder="Escolha a Hora Inicial" name="horaInicio">
                                 <label for="icon_prefix" class="corLogo-text active">Hora Início:</label>
                             </div>
                             <div class="input-field col s12 m3">
-                                <input id="formDataFim" type="text" class="dataFim" placeholder="Escolha a Data Final">
+                                <input id="formDataFim" type="text" class="dataFim" placeholder="Escolha a Data Final" name="dataFim">
                                 <label for="icon_prefix" class="corLogo-text active">Data Fim:</label>
                             </div>
                             <div class="input-field col s12 m3">
-                                <input id="formHoraFim" type="text" class="validate horaFim" placeholder="Escolha a Hora Final">
+                                <input id="formHoraFim" type="text" class="validate horaFim" placeholder="Escolha a Hora Final" name="horaFim">
                                 <label for="icon_prefix" class="corLogo-text active">Hora Fim:</label>
                             </div>
                             <div class="col s12">
@@ -220,12 +208,20 @@
                             </div>
                         </div>
                         <div class="row cadastroClickBtn mostrarWhenClickBtn center">
+                            <div class="input-field col s12 m3">
+                                <select name="aula" class="sel-aula" id="sel-aula">
+                                </select>
+                                <label class="corLogo-text">Aula?</label>
+                            </div>
+                            <div class="input-field col s12 m4 divInputProfessor">
+                                <input id="icon_prefix" type="text" class="validate nomeProfessor" placeholder="Digite o nome do professor" disabled>
+                                <label for="icon_prefix" class="corLogo-text active">Professor:</label>
+                            </div>
                             <div class="input-field col s12 m5">
                                 <select name="tipoRepeticao" class="sel-tip-repeticao" id="sel-tip-repeticao">
                                 </select>
                                 <label class="corLogo-text">Repetir: </label>
                             </div>
-
                         </div>
                         <!--<div id="calendar2" class="cadastroClickBtn calendar2"></div>;-->
                     </form>
@@ -234,13 +230,10 @@
                 <div class="modal-footer">
                     <button class="btnModal buttonOkay">CADASTRAR</button>
                     <button class="btnModal buttonCancel">CANCEL</button>
-                    <!--                <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Agree</a>-->
                 </div>
             </div>
             <div id="modalUpdateEvent" class="modal">
                 <div class="modal-content" id="contentUpdateEvent">
-                    <!--                    <h4>Alerta</h4>
-                                        <p>Por favor preencha todos os campos!</p>-->
                 </div>
                 <div class="modal-footer">
                     <button class="btnModal buttonUpdate">ATUALIZAR</button>
@@ -265,41 +258,24 @@
                 <div class="input-field col s12 m4">
                     <select name="tipo" class="sel-tipo-evento-pesquisa" id="sel-tipo-evento-pesquisa">
                         <option value="" disabled selected>Escolha sua opção</option>
-                        <!--                       <option value="1">Servidor</option>
-                                                <option value="2">Aluno</option>
-                                                <option value="3">Tercerizado</option>
-                                                <option value="4">Mestrado</option>
-                                                <option value="5">Bolsista</option>-->
                     </select>
                     <label class="corLogo-text">Tipo de Evento: </label>
                 </div>
                 <div class="input-field col s12 m4">
                     <select name="bloco" class="sel-bloco-pesquisa" id="sel-bloco-pesquisa">
                         <option value="" disabled selected>Escolha sua opção</option>
-                        <!--                        <option value="1">Servidor</option>
-                                                <option value="2">Aluno</option>
-                                                <option value="3">Tercerizado</option>
-                                                <option value="4">Mestrado</option>
-                                                <option value="5">Bolsista</option>-->
                     </select>
                     <label class="corLogo-text">Bloco: </label>
                 </div>
                 <div class="input-field col s12 m4">
                     <select name="ambiente" class="sel-ambiente-pesquisa" id="sel-ambiente-pesquisa">
                         <option value="" disabled selected>Escolha sua opção</option>
-                        <!--                        <option value="1">Servidor</option>
-                                                <option value="2">Aluno</option>
-                                                <option value="3">Tercerizado</option>
-                                                <option value="4">Mestrado</option>
-                                                <option value="5">Bolsista</option>-->
                     </select>
                     <label class="corLogo-text">Ambiente: </label>
                 </div>
             </div>
-            <!--            <div class="texto">
-                            <h3>SysReserva</h3>
-                        </div>-->
             <div id='calendar'></div>
+            <div id="readyCalendar"></div>
         </div>
 
         <footer>

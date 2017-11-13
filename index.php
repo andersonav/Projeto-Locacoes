@@ -145,6 +145,7 @@
                         </div>-->
 
             <div id='calendarUser'></div>
+            <div id='readyCalendarUser'></div>
         </div>
 
         <footer>

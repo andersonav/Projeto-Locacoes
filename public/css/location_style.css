@@ -14,7 +14,6 @@ body{
 .eventImg{
     width:20px;
     height:20px;
-
 }
 .scroll{
     overflow: scroll;
@@ -22,30 +21,44 @@ body{
 }
 .tabelaEquipamentos, .tabelaServicos, .tabelaRefeicoes {
     border-collapse: collapse;
-
-}
-.tabelaEquipamentos thead, .tabelaServicos thead, .tabelaRefeicoes thead  {
-    font-weight: bold;
 }
 .tabelaEquipamentos th, .tabelaServicos th, .tabelaRefeicoes th {
-    font-weight: normal;
     text-align: left;
 }
 .tabelaEquipamentos th, .tabelaServicos th, .tabelaRefeicoes th, .tabelaEquipamentos td, .tabelaServicos td, .tabelaRefeicoes td {
     padding: 0.1em 1em;
-    font-weight: bold;
 }
 .corLogo-text {
     color: #006B43 !important;
+    font-weight: normal !important;
 }
 #calendar {
     margin: 15px auto;
 }
 
+#readyCalendar {
+    margin-bottom: 60px;
+}
+.fc-left h2 {
+    margin-left: 325px!important;
+}
+
+.fc-button-group {
+    margin-right: 325px; 
+}
+
+#readyCalendarUser {
+    margin-bottom: 60px;
+}
 .esconderDivAula{
     display: none;
 }
-
+.equipamento input[type=text], .servicos input[type=text], .refeicoes input[type=text]{
+    text-align: center;
+}
+.fc-list-empty{
+    font-size: 20px !important;
+}
 .btnModal{
     border: solid 2px white;
     padding: 10px;
@@ -54,7 +67,6 @@ body{
     margin-top: 2%;
     margin-left: 2%;
     float: right;
-    font-weight: bold;
     margin-bottom: 2%;
 }
 .equipamento{

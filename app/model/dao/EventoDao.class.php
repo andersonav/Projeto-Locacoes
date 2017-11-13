@@ -240,6 +240,38 @@ class EventoDao {
         }
     }
 
+    public function insertInTabelEventServiceUsed($valorIdEvento, $idServico, $qtdServico, $dataInicio, $dataFim) {
+        try {
+            $sql = "INSERT INTO evento_servico_utilizado(eve_ser_uti_fkeve_id, eve_ser_uti_fkser_id, eve_ser_uti_qtd, eve_ser_uti_data_inicio, eve_ser_uti_data_fim)"
+                    . "VALUES (?,?,?,?,?)";
+            $p_sql = ConexaoMysql::getInstance()->prepare($sql);
+            $p_sql->bindParam(1, $valorIdEvento);
+            $p_sql->bindParam(2, $idServico);
+            $p_sql->bindParam(3, $qtdServico);
+            $p_sql->bindParam(4, $dataInicio);
+            $p_sql->bindParam(5, $dataFim);
+            return $p_sql->execute();
+        } catch (Exception $e) {
+            echo $e->getTraceAsString();
+        }
+    }
+
+    public function insertInTabelEventRefeicaoUsed($valorIdEvento, $idRefeicao, $qtdRefeicao, $dataInicio, $dataFim) {
+        try {
+            $sql = "INSERT INTO evento_refeicao_utilizado(eve_ref_uti_fkeve_id, eve_ref_uti_fkref_id, eve_ref_uti_qtd, eve_ref_uti_data_inicio, eve_ref_uti_data_fim)"
+                    . "VALUES (?,?,?,?,?)";
+            $p_sql = ConexaoMysql::getInstance()->prepare($sql);
+            $p_sql->bindParam(1, $valorIdEvento);
+            $p_sql->bindParam(2, $idRefeicao);
+            $p_sql->bindParam(3, $qtdRefeicao);
+            $p_sql->bindParam(4, $dataInicio);
+            $p_sql->bindParam(5, $dataFim);
+            return $p_sql->execute();
+        } catch (Exception $e) {
+            echo $e->getTraceAsString();
+        }
+    }
+
     public function insertIntoTableAulaDetalhes($valorIdEvento, $idAula, $nomeProfessor) {
         try {
             $sql = "INSERT INTO evento_aula_detalhes(eve_aula_det_fkeve_id, eve_aula_det_fkaula_id, eve_aula_det_pro)"
