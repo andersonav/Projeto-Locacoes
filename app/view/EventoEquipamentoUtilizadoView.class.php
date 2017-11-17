@@ -34,8 +34,8 @@ class EventoEquipamentoUtilizadoView {
                     <thead>
                         <tr> 
                             <!--<i class="material-icons">check</i>-->
-                            <th>Equipamento</th>
-                            <th>Qtd Solicitada</th>
+                            <th class="corLogo-text">Materiais</th>
+                            <th class="corLogo-text">Qtd Solicitada</th>
                         </tr>
                     </thead>
                     <tbody>

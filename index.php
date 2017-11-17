@@ -71,11 +71,10 @@
         </nav>
         <!--       Container para Modal e Adicionar Evento-->
         <div class="container">
-            <input type="hidden" name="pagina" value="usuario">
-            <div id="modalEventoNulo" class="modal">
+            <div id="modalEventoNulo" class="modal" style="width: 20% !important; margin-top: 10% !important;">
                 <div class="modal-content">
-                    <h4>Alerta</h4>
-                    <p>Eventos no ambiente selecionado não existem!</p>
+                     <h4 class="center">Aviso</h4>
+                    <p class="center">Não há eventos cadastrados neste ambiente!</p>
                 </div>
                 <div class="modal-footer">
                     <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Fechar</a>

@@ -180,7 +180,7 @@ class EventoView {
                     </div>
                     <div class="col s12">
                         <ul id="tabs-user" class="tabs">
-                            <li class="tab col s3 active"><a class="active" href="#equipamentos-user">Equipamentos</a></li>
+                            <li class="tab col s3 active"><a class="active" href="#equipamentos-user">Materiais</a></li>
                             <li class="tab col s3"><a href="#servicos-user">Serviços</a></li>
                             <li class="tab col s3"><a href="#refeicoes-user">Refeições</a></li>
                         </ul>

@@ -48,6 +48,7 @@ $(function () {
                 week: 'Semana',
                 day: 'Dia'
             },
+            displayEventEnd: true,
             header: {
                 left: 'prev,next today',
                 center: 'title',
@@ -126,7 +127,7 @@ $(function () {
     function mostrarInPage() {
         $('#readyCalendarUser').fullCalendar({
             header: {
-                left: 'prev today',
+                left: 'prev',
                 center: 'title',
                 right: 'next'
             },

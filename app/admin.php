@@ -108,7 +108,7 @@
             <div id="modalCheckNulo" class="modal">
                 <div class="modal-content">
                     <h4>Alerta</h4>
-                    <p>Por favor, Equipamento, Serviço e Refeição precisam ser preenchidos!</p>
+                    <p>Por favor, Material, Serviço e Refeição precisam ser preenchidos!</p>
                 </div>
                 <div class="modal-footer">
                     <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Fechar</a>
@@ -155,7 +155,7 @@
                             <div class="input-field col s12 m4">
                                 <select name="tipo" class="sel-tipo-evento" id="sel-tipo-evento">
                                 </select>
-                                <label class="corLogo-text">Tipo: </label>
+                                <label class="corLogo-text">Tipo de Evento: </label>
                             </div>
                             <div class="input-field col s12 m4">
                                 <select name="bloco" class="sel-bloco" id="sel-bloco">
@@ -187,7 +187,7 @@
                             </div>
                             <div class="col s12">
                                 <ul id="tabs-swipe-demo" class="tabs">
-                                    <li class="tab col s3 active"><a class="active" href="#equipamentos">Equipamentos</a></li>
+                                    <li class="tab col s3 active"><a class="active" href="#equipamentos">Materiais</a></li>
                                     <li class="tab col s3"><a href="#servicos">Serviços</a></li>
                                     <li class="tab col s3"><a href="#refeicoes">Refeições</a></li>
                                 </ul>
@@ -221,6 +221,9 @@
                                 <select name="tipoRepeticao" class="sel-tip-repeticao" id="sel-tip-repeticao">
                                 </select>
                                 <label class="corLogo-text">Repetir: </label>
+                            </div>
+                            <div class="calendarDayOfWeek" id="calendarDayOfWeek">
+
                             </div>
                         </div>
                         <!--<div id="calendar2" class="cadastroClickBtn calendar2"></div>;-->

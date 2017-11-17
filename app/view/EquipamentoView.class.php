@@ -34,7 +34,7 @@ class EquipamentoView {
                     <tr> 
                         <!--<i class="material-icons">check</i>-->
                         <th></th>
-                        <th class="corLogo-text">Equipamento</th>
+                        <th class="corLogo-text">Material</th>
                         <th class="corLogo-text">Qtd Disponível</th>
                         <th class="corLogo-text">Qtd Solicitada</th>
                         <th class="corLogo-text">Data Início</th>
