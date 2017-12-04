@@ -10,6 +10,13 @@ and open the template in the editor.
 
 body{
     font-family: 'Verdana', 'sans-serif' !important;
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+}
+
+main {
+    flex: 1 0 auto;
 }
 .eventImg{
     width:20px;
@@ -155,4 +162,13 @@ button:active{
 }
 .fc-state-default{
     background-repeat: inherit !important; 
+}
+.tabs {
+    background-color: transparent;
+}
+.tabs .tab a {
+    color: #006B43 !important;
+}
+.tabs .indicator{
+    background-color: #006B43 !important;
 }

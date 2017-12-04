@@ -30,6 +30,11 @@ class EventoView {
         echo json_encode($eventos);
     }
 
+    public function jsonEventos($eventos) {
+        
+        echo json_encode($eventos);
+    }
+
     public function htmlModalToUpdateEvent($eventos) {
 
         foreach ($eventos as $evento) {

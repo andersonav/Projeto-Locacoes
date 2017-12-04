@@ -27,7 +27,6 @@ class ServicoDao {
         $servico = new Servico();
         $servico->setIdServico($row->ser_eve_id);
         $servico->setDescricaoServico($row->ser_eve_desc);
-        $servico->setQuantidadeServico($row->ser_eve_qtd);
 
         return $servico;
     }

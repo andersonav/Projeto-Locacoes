@@ -156,6 +156,32 @@ class EventoDao {
         }
     }
 
+    public function getEventoByPesquisa($valorDigitado) {
+        try {
+            $sql = "SELECT eve.eve_id as id, eve.eve_nome, eve.eve_desc as title,
+                    eve.eve_solicitante, eve.eve_data_inicio as start, eve.eve_data_fim as end,
+                    amb.amb_eve_id, amb.amb_eve_desc, blo.blo_eve_id, blo.blo_eve_desc, sev.set_eve_id,
+                    sev.set_eve_desc, evt.eve_tip_rep_id, evt.eve_tip_rep_desc,
+                    eva.eve_aula_id, eva.eve_aula_desc, evad.eve_aula_det_id, evad.eve_aula_det_pro from eventos eve 
+                    JOIN ambiente_evento amb ON amb.amb_eve_id = eve.eve_amb_id
+                    JOIN bloco_evento blo ON blo.blo_eve_id = amb.amb_blo_eve_id 
+                    JOIN setor_evento sev ON sev.set_eve_id = blo.blo_set_eve_id
+                    JOIN evento_tipo_repeticao evt ON evt.eve_tip_rep_id = eve.eve_tip_rep_id 
+                    JOIN evento_aula eva ON eva.eve_aula_id = eve.eve_aula_id
+                    LEFT JOIN evento_aula_detalhes evad ON evad.eve_aula_det_fkeve_id = eve.eve_aula_id
+                    WHERE eve.eve_nome LIKE '%" . $valorDigitado . "%' OR eve.eve_desc LIKE '%" . $valorDigitado . "%'
+                    OR eve.eve_solicitante LIKE '%" . $valorDigitado . "%'
+                    OR amb.amb_eve_desc LIKE '%" . $valorDigitado . "%'
+                    OR blo.blo_eve_desc LIKE '%" . $valorDigitado . "%'";
+            $p_sql = ConexaoMysql::getInstance()->prepare($sql);
+            $p_sql->execute();
+
+            return $this->getListObjEvento($p_sql->fetchAll(PDO::FETCH_OBJ));
+        } catch (Exception $e) {
+            echo $e->getTraceAsString();
+        }
+    }
+
     public function verifyDates($dataInicio, $dataFim, $ambienteEvento) {
 
         try {
@@ -240,16 +266,15 @@ class EventoDao {
         }
     }
 
-    public function insertInTabelEventServiceUsed($valorIdEvento, $idServico, $qtdServico, $dataInicio, $dataFim) {
+    public function insertInTabelEventServiceUsed($valorIdEvento, $idServico, $dataInicio, $dataFim) {
         try {
-            $sql = "INSERT INTO evento_servico_utilizado(eve_ser_uti_fkeve_id, eve_ser_uti_fkser_id, eve_ser_uti_qtd, eve_ser_uti_data_inicio, eve_ser_uti_data_fim)"
-                    . "VALUES (?,?,?,?,?)";
+            $sql = "INSERT INTO evento_servico_utilizado(eve_ser_uti_fkeve_id, eve_ser_uti_fkser_id, eve_ser_uti_data_inicio, eve_ser_uti_data_fim)"
+                    . "VALUES (?,?,?,?)";
             $p_sql = ConexaoMysql::getInstance()->prepare($sql);
             $p_sql->bindParam(1, $valorIdEvento);
             $p_sql->bindParam(2, $idServico);
-            $p_sql->bindParam(3, $qtdServico);
-            $p_sql->bindParam(4, $dataInicio);
-            $p_sql->bindParam(5, $dataFim);
+            $p_sql->bindParam(3, $dataInicio);
+            $p_sql->bindParam(4, $dataFim);
             return $p_sql->execute();
         } catch (Exception $e) {
             echo $e->getTraceAsString();

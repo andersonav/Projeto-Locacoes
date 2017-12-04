@@ -8,7 +8,7 @@
 /**
  * Description of RequisicaoView
  *
- * @author cleonilson.ti
+ * @author anderson.alves
  */
 class RequisicaoMPView {
 

@@ -136,8 +136,7 @@ $(function () {
                                 eventData = {
                                     title: title,
                                     start: start,
-                                    end: end,
-                                    imageurl: "../public/img/informacoes.png"
+                                    end: end
                                 };
                                 var valorBoolean = verifyDates(start, end, ambienteEvento);
                                 if (valorBoolean == true) {
@@ -187,10 +186,9 @@ $(function () {
                                                 var horaInicioServico = $(".txt-hora-inicial-servico#inputSer" + idServico).val();
                                                 var dataFimServico = $(".txt-data-final-servico#inputSer" + idServico).val();
                                                 var horaFimServico = $(".txt-hora-final-servico#inputSer" + idServico).val();
-                                                var qtdServicoSolicitada = $(".txt-quantidade-solicitada-servico#inputSer" + idServico).val();
                                                 var dataInicioFormatadaCompleta = dataInicioServico.substr(6, 4) + "-" + dataInicioServico.substr(3, 2) + "-" + dataInicioServico.substr(0, 2) + " " + horaInicioServico;
                                                 var dataFimFormatadaCompleta = dataFimServico.substr(6, 4) + "-" + dataFimServico.substr(3, 2) + "-" + dataFimServico.substr(0, 2) + " " + horaFimServico;
-                                                insertInTabelEventServiceUsed(valorIdEvento, idServico, qtdServicoSolicitada, dataInicioFormatadaCompleta, dataFimFormatadaCompleta);
+                                                insertInTabelEventServiceUsed(valorIdEvento, idServico, dataInicioFormatadaCompleta, dataFimFormatadaCompleta);
                                             });
                                             $(".idRefeicao:checked").each(function () {
                                                 var idRefeicao = $(this).val();
@@ -599,10 +597,9 @@ $(function () {
                                                 var horaInicioServico = $(".txt-hora-inicial-servico#inputSer" + idServico).val();
                                                 var dataFimServico = $(".txt-data-final-servico#inputSer" + idServico).val();
                                                 var horaFimServico = $(".txt-hora-final-servico#inputSer" + idServico).val();
-                                                var qtdServicoSolicitada = $(".txt-quantidade-solicitada-servico#inputSer" + idServico).val();
                                                 var dataInicioFormatadaCompleta = dataInicioServico.substr(6, 4) + "-" + dataInicioServico.substr(3, 2) + "-" + dataInicioServico.substr(0, 2) + " " + horaInicioServico;
                                                 var dataFimFormatadaCompleta = dataFimServico.substr(6, 4) + "-" + dataFimServico.substr(3, 2) + "-" + dataFimServico.substr(0, 2) + " " + horaFimServico;
-                                                insertInTabelEventServiceUsed(valorIdEvento, idServico, qtdServicoSolicitada, dataInicioFormatadaCompleta, dataFimFormatadaCompleta);
+                                                insertInTabelEventServiceUsed(valorIdEvento, idServico, dataInicioFormatadaCompleta, dataFimFormatadaCompleta);
                                             });
                                             $(".idRefeicao:checked").each(function () {
                                                 var idRefeicao = $(this).val();
@@ -1246,7 +1243,7 @@ $(function () {
         });
     }
 
-    function insertInTabelEventServiceUsed(valorIdEvento, idServico, qtdServico, dataInicio, dataFim) {
+    function insertInTabelEventServiceUsed(valorIdEvento, idServico, dataInicio, dataFim) {
         $.ajax({
             url: controllerToAdmin,
             type: 'POST',
@@ -1254,7 +1251,6 @@ $(function () {
                 action: 'EventoLogica.insertInTabelEventServiceUsed',
                 valorIdEvento: valorIdEvento,
                 idServico: idServico,
-                qtdServico: qtdServico,
                 dataInicio: dataInicio,
                 dataFim: dataFim
             }, success: function (data, textStatus, jqXHR) {

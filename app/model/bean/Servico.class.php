@@ -19,7 +19,6 @@ class Servico {
 
     private $idServico;
     private $descricaoServico;
-    private $quantidadeServico;
 
     function getIdServico() {
         return $this->idServico;
@@ -29,20 +28,12 @@ class Servico {
         return $this->descricaoServico;
     }
 
-    function getQuantidadeServico() {
-        return $this->quantidadeServico;
-    }
-
     function setIdServico($idServico) {
         $this->idServico = $idServico;
     }
 
     function setDescricaoServico($descricaoServico) {
         $this->descricaoServico = $descricaoServico;
-    }
-
-    function setQuantidadeServico($quantidadeServico) {
-        $this->quantidadeServico = $quantidadeServico;
     }
 
 }

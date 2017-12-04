@@ -39,6 +39,12 @@ class EventoLogica {
         return EventoView::getInstance()->jsonCarregarEventos(EventoDao::getInstance()->getEventoByAmbiente($idAmbiente, $idBloco, $idSetor));
     }
 
+    public function getEventoByPesquisa() {
+        $valorDigitado = $_REQUEST['valorDigitado'];
+        
+        return EventoView::getInstance()->jsonEventos(EventoDao::getInstance()->getEventoByPesquisa($valorDigitado));
+    }
+
     public function insertEventoSelecionado() {
         $nomeEvento = $_REQUEST['nomeEvento'];
         $descricaoEvento = $_REQUEST['descricaoEvento'];
@@ -107,11 +113,10 @@ class EventoLogica {
     public function insertInTabelEventServiceUsed() {
         $valorIdEvento = $_REQUEST['valorIdEvento'];
         $idServico = $_REQUEST['idServico'];
-        $qtdServico = $_REQUEST['qtdServico'];
         $dataInicio = $_REQUEST['dataInicio'];
         $dataFim = $_REQUEST['dataFim'];
 
-        return EventoDao::getInstance()->insertInTabelEventServiceUsed($valorIdEvento, $idServico, $qtdServico, $dataInicio, $dataFim);
+        return EventoDao::getInstance()->insertInTabelEventServiceUsed($valorIdEvento, $idServico, $dataInicio, $dataFim);
     }
 
     public function insertInTabelEventRefeicaoUsed() {

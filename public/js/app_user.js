@@ -29,7 +29,6 @@ $(function () {
         });
     }
 
-
     function calendarUser(idAmbiente, idBloco, idSetor) {
         $('#calendarUser').fullCalendar('destroy');
         $('#readyCalendarUser').fullCalendar('destroy');
@@ -241,159 +240,6 @@ $(function () {
             aftershow: function () {} //Function for after opening timepicker
         });
     }
-    $("select[name=aula]").change(function () {
-        var valorSelect = $(this).val();
-        if (valorSelect == 2) {
-            $(".nomeProfessor").attr("disabled", "disabled");
-        } else {
-            $(".nomeProfessor").removeAttr("disabled");
-        }
-    });
-    $(".openModalAdicionarEvento").click(function () {
-        $(".dataInicio").removeAttr("disabled");
-        $(".dataFim").removeAttr("disabled");
-        $(".horaInicio").removeAttr("disabled");
-        $(".horaFim").removeAttr("disabled");
-        $(".mostrarWhenClickBtn").removeClass("cadastroClickBtn");
-        $("#modalAdicionarEventoClickDay").modal({
-            complete: function () {
-                $('#form_add_event').each(function () {
-                    this.reset();
-                });
-            }
-        });
-        $("#modalAdicionarEventoClickDay").modal('open');
-        isNumeric();
-        habilitarQutdSolicitada();
-        verifyCheck();
-        verifyCampos();
-    });
-
-    function verifyCampos() {
-        $(".buttonOkay").click(function () {
-            var ano = hoje.getFullYear();
-            var mes = hoje.getMonth() + 1;
-            var dia = hoje.getDate();
-            var hora = hoje.getHours();
-            var minutos = hoje.getMinutes();
-            var segundos = hoje.getSeconds();
-            var hojeFormatada = ano + "-" + mes + "-" + dia + " " + hora + ":" + minutos + ":" + segundos;
-            var nomeEvento = $(".nomeEvento").val();
-            var solicitanteEvento = $(".solicitante").val();
-            var tipoEvento = $("#sel-tipo-evento").val();
-            var blocoEvento = $("#sel-bloco").val();
-            var ambienteEvento = $("#sel-ambiente").val();
-            var corEvento = $("#sel-color").val();
-            var idAula = $("#sel-aula").val();
-            var tipoRepeticao = $("#sel-tip-repeticao").val();
-            var descricaoEvento = $(".descricaoEvento").val();
-            var dataInicio = $(".dataInicio").val();
-            var horaInicio = $(".horaInicio").val();
-            var dataFim = $(".dataFim").val();
-            var horaFim = $(".horaFim").val();
-//            23/12/2017
-
-            var contadorInput = 0;
-            var contadorSelect = 0;
-            $("#form_add_event input:enabled").each(function () {
-                $(this).val() == "" ? contadorInput++ : "";
-            });
-
-            $("#form_add_event select").each(function () {
-                $(this).val() == null ? contadorSelect++ : "";
-            });
-
-            if ((contadorInput == 0) && (contadorSelect == 0)) {
-                var inicio = dataInicio.substr(6, 4) + "-" + dataInicio.substr(3, 2) + "-" + dataInicio.substr(0, 2) + " " + horaInicio;
-                var fim = dataFim.substr(6, 4) + "-" + dataFim.substr(3, 2) + "-" + dataFim.substr(0, 2) + " " + horaFim;
-                if (inicio < hojeFormatada) {
-                    $("#modalDataAnterior").modal();
-                    $("#modalDataAnterior").modal('open');
-                } else {
-                    if (inicio > fim) {
-                        $("#modalDataInicioMaiorQueFinal").modal();
-                        $("#modalDataInicioMaiorQueFinal").modal('open');
-                    } else {
-                        var valorBoolean = verifyDates(inicio, fim, ambienteEvento);
-                        if (valorBoolean == true) {
-                            if ($(".idEquipamento").is(":checked")) {
-                                var nomeProfessor = $(".nomeProfessor").val();
-                                if ((idAula == 1) && (nomeProfessor == "")) {
-                                    $("#modalCamposNulos").modal();
-                                    $("#modalCamposNulos").modal('open');
-
-                                } else {
-                                    if ($("#input1").is(":checked")) {
-                                        if (insertEventoSelecionado(nomeEvento, solicitanteEvento, tipoEvento, blocoEvento, ambienteEvento, corEvento, tipoRepeticao, idAula, descricaoEvento, inicio, fim) == true) {
-                                            var valorIdEvento = getEventByAmbienteAndStartAndEnd(ambienteEvento, inicio, fim);
-                                            if (valorIdEvento != 0) {
-                                                var valorCheck = $("#input1").val();
-                                                insertInTabelEventEquipamentUsed(valorIdEvento, valorCheck, "-");
-                                                if (idAula == 1) {
-                                                    insertIntoTableAulaDetalhes(valorIdEvento, idAula, nomeProfessor);
-                                                }
-                                            } else {
-                                                console.log('Não tem valor');
-                                            }
-                                            $("#modalAdicionarEventoClickDay").modal('close');
-                                        }
-
-                                    } else {
-                                        var errorCampoNulo = 0;
-                                        $(".getQtd").each(function () {
-                                            var qtdEquipamento = $(this).val();
-                                            if (qtdEquipamento == "") {
-                                                errorCampoNulo++;
-                                            }
-                                        });
-                                        if (errorCampoNulo != 0) {
-                                            $("#modalCamposNulos").modal();
-                                            $("#modalCamposNulos").modal('open');
-                                        } else {
-                                            if (insertEventoSelecionado(nomeEvento, solicitanteEvento, tipoEvento, blocoEvento, ambienteEvento, corEvento, tipoRepeticao, idAula, descricaoEvento, inicio, fim) == true) {
-                                                var valorIdEvento = getEventByAmbienteAndStartAndEnd(ambienteEvento, inicio, fim);
-                                                $(".getQtd").each(function () {
-                                                    if (valorIdEvento != 0) {
-                                                        var valorEquipamento = $(this).attr('id');
-                                                        var qtdEquipamento = $(this).val();
-                                                        insertInTabelEventEquipamentUsed(valorIdEvento, valorEquipamento, qtdEquipamento);
-                                                    } else {
-                                                        console.log("Não tem valor");
-                                                    }
-                                                });
-                                                if (idAula == 1) {
-                                                    insertIntoTableAulaDetalhes(valorIdEvento, idAula, nomeProfessor);
-                                                }
-                                                $("#modalAdicionarEventoClickDay").modal('close');
-                                            }
-                                        }
-                                    }
-                                    location.reload();
-                                }
-                            } else {
-                                $("#modalCheckNulo").modal();
-                                $("#modalCheckNulo").modal('open');
-                            }
-                        } else {
-                            $("#modalDatasIguais").modal();
-                            $("#modalDatasIguais").modal('open');
-                        }
-                    }
-
-                }
-//                            $('#calendar').fullCalendar('renderEvent', eventData, true); // stick? = true
-//                            insertEventoSelecionado(nomeEvento, solicitanteEvento, tipoEvento, blocoEvento, ambienteEvento, corEvento, title, start, end);
-            } else {
-                $("#modalCamposNulos").modal();
-                $("#modalCamposNulos").modal("open");
-            }
-
-        });
-
-        $(".buttonCancel").click(function () {
-            $("#modalAdicionarEventoClickDay").modal('close');
-        });
-    }
 
     function getBlocoBySetorPageUser() {
         $(".sel-tipo-evento-pesquisa").change(function () {
@@ -441,10 +287,35 @@ $(function () {
         var idBloco = $("#sel-bloco-pesquisa").val();
         var idSetor = $("#sel-tipo-evento-pesquisa").val();
         calendarUser(idAmbiente, idBloco, idSetor);
-
     });
 
+    $(".inputPesquisa").on("keypress keyup", function () {
+        var valorDigitado = $(this).val();
+        if (valorDigitado == "") {
+            $(".pesquisaBySelects").show(1000);
+            mostrarInPage();
+        } else {
+            $(".pesquisaBySelects").hide(1000);
+            $('#calendarUser').fullCalendar('destroy');
+            $('#readyCalendarUser').fullCalendar('destroy');
+            $.ajax({
+                type: "POST",
+                url: controllerToUser,
+                data: {
+                    action: "EventoLogica.getEventoByPesquisa",
+                    valorDigitado: valorDigitado
+                }, success: function (data, textStatus, jqXHR) {
+                    data = $.parseJSON(data);
+                    var eventos = [];
+                    for (var i = 0; i < data.length; i++) {
+                        eventos = data[i].nomeEvento;
+                        console.log(data[i].nomeEvento);
+                    }
+                }
+            });
+        }
 
+    });
 
     getSetorPageUser();
     mostrarInPage();
