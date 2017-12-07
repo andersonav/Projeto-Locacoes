@@ -31,7 +31,7 @@ class EventoView {
     }
 
     public function jsonEventos($eventos) {
-        
+
         echo json_encode($eventos);
     }
 
@@ -183,22 +183,38 @@ class EventoView {
                         <input id="icon_prefix" type="text" class="validate horaFim" placeholder="Escolha a Hora Final" value="<?= date_format(date_create($evento->getDataFimEvento()), 'H:i:s'); ?>" disabled>
                         <label for="icon_prefix" class="corLogo-text active">Hora Fim:</label>
                     </div>
-                    <div class="col s12">
-                        <ul id="tabs-user" class="tabs">
-                            <li class="tab col s3 active"><a class="active" href="#equipamentos-user">Materiais</a></li>
-                            <li class="tab col s3"><a href="#servicos-user">Serviços</a></li>
-                            <li class="tab col s3"><a href="#refeicoes-user">Refeições</a></li>
+                    <div class="input-field col s12 m12">
+                        <ul class="collapsible" data-collapsible="expandable">
+                            <li>
+                                <div class="collapsible-header active"><i class="material-icons">list</i>Materiais</div>
+                                <div class="collapsible-body" id="equipamentos-user">
+
+                                </div>
+                            </li>
+                            <li>
+                                <div class="collapsible-header active"><i class="material-icons">work</i>Serviços</div>
+                                <div class="collapsible-body" id="servicos-user"></div>
+                            </li>
+                            <li>
+                                <div class="collapsible-header active"><i class="material-icons">restaurant</i>Refeições</div>
+                                <div class="collapsible-body" id="refeicoes-user"></div>
+                            </li>
                         </ul>
                     </div>
-                    <div id="equipamentos-user" class="col s12 m12">
+                    <!--                    <div class="col s12">
+                                            <ul id="tabs-user" class="tabs">
+                                                <li class="tab col s3 active"><a class="active" href="#equipamentos-user">Materiais</a></li>
+                                                <li class="tab col s3"><a href="#servicos-user">Serviços</a></li>
+                                                <li class="tab col s3"><a href="#refeicoes-user">Refeições</a></li>
+                                            </ul>
+                                        </div>-->
 
-                    </div>
-                    <div id="servicos-user" class="col s12 m12">
-
-                    </div>
-                    <div id="refeicoes-user" class="col s12 m12">
-
-                    </div>
+                    <!--                    <div id="servicos-user" class="col s12 m12">
+                    
+                                        </div>
+                                        <div id="refeicoes-user" class="col s12 m12">
+                    
+                                        </div>-->
 
                 </div>
                 <!--<div id="calendar2" class="cadastroClickBtn calendar2"></div>;-->

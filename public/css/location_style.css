@@ -23,7 +23,7 @@ main {
     height:20px;
 }
 .scroll{
-    overflow: scroll;
+    overflow: auto;
     width: 100%;
 }
 .tabelaEquipamentos, .tabelaServicos, .tabelaRefeicoes {
@@ -32,9 +32,9 @@ main {
 .tabelaEquipamentos th, .tabelaServicos th, .tabelaRefeicoes th {
     text-align: left;
 }
-.tabelaEquipamentos th, .tabelaServicos th, .tabelaRefeicoes th, .tabelaEquipamentos td, .tabelaServicos td, .tabelaRefeicoes td {
+/*.tabelaEquipamentos th, .tabelaServicos th, .tabelaRefeicoes th, .tabelaEquipamentos td, .tabelaServicos td, .tabelaRefeicoes td {
     padding: 0.1em 1em;
-}
+}*/
 .corLogo-text {
     color: #006B43 !important;
     font-weight: normal !important;
@@ -171,4 +171,17 @@ button:active{
 }
 .tabs .indicator{
     background-color: #006B43 !important;
+}
+
+.collapsible span.badge {
+    margin-top: 0 !important;
+}
+.collection .collection-item {
+    background-color: transparent !important; 
+}
+.collection a.collection-item {
+    color: #006B43 !important;
+}
+.collapsible-body {
+    padding: 2px 10px !important;
 }

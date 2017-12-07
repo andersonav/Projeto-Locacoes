@@ -28,6 +28,8 @@ class EventoEquipamentoUtilizadoDao {
         $equipamento->setIdEventoEquipamentoUtilizado($row->eve_equi_uti_id);
         $equipamento->setDescricaoEventoEquipamentoUtilizado($row->equi_eve_desc);
         $equipamento->setQtdEventoEquipamentoUtilizado($row->eve_equi_uti_qtd);
+        $equipamento->setDataInicioEquipamentoUtilizado($row->eve_equi_uti_data_inicio);
+        $equipamento->setDataFimEquipamentoUtilizado($row->eve_equi_uti_data_fim);
 
         return $equipamento;
     }

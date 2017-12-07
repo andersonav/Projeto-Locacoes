@@ -3,11 +3,20 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/var/www/html/Projeto_Locacoes/app/model/dao/EventoServicoUtilizadoDao.class.php</file>
             <file>file:/var/www/html/Projeto_Locacoes/app/model/dao/EventoDao.class.php</file>
-            <file>file:/var/www/html/Projeto_Locacoes/app/model/dao/ServicoDao.class.php</file>
-            <file>file:/var/www/html/Projeto_Locacoes/app/view/ServicoView.class.php</file>
+            <file>file:/var/www/html/Projeto_Locacoes/app/model/bean/EventoServicoUtilizado.class.php</file>
+            <file>file:/var/www/html/Projeto_Locacoes/app/view/EventoServicoUtilizadoView.class.php</file>
+            <file>file:/var/www/html/Projeto_Locacoes/app/view/EventoView.class.php</file>
+            <file>file:/var/www/html/Projeto_Locacoes/app/model/bean/Evento.class.php</file>
+            <file>file:/var/www/html/Projeto_Locacoes/app/model/dao/EventoEquipamentoUtilizadoDao.class.php</file>
+            <file>file:/var/www/html/Projeto_Locacoes/public/css/location_style.css</file>
+            <file>file:/var/www/html/Projeto_Locacoes/public/js/app_user.js</file>
+            <file>file:/var/www/html/Projeto_Locacoes/app/view/EventoEquipamentoUtilizadoView.class.php</file>
+            <file>file:/var/www/html/Projeto_Locacoes/app/model/bean/EventoEquipamentoUtilizado.class.php</file>
             <file>file:/var/www/html/Projeto_Locacoes/app/model/logica/EventoLogica.class.php</file>
-            <file>file:/var/www/html/Projeto_Locacoes/app/model/bean/Servico.class.php</file>
+            <file>file:/var/www/html/Projeto_Locacoes/app/model/logica/EventoServicoUtilizadoLogica.class.php</file>
+            <file>file:/var/www/html/Projeto_Locacoes/index.php</file>
         </group>
     </open-files>
 </project-private>

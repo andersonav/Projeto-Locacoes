@@ -109,16 +109,14 @@ $(function () {
                         $("#modalInformationEvent").modal();
                         $("#modalInformationEvent").modal('open');
                         $("#contentInformationEvent").html(data);
-                        $('.tabs#tabs-user').tabs();
+//                        $('.tabs#tabs-user').tabs();
+                        $('.collapsible').collapsible();
                         getInformationEquipaments(event.id);
+                        getInformationServices(event.id);
+                        getInformationRefeicoes(event.id);
                         $("select").material_select();
                     }
                 });
-            },
-            eventRender: function (event, eventElement, element) {
-
-
-                // If you want it on a lin
             }
         });
     }
@@ -145,6 +143,32 @@ $(function () {
                 idEvento: idEvento
             }, success: function (data, textStatus, jqXHR) {
                 $("#equipamentos-user").html(data);
+            }
+        });
+    }
+
+    function getInformationServices(idEvento) {
+        $.ajax({
+            url: controllerToUser,
+            type: 'POST',
+            data: {
+                action: "EventoServicoUtilizadoLogica.getInformationsServices",
+                idEvento: idEvento
+            }, success: function (data, textStatus, jqXHR) {
+                $("#servicos-user").html(data);
+            }
+        });
+    }
+
+    function getInformationRefeicoes(idEvento) {
+        $.ajax({
+            url: controllerToUser,
+            type: 'POST',
+            data: {
+                action: "EventoRefeicaoUtilizadoLogica.getInformationsRefeicoes",
+                idEvento: idEvento
+            }, success: function (data, textStatus, jqXHR) {
+                $("#refeicoes-user").html(data);
             }
         });
     }
@@ -325,5 +349,6 @@ $(function () {
     pickHoraFim();
     getBlocoBySetorPageUser();
     getAmbienteByBlocoPageUser();
+
 
 });

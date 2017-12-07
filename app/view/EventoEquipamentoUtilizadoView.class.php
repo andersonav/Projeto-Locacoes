@@ -34,8 +34,12 @@ class EventoEquipamentoUtilizadoView {
                     <thead>
                         <tr> 
                             <!--<i class="material-icons">check</i>-->
-                            <th class="corLogo-text">Materiais</th>
+                            <th class="corLogo-text">Material</th>
                             <th class="corLogo-text">Qtd Solicitada</th>
+                            <th class="corLogo-text">Data Início</th>
+                            <th class="corLogo-text">Hora Início</th>
+                            <th class="corLogo-text">Data Final</th>
+                            <th class="corLogo-text">Hora Final</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -45,13 +49,18 @@ class EventoEquipamentoUtilizadoView {
                             <tr id="<?= $equipamento->getIdEventoEquipamentoUtilizado(); ?>">
                                 <td><strong><?= $equipamento->getDescricaoEventoEquipamentoUtilizado(); ?></strong></td>
                                 <td><strong><?= $equipamento->getQtdEventoEquipamentoUtilizado(); ?></strong></td>
+                                <td><strong><?= date_format(date_create($equipamento->getDataInicioEquipamentoUtilizado()), "d/m/Y"); ?></strong></td>
+                                <td><strong><?= date_format(date_create($equipamento->getDataInicioEquipamentoUtilizado()), "H:i"); ?></strong></td>
+                                <td><strong><?= date_format(date_create($equipamento->getDataFimEquipamentoUtilizado()), "d/m/Y"); ?></strong></td>
+                                <td><strong><?= date_format(date_create($equipamento->getDataFimEquipamentoUtilizado()), "H:i"); ?></strong></td>
                             </tr>
                             <?php
                         }
                         ?>
+                        <!--date_format(date_create($row->eve_data_inicio), "H:i:s");-->
                     </tbody>
                 </table> 
-            </div> 
+            </div>
         </div>
         <?php
     }

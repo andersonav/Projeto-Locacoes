@@ -302,6 +302,7 @@ $(function () {
     }
 
     function loadCalendarDaysOfWeek() {
+        var array = new Array();
         $("#calendarDayOfWeek").fullCalendar({
             monthNames: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro',
                 'Outubro', 'Novembro', 'Dezembro'],
@@ -333,6 +334,17 @@ $(function () {
                 console.log("Clicou no dia: " + date.format());
             },
             select: function (start, end) {
+                start = $.fullCalendar.formatDate(start, "YYYY-MM-DD HH:mm:ss");
+                for (var i = 0; i <= array.length; i++) {
+                    array[i] = start;
+                }
+                console.log(array[0]);
+//                posicaoArray = posicaoArray + 0;
+//                end = $.fullCalendar.formatDate(end, "YYYY-MM-DD HH:mm:ss");
+//                var array = new Array();
+//                array.push(start);
+//                console.log(array[0]);
+//                console.log(posicaoArray);
                 $("#calendarDayOfWeek").fullCalendar('addEventSource', [{
                         start: start,
                         end: end,
@@ -342,7 +354,7 @@ $(function () {
                 $("#calendarDayOfWeek").fullCalendar("unselect");
             },
             selectOverlap: function (event) {
-                
+
                 return !event.block;
             },
             allDaySlot: false,
