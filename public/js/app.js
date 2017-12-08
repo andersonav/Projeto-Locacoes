@@ -13,7 +13,9 @@ $(function () {
     var hora = hoje.getHours();
     var minutos = hoje.getMinutes();
     var horaAtual = hora + ":" + minutos;
-
+    var idEventWeekOrHalfYear = 1;
+    var arrayValoresCompletos = [];
+    var valorIdEvento = [];
     function calendarAdmin(idAmbiente, idBloco, idSetor) {
         $('#calendar').fullCalendar('destroy');
         $("#readyCalendar").fullCalendar('destroy');
@@ -139,6 +141,7 @@ $(function () {
                                     end: end
                                 };
                                 var valorBoolean = verifyDates(start, end, ambienteEvento);
+                                alert(valorBoolean);
                                 if (valorBoolean == true) {
                                     var verifyEquipaments = 0;
                                     $(".getInformationsEquipaments").each(function () {
@@ -302,7 +305,7 @@ $(function () {
     }
 
     function loadCalendarDaysOfWeek() {
-        var array = new Array();
+        $("#calendarDayOfWeek").fullCalendar("destroy");
         $("#calendarDayOfWeek").fullCalendar({
             monthNames: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro',
                 'Outubro', 'Novembro', 'Dezembro'],
@@ -334,27 +337,45 @@ $(function () {
                 console.log("Clicou no dia: " + date.format());
             },
             select: function (start, end) {
-                start = $.fullCalendar.formatDate(start, "YYYY-MM-DD HH:mm:ss");
-                for (var i = 0; i <= array.length; i++) {
-                    array[i] = start;
+                if (start.isBefore(moment())) {
+                    $('#calendarDayOfWeek').fullCalendar('unselect');
+                    alert('Datas anteriores a atual não podem ser selecionadas!');
+                } else {
+                    var arrayStartEnd = [];
+                    start = $.fullCalendar.formatDate(start, "YYYY-MM-DD HH:mm:ss");
+                    end = $.fullCalendar.formatDate(end, "YYYY-MM-DD HH:mm:ss");
+                    arrayStartEnd.push(idEventWeekOrHalfYear);
+                    arrayStartEnd.push(start);
+                    arrayStartEnd.push(end);
+                    arrayValoresCompletos.push(arrayStartEnd);
+                    for (var i = 0; i < arrayValoresCompletos.length; i++) {
+                        console.log(arrayValoresCompletos[i][0]);
+                        console.log(arrayValoresCompletos[i][1]);
+                        console.log(arrayValoresCompletos[i][2]);
+                    }
+                    $("#calendarDayOfWeek").fullCalendar('addEventSource', [{
+                            id: idEventWeekOrHalfYear,
+                            start: start,
+                            end: end,
+                            block: true
+                        }, ]);
+                    $("#calendarDayOfWeek").fullCalendar("unselect");
                 }
-                console.log(array[0]);
-//                posicaoArray = posicaoArray + 0;
-//                end = $.fullCalendar.formatDate(end, "YYYY-MM-DD HH:mm:ss");
-//                var array = new Array();
-//                array.push(start);
-//                console.log(array[0]);
-//                console.log(posicaoArray);
-                $("#calendarDayOfWeek").fullCalendar('addEventSource', [{
-                        start: start,
-                        end: end,
-                        rendering: 'background',
-                        block: true
-                    }, ]);
-                $("#calendarDayOfWeek").fullCalendar("unselect");
+                idEventWeekOrHalfYear++;
+            },
+            eventClick: function (event, element) {
+//                var start = $.fullCalendar.formatDate(event.start, "YYYY-MM-DD HH:mm:ss");
+                for (var i = 0; i < arrayValoresCompletos.length; i++) {
+                    if (arrayValoresCompletos[i][0] == event.id) {
+                        var index = arrayValoresCompletos[i].indexOf(arrayValoresCompletos[i][0]);
+                        if (index > -1) {
+                            arrayValoresCompletos.splice(index, 1);
+                        }
+                    }
+                }
+                $("#calendarDayOfWeek").fullCalendar("removeEvents", event.id);
             },
             selectOverlap: function (event) {
-
                 return !event.block;
             },
             allDaySlot: false,
@@ -516,10 +537,22 @@ $(function () {
         $(".buttonOkay").click(function () {
             var ano = hoje.getFullYear();
             var mes = hoje.getMonth() + 1;
+            if (mes < 10) {
+                mes = "0" + mes;
+            }
             var dia = hoje.getDate();
+            if (dia < 10) {
+                dia = "0" + dia;
+            }
             var hora = hoje.getHours();
             var minutos = hoje.getMinutes();
+            if (minutos < 10) {
+                minutos = "0" + minutos;
+            }
             var segundos = hoje.getSeconds();
+            if (segundos < 10) {
+                segundos = "0" + segundos;
+            }
             var hojeFormatada = ano + "-" + mes + "-" + dia + " " + hora + ":" + minutos + ":" + segundos;
             var nomeEvento = $(".nomeEvento").val();
             var solicitanteEvento = $(".solicitante").val();
@@ -560,73 +593,46 @@ $(function () {
                                     $("#modalCamposNulos").modal();
                                     $("#modalCamposNulos").modal('open');
                                 } else {
-                                    var verifyEquipaments = 0;
-                                    $(".getInformationsEquipaments").each(function () {
-                                        var qtdEquipamento = $(this).val();
-                                        if (qtdEquipamento == "") {
-                                            verifyEquipaments++;
+                                    if (insertEventoSelecionado(nomeEvento, solicitanteEvento, tipoEvento, blocoEvento, ambienteEvento, tipoRepeticao, idAula, descricaoEvento, inicio, fim) == true) {
+                                        var valorIdEvento = getEventByAmbienteAndStartAndEnd(ambienteEvento, arrayValoresCompletos[0][1], arrayValoresCompletos[0][2]);
+                                        if (idAula == 1) {
+                                            insertIntoTableAulaDetalhes(valorIdEvento, idAula, nomeProfessor);
                                         }
-                                    });
-                                    var verifyServices = 0;
-                                    $(".getInformationsServices").each(function () {
-                                        var qtdServicos = $(this).val();
-                                        if (qtdServicos == "") {
-                                            verifyServices++;
-                                        }
-                                    });
-                                    var verifyRefeicoes = 0;
-                                    $(".getInformationsRefeicoes").each(function () {
-                                        var qtdRefeicoes = $(this).val();
-                                        if (qtdRefeicoes == "") {
-                                            verifyRefeicoes++;
-                                        }
-                                    });
-
-                                    if ((verifyEquipaments != 0) || (verifyServices != 0) || (verifyRefeicoes != 0)) {
-                                        $("#modalCamposNulos").modal();
-                                        $("#modalCamposNulos").modal('open');
-                                    } else {
-                                        if (insertEventoSelecionado(nomeEvento, solicitanteEvento, tipoEvento, blocoEvento, ambienteEvento, tipoRepeticao, idAula, descricaoEvento, inicio, fim) == true) {
-                                            var valorIdEvento = getEventByAmbienteAndStartAndEnd(ambienteEvento, inicio, fim);
-                                            if (idAula == 1) {
-                                                insertIntoTableAulaDetalhes(valorIdEvento, idAula, nomeProfessor);
-                                            }
-                                            $(".idEquipamento:checked").each(function () {
-                                                var idEquipamento = $(this).val();
-                                                var dataInicioEquipamento = $(".txt-data-inicial#input" + idEquipamento).val();
-                                                var horaInicioEquipamento = $(".txt-hora-inicial#input" + idEquipamento).val();
-                                                var dataFimEquipamento = $(".txt-data-final#input" + idEquipamento).val();
-                                                var horaFimEquipamento = $(".txt-hora-final#input" + idEquipamento).val();
-                                                var qtdEquipamentoSolicitada = $(".txt-quantidade-solicitada#input" + idEquipamento).val();
-                                                var dataInicioFormatadaCompleta = dataInicioEquipamento.substr(6, 4) + "-" + dataInicioEquipamento.substr(3, 2) + "-" + dataInicioEquipamento.substr(0, 2) + " " + horaInicioEquipamento;
-                                                var dataFimFormatadaCompleta = dataFimEquipamento.substr(6, 4) + "-" + dataFimEquipamento.substr(3, 2) + "-" + dataFimEquipamento.substr(0, 2) + " " + horaFimEquipamento;
-                                                insertInTabelEventEquipamentUsed(valorIdEvento, idEquipamento, qtdEquipamentoSolicitada, dataInicioFormatadaCompleta, dataFimFormatadaCompleta);
+                                        $(".idEquipamento:checked").each(function () {
+                                            var idEquipamento = $(this).val();
+                                            var dataInicioEquipamento = $(".txt-data-inicial#input" + idEquipamento).val();
+                                            var horaInicioEquipamento = $(".txt-hora-inicial#input" + idEquipamento).val();
+                                            var dataFimEquipamento = $(".txt-data-final#input" + idEquipamento).val();
+                                            var horaFimEquipamento = $(".txt-hora-final#input" + idEquipamento).val();
+                                            var qtdEquipamentoSolicitada = $(".txt-quantidade-solicitada#input" + idEquipamento).val();
+                                            var dataInicioFormatadaCompleta = dataInicioEquipamento.substr(6, 4) + "-" + dataInicioEquipamento.substr(3, 2) + "-" + dataInicioEquipamento.substr(0, 2) + " " + horaInicioEquipamento;
+                                            var dataFimFormatadaCompleta = dataFimEquipamento.substr(6, 4) + "-" + dataFimEquipamento.substr(3, 2) + "-" + dataFimEquipamento.substr(0, 2) + " " + horaFimEquipamento;
+                                            insertInTabelEventEquipamentUsed(valorIdEvento, idEquipamento, qtdEquipamentoSolicitada, dataInicioFormatadaCompleta, dataFimFormatadaCompleta);
 //                                                mailToAdminEquipament();
-                                            });
-                                            $(".idServico:checked").each(function () {
-                                                var idServico = $(this).val();
-                                                var dataInicioServico = $(".txt-data-inicial-servico#inputSer" + idServico).val();
-                                                var horaInicioServico = $(".txt-hora-inicial-servico#inputSer" + idServico).val();
-                                                var dataFimServico = $(".txt-data-final-servico#inputSer" + idServico).val();
-                                                var horaFimServico = $(".txt-hora-final-servico#inputSer" + idServico).val();
-                                                var dataInicioFormatadaCompleta = dataInicioServico.substr(6, 4) + "-" + dataInicioServico.substr(3, 2) + "-" + dataInicioServico.substr(0, 2) + " " + horaInicioServico;
-                                                var dataFimFormatadaCompleta = dataFimServico.substr(6, 4) + "-" + dataFimServico.substr(3, 2) + "-" + dataFimServico.substr(0, 2) + " " + horaFimServico;
-                                                insertInTabelEventServiceUsed(valorIdEvento, idServico, dataInicioFormatadaCompleta, dataFimFormatadaCompleta);
-                                            });
-                                            $(".idRefeicao:checked").each(function () {
-                                                var idRefeicao = $(this).val();
-                                                var dataInicioRefeicao = $(".txt-data-inicial-refeicao#inputRef" + idRefeicao).val();
-                                                var horaInicioRefeicao = $(".txt-hora-inicial-refeicao#inputRef" + idRefeicao).val();
-                                                var dataFimRefeicao = $(".txt-data-final-refeicao#inputRef" + idRefeicao).val();
-                                                var horaFimRefeicao = $(".txt-hora-final-refeicao#inputRef" + idRefeicao).val();
-                                                var qtdRefeicaoSolicitada = $(".txt-quantidade-solicitada-refeicao#inputRef" + idRefeicao).val();
-                                                var dataInicioFormatadaCompleta = dataInicioRefeicao.substr(6, 4) + "-" + dataInicioRefeicao.substr(3, 2) + "-" + dataInicioRefeicao.substr(0, 2) + " " + horaInicioRefeicao;
-                                                var dataFimFormatadaCompleta = dataFimRefeicao.substr(6, 4) + "-" + dataFimRefeicao.substr(3, 2) + "-" + dataFimRefeicao.substr(0, 2) + " " + horaFimRefeicao;
-                                                insertInTabelEventRefeicaoUsed(valorIdEvento, idRefeicao, qtdRefeicaoSolicitada, dataInicioFormatadaCompleta, dataFimFormatadaCompleta);
-                                            });
-                                            $("#modalAdicionarEventoClickDay").modal('close');
-                                            location.reload();
-                                        }
+                                        });
+                                        $(".idServico:checked").each(function () {
+                                            var idServico = $(this).val();
+                                            var dataInicioServico = $(".txt-data-inicial-servico#inputSer" + idServico).val();
+                                            var horaInicioServico = $(".txt-hora-inicial-servico#inputSer" + idServico).val();
+                                            var dataFimServico = $(".txt-data-final-servico#inputSer" + idServico).val();
+                                            var horaFimServico = $(".txt-hora-final-servico#inputSer" + idServico).val();
+                                            var dataInicioFormatadaCompleta = dataInicioServico.substr(6, 4) + "-" + dataInicioServico.substr(3, 2) + "-" + dataInicioServico.substr(0, 2) + " " + horaInicioServico;
+                                            var dataFimFormatadaCompleta = dataFimServico.substr(6, 4) + "-" + dataFimServico.substr(3, 2) + "-" + dataFimServico.substr(0, 2) + " " + horaFimServico;
+                                            insertInTabelEventServiceUsed(valorIdEvento, idServico, dataInicioFormatadaCompleta, dataFimFormatadaCompleta);
+                                        });
+                                        $(".idRefeicao:checked").each(function () {
+                                            var idRefeicao = $(this).val();
+                                            var dataInicioRefeicao = $(".txt-data-inicial-refeicao#inputRef" + idRefeicao).val();
+                                            var horaInicioRefeicao = $(".txt-hora-inicial-refeicao#inputRef" + idRefeicao).val();
+                                            var dataFimRefeicao = $(".txt-data-final-refeicao#inputRef" + idRefeicao).val();
+                                            var horaFimRefeicao = $(".txt-hora-final-refeicao#inputRef" + idRefeicao).val();
+                                            var qtdRefeicaoSolicitada = $(".txt-quantidade-solicitada-refeicao#inputRef" + idRefeicao).val();
+                                            var dataInicioFormatadaCompleta = dataInicioRefeicao.substr(6, 4) + "-" + dataInicioRefeicao.substr(3, 2) + "-" + dataInicioRefeicao.substr(0, 2) + " " + horaInicioRefeicao;
+                                            var dataFimFormatadaCompleta = dataFimRefeicao.substr(6, 4) + "-" + dataFimRefeicao.substr(3, 2) + "-" + dataFimRefeicao.substr(0, 2) + " " + horaFimRefeicao;
+                                            insertInTabelEventRefeicaoUsed(valorIdEvento, idRefeicao, qtdRefeicaoSolicitada, dataInicioFormatadaCompleta, dataFimFormatadaCompleta);
+                                        });
+                                        $("#modalAdicionarEventoClickDay").modal('close');
+//                                        location.reload();
                                     }
                                 }
                             } else {
@@ -806,24 +812,48 @@ $(function () {
 
     function insertEventoSelecionado(nomeEvento, solicitanteEvento, tipoEvento, blocoEvento, ambienteEvento, eventoTipoRepeticao, idAula, title, start, end) {
         var boolean;
-        $.ajax({
-            type: "POST",
-            url: controllerToAdmin,
-            async: false,
-            data: {
-                action: "EventoLogica.insertEventoSelecionado",
-                nomeEvento: nomeEvento,
-                solicitanteEvento: solicitanteEvento,
-                ambienteEvento: ambienteEvento,
-                descricaoEvento: title,
-                eventoTipoRepeticao: eventoTipoRepeticao,
-                idAula: idAula,
-                dataInicioEvento: start,
-                dataFimEvento: end
-            }, success: function (data, textStatus, jqXHR) {
-                boolean = true;
+        if (eventoTipoRepeticao == 1) {
+            $.ajax({
+                type: "POST",
+                url: controllerToAdmin,
+                async: false,
+                data: {
+                    action: "EventoLogica.insertEventoSelecionado",
+                    nomeEvento: nomeEvento,
+                    solicitanteEvento: solicitanteEvento,
+                    ambienteEvento: ambienteEvento,
+                    descricaoEvento: title,
+                    eventoTipoRepeticao: eventoTipoRepeticao,
+                    idAula: idAula,
+                    dataInicioEvento: start,
+                    dataFimEvento: end
+                }, success: function (data, textStatus, jqXHR) {
+                    boolean = true;
+                }
+            });
+        } else {
+            for (var i = 0; i < arrayValoresCompletos.length; i++) {
+                $.ajax({
+                    type: "POST",
+                    url: controllerToAdmin,
+                    async: false,
+                    data: {
+                        action: "EventoLogica.insertEventoSelecionado",
+                        nomeEvento: nomeEvento,
+                        solicitanteEvento: solicitanteEvento,
+                        ambienteEvento: ambienteEvento,
+                        descricaoEvento: title,
+                        eventoTipoRepeticao: eventoTipoRepeticao,
+                        idAula: idAula,
+                        dataInicioEvento: arrayValoresCompletos[i][1],
+                        dataFimEvento: arrayValoresCompletos[i][2]
+                    }, success: function (data, textStatus, jqXHR) {
+                        boolean = true;
+                    }
+                });
             }
-        });
+        }
+
         return boolean;
     }
 

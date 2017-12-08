@@ -55,7 +55,6 @@ class EventoServicoUtilizadoView {
                             <?php
                         }
                         ?>
-                    <div class="mensagem">Sem resultados</div>
                     </tbody>
                 </table> 
             </div>
