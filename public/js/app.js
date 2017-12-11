@@ -16,6 +16,7 @@ $(function () {
     var idEventWeekOrHalfYear = 1;
     var arrayValoresCompletos = [];
     var valorIdEvento = [];
+
     function calendarAdmin(idAmbiente, idBloco, idSetor) {
         $('#calendar').fullCalendar('destroy');
         $("#readyCalendar").fullCalendar('destroy');
@@ -134,89 +135,25 @@ $(function () {
                         var idAula = 2;
                         title = $(".descricaoEvento").val();
                         if (nomeEvento != "" || title != "" || solicitanteEvento != "" || tipoEvento != null || blocoEvento != null || ambienteEvento != null) {
-                            if ($(".idEquipamento").is(":checked") && ($(".idServico").is(":checked")) && ($(".idRefeicao").is(":checked"))) {
-                                eventData = {
-                                    title: title,
-                                    start: start,
-                                    end: end
-                                };
-                                var valorBoolean = verifyDates(start, end, ambienteEvento);
-                                alert(valorBoolean);
-                                if (valorBoolean == true) {
-                                    var verifyEquipaments = 0;
-                                    $(".getInformationsEquipaments").each(function () {
-                                        var qtdEquipamento = $(this).val();
-                                        if (qtdEquipamento == "") {
-                                            verifyEquipaments++;
-                                        }
-                                    });
-                                    var verifyServices = 0;
-                                    $(".getInformationsServices").each(function () {
-                                        var qtdServicos = $(this).val();
-                                        if (qtdServicos == "") {
-                                            verifyServices++;
-                                        }
-                                    });
-                                    var verifyRefeicoes = 0;
-                                    $(".getInformationsRefeicoes").each(function () {
-                                        var qtdRefeicoes = $(this).val();
-                                        if (qtdRefeicoes == "") {
-                                            verifyRefeicoes++;
-                                        }
-                                    });
-
-                                    if ((verifyEquipaments != 0) || (verifyServices != 0) || (verifyRefeicoes != 0)) {
-                                        $("#modalCamposNulos").modal();
-                                        $("#modalCamposNulos").modal('open');
-                                    } else {
-                                        if (insertEventoSelecionado(nomeEvento, solicitanteEvento, tipoEvento, blocoEvento, ambienteEvento, eventoTipoRepeticao, idAula, title, start, end) == true) {
-                                            var valorIdEvento = getEventByAmbienteAndStartAndEnd(ambienteEvento, start, end);
-                                            $(".idEquipamento:checked").each(function () {
-                                                var idEquipamento = $(this).val();
-                                                var dataInicioEquipamento = $(".txt-data-inicial#input" + idEquipamento).val();
-                                                var horaInicioEquipamento = $(".txt-hora-inicial#input" + idEquipamento).val();
-                                                var dataFimEquipamento = $(".txt-data-final#input" + idEquipamento).val();
-                                                var horaFimEquipamento = $(".txt-hora-final#input" + idEquipamento).val();
-                                                var qtdEquipamentoSolicitada = $(".txt-quantidade-solicitada#input" + idEquipamento).val();
-                                                var dataInicioFormatadaCompleta = dataInicioEquipamento.substr(6, 4) + "-" + dataInicioEquipamento.substr(3, 2) + "-" + dataInicioEquipamento.substr(0, 2) + " " + horaInicioEquipamento;
-                                                var dataFimFormatadaCompleta = dataFimEquipamento.substr(6, 4) + "-" + dataFimEquipamento.substr(3, 2) + "-" + dataFimEquipamento.substr(0, 2) + " " + horaFimEquipamento;
-                                                insertInTabelEventEquipamentUsed(valorIdEvento, idEquipamento, qtdEquipamentoSolicitada, dataInicioFormatadaCompleta, dataFimFormatadaCompleta);
-//                                                mailToAdminEquipament();
-                                            });
-                                            $(".idServico:checked").each(function () {
-                                                var idServico = $(this).val();
-                                                var dataInicioServico = $(".txt-data-inicial-servico#inputSer" + idServico).val();
-                                                var horaInicioServico = $(".txt-hora-inicial-servico#inputSer" + idServico).val();
-                                                var dataFimServico = $(".txt-data-final-servico#inputSer" + idServico).val();
-                                                var horaFimServico = $(".txt-hora-final-servico#inputSer" + idServico).val();
-                                                var dataInicioFormatadaCompleta = dataInicioServico.substr(6, 4) + "-" + dataInicioServico.substr(3, 2) + "-" + dataInicioServico.substr(0, 2) + " " + horaInicioServico;
-                                                var dataFimFormatadaCompleta = dataFimServico.substr(6, 4) + "-" + dataFimServico.substr(3, 2) + "-" + dataFimServico.substr(0, 2) + " " + horaFimServico;
-                                                insertInTabelEventServiceUsed(valorIdEvento, idServico, dataInicioFormatadaCompleta, dataFimFormatadaCompleta);
-                                            });
-                                            $(".idRefeicao:checked").each(function () {
-                                                var idRefeicao = $(this).val();
-                                                var dataInicioRefeicao = $(".txt-data-inicial-refeicao#inputRef" + idRefeicao).val();
-                                                var horaInicioRefeicao = $(".txt-hora-inicial-refeicao#inputRef" + idRefeicao).val();
-                                                var dataFimRefeicao = $(".txt-data-final-refeicao#inputRef" + idRefeicao).val();
-                                                var horaFimRefeicao = $(".txt-hora-final-refeicao#inputRef" + idRefeicao).val();
-                                                var qtdRefeicaoSolicitada = $(".txt-quantidade-solicitada-refeicao#inputRef" + idRefeicao).val();
-                                                var dataInicioFormatadaCompleta = dataInicioRefeicao.substr(6, 4) + "-" + dataInicioRefeicao.substr(3, 2) + "-" + dataInicioRefeicao.substr(0, 2) + " " + horaInicioRefeicao;
-                                                var dataFimFormatadaCompleta = dataFimRefeicao.substr(6, 4) + "-" + dataFimRefeicao.substr(3, 2) + "-" + dataFimRefeicao.substr(0, 2) + " " + horaFimRefeicao;
-                                                insertInTabelEventRefeicaoUsed(valorIdEvento, idRefeicao, qtdRefeicaoSolicitada, dataInicioFormatadaCompleta, dataFimFormatadaCompleta);
-                                            });
-                                            start = null;
-                                            end = null;
-                                            $("#modalAdicionarEventoClickDay").modal('close');
-                                            location.reload();
-                                        }
+                            eventData = {
+                                title: title,
+                                start: start,
+                                end: end
+                            };
+                            var valorBoolean = verifyDates(start, end, ambienteEvento);
+                            if (valorBoolean == true) {
+                                if (insertEventoSelecionado(nomeEvento, solicitanteEvento, tipoEvento, blocoEvento, ambienteEvento, eventoTipoRepeticao, idAula, title, start, end) == true) {
+                                    var valorIdEvento = getEventByAmbienteAndStartAndEnd(ambienteEvento, start, end);
+                                    if (checkboxToEquipamentServiceRefeicao(valorIdEvento, start, end)) {
+                                        start = null;
+                                        end = null;
+                                        $("#modalAdicionarEventoClickDay").modal('close');
+                                        location.reload();
                                     }
-                                } else {
-                                    $("#modalDatasIguais").modal();
-                                    $("#modalDatasIguais").modal('open');
                                 }
                             } else {
-                                $("#modalCheckNulo").modal();
-                                $("#modalCheckNulo").modal('open');
+                                $("#modalDatasIguais").modal();
+                                $("#modalDatasIguais").modal('open');
                             }
 //                            $('#calendar').fullCalendar('renderEvent', eventData, true); // stick? = true
                         } else {
@@ -302,6 +239,50 @@ $(function () {
             defaultView: "agendaWeek"
         });
         $(".fc-axis.fc-widget-header").append("<a href='#'>IFCE</a>");
+    }
+
+    function percorrerIdEquipamento(valorIdEvento) {
+        $(".idEquipamento:checked").each(function () {
+            var idEquipamento = $(this).val();
+            var dataInicioEquipamento = $(".txt-data-inicial#input" + idEquipamento).val();
+            var horaInicioEquipamento = $(".txt-hora-inicial#input" + idEquipamento).val();
+            var dataFimEquipamento = $(".txt-data-final#input" + idEquipamento).val();
+            var horaFimEquipamento = $(".txt-hora-final#input" + idEquipamento).val();
+            var qtdEquipamentoSolicitada = $(".txt-quantidade-solicitada#input" + idEquipamento).val();
+            var dataInicioFormatadaCompleta = dataInicioEquipamento.substr(6, 4) + "-" + dataInicioEquipamento.substr(3, 2) + "-" + dataInicioEquipamento.substr(0, 2) + " " + horaInicioEquipamento;
+            var dataFimFormatadaCompleta = dataFimEquipamento.substr(6, 4) + "-" + dataFimEquipamento.substr(3, 2) + "-" + dataFimEquipamento.substr(0, 2) + " " + horaFimEquipamento;
+            insertInTabelEventEquipamentUsed(valorIdEvento, idEquipamento, qtdEquipamentoSolicitada, dataInicioFormatadaCompleta, dataFimFormatadaCompleta);
+            // getDetailsEquipament();
+        });
+    }
+
+    function percorrerIdServico(valorIdEvento) {
+        $(".idServico:checked").each(function () {
+            var idServico = $(this).val();
+            var dataInicioServico = $(".txt-data-inicial-servico#inputSer" + idServico).val();
+            var horaInicioServico = $(".txt-hora-inicial-servico#inputSer" + idServico).val();
+            var dataFimServico = $(".txt-data-final-servico#inputSer" + idServico).val();
+            var horaFimServico = $(".txt-hora-final-servico#inputSer" + idServico).val();
+            var dataInicioFormatadaCompleta = dataInicioServico.substr(6, 4) + "-" + dataInicioServico.substr(3, 2) + "-" + dataInicioServico.substr(0, 2) + " " + horaInicioServico;
+            var dataFimFormatadaCompleta = dataFimServico.substr(6, 4) + "-" + dataFimServico.substr(3, 2) + "-" + dataFimServico.substr(0, 2) + " " + horaFimServico;
+            insertInTabelEventServiceUsed(valorIdEvento, idServico, dataInicioFormatadaCompleta, dataFimFormatadaCompleta);
+            // mailToAdminServico();
+        });
+    }
+
+    function percorrerIdRefeicao(valorIdEvento) {
+        $(".idRefeicao:checked").each(function () {
+            var idRefeicao = $(this).val();
+            var dataInicioRefeicao = $(".txt-data-inicial-refeicao#inputRef" + idRefeicao).val();
+            var horaInicioRefeicao = $(".txt-hora-inicial-refeicao#inputRef" + idRefeicao).val();
+            var dataFimRefeicao = $(".txt-data-final-refeicao#inputRef" + idRefeicao).val();
+            var horaFimRefeicao = $(".txt-hora-final-refeicao#inputRef" + idRefeicao).val();
+            var qtdRefeicaoSolicitada = $(".txt-quantidade-solicitada-refeicao#inputRef" + idRefeicao).val();
+            var dataInicioFormatadaCompleta = dataInicioRefeicao.substr(6, 4) + "-" + dataInicioRefeicao.substr(3, 2) + "-" + dataInicioRefeicao.substr(0, 2) + " " + horaInicioRefeicao;
+            var dataFimFormatadaCompleta = dataFimRefeicao.substr(6, 4) + "-" + dataFimRefeicao.substr(3, 2) + "-" + dataFimRefeicao.substr(0, 2) + " " + horaFimRefeicao;
+            insertInTabelEventRefeicaoUsed(valorIdEvento, idRefeicao, qtdRefeicaoSolicitada, dataInicioFormatadaCompleta, dataFimFormatadaCompleta);
+            // mailToAdminRefeicao();
+        });
     }
 
     function loadCalendarDaysOfWeek() {
@@ -586,62 +567,25 @@ $(function () {
                         $("#modalDataInicioMaiorQueFinal").modal('open');
                     } else {
                         var valorBoolean = verifyDates(inicio, fim, ambienteEvento);
-                        if ($(".idEquipamento").is(":checked") && ($(".idServico").is(":checked")) && ($(".idRefeicao").is(":checked"))) {
-                            if (valorBoolean == true) {
-                                var nomeProfessor = $(".nomeProfessor").val();
-                                if ((idAula == 1) && (nomeProfessor == "")) {
-                                    $("#modalCamposNulos").modal();
-                                    $("#modalCamposNulos").modal('open');
-                                } else {
-                                    if (insertEventoSelecionado(nomeEvento, solicitanteEvento, tipoEvento, blocoEvento, ambienteEvento, tipoRepeticao, idAula, descricaoEvento, inicio, fim) == true) {
-                                        var valorIdEvento = getEventByAmbienteAndStartAndEnd(ambienteEvento, arrayValoresCompletos[0][1], arrayValoresCompletos[0][2]);
-                                        if (idAula == 1) {
-                                            insertIntoTableAulaDetalhes(valorIdEvento, idAula, nomeProfessor);
-                                        }
-                                        $(".idEquipamento:checked").each(function () {
-                                            var idEquipamento = $(this).val();
-                                            var dataInicioEquipamento = $(".txt-data-inicial#input" + idEquipamento).val();
-                                            var horaInicioEquipamento = $(".txt-hora-inicial#input" + idEquipamento).val();
-                                            var dataFimEquipamento = $(".txt-data-final#input" + idEquipamento).val();
-                                            var horaFimEquipamento = $(".txt-hora-final#input" + idEquipamento).val();
-                                            var qtdEquipamentoSolicitada = $(".txt-quantidade-solicitada#input" + idEquipamento).val();
-                                            var dataInicioFormatadaCompleta = dataInicioEquipamento.substr(6, 4) + "-" + dataInicioEquipamento.substr(3, 2) + "-" + dataInicioEquipamento.substr(0, 2) + " " + horaInicioEquipamento;
-                                            var dataFimFormatadaCompleta = dataFimEquipamento.substr(6, 4) + "-" + dataFimEquipamento.substr(3, 2) + "-" + dataFimEquipamento.substr(0, 2) + " " + horaFimEquipamento;
-                                            insertInTabelEventEquipamentUsed(valorIdEvento, idEquipamento, qtdEquipamentoSolicitada, dataInicioFormatadaCompleta, dataFimFormatadaCompleta);
-//                                                mailToAdminEquipament();
-                                        });
-                                        $(".idServico:checked").each(function () {
-                                            var idServico = $(this).val();
-                                            var dataInicioServico = $(".txt-data-inicial-servico#inputSer" + idServico).val();
-                                            var horaInicioServico = $(".txt-hora-inicial-servico#inputSer" + idServico).val();
-                                            var dataFimServico = $(".txt-data-final-servico#inputSer" + idServico).val();
-                                            var horaFimServico = $(".txt-hora-final-servico#inputSer" + idServico).val();
-                                            var dataInicioFormatadaCompleta = dataInicioServico.substr(6, 4) + "-" + dataInicioServico.substr(3, 2) + "-" + dataInicioServico.substr(0, 2) + " " + horaInicioServico;
-                                            var dataFimFormatadaCompleta = dataFimServico.substr(6, 4) + "-" + dataFimServico.substr(3, 2) + "-" + dataFimServico.substr(0, 2) + " " + horaFimServico;
-                                            insertInTabelEventServiceUsed(valorIdEvento, idServico, dataInicioFormatadaCompleta, dataFimFormatadaCompleta);
-                                        });
-                                        $(".idRefeicao:checked").each(function () {
-                                            var idRefeicao = $(this).val();
-                                            var dataInicioRefeicao = $(".txt-data-inicial-refeicao#inputRef" + idRefeicao).val();
-                                            var horaInicioRefeicao = $(".txt-hora-inicial-refeicao#inputRef" + idRefeicao).val();
-                                            var dataFimRefeicao = $(".txt-data-final-refeicao#inputRef" + idRefeicao).val();
-                                            var horaFimRefeicao = $(".txt-hora-final-refeicao#inputRef" + idRefeicao).val();
-                                            var qtdRefeicaoSolicitada = $(".txt-quantidade-solicitada-refeicao#inputRef" + idRefeicao).val();
-                                            var dataInicioFormatadaCompleta = dataInicioRefeicao.substr(6, 4) + "-" + dataInicioRefeicao.substr(3, 2) + "-" + dataInicioRefeicao.substr(0, 2) + " " + horaInicioRefeicao;
-                                            var dataFimFormatadaCompleta = dataFimRefeicao.substr(6, 4) + "-" + dataFimRefeicao.substr(3, 2) + "-" + dataFimRefeicao.substr(0, 2) + " " + horaFimRefeicao;
-                                            insertInTabelEventRefeicaoUsed(valorIdEvento, idRefeicao, qtdRefeicaoSolicitada, dataInicioFormatadaCompleta, dataFimFormatadaCompleta);
-                                        });
-                                        $("#modalAdicionarEventoClickDay").modal('close');
-//                                        location.reload();
-                                    }
-                                }
+                        if (valorBoolean == true) {
+                            var nomeProfessor = $(".nomeProfessor").val();
+                            if ((idAula == 1) && (nomeProfessor == "")) {
+                                $("#modalCamposNulos").modal();
+                                $("#modalCamposNulos").modal('open');
                             } else {
-                                $("#modalDatasIguais").modal();
-                                $("#modalDatasIguais").modal('open');
+                                if (insertEventoSelecionado(nomeEvento, solicitanteEvento, tipoEvento, blocoEvento, ambienteEvento, tipoRepeticao, idAula, descricaoEvento, inicio, fim) == true) {
+                                    var valorIdEvento = getEventByAmbienteAndStartAndEnd(ambienteEvento, arrayValoresCompletos[0][1], arrayValoresCompletos[0][2]);
+                                    if (idAula == 1) {
+                                        insertIntoTableAulaDetalhes(valorIdEvento, idAula, nomeProfessor);
+                                    }
+                                    checkboxToEquipamentServiceRefeicao(valorIdEvento, inicio, fim);
+                                    $("#modalAdicionarEventoClickDay").modal('close');
+//                                        location.reload();
+                                }
                             }
                         } else {
-                            $("#modalCheckNulo").modal();
-                            $("#modalCheckNulo").modal('open');
+                            $("#modalDatasIguais").modal();
+                            $("#modalDatasIguais").modal('open');
                         }
                     }
 
@@ -656,6 +600,42 @@ $(function () {
         $(".buttonCancel").click(function () {
             $("#modalAdicionarEventoClickDay").modal('close');
         });
+    }
+
+    function  checkboxToEquipamentServiceRefeicao(valorIdEvento, inicio, fim) {
+        if ($(".idEquipamento").is(":checked") && (!$(".idServico").is(":checked")) && (!$(".idRefeicao").is(":checked"))) {
+            percorrerIdEquipamento(valorIdEvento);
+            insertInTabelEventServiceUsed(valorIdEvento, 0, inicio, fim);
+            insertInTabelEventRefeicaoUsed(valorIdEvento, 0, "-", inicio, fim);
+        } else if ($(".idServico").is(":checked") && (!$(".idEquipamento").is(":checked")) && (!$(".idRefeicao").is(":checked"))) {
+            percorrerIdServico(valorIdEvento);
+            insertInTabelEventEquipamentUsed(valorIdEvento, 0, "-", inicio, fim);
+            insertInTabelEventRefeicaoUsed(valorIdEvento, 0, "-", inicio, fim);
+        } else if ($(".idRefeicao").is(":checked") && (!$(".idServico").is(":checked")) && (!$(".idEquipamento").is(":checked"))) {
+            percorrerIdRefeicao(valorIdEvento);
+            insertInTabelEventServiceUsed(valorIdEvento, 0, inicio, fim);
+            insertInTabelEventEquipamentUsed(valorIdEvento, 0, "-", inicio, fim);
+        } else if (($(".idEquipamento").is(":checked")) && ($(".idServico").is(":checked")) && ($(".idRefeicao").is(":checked"))) {
+            percorrerIdEquipamento(valorIdEvento);
+            percorrerIdServico(valorIdEvento);
+            percorrerIdRefeicao(valorIdEvento);
+        } else if (($(".idEquipamento").is(":checked")) && ($(".idServico").is(":checked")) && (!$(".idRefeicao").is(":checked"))) {
+            percorrerIdEquipamento(valorIdEvento);
+            percorrerIdServico(valorIdEvento);
+            insertInTabelEventRefeicaoUsed(valorIdEvento, 0, "-", inicio, fim);
+        } else if (($(".idEquipamento").is(":checked")) && ($(".idRefeicao").is(":checked")) && (!$(".idServico").is(":checked"))) {
+            percorrerIdEquipamento(valorIdEvento);
+            percorrerIdRefeicao(valorIdEvento);
+            insertInTabelEventServiceUsed(valorIdEvento, 0, inicio, fim);
+        } else if ((!$(".idEquipamento").is(":checked")) && ($(".idServico").is(":checked")) && ($(".idRefeicao").is(":checked"))) {
+            percorrerIdServico(valorIdEvento);
+            percorrerIdRefeicao(valorIdEvento);
+            insertInTabelEventEquipamentUsed(valorIdEvento, 0, "-", inicio, fim);
+        } else {
+            insertInTabelEventEquipamentUsed(valorIdEvento, 0, "-", inicio, fim);
+            insertInTabelEventServiceUsed(valorIdEvento, 0, inicio, fim);
+            insertInTabelEventRefeicaoUsed(valorIdEvento, 0, "-", inicio, fim);
+        }
     }
 
     function getSetor() {
@@ -1013,6 +993,10 @@ $(function () {
                 action: 'EquipamentoLogica.getEquipamentos'
             }, success: function (data, textStatus, jqXHR) {
                 $(".equipamento").html(data);
+                var valorTd = $(".tabelaEquipamentos tbody tr").length;
+                if (valorTd == 0) {
+                    $(".tabelaEquipamentos tbody").prepend('<tr><td colspan="8">Não há equipamentos disponíveis</td></tr>');
+                }
             }
         });
     }
@@ -1025,6 +1009,10 @@ $(function () {
                 action: 'ServicoLogica.getServicos'
             }, success: function (data, textStatus, jqXHR) {
                 $(".servicos").html(data);
+                var valorTd = $(".tabelaServicos tbody tr").length;
+                if (valorTd == 0) {
+                    $(".tabelaServicos tbody").prepend('<tr><td colspan="6">Não há serviços disponíveis</td></tr>');
+                }
             }
         });
     }
@@ -1037,6 +1025,10 @@ $(function () {
                 action: 'RefeicaoLogica.getRefeicoes'
             }, success: function (data, textStatus, jqXHR) {
                 $(".refeicoes").html(data);
+                var valorTd = $(".tabelaRefeicoes tbody tr").length;
+                if (valorTd == 0) {
+                    $(".tabelaRefeicoes tbody").prepend('<tr><td colspan="8">Não há refeições disponíveis</td></tr>');
+                }
             }
         });
     }

@@ -143,6 +143,10 @@ $(function () {
                 idEvento: idEvento
             }, success: function (data, textStatus, jqXHR) {
                 $("#equipamentos-user").html(data);
+                var valorTd = $(".tabelaEquipamentos tbody tr").length;
+                if (valorTd == 0) {
+                    $(".tabelaEquipamentos tbody").prepend('<tr><td colspan="6">Não há equipamentos para esse evento</td></tr>');
+                }
             }
         });
     }
@@ -156,6 +160,10 @@ $(function () {
                 idEvento: idEvento
             }, success: function (data, textStatus, jqXHR) {
                 $("#servicos-user").html(data);
+                var valorTd = $(".tabelaServicos tbody tr").length;
+                if (valorTd == 0) {
+                    $(".tabelaServicos tbody").prepend('<tr><td colspan="6">Não há serviços para esse evento</td></tr>');
+                }
             }
         });
     }
@@ -169,6 +177,10 @@ $(function () {
                 idEvento: idEvento
             }, success: function (data, textStatus, jqXHR) {
                 $("#refeicoes-user").html(data);
+                var valorTd = $(".tabelaRefeicoes tbody tr").length;
+                if (valorTd == 0) {
+                    $(".tabelaRefeicoes tbody").prepend('<tr><td colspan="6">Não há refeições para esse evento</td></tr>');
+                }
             }
         });
     }

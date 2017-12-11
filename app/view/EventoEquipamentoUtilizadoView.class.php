@@ -57,7 +57,7 @@ class EventoEquipamentoUtilizadoView {
                             <?php
                         }
                         ?>
-                        <!--date_format(date_create($row->eve_data_inicio), "H:i:s");-->
+                    
                     </tbody>
                 </table> 
             </div>

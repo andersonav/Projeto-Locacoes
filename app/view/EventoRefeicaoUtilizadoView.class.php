@@ -30,7 +30,7 @@ class EventoRefeicaoUtilizadoView {
         ?>
         <div class="row Refeicao">
             <div class="scroll">
-                <table class="highlight centered tabelaRefeicaos">
+                <table class="highlight centered tabelaRefeicoes">
                     <thead>
                         <tr> 
                             <!--<i class="material-icons">check</i>-->
