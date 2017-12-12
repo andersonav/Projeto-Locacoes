@@ -254,6 +254,7 @@ $(function () {
             insertInTabelEventEquipamentUsed(valorIdEvento, idEquipamento, qtdEquipamentoSolicitada, dataInicioFormatadaCompleta, dataFimFormatadaCompleta);
             // getDetailsEquipament();
         });
+        getDadosEquipamentosByIdEvento(valorIdEvento);
     }
 
     function percorrerIdServico(valorIdEvento) {
@@ -282,6 +283,19 @@ $(function () {
             var dataFimFormatadaCompleta = dataFimRefeicao.substr(6, 4) + "-" + dataFimRefeicao.substr(3, 2) + "-" + dataFimRefeicao.substr(0, 2) + " " + horaFimRefeicao;
             insertInTabelEventRefeicaoUsed(valorIdEvento, idRefeicao, qtdRefeicaoSolicitada, dataInicioFormatadaCompleta, dataFimFormatadaCompleta);
             // mailToAdminRefeicao();
+        });
+    }
+
+    function getDadosEquipamentosByIdEvento(valorIdEvento) {
+        $.ajax({
+            url: controllerToAdmin,
+            type: 'POST',
+            data: {
+                action: "DadosEquipamentoLogica.getDadosEquipamentosByIdEvento",
+                valorIdEvento: valorIdEvento
+            }, success: function (data, textStatus, jqXHR) {
+                console.log("Email Enviado!");
+            }
         });
     }
 
@@ -602,7 +616,7 @@ $(function () {
         });
     }
 
-    function  checkboxToEquipamentServiceRefeicao(valorIdEvento, inicio, fim) {
+    function checkboxToEquipamentServiceRefeicao(valorIdEvento, inicio, fim) {
         if ($(".idEquipamento").is(":checked") && (!$(".idServico").is(":checked")) && (!$(".idRefeicao").is(":checked"))) {
             percorrerIdEquipamento(valorIdEvento);
             insertInTabelEventServiceUsed(valorIdEvento, 0, inicio, fim);
