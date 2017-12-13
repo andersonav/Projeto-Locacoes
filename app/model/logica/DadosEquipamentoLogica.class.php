@@ -33,8 +33,9 @@ class DadosEquipamentoLogica {
 
     public function getDadosEquipamentosByIdEvento() {
         $valorIdEvento = $_REQUEST['valorIdEvento'];
+        $idEquipamento = $_REQUEST['idEquipamento'];
 
-        return DadosEquipamentoView::getInstance()->htmlMailToResponsavelEquipamento(DadosEquipamentoDao::getInstance()->getDadosEquipamentosByIdEvento($valorIdEvento));
+        return DadosEquipamentoView::getInstance()->htmlMailToResponsavelEquipamento(DadosEquipamentoDao::getInstance()->getDadosEquipamentosByIdEvento($valorIdEvento, $idEquipamento));
     }
 
 }

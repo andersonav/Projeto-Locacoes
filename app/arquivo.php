@@ -42,21 +42,7 @@
                     </tr>
                 </thead>
                 <tbody>
-
-                    <?php
-                    foreach ($informations as $information) {
-                        ?>
-                        <tr>
-                            <td><strong><?= $information->getEquipamentoDescricaoEvento(); ?></strong></td>
-                            <td><strong><?= $information->getEquipamentoQtdUtilizadaEvento(); ?></strong></td>
-                            <td><strong><?= date_format(date_create($information->getDataInicioEvento()), "d/m/Y"); ?></strong></td>
-                            <td><strong><?= date_format(date_create($information->getDataInicioEvento()), "H:i"); ?></strong></td>
-                            <td><strong><?= date_format(date_create($information->getDataFimEvento()), "d/m/Y"); ?></strong></td>
-                            <td><strong><?= date_format(date_create($information->getDataFimEvento()), "H:i"); ?></strong></td>
-                        </tr>
-                        <?php
-                    }
-                    ?>
+                    {{foreach}}
                 </tbody>
             </table> 
         </div>

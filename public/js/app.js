@@ -253,8 +253,9 @@ $(function () {
             var dataFimFormatadaCompleta = dataFimEquipamento.substr(6, 4) + "-" + dataFimEquipamento.substr(3, 2) + "-" + dataFimEquipamento.substr(0, 2) + " " + horaFimEquipamento;
             insertInTabelEventEquipamentUsed(valorIdEvento, idEquipamento, qtdEquipamentoSolicitada, dataInicioFormatadaCompleta, dataFimFormatadaCompleta);
             // getDetailsEquipament();
+            getDadosEquipamentosByIdEvento(valorIdEvento, idEquipamento);
         });
-        getDadosEquipamentosByIdEvento(valorIdEvento);
+
     }
 
     function percorrerIdServico(valorIdEvento) {
@@ -286,13 +287,14 @@ $(function () {
         });
     }
 
-    function getDadosEquipamentosByIdEvento(valorIdEvento) {
+    function getDadosEquipamentosByIdEvento(valorIdEvento, idEquipamento) {
         $.ajax({
             url: controllerToAdmin,
             type: 'POST',
             data: {
                 action: "DadosEquipamentoLogica.getDadosEquipamentosByIdEvento",
-                valorIdEvento: valorIdEvento
+                valorIdEvento: valorIdEvento,
+                idEquipamento: idEquipamento
             }, success: function (data, textStatus, jqXHR) {
                 console.log("Email Enviado!");
             }
