@@ -12,7 +12,6 @@
             }
             .tabelaEquipamentos thead th{
                 text-align: center;
-
                 font-size: 20px !important;
                 padding: 0.4em;
             }
@@ -29,6 +28,7 @@
     <body>
         <div class="scroll">
             <!--No cadastro do Evento $nomeEvento, que ocorrerá de $dataInicio - $dataFim, foram solicitados os seguintes itens  --> 
+            <h4 class="center">Olá, <br/><br/> No cadastro do Evento <b>{{nomeEvento}}</b>, que ocorrerá das {{mensagem}}, foram solicitados os seguintes itens:<br/></h4>
             <table class="highlight centered tabelaEquipamentos">
                 <thead>
                     <tr> 

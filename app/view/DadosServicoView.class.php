@@ -7,11 +7,11 @@
  */
 
 /**
- * Description of DadosEquipamentoView
+ * Description of DadosServicoView
  *
  * @author Anderson Alves
  */
-class DadosEquipamentoView {
+class DadosServicoView {
 
     private static $instance;
 
@@ -22,12 +22,12 @@ class DadosEquipamentoView {
     public static function getInstance() {
 
         if (!isset(self::$instance))
-            self::$instance = new DadosEquipamentoView();
+            self::$instance = new DadosServicoView();
 
         return self::$instance;
     }
 
-    public function htmlMailToResponsavelEquipamento($informations) {
+    public function htmlMailToResponsavelServico($informations) {
         require_once '../library/phpmailer/class.smtp.php';
         require_once '../library/phpmailer/class.phpmailer.php';
 
@@ -56,7 +56,7 @@ class DadosEquipamentoView {
             //$mail->AddBCC('destinatario_oculto@dominio.com.br', 'Destinatario2`'); // Cópia Oculta
             //$mail->AddAttachment('images/phpmailer.gif');      // Adicionar um anexo
             //Arquivo php que contem o HTML
-            $arquivo = file_get_contents("../arquivoTabelMaterialMail.php");
+            $arquivo = file_get_contents("../arquivoTabelServiceMail.php");
             $dados = "";
             $email = "";
             $nomeEvento = "";
@@ -66,18 +66,17 @@ class DadosEquipamentoView {
             $horaFimEvento = "";
             foreach ($informations as $information) {
                 $nomeEvento = $information->getNomeEvento();
-                $email = $information->getEquipamentoEmailResponsavelEvento();
+                $email = $information->getServicoEmailResponsavelEvento();
                 $dataInicioEvento = date_format(date_create($information->getDataInicioEvento()), "d/m/Y");
                 $horaInicioEvento = date_format(date_create($information->getDataInicioEvento()), "H:i");
                 $dataFimEvento = date_format(date_create($information->getDataFimEvento()), "d/m/Y");
                 $horaFimEvento = date_format(date_create($information->getDataFimEvento()), "H:i");
                 $dados .= '<tr>
-                    <td><strong>' . $information->getEquipamentoDescricaoEvento() . '</strong></td>
-                    <td><strong>' . $information->getEquipamentoQtdUtilizadaEvento() . '</strong></td>
-                    <td><strong>' . date_format(date_create($information->getEquipamentoDataInicio()), "d/m/Y") . '</strong></td>
-                    <td><strong>' . date_format(date_create($information->getEquipamentoDataInicio()), "H:i") . '</strong></td>
-                    <td><strong>' . date_format(date_create($information->getEquipamentoDataFim()), "d/m/Y") . '</strong></td>
-                    <td><strong>' . date_format(date_create($information->getEquipamentoDataFim()), "H:i") . '</strong></td>
+                    <td><strong>' . $information->getServicoDescricaoEvento() . '</strong></td>
+                    <td><strong>' . date_format(date_create($information->getServicoDataInicio()), "d/m/Y") . '</strong></td>
+                    <td><strong>' . date_format(date_create($information->getServicoDataInicio()), "H:i") . '</strong></td>
+                    <td><strong>' . date_format(date_create($information->getServicoDataFim()), "d/m/Y") . '</strong></td>
+                    <td><strong>' . date_format(date_create($information->getServicoDataFim()), "H:i") . '</strong></td>
                 </tr>';
             }
             $mensagem = "";

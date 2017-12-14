@@ -7,11 +7,11 @@
  */
 
 /**
- * Description of EvenDadosEquipamentoToMail
+ * Description of DadosServicoToMail
  *
  * @author anderson.alves
  */
-class DadosEquipamentoToMail {
+class DadosServicoToMail {
 
     public function __construct() {
         
@@ -24,11 +24,10 @@ class DadosEquipamentoToMail {
     public $dataFimEvento;
     public $ambienteIdEvento;
     private $ambienteDescricaoEvento;
-    public $equipamentoDescricaoEvento;
-    public $equipamentoQtdUtilizadaEvento;
-    public $equipamentoEmailResponsavelEvento;
-    public $equipamentoDataInicio;
-    public $equipamentoDataFim;
+    public $servicoDescricaoEvento;
+    public $servicoEmailResponsavelEvento;
+    public $servicoDataInicio;
+    public $servicoDataFim;
 
     function getNomeEvento() {
         return $this->nomeEvento;
@@ -58,24 +57,20 @@ class DadosEquipamentoToMail {
         return $this->ambienteDescricaoEvento;
     }
 
-    function getEquipamentoDescricaoEvento() {
-        return $this->equipamentoDescricaoEvento;
+    function getServicoDescricaoEvento() {
+        return $this->servicoDescricaoEvento;
     }
 
-    function getEquipamentoQtdUtilizadaEvento() {
-        return $this->equipamentoQtdUtilizadaEvento;
+    function getServicoEmailResponsavelEvento() {
+        return $this->servicoEmailResponsavelEvento;
     }
 
-    function getEquipamentoEmailResponsavelEvento() {
-        return $this->equipamentoEmailResponsavelEvento;
-    }
-    
-    function getEquipamentoDataInicio() {
-        return $this->equipamentoDataInicio;
+    function getServicoDataInicio() {
+        return $this->servicoDataInicio;
     }
 
-    function getEquipamentoDataFim() {
-        return $this->equipamentoDataFim;
+    function getServicoDataFim() {
+        return $this->servicoDataFim;
     }
 
     function setNomeEvento($nomeEvento) {
@@ -106,24 +101,20 @@ class DadosEquipamentoToMail {
         $this->ambienteDescricaoEvento = $ambienteDescricaoEvento;
     }
 
-    function setEquipamentoDescricaoEvento($equipamentoDescricaoEvento) {
-        $this->equipamentoDescricaoEvento = $equipamentoDescricaoEvento;
+    function setServicoDescricaoEvento($servicoDescricaoEvento) {
+        $this->servicoDescricaoEvento = $servicoDescricaoEvento;
     }
 
-    function setEquipamentoQtdUtilizadaEvento($equipamentoQtdUtilizadaEvento) {
-        $this->equipamentoQtdUtilizadaEvento = $equipamentoQtdUtilizadaEvento;
+    function setServicoEmailResponsavelEvento($servicoEmailResponsavelEvento) {
+        $this->servicoEmailResponsavelEvento = $servicoEmailResponsavelEvento;
     }
 
-    function setEquipamentoEmailResponsavelEvento($equipamentoEmailResponsavelEvento) {
-        $this->equipamentoEmailResponsavelEvento = $equipamentoEmailResponsavelEvento;
-    }
-    
-    function setEquipamentoDataInicio($equipamentoDataInicio) {
-        $this->equipamentoDataInicio = $equipamentoDataInicio;
+    function setServicoDataInicio($servicoDataInicio) {
+        $this->servicoDataInicio = $servicoDataInicio;
     }
 
-    function setEquipamentoDataFim($equipamentoDataFim) {
-        $this->equipamentoDataFim = $equipamentoDataFim;
+    function setServicoDataFim($servicoDataFim) {
+        $this->servicoDataFim = $servicoDataFim;
     }
 
 }

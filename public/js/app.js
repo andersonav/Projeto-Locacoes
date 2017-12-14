@@ -144,12 +144,12 @@ $(function () {
                             if (valorBoolean == true) {
                                 if (insertEventoSelecionado(nomeEvento, solicitanteEvento, tipoEvento, blocoEvento, ambienteEvento, eventoTipoRepeticao, idAula, title, start, end) == true) {
                                     var valorIdEvento = getEventByAmbienteAndStartAndEnd(ambienteEvento, start, end);
-                                    if (checkboxToEquipamentServiceRefeicao(valorIdEvento, start, end)) {
-                                        start = null;
-                                        end = null;
-                                        $("#modalAdicionarEventoClickDay").modal('close');
-                                        location.reload();
-                                    }
+                                    checkboxToEquipamentServiceRefeicao(valorIdEvento, start, end);
+                                    start = null;
+                                    end = null;
+                                    $("#modalAdicionarEventoClickDay").modal('close');
+//                                    location.reload();
+
                                 }
                             } else {
                                 $("#modalDatasIguais").modal();
@@ -252,8 +252,7 @@ $(function () {
             var dataInicioFormatadaCompleta = dataInicioEquipamento.substr(6, 4) + "-" + dataInicioEquipamento.substr(3, 2) + "-" + dataInicioEquipamento.substr(0, 2) + " " + horaInicioEquipamento;
             var dataFimFormatadaCompleta = dataFimEquipamento.substr(6, 4) + "-" + dataFimEquipamento.substr(3, 2) + "-" + dataFimEquipamento.substr(0, 2) + " " + horaFimEquipamento;
             insertInTabelEventEquipamentUsed(valorIdEvento, idEquipamento, qtdEquipamentoSolicitada, dataInicioFormatadaCompleta, dataFimFormatadaCompleta);
-            // getDetailsEquipament();
-            getDadosEquipamentosByIdEvento(valorIdEvento, idEquipamento);
+            getDadosEquipamentosByIdEventoSendEmail(valorIdEvento, idEquipamento);
         });
 
     }
@@ -268,7 +267,7 @@ $(function () {
             var dataInicioFormatadaCompleta = dataInicioServico.substr(6, 4) + "-" + dataInicioServico.substr(3, 2) + "-" + dataInicioServico.substr(0, 2) + " " + horaInicioServico;
             var dataFimFormatadaCompleta = dataFimServico.substr(6, 4) + "-" + dataFimServico.substr(3, 2) + "-" + dataFimServico.substr(0, 2) + " " + horaFimServico;
             insertInTabelEventServiceUsed(valorIdEvento, idServico, dataInicioFormatadaCompleta, dataFimFormatadaCompleta);
-            // mailToAdminServico();
+            getDadosServicesByIdEventoSendEmail(valorIdEvento, idServico);
         });
     }
 
@@ -283,20 +282,48 @@ $(function () {
             var dataInicioFormatadaCompleta = dataInicioRefeicao.substr(6, 4) + "-" + dataInicioRefeicao.substr(3, 2) + "-" + dataInicioRefeicao.substr(0, 2) + " " + horaInicioRefeicao;
             var dataFimFormatadaCompleta = dataFimRefeicao.substr(6, 4) + "-" + dataFimRefeicao.substr(3, 2) + "-" + dataFimRefeicao.substr(0, 2) + " " + horaFimRefeicao;
             insertInTabelEventRefeicaoUsed(valorIdEvento, idRefeicao, qtdRefeicaoSolicitada, dataInicioFormatadaCompleta, dataFimFormatadaCompleta);
-            // mailToAdminRefeicao();
+            getDadosRefeicoesByIdEventoSendEmail(valorIdEvento, idRefeicao)
         });
     }
 
-    function getDadosEquipamentosByIdEvento(valorIdEvento, idEquipamento) {
+    function getDadosEquipamentosByIdEventoSendEmail(valorIdEvento, idEquipamento) {
         $.ajax({
             url: controllerToAdmin,
             type: 'POST',
             data: {
-                action: "DadosEquipamentoLogica.getDadosEquipamentosByIdEvento",
+                action: "DadosToMailLogica.getDadosEquipamentosByIdEventoSendEmail",
                 valorIdEvento: valorIdEvento,
                 idEquipamento: idEquipamento
             }, success: function (data, textStatus, jqXHR) {
-                console.log("Email Enviado!");
+//                console.log("Email Enviado!");
+            }
+        });
+    }
+
+    function getDadosServicesByIdEventoSendEmail(valorIdEvento, idServico) {
+        $.ajax({
+            url: controllerToAdmin,
+            type: 'POST',
+            data: {
+                action: "DadosToMailLogica.getDadosServicesByIdEventoSendEmail",
+                valorIdEvento: valorIdEvento,
+                idServico: idServico
+            }, success: function (data, textStatus, jqXHR) {
+//                console.log("Email Enviado!");
+            }
+        });
+    }
+
+    function getDadosRefeicoesByIdEventoSendEmail(valorIdEvento, idRefeicao) {
+        $.ajax({
+            url: controllerToAdmin,
+            type: 'POST',
+            data: {
+                action: "DadosToMailLogica.getDadosRefeicoesByIdEventoSendEmail",
+                valorIdEvento: valorIdEvento,
+                idRefeicao: idRefeicao
+            }, success: function (data, textStatus, jqXHR) {
+//                console.log("Email Enviado!");
             }
         });
     }
