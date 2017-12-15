@@ -7,11 +7,11 @@
  */
 
 /**
- * Description of DadosServicoToMail
+ * Description of DadosRefeicaoToMail
  *
  * @author anderson.alves
  */
-class DadosServicoToMail {
+class DadosRefeicaoToMail {
 
     public function __construct() {
         
@@ -26,10 +26,11 @@ class DadosServicoToMail {
     public $dataFimEvento;
     public $ambienteIdEvento;
     private $ambienteDescricaoEvento;
-    public $servicoDescricaoEvento;
-    public $servicoEmailResponsavelEvento;
-    public $servicoDataInicio;
-    public $servicoDataFim;
+    public $refeicaoDescricaoEvento;
+    public $refeicaoQtdUtilizadaEvento;
+    public $refeicaoEmailResponsavelEvento;
+    public $refeicaoDataInicio;
+    public $refeicaoDataFim;
 
     function getNomeEvento() {
         return $this->nomeEvento;
@@ -42,7 +43,7 @@ class DadosServicoToMail {
     function getSolicitanteEvento() {
         return $this->solicitanteEvento;
     }
-
+    
     function getTelefoneSolicitante() {
         return $this->telefoneSolicitante;
     }
@@ -67,20 +68,24 @@ class DadosServicoToMail {
         return $this->ambienteDescricaoEvento;
     }
 
-    function getServicoDescricaoEvento() {
-        return $this->servicoDescricaoEvento;
+    function getRefeicaoDescricaoEvento() {
+        return $this->refeicaoDescricaoEvento;
     }
 
-    function getServicoEmailResponsavelEvento() {
-        return $this->servicoEmailResponsavelEvento;
+    function getRefeicaoQtdUtilizadaEvento() {
+        return $this->refeicaoQtdUtilizadaEvento;
     }
 
-    function getServicoDataInicio() {
-        return $this->servicoDataInicio;
+    function getRefeicaoEmailResponsavelEvento() {
+        return $this->refeicaoEmailResponsavelEvento;
+    }
+    
+    function getRefeicaoDataInicio() {
+        return $this->refeicaoDataInicio;
     }
 
-    function getServicoDataFim() {
-        return $this->servicoDataFim;
+    function getRefeicaoDataFim() {
+        return $this->refeicaoDataFim;
     }
 
     function setNomeEvento($nomeEvento) {
@@ -94,7 +99,7 @@ class DadosServicoToMail {
     function setSolicitanteEvento($solicitanteEvento) {
         $this->solicitanteEvento = $solicitanteEvento;
     }
-
+    
     function setTelefoneSolicitante($telefoneSolicitante) {
         $this->telefoneSolicitante = $telefoneSolicitante;
     }
@@ -119,20 +124,24 @@ class DadosServicoToMail {
         $this->ambienteDescricaoEvento = $ambienteDescricaoEvento;
     }
 
-    function setServicoDescricaoEvento($servicoDescricaoEvento) {
-        $this->servicoDescricaoEvento = $servicoDescricaoEvento;
+    function setRefeicaoDescricaoEvento($refeicaoDescricaoEvento) {
+        $this->refeicaoDescricaoEvento = $refeicaoDescricaoEvento;
     }
 
-    function setServicoEmailResponsavelEvento($servicoEmailResponsavelEvento) {
-        $this->servicoEmailResponsavelEvento = $servicoEmailResponsavelEvento;
+    function setRefeicaoQtdUtilizadaEvento($refeicaoQtdUtilizadaEvento) {
+        $this->refeicaoQtdUtilizadaEvento = $refeicaoQtdUtilizadaEvento;
     }
 
-    function setServicoDataInicio($servicoDataInicio) {
-        $this->servicoDataInicio = $servicoDataInicio;
+    function setRefeicaoEmailResponsavelEvento($refeicaoEmailResponsavelEvento) {
+        $this->refeicaoEmailResponsavelEvento = $refeicaoEmailResponsavelEvento;
+    }
+    
+    function setRefeicaoDataInicio($refeicaoDataInicio) {
+        $this->refeicaoDataInicio = $refeicaoDataInicio;
     }
 
-    function setServicoDataFim($servicoDataFim) {
-        $this->servicoDataFim = $servicoDataFim;
+    function setRefeicaoDataFim($refeicaoDataFim) {
+        $this->refeicaoDataFim = $refeicaoDataFim;
     }
 
 }

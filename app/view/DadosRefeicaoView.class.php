@@ -7,11 +7,11 @@
  */
 
 /**
- * Description of DadosEquipamentoView
+ * Description of DadosRefeicaoView
  *
  * @author Anderson Alves
  */
-class DadosEquipamentoView {
+class DadosRefeicaoView {
 
     private static $instance;
 
@@ -22,12 +22,12 @@ class DadosEquipamentoView {
     public static function getInstance() {
 
         if (!isset(self::$instance))
-            self::$instance = new DadosEquipamentoView();
+            self::$instance = new DadosRefeicaoView();
 
         return self::$instance;
     }
 
-    public function htmlMailToResponsavelEquipamento($informations) {
+    public function htmlMailToResponsavelRefeicao($informations) {
         require_once '../library/phpmailer/class.smtp.php';
         require_once '../library/phpmailer/class.phpmailer.php';
 
@@ -47,7 +47,7 @@ class DadosEquipamentoView {
             // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=    
             $mail->SetFrom('cti.maracanau@ifce.edu.br', 'SysReserva'); //Seu e-mail
             // $mail->AddReplyTo('emerson.henrique@ifce.edu.br', 'SysReserva'); //Seu e-mail
-            $mail->Subject = 'SysReserva - Solicitações'; //Assunto do e-mail
+            $mail->Subject = 'SysReserva - Locações'; //Assunto do e-mail
             $mail->CharSet = 'UTF-8';
             //Define os destinatário(s)
             //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
@@ -56,24 +56,25 @@ class DadosEquipamentoView {
             //$mail->AddBCC('destinatario_oculto@dominio.com.br', 'Destinatario2`'); // Cópia Oculta
             //$mail->AddAttachment('images/phpmailer.gif');      // Adicionar um anexo
             //Arquivo php que contem o HTML
-            $arquivo = file_get_contents("../arquivoMailHTML.php");
+            $arquivo = file_get_contents("../arquivoTabelRefeicaoMail.php");
             $dados = "";
             $telefoneSolicitante = "";
             $emailSolicitante = "";
             $email = "";
+
             foreach ($informations as $information) {
-                $email = $information->getEquipamentoEmailResponsavelEvento();
+                $email = $information->getRefeicaoEmailResponsavelEvento();
                 $telefoneSolicitante = $information->getTelefoneSolicitante();
                 $emailSolicitante = $information->getEmailSolicitante();
                 $dados .= '
                     <b>Evento: </b>' . $information->getNomeEvento() . '<br/>
                     <b>Solicitante: </b>' . $information->getSolicitanteEvento() . '<br/>
                     <b>Ambiente: </b>' . $information->getAmbienteDescricaoEvento() . '<br/>
-                    <b>Material: </b>' . $information->getEquipamentoDescricaoEvento() . '<br/>    
-                    <b>Quantidade: </b>' . $information->getEquipamentoQtdUtilizadaEvento() . '<br/>     
+                    <b>Material: </b>' . $information->getRefeicaoDescricaoEvento() . '<br/>    
+                    <b>Quantidade: </b>' . $information->getRefeicaoQtdUtilizadaEvento() . '<br/>    
                     <br/><b>Período de utilização do material: </b><br/>
-                    <b>Data/Hora Início: </b>' . date_format(date_create($information->getEquipamentoDataInicio()), "d/m/Y") . ' ' . date_format(date_create($information->getEquipamentoDataInicio()), "H:i") . '<br/>
-                    <b>Data/Hora Conclusão: </b>' . date_format(date_create($information->getEquipamentoDataFim()), "d/m/Y") . ' ' . date_format(date_create($information->getEquipamentoDataFim()), "H:i") . '<br/>';
+                    <b>Data/Hora Início: </b>' . date_format(date_create($information->getRefeicaoDataInicio()), "d/m/Y") . ' ' . date_format(date_create($information->getRefeicaoDataInicio()), "H:i") . '<br/>
+                    <b>Data/Hora Conclusão: </b>' . date_format(date_create($information->getRefeicaoDataFim()), "d/m/Y") . ' ' . date_format(date_create($information->getRefeicaoDataFim()), "H:i") . '<br/>';
             }
             $mail->addAddress($email);
             // Muda o nome {foreach} para o valor de informations dentro do arquivo replace

@@ -3,12 +3,13 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/var/www/html/Projeto_Locacoes/app/model/logica/DadosEquipamentoLogica.class.php</file>
-            <file>file:/var/www/html/Projeto_Locacoes/app/model/dao/DadosEquipamentoDao.class.php</file>
-            <file>file:/var/www/html/Projeto_Locacoes/app/arquivo.php</file>
-            <file>file:/var/www/html/Projeto_Locacoes/app/model/bean/DadosEquipamentoToMail.class.php</file>
+            <file>file:/var/www/html/Projeto_Locacoes/app/model/bean/DadosServicoToMail.class.php</file>
+            <file>file:/var/www/html/Projeto_Locacoes/app/model/logica/DadosToMailLogica.class.php</file>
+            <file>file:/var/www/html/Projeto_Locacoes/app/arquivoTabelMaterialMail.php</file>
             <file>file:/var/www/html/Projeto_Locacoes/public/js/app.js</file>
-            <file>file:/var/www/html/Projeto_Locacoes/app/view/DadosEquipamentoView.class.php</file>
+            <file>file:/var/www/html/Projeto_Locacoes/app/arquivoTabelServiceMail.php</file>
+            <file>file:/var/www/html/Projeto_Locacoes/app/model/dao/DadosServicoDao.class.php</file>
+            <file>file:/var/www/html/Projeto_Locacoes/app/view/DadosServicoView.class.php</file>
         </group>
     </open-files>
 </project-private>

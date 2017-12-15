@@ -49,7 +49,7 @@ class DadosToMailLogica {
         $valorIdEvento = $_REQUEST['valorIdEvento'];
         $idRefeicao = $_REQUEST['idRefeicao'];
 
-        return DadosRefeicaoView::getInstance()->htmlMailToResponsavelServico(DadosRefeicaoDao::getInstance()->getDadosRefeicoesByIdEventoSendEmail($valorIdEvento, $idRefeicao));
+        return DadosRefeicaoView::getInstance()->htmlMailToResponsavelRefeicao(DadosRefeicaoDao::getInstance()->getDadosRefeicaoByIdEventoSendEmail($valorIdEvento, $idRefeicao));
     }
 
 }

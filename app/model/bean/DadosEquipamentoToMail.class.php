@@ -20,6 +20,8 @@ class DadosEquipamentoToMail {
     public $nomeEvento;
     public $descricaoEvento;
     public $solicitanteEvento;
+    public $telefoneSolicitante;
+    public $emailSolicitante;
     public $dataInicioEvento;
     public $dataFimEvento;
     public $ambienteIdEvento;
@@ -40,6 +42,14 @@ class DadosEquipamentoToMail {
 
     function getSolicitanteEvento() {
         return $this->solicitanteEvento;
+    }
+
+    function getTelefoneSolicitante() {
+        return $this->telefoneSolicitante;
+    }
+
+    function getEmailSolicitante() {
+        return $this->emailSolicitante;
     }
 
     function getDataInicioEvento() {
@@ -69,7 +79,7 @@ class DadosEquipamentoToMail {
     function getEquipamentoEmailResponsavelEvento() {
         return $this->equipamentoEmailResponsavelEvento;
     }
-    
+
     function getEquipamentoDataInicio() {
         return $this->equipamentoDataInicio;
     }
@@ -80,6 +90,14 @@ class DadosEquipamentoToMail {
 
     function setNomeEvento($nomeEvento) {
         $this->nomeEvento = $nomeEvento;
+    }
+
+    function setTelefoneSolicitante($telefoneSolicitante) {
+        $this->telefoneSolicitante = $telefoneSolicitante;
+    }
+
+    function setEmailSolicitante($emailSolicitante) {
+        $this->emailSolicitante = $emailSolicitante;
     }
 
     function setDescricaoEvento($descricaoEvento) {
@@ -117,7 +135,7 @@ class DadosEquipamentoToMail {
     function setEquipamentoEmailResponsavelEvento($equipamentoEmailResponsavelEvento) {
         $this->equipamentoEmailResponsavelEvento = $equipamentoEmailResponsavelEvento;
     }
-    
+
     function setEquipamentoDataInicio($equipamentoDataInicio) {
         $this->equipamentoDataInicio = $equipamentoDataInicio;
     }

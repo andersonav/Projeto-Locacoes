@@ -83,21 +83,23 @@ class EventoDao {
         }
     }
 
-    public function insertEventoSelecionado($nomeEvento, $descricaoEvento, $solicitanteEvento, $dataInicioEvento, $dataFimEvento, $ambienteEvento, $eventoTipoRepeticao, $idAula) {
+    public function insertEventoSelecionado($nomeEvento, $descricaoEvento, $solicitanteEvento, $telefoneSolicitante, $emailSolicitante, $dataInicioEvento, $dataFimEvento, $ambienteEvento, $eventoTipoRepeticao, $idAula) {
 
         try {
 
-            $sql = "INSERT INTO eventos (eve_nome, eve_desc, eve_solicitante, eve_data_inicio, eve_data_fim, eve_tip_rep_id, eve_aula_id, eve_amb_id)"
-                    . "VALUES (?,?,?,?,?,?,?,?)";
+            $sql = "INSERT INTO eventos (eve_nome, eve_desc, eve_solicitante, eve_sol_tel, eve_sol_email, eve_data_inicio, eve_data_fim, eve_tip_rep_id, eve_aula_id, eve_amb_id)"
+                    . "VALUES (?,?,?,?,?,?,?,?,?,?)";
             $p_sql = ConexaoMysql::getInstance()->prepare($sql);
             $p_sql->bindParam(1, $nomeEvento);
             $p_sql->bindParam(2, $descricaoEvento);
             $p_sql->bindParam(3, $solicitanteEvento);
-            $p_sql->bindParam(4, $dataInicioEvento);
-            $p_sql->bindParam(5, $dataFimEvento);
-            $p_sql->bindParam(6, $eventoTipoRepeticao);
-            $p_sql->bindParam(7, $idAula);
-            $p_sql->bindParam(8, $ambienteEvento);
+            $p_sql->bindParam(4, $telefoneSolicitante);
+            $p_sql->bindParam(5, $emailSolicitante);
+            $p_sql->bindParam(6, $dataInicioEvento);
+            $p_sql->bindParam(7, $dataFimEvento);
+            $p_sql->bindParam(8, $eventoTipoRepeticao);
+            $p_sql->bindParam(9, $idAula);
+            $p_sql->bindParam(10, $ambienteEvento);
             return $p_sql->execute();
         } catch (Exception $e) {
             echo $e->getTraceAsString();

@@ -41,7 +41,7 @@ class EventoLogica {
 
     public function getEventoByPesquisa() {
         $valorDigitado = $_REQUEST['valorDigitado'];
-        
+
         return EventoView::getInstance()->jsonEventos(EventoDao::getInstance()->getEventoByPesquisa($valorDigitado));
     }
 
@@ -49,13 +49,15 @@ class EventoLogica {
         $nomeEvento = $_REQUEST['nomeEvento'];
         $descricaoEvento = $_REQUEST['descricaoEvento'];
         $solicitanteEvento = $_REQUEST['solicitanteEvento'];
+        $telefoneSolicitante = $_REQUEST['telefoneSolicitante'];
+        $emailSolicitante = $_REQUEST['emailSolicitante'];
         $dataInicioEvento = $_REQUEST['dataInicioEvento'];
         $dataFimEvento = $_REQUEST['dataFimEvento'];
         $ambienteEvento = $_REQUEST['ambienteEvento'];
         $eventoTipoRepeticao = $_REQUEST['eventoTipoRepeticao'];
         $idAula = $_REQUEST['idAula'];
 
-        return EventoDao::getInstance()->insertEventoSelecionado($nomeEvento, $descricaoEvento, $solicitanteEvento, $dataInicioEvento, $dataFimEvento, $ambienteEvento, $eventoTipoRepeticao, $idAula);
+        return EventoDao::getInstance()->insertEventoSelecionado($nomeEvento, $descricaoEvento, $solicitanteEvento, $telefoneSolicitante, $emailSolicitante, $dataInicioEvento, $dataFimEvento, $ambienteEvento, $eventoTipoRepeticao, $idAula);
     }
 
     public function getEventById() {

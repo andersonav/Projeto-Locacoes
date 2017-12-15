@@ -148,11 +148,18 @@
                                     <input id="icon_prefix" type="text" class="validate solicitante" placeholder="Digite o nome do Solicitante">
                                     <label for="icon_prefix" class="corLogo-text active">Solicitante:</label>
                                 </div>
+                                <div class="input-field col s12 m6">
+                                    <input id="icon_prefix" type="text" class="validate telefoneContatoSolicitante" placeholder="Digite o telefone do Solicitante">
+                                    <label for="icon_prefix" class="corLogo-text active">Telefone para contato:</label>
+                                </div>
+                                <div class="input-field col s12 m6">
+                                    <input id="icon_prefix" type="email" class="validate emailContatoSolicitante" placeholder="Digite o email do Solicitante">
+                                    <label for="icon_prefix" class="corLogo-text active">Email para contato:</label>
+                                </div>
                                 <div class="input-field col s12 m12">
                                     <input type="text" id="descricaoEvento" class="validate descricaoEvento" data-length="200" maxlength="201" placeholder="Digite a descrição do Evento">
                                     <label for="icon_prefix" class="corLogo-text active">Descrição do Evento</label>
                                 </div>
-
                                 <div class="input-field col s12 m4">
                                     <select name="tipo" class="sel-tipo-evento" id="sel-tipo-evento">
                                     </select>

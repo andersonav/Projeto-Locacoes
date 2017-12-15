@@ -128,13 +128,15 @@ $(function () {
                     $(".buttonOkay").click(function () {
                         var nomeEvento = $(".nomeEvento").val();
                         var solicitanteEvento = $(".solicitante").val();
+                        var telefoneSolicitante = $(".telefoneContatoSolicitante").val();
+                        var emailSolicitante = $(".emailContatoSolicitante").val();
                         var tipoEvento = $("#sel-tipo-evento").val();
                         var blocoEvento = $("#sel-bloco").val();
                         var ambienteEvento = $("#sel-ambiente").val();
                         var eventoTipoRepeticao = 1;
                         var idAula = 2;
                         title = $(".descricaoEvento").val();
-                        if (nomeEvento != "" || title != "" || solicitanteEvento != "" || tipoEvento != null || blocoEvento != null || ambienteEvento != null) {
+                        if (nomeEvento != "" || title != "" || solicitanteEvento != "" || telefoneSolicitante != "" || emailSolicitante != "" || tipoEvento != null || blocoEvento != null || ambienteEvento != null) {
                             eventData = {
                                 title: title,
                                 start: start,
@@ -142,7 +144,7 @@ $(function () {
                             };
                             var valorBoolean = verifyDates(start, end, ambienteEvento);
                             if (valorBoolean == true) {
-                                if (insertEventoSelecionado(nomeEvento, solicitanteEvento, tipoEvento, blocoEvento, ambienteEvento, eventoTipoRepeticao, idAula, title, start, end) == true) {
+                                if (insertEventoSelecionado(nomeEvento, solicitanteEvento, telefoneSolicitante, emailSolicitante, tipoEvento, blocoEvento, ambienteEvento, eventoTipoRepeticao, idAula, title, start, end) == true) {
                                     var valorIdEvento = getEventByAmbienteAndStartAndEnd(ambienteEvento, start, end);
                                     checkboxToEquipamentServiceRefeicao(valorIdEvento, start, end);
                                     start = null;
@@ -580,6 +582,8 @@ $(function () {
             var hojeFormatada = ano + "-" + mes + "-" + dia + " " + hora + ":" + minutos + ":" + segundos;
             var nomeEvento = $(".nomeEvento").val();
             var solicitanteEvento = $(".solicitante").val();
+            var telefoneSolicitante = $(".telefoneContatoSolicitante").val();
+            var emailSolicitante = $(".emailContatoSolicitante").val();
             var tipoEvento = $("#sel-tipo-evento").val();
             var blocoEvento = $("#sel-bloco").val();
             var ambienteEvento = $("#sel-ambiente").val();
@@ -616,14 +620,13 @@ $(function () {
                                 $("#modalCamposNulos").modal();
                                 $("#modalCamposNulos").modal('open');
                             } else {
-                                if (insertEventoSelecionado(nomeEvento, solicitanteEvento, tipoEvento, blocoEvento, ambienteEvento, tipoRepeticao, idAula, descricaoEvento, inicio, fim) == true) {
+                                if (insertEventoSelecionado(nomeEvento, solicitanteEvento, telefoneSolicitante, emailSolicitante, tipoEvento, blocoEvento, ambienteEvento, tipoRepeticao, idAula, descricaoEvento, inicio, fim) == true) {
                                     var valorIdEvento = getEventByAmbienteAndStartAndEnd(ambienteEvento, arrayValoresCompletos[0][1], arrayValoresCompletos[0][2]);
                                     if (idAula == 1) {
                                         insertIntoTableAulaDetalhes(valorIdEvento, idAula, nomeProfessor);
                                     }
                                     checkboxToEquipamentServiceRefeicao(valorIdEvento, inicio, fim);
                                     $("#modalAdicionarEventoClickDay").modal('close');
-//                                        location.reload();
                                 }
                             }
                         } else {
@@ -833,7 +836,7 @@ $(function () {
         }
     });
 
-    function insertEventoSelecionado(nomeEvento, solicitanteEvento, tipoEvento, blocoEvento, ambienteEvento, eventoTipoRepeticao, idAula, title, start, end) {
+    function insertEventoSelecionado(nomeEvento, solicitanteEvento, telefoneSolicitante, emailSolicitante, tipoEvento, blocoEvento, ambienteEvento, eventoTipoRepeticao, idAula, title, start, end) {
         var boolean;
         if (eventoTipoRepeticao == 1) {
             $.ajax({
@@ -844,6 +847,8 @@ $(function () {
                     action: "EventoLogica.insertEventoSelecionado",
                     nomeEvento: nomeEvento,
                     solicitanteEvento: solicitanteEvento,
+                    telefoneSolicitante: telefoneSolicitante,
+                    emailSolicitante: emailSolicitante,
                     ambienteEvento: ambienteEvento,
                     descricaoEvento: title,
                     eventoTipoRepeticao: eventoTipoRepeticao,
