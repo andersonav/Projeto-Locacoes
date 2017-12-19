@@ -2,7 +2,9 @@
 <html>
     <head>
         <meta charset='utf-8' />
-        <!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.1/css/materialize.min.css">-->
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"> 
+        <meta name="csrf-token" content="HYPw6xw4Raa7CMtRIKgqxyu1bRuoyms7zGFfwumP">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">  
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
         <link href="../public/css/materialize.min.css" rel="stylesheet" />
         <link href='../public/css/fullcalendar.min.css' rel='stylesheet' />
@@ -16,7 +18,19 @@
         <script src='../public/js/locale/pt-br.js'></script>
         <script src='../public/js/app.js'></script>
         <script src='../public/js/materialize.min.js'></script>
-        <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.1/js/materialize.min.js"></script>-->
+        <script>
+            function mask(objeto) {
+                if (objeto.value.length == 1) {
+                    objeto.value = '(' + objeto.value;
+                }
+                if (objeto.value.length == 3) {
+                    objeto.value = objeto.value + ') ';
+                }
+                if (objeto.value.length == 10) {
+                    objeto.value = objeto.value + '-';
+                }
+            }
+        </script>
     </head>
     <body>
         <main>
@@ -133,6 +147,15 @@
                         <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Fechar</a>
                     </div>
                 </div>
+                <div id="modalAmbienteNulo" class="modal">
+                    <div class="modal-content">
+                        <h4>Alerta</h4>
+                        <p>Por favor selecione um ambiente para verificar se a data selecionada está disponível.</p>
+                    </div>
+                    <div class="modal-footer">
+                        <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Fechar</a>
+                    </div>
+                </div>
                 <div id="modalAdicionarEventoClickDay" class="modal">
                     <div class="modal-content">
                         <h4 class="center">Adicionar Eventos</h4>
@@ -149,7 +172,7 @@
                                     <label for="icon_prefix" class="corLogo-text active">Solicitante:</label>
                                 </div>
                                 <div class="input-field col s12 m6">
-                                    <input id="icon_prefix" type="text" class="validate telefoneContatoSolicitante" placeholder="Digite o telefone do Solicitante">
+                                    <input id="icon_prefix" type="text" class="validate telefoneContatoSolicitante" onkeypress="mask(this);" maxlength="15" placeholder="Digite o telefone do Solicitante">
                                     <label for="icon_prefix" class="corLogo-text active">Telefone para contato:</label>
                                 </div>
                                 <div class="input-field col s12 m6">

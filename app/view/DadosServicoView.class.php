@@ -69,8 +69,8 @@ class DadosServicoView {
                     <b>Evento: </b>' . $information->getNomeEvento() . '<br/>
                     <b>Solicitante: </b>' . $information->getSolicitanteEvento() . '<br/>
                     <b>Ambiente: </b>' . $information->getAmbienteDescricaoEvento() . '<br/>
-                    <b>Material: </b>' . $information->getServicoDescricaoEvento() . '<br/>    
-                    <br/><b>Período de utilização do material: </b><br/>
+                    <b>Serviço: </b>' . $information->getServicoDescricaoEvento() . '<br/>    
+                    <br/><b>Período de utilização do serviço: </b><br/>
                     <b>Data/Hora Início: </b>' . date_format(date_create($information->getServicoDataInicio()), "d/m/Y") . ' ' . date_format(date_create($information->getServicoDataInicio()), "H:i") . '<br/>
                     <b>Data/Hora Conclusão: </b>' . date_format(date_create($information->getServicoDataFim()), "d/m/Y") . ' ' . date_format(date_create($information->getServicoDataFim()), "H:i") . '<br/>';
             }

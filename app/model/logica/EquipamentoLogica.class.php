@@ -43,9 +43,9 @@ class EquipamentoLogica {
     
     public function updateQtdDisponivelByIdEquipamento() {
         $idEquipamento = $_REQUEST['idEquipamento'];
-        $valorQtdisponivel = $_REQUEST['qtdDisponivelAtual'];
+        $valorAtual = $_REQUEST['valorAtual'];
         
-        return EquipamentoDao::getInstance()->updateQtdDisponivelByIdEquipamento($idEquipamento, $valorQtdisponivel);
+        return EquipamentoDao::getInstance()->updateQtdDisponivelByIdEquipamento($idEquipamento, $valorAtual);
     }
 
 }

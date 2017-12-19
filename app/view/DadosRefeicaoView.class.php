@@ -56,7 +56,7 @@ class DadosRefeicaoView {
             //$mail->AddBCC('destinatario_oculto@dominio.com.br', 'Destinatario2`'); // Cópia Oculta
             //$mail->AddAttachment('images/phpmailer.gif');      // Adicionar um anexo
             //Arquivo php que contem o HTML
-            $arquivo = file_get_contents("../arquivoTabelRefeicaoMail.php");
+            $arquivo = file_get_contents("../arquivoMailHTML.php");
             $dados = "";
             $telefoneSolicitante = "";
             $emailSolicitante = "";
@@ -70,9 +70,9 @@ class DadosRefeicaoView {
                     <b>Evento: </b>' . $information->getNomeEvento() . '<br/>
                     <b>Solicitante: </b>' . $information->getSolicitanteEvento() . '<br/>
                     <b>Ambiente: </b>' . $information->getAmbienteDescricaoEvento() . '<br/>
-                    <b>Material: </b>' . $information->getRefeicaoDescricaoEvento() . '<br/>    
+                    <b>Refeição: </b>' . $information->getRefeicaoDescricaoEvento() . '<br/>    
                     <b>Quantidade: </b>' . $information->getRefeicaoQtdUtilizadaEvento() . '<br/>    
-                    <br/><b>Período de utilização do material: </b><br/>
+                    <br/><b>Período de utilização da refeição: </b><br/>
                     <b>Data/Hora Início: </b>' . date_format(date_create($information->getRefeicaoDataInicio()), "d/m/Y") . ' ' . date_format(date_create($information->getRefeicaoDataInicio()), "H:i") . '<br/>
                     <b>Data/Hora Conclusão: </b>' . date_format(date_create($information->getRefeicaoDataFim()), "d/m/Y") . ' ' . date_format(date_create($information->getRefeicaoDataFim()), "H:i") . '<br/>';
             }

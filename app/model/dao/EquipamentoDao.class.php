@@ -70,13 +70,13 @@ class EquipamentoDao {
         }
     }
 
-    public function updateQtdDisponivelByIdEquipamento($idEquipamento, $valorQtdisponivel) {
+    public function updateQtdDisponivelByIdEquipamento($idEquipamento, $valorAtual) {
 
         try {
 
             $sql = "UPDATE equipamentos_evento equi SET equi.equi_eve_qtd = ? WHERE equi.equi_eve_id = ?";
             $p_sql = ConexaoMysql::getInstance()->prepare($sql);
-            $p_sql->bindParam(1, $valorQtdisponivel);
+            $p_sql->bindParam(1, $valorAtual);
             $p_sql->bindParam(2, $idEquipamento);
             return $p_sql->execute();
         } catch (Exception $e) {

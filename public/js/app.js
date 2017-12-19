@@ -17,6 +17,7 @@ $(function () {
     var arrayValoresCompletos = [];
     var valorIdEvento = [];
 
+
     function calendarAdmin(idAmbiente, idBloco, idSetor) {
         $('#calendar').fullCalendar('destroy');
         $("#readyCalendar").fullCalendar('destroy');
@@ -121,7 +122,7 @@ $(function () {
                     $("#sel-bloco").material_select();
                     $("#sel-ambiente").append("<option selected value=" + idAmbiente + ">" + nameAmbiente + "</option>");
                     $("#sel-ambiente").material_select();
-//                     compararQtdSolicitadaComQtdDisponivel();
+
                     $(".mostrarWhenClickBtn").addClass("cadastroClickBtn");
                     var title;
                     var eventData;
@@ -136,29 +137,44 @@ $(function () {
                         var eventoTipoRepeticao = 1;
                         var idAula = 2;
                         title = $(".descricaoEvento").val();
-                        if (nomeEvento != "" || title != "" || solicitanteEvento != "" || telefoneSolicitante != "" || emailSolicitante != "" || tipoEvento != null || blocoEvento != null || ambienteEvento != null) {
-                            eventData = {
-                                title: title,
-                                start: start,
-                                end: end
-                            };
-                            var valorBoolean = verifyDates(start, end, ambienteEvento);
-                            if (valorBoolean == true) {
-                                if (insertEventoSelecionado(nomeEvento, solicitanteEvento, telefoneSolicitante, emailSolicitante, tipoEvento, blocoEvento, ambienteEvento, eventoTipoRepeticao, idAula, title, start, end) == true) {
-                                    var valorIdEvento = getEventByAmbienteAndStartAndEnd(ambienteEvento, start, end);
-                                    checkboxToEquipamentServiceRefeicao(valorIdEvento, start, end);
-                                    start = null;
-                                    end = null;
-                                    $("#modalAdicionarEventoClickDay").modal('close');
+                        var resultQuantidade = compararQtdSolicitadaComQtdDisponivel();
+                        var contadorInput = 0;
+                        var contadorSelect = 0;
+                        $("#form_add_event input[type=text]:enabled").each(function () {
+                            $(this).val() == "" ? contadorInput++ : "";
+                        });
+                        $("#form_add_event select:visible").each(function () {
+                            $(this).val() == null ? contadorSelect++ : "";
+                        });
+                        if ((contadorInput == 0) && (contadorSelect == 0)) {
+                            if (resultQuantidade >= 0) {
+//                                updateQtdDisponivelByQtdSolicitada();
+                                eventData = {
+                                    title: title,
+                                    start: start,
+                                    end: end
+                                };
+                                var valorBoolean = verifyDates(start, end, ambienteEvento);
+                                if (valorBoolean == true) {
+                                    if (insertEventoSelecionado(nomeEvento, solicitanteEvento, telefoneSolicitante, emailSolicitante, tipoEvento, blocoEvento, ambienteEvento, eventoTipoRepeticao, idAula, title, start, end) == true) {
+                                        var valorIdEvento = getEventByAmbienteAndStartAndEnd(ambienteEvento, start, end);
+                                        checkboxToEquipamentServiceRefeicao(valorIdEvento, start, end);
+                                        start = null;
+                                        end = null;
+                                        $("#modalAdicionarEventoClickDay").modal('close');
 //                                    location.reload();
 
+                                    }
+                                } else {
+                                    $("#modalDatasIguais").modal();
+                                    $("#modalDatasIguais").modal('open');
                                 }
-                            } else {
-                                $("#modalDatasIguais").modal();
-                                $("#modalDatasIguais").modal('open');
-                            }
 //                            $('#calendar').fullCalendar('renderEvent', eventData, true); // stick? = true
+                            } else {
+                                alert("Quantidade solicitada maior que a disponivel");
+                            }
                         } else {
+
                             $("#modalCamposNulos").modal();
                             $("#modalCamposNulos").modal("open");
                         }
@@ -370,22 +386,36 @@ $(function () {
                     var arrayStartEnd = [];
                     start = $.fullCalendar.formatDate(start, "YYYY-MM-DD HH:mm:ss");
                     end = $.fullCalendar.formatDate(end, "YYYY-MM-DD HH:mm:ss");
-                    arrayStartEnd.push(idEventWeekOrHalfYear);
-                    arrayStartEnd.push(start);
-                    arrayStartEnd.push(end);
-                    arrayValoresCompletos.push(arrayStartEnd);
-                    for (var i = 0; i < arrayValoresCompletos.length; i++) {
-                        console.log(arrayValoresCompletos[i][0]);
-                        console.log(arrayValoresCompletos[i][1]);
-                        console.log(arrayValoresCompletos[i][2]);
+                    var ambienteEvento = $("#sel-ambiente").val();
+                    if (ambienteEvento != null) {
+                        var boolean = verifyDates(start, end, ambiente);
+                        if (boolean == true) {
+                            arrayStartEnd.push(idEventWeekOrHalfYear);
+                            arrayStartEnd.push(start);
+                            arrayStartEnd.push(end);
+                            arrayValoresCompletos.push(arrayStartEnd);
+                            for (var i = 0; i < arrayValoresCompletos.length; i++) {
+                                console.log(arrayValoresCompletos[i][0]);
+                                console.log(arrayValoresCompletos[i][1]);
+                                console.log(arrayValoresCompletos[i][2]);
+                            }
+                            $("#calendarDayOfWeek").fullCalendar('addEventSource', [{
+                                    id: idEventWeekOrHalfYear,
+                                    start: start,
+                                    end: end,
+                                    block: true
+                                }, ]);
+                            $("#calendarDayOfWeek").fullCalendar("unselect");
+                        } else {
+                            $("#modalDatasIguais").modal();
+                            $("#modalDatasIguais").modal("open");
+                        }
+
+                    } else {
+                        $("#modalAmbienteNulo").modal();
+                        $("#modalAmbienteNulo").modal("open");
                     }
-                    $("#calendarDayOfWeek").fullCalendar('addEventSource', [{
-                            id: idEventWeekOrHalfYear,
-                            start: start,
-                            end: end,
-                            block: true
-                        }, ]);
-                    $("#calendarDayOfWeek").fullCalendar("unselect");
+
                 }
                 idEventWeekOrHalfYear++;
             },
@@ -627,6 +657,7 @@ $(function () {
                                     }
                                     checkboxToEquipamentServiceRefeicao(valorIdEvento, inicio, fim);
                                     $("#modalAdicionarEventoClickDay").modal('close');
+                                    location.reload();
                                 }
                             }
                         } else {
@@ -1045,6 +1076,7 @@ $(function () {
                 if (valorTd == 0) {
                     $(".tabelaEquipamentos tbody").prepend('<tr><td colspan="8">Não há equipamentos disponíveis</td></tr>');
                 }
+                dataEquipamentoMenorQueDataInicio();
             }
         });
     }
@@ -1117,50 +1149,39 @@ $(function () {
     }
 
     function compararQtdSolicitadaComQtdDisponivel() {
-        $(".txt-quantidade-solicitada").on("keyup", function () {
-            var idEquipamento = $(this).attr('id');
-            var qtdSolicitada = $(this).val();
-            $.ajax({
-                url: controllerToAdmin,
-                type: 'POST',
-                data: {
-                    action: 'EquipamentoLogica.verifyQtdSolicitadaByIdEquipamento',
-                    idEquipamento: idEquipamento
+        var resultQuantidade;
+        var input1 = $('.txt-quantidade-solicitada').attr('id');
+        var idEquipamento = input1.substr(5, 1);
+        var qtdSolicitada = $('.txt-quantidade-solicitada').val();
+        $.ajax({
+            url: controllerToAdmin,
+            type: 'POST',
+            async: false,
+            data: {
+                action: 'EquipamentoLogica.verifyQtdSolicitadaByIdEquipamento',
+                idEquipamento: idEquipamento
 
-                }, success: function (data, textStatus, jqXHR) {
-                    dados = $.parseJSON(data);
-                    console.log("Id Equipamento : " + dados.idEquipamento);
-                    if (qtdSolicitada <= dados.qtdDisponivel || dados.qtdDisponivel >= qtdSolicitada) {
-                        console.log("Quantidade solicitada: " + qtdSolicitada);
-                        console.log("Quantidade disponível do Equipamento: " + dados.qtdDisponivel);
-                    } else {
-                        $(".txt-quantidade-solicitada").val($(".txt-quantidade-solicitada").val().replace(/,/g, ""));
-                    }
-//                            updateQtdDisponivelByQtdSolicitada(valorDigitado, dados.idEquipamento, dados.qtdDisponivel);
-
-                }
-            });
+            }, success: function (data, textStatus, jqXHR) {
+                dados = $.parseJSON(data);
+                resultQuantidade = dados.qtdDisponivel - qtdSolicitada;
+            }
         });
-
+        return resultQuantidade;
     }
 
-//    function updateQtdDisponivelByQtdSolicitada(qtdSolicitada, idEquipamento, qtdDisponivel) {
-//        var valorDisponivelAtual = qtdDisponivel - qtdSolicitada;
-//        $.ajax({
-//            url: controllerToAdmin,
-//            type: 'POST',
-//            data: {
-//                action: 'EquipamentoLogica.updateQtdDisponivelByIdEquipamento',
-//                idEquipamento: idEquipamento,
-//                qtdDisponivelAtual: valorDisponivelAtual
-//            }, success: function (data, textStatus, jqXHR) {
-//                getEquipamentos();
-//                $("#"+idEquipamento).val(qtdSolicitada);
-//                $("#"+idEquipamento).removeAttr('disabled');
-//                console.log("Deu certo");
-//            }
-//        });
-//    }
+    function updateQtdDisponivelByQtdSolicitada(valorAtual, idEquipamento) {
+        $.ajax({
+            url: controllerToAdmin,
+            type: 'POST',
+            data: {
+                action: 'EquipamentoLogica.updateQtdDisponivelByIdEquipamento',
+                idEquipamento: idEquipamento,
+                valorAtual: valorAtual
+            }, success: function (data, textStatus, jqXHR) {
+                console.log("Deu certo");
+            }
+        });
+    }
 
     function habilitarInputsEquipamentos() {
         $(".idEquipamento").click(function () {
@@ -1370,6 +1391,20 @@ $(function () {
             defaultView: 'listWeek'
         });
     }
+
+    function dataEquipamentoMenorQueDataInicio() {
+        $(".txt-data-inicial").change(function () {
+            var valorDataEquipamento = $(this).val();
+            var valorDataInicio = $("#formDataInicio").val();
+            if (valorDataEquipamento > valorDataInicio) {
+                alert("Data do Equipamento maior que a data do evento");
+                $(".buttonOkay").addClass("disabled");
+            } else {
+
+            }
+        });
+    }
+
 
     $('#tabs-swipe-demo.tabs').tabs();
     getSetor();
