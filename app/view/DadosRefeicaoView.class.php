@@ -47,7 +47,7 @@ class DadosRefeicaoView {
             // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=    
             $mail->SetFrom('cti.maracanau@ifce.edu.br', 'SysReserva'); //Seu e-mail
             // $mail->AddReplyTo('emerson.henrique@ifce.edu.br', 'SysReserva'); //Seu e-mail
-            $mail->Subject = 'SysReserva - Locações'; //Assunto do e-mail
+            $mail->Subject = 'SysReserva - Solicitações'; //Assunto do e-mail
             $mail->CharSet = 'UTF-8';
             //Define os destinatário(s)
             //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=

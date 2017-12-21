@@ -388,7 +388,7 @@ $(function () {
                     end = $.fullCalendar.formatDate(end, "YYYY-MM-DD HH:mm:ss");
                     var ambienteEvento = $("#sel-ambiente").val();
                     if (ambienteEvento != null) {
-                        var boolean = verifyDates(start, end, ambiente);
+                        var boolean = verifyDates(start, end, ambienteEvento);
                         if (boolean == true) {
                             arrayStartEnd.push(idEventWeekOrHalfYear);
                             arrayStartEnd.push(start);
@@ -629,7 +629,7 @@ $(function () {
             $("#form_add_event input[type=text]:enabled").each(function () {
                 $(this).val() == "" ? contadorInput++ : "";
             });
-            $("#form_add_event select").each(function () {
+            $("#form_add_event select:enabled").each(function () {
                 $(this).val() == null ? contadorSelect++ : "";
             });
             if ((contadorInput == 0) && (contadorSelect == 0)) {
@@ -651,13 +651,25 @@ $(function () {
                                 $("#modalCamposNulos").modal('open');
                             } else {
                                 if (insertEventoSelecionado(nomeEvento, solicitanteEvento, telefoneSolicitante, emailSolicitante, tipoEvento, blocoEvento, ambienteEvento, tipoRepeticao, idAula, descricaoEvento, inicio, fim) == true) {
-                                    var valorIdEvento = getEventByAmbienteAndStartAndEnd(ambienteEvento, arrayValoresCompletos[0][1], arrayValoresCompletos[0][2]);
-                                    if (idAula == 1) {
-                                        insertIntoTableAulaDetalhes(valorIdEvento, idAula, nomeProfessor);
+                                    var valorIdEventoArray = [];
+                                    if (tipoRepeticao == 1) {
+                                        var valorIdEvento = getEventByAmbienteAndStartAndEnd(ambienteEvento, inicio, fim);
+                                        if (idAula == 1) {
+                                            insertIntoTableAulaDetalhes(valorIdEvento, idAula, nomeProfessor);
+                                        }
+                                        checkboxToEquipamentServiceRefeicao(valorIdEvento, inicio, fim);
+                                    } else {
+                                        for (var i = 0; i < arrayValoresCompletos.length; i++) {
+                                            valorIdEventoArray[i] = getEventByAmbienteAndStartAndEnd(ambienteEvento, arrayValoresCompletos[i][1], arrayValoresCompletos[i][2]);
+                                            if (idAula == 1) {
+                                                insertIntoTableAulaDetalhes(valorIdEventoArray[i], idAula, nomeProfessor);
+                                            }
+                                            console.log(arrayValoresCompletos[i][1] + " - " + arrayValoresCompletos[i][2]);
+                                            checkboxToEquipamentServiceRefeicao(valorIdEventoArray[i], arrayValoresCompletos[i][1], arrayValoresCompletos[i][2]);
+                                        }
                                     }
-                                    checkboxToEquipamentServiceRefeicao(valorIdEvento, inicio, fim);
                                     $("#modalAdicionarEventoClickDay").modal('close');
-                                    location.reload();
+//                                    location.reload();
                                 }
                             }
                         } else {
@@ -900,6 +912,8 @@ $(function () {
                         action: "EventoLogica.insertEventoSelecionado",
                         nomeEvento: nomeEvento,
                         solicitanteEvento: solicitanteEvento,
+                        telefoneSolicitante: telefoneSolicitante,
+                        emailSolicitante: emailSolicitante,
                         ambienteEvento: ambienteEvento,
                         descricaoEvento: title,
                         eventoTipoRepeticao: eventoTipoRepeticao,
