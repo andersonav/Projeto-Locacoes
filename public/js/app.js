@@ -70,6 +70,9 @@ $(function () {
                 if (dia < 10) {
                     dia = 0 + "" + dia;
                 }
+                if (mes < 10) {
+                    mes = 0 + "" + mes;
+                }
                 var hora = hoje.getHours();
                 var minutos = hoje.getMinutes();
                 var segundos = hoje.getSeconds();
@@ -1090,7 +1093,7 @@ $(function () {
                 if (valorTd == 0) {
                     $(".tabelaEquipamentos tbody").prepend('<tr><td colspan="8">Não há equipamentos disponíveis</td></tr>');
                 }
-                dataEquipamentoMenorQueDataInicio();
+                dataEquipamentoMenorQueDataEvento();
             }
         });
     }
@@ -1406,17 +1409,47 @@ $(function () {
         });
     }
 
-    function dataEquipamentoMenorQueDataInicio() {
+    function dataEquipamentoMenorQueDataEvento() {
         $(".txt-data-inicial").change(function () {
             var valorDataEquipamento = $(this).val();
             var valorDataInicio = $("#formDataInicio").val();
-            if (valorDataEquipamento > valorDataInicio) {
-                alert("Data do Equipamento maior que a data do evento");
-                $(".buttonOkay").addClass("disabled");
-            } else {
-
+            var valorDataFim = $("#formDataFim").val();
+            if ((valorDataEquipamento <= valorDataInicio) || (valorDataEquipamento >= valorDataFim)) {
+                alert("Data do Equipamento não está de acordo com a data do evento!");
+                $(".txt-data-inicial").val("");
             }
         });
+
+        $(".txt-hora-inicial").change(function () {
+            var valorHoraEquipamento = $(this).val();
+            var valorHoraInicio = $("#formHoraInicio").val();
+            var valorHoraFim = $("#formHoraFim").val();
+            if ((valorHoraEquipamento <= valorHoraInicio) || (valorHoraEquipamento >= valorHoraFim)) {
+                alert("Data do Equipamento não está de acordo com a data do evento!");
+                $(".txt-hora-inicial").val("");
+            }
+        });
+
+        $(".txt-data-final").change(function () {
+            var valorDataEquipamento = $(this).val();
+            var valorDataInicio = $("#formDataInicio").val();
+            var valorDataFim = $("#formDataFim").val();
+            if ((valorDataEquipamento <= valorDataInicio) || (valorDataEquipamento >= valorDataFim)) {
+                alert("Data do Equipamento não está de acordo com a data do evento!");
+                $(".txt-data-final").val("");
+            }
+        });
+
+        $(".txt-hora-final").change(function () {
+            var valorHoraEquipamento = $(this).val();
+            var valorHoraInicio = $("#formHoraInicio").val();
+            var valorHoraFim = $("#formHoraFim").val();
+            if ((valorHoraEquipamento <= valorHoraInicio) || (valorHoraEquipamento >= valorHoraFim)) {
+                alert("Data do Equipamento não está de acordo com a data do evento!");
+                $(".txt-hora-final").val("");
+            }
+        });
+        // Criar para serviços e refeições, é a mesma coisa!
     }
 
 
