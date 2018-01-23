@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <title>SysReserva</title>
         <meta charset='utf-8' />
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"> 
         <meta name="csrf-token" content="HYPw6xw4Raa7CMtRIKgqxyu1bRuoyms7zGFfwumP">
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">  
-        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <link href='public/img/favicon.ico' rel='shortcut icon' type='image/vnd.microsoft.icon' />
         <link href="public/css/materialize.min.css" rel="stylesheet" />
         <link href='public/css/fullcalendar.min.css' rel='stylesheet' />
         <link href='public/css/fullcalendar.print.min.css' rel='stylesheet' media='print' />

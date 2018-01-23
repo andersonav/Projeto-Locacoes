@@ -1094,6 +1094,7 @@ $(function () {
                     $(".tabelaEquipamentos tbody").prepend('<tr><td colspan="8">Não há equipamentos disponíveis</td></tr>');
                 }
                 dataEquipamentoMenorQueDataEvento();
+
             }
         });
     }
@@ -1110,6 +1111,7 @@ $(function () {
                 if (valorTd == 0) {
                     $(".tabelaServicos tbody").prepend('<tr><td colspan="6">Não há serviços disponíveis</td></tr>');
                 }
+                dataServicoMenorQueDataEvento();
             }
         });
     }
@@ -1126,6 +1128,7 @@ $(function () {
                 if (valorTd == 0) {
                     $(".tabelaRefeicoes tbody").prepend('<tr><td colspan="8">Não há refeições disponíveis</td></tr>');
                 }
+                dataRefeicaoMenorQueDataEvento();
             }
         });
     }
@@ -1414,42 +1417,199 @@ $(function () {
             var valorDataEquipamento = $(this).val();
             var valorDataInicio = $("#formDataInicio").val();
             var valorDataFim = $("#formDataFim").val();
-            if ((valorDataEquipamento <= valorDataInicio) || (valorDataEquipamento >= valorDataFim)) {
-                alert("Data do Equipamento não está de acordo com a data do evento!");
-                $(".txt-data-inicial").val("");
+            if ((valorDataEquipamento < valorDataInicio) || (valorDataEquipamento > valorDataFim)) {
+                $("#modalDataEquiSerRef").modal();
+                $("#modalDataEquiSerRef").modal('open');
+                $(".txt-data-inicial").val(valorDataInicio);
             }
         });
 
         $(".txt-hora-inicial").change(function () {
+            var valorDataInicio = $("#formDataInicio").val();
+            var valorDataFim = $("#formDataFim").val();
             var valorHoraEquipamento = $(this).val();
             var valorHoraInicio = $("#formHoraInicio").val();
             var valorHoraFim = $("#formHoraFim").val();
-            if ((valorHoraEquipamento <= valorHoraInicio) || (valorHoraEquipamento >= valorHoraFim)) {
-                alert("Data do Equipamento não está de acordo com a data do evento!");
-                $(".txt-hora-inicial").val("");
+            var valorDataEquipamento = $(".txt-data-inicial").val();
+            if (compararHora(valorHoraEquipamento, valorHoraInicio, valorHoraFim, valorDataEquipamento, valorDataInicio, valorDataFim)) {
+                $("#modalDataEquiSerRef").modal();
+                $("#modalDataEquiSerRef").modal('open');
+                $(".txt-hora-inicial").val(valorHoraInicio);
             }
         });
-
         $(".txt-data-final").change(function () {
             var valorDataEquipamento = $(this).val();
             var valorDataInicio = $("#formDataInicio").val();
             var valorDataFim = $("#formDataFim").val();
-            if ((valorDataEquipamento <= valorDataInicio) || (valorDataEquipamento >= valorDataFim)) {
-                alert("Data do Equipamento não está de acordo com a data do evento!");
-                $(".txt-data-final").val("");
+            var valorDataInicioSelecionado = $(".txt-data-inicial").val();
+            if (valorDataEquipamento < valorDataInicioSelecionado) {
+                $("#modalDataInicioMaiorQueFinal").modal();
+                $("#modalDataInicioMaiorQueFinal").modal('open');
+                $(this).val(valorDataFim);
+            } else {
+                if ((valorDataEquipamento < valorDataInicio) || (valorDataEquipamento > valorDataFim)) {
+                    $("#modalDataEquiSerRef").modal();
+                    $("#modalDataEquiSerRef").modal('open');
+                    $(".txt-data-final").val(valorDataFim);
+                }
             }
-        });
 
+        });
         $(".txt-hora-final").change(function () {
+            var valorDataInicio = $("#formDataInicio").val();
+            var valorDataFim = $("#formDataFim").val();
             var valorHoraEquipamento = $(this).val();
             var valorHoraInicio = $("#formHoraInicio").val();
             var valorHoraFim = $("#formHoraFim").val();
-            if ((valorHoraEquipamento <= valorHoraInicio) || (valorHoraEquipamento >= valorHoraFim)) {
-                alert("Data do Equipamento não está de acordo com a data do evento!");
-                $(".txt-hora-final").val("");
+            var valorDataEquipamento = $(".txt-data-final").val();
+            if (compararHora(valorHoraEquipamento, valorHoraInicio, valorHoraFim, valorDataEquipamento, valorDataInicio, valorDataFim)) {
+                $("#modalDataEquiSerRef").modal();
+                $("#modalDataEquiSerRef").modal('open');
+                $(".txt-hora-final").val(valorHoraFim);
             }
         });
-        // Criar para serviços e refeições, é a mesma coisa!
+    }
+
+    function dataServicoMenorQueDataEvento() {
+        $(".txt-data-inicial-servico").change(function () {
+            var valorDataServico = $(this).val();
+            var valorDataInicio = $("#formDataInicio").val();
+            var valorDataFim = $("#formDataFim").val();
+            if ((valorDataServico < valorDataInicio) || (valorDataServico > valorDataFim)) {
+                $("#modalDataEquiSerRef").modal();
+                $("#modalDataEquiSerRef").modal('open');
+                $(".txt-data-inicial-servico").val(valorDataInicio);
+            }
+        });
+
+        $(".txt-hora-inicial-servico").change(function () {
+            var valorDataInicio = $("#formDataInicio").val();
+            var valorDataFim = $("#formDataFim").val();
+            var valorHoraServico = $(this).val();
+            var valorHoraInicio = $("#formHoraInicio").val();
+            var valorHoraFim = $("#formHoraFim").val();
+            var valorDataServico = $(".txt-data-inicial-servico").val();
+            if (compararHora(valorHoraServico, valorHoraInicio, valorHoraFim, valorDataServico, valorDataInicio, valorDataFim)) {
+                $("#modalDataEquiSerRef").modal();
+                $("#modalDataEquiSerRef").modal('open');
+                $(".txt-hora-inicial-servico").val(valorHoraInicio);
+            }
+        });
+
+        $(".txt-data-final-servico").change(function () {
+            var valorDataServico = $(this).val();
+            var valorDataInicio = $("#formDataInicio").val();
+            var valorDataFim = $("#formDataFim").val();
+            var valorDataInicioSelecionado = $(".txt-data-inicial-servico").val();
+            if (valorDataServico < valorDataInicioSelecionado) {
+                $("#modalDataInicioMaiorQueFinal").modal();
+                $("#modalDataInicioMaiorQueFinal").modal('open');
+                $(this).val(valorDataFim);
+            } else {
+                if ((valorDataServico < valorDataInicio) || (valorDataServico > valorDataFim)) {
+                    $("#modalDataEquiSerRef").modal();
+                    $("#modalDataEquiSerRef").modal('open');
+                    $(".txt-data-final-servico").val(valorDataFim);
+                }
+            }
+        });
+
+        $(".txt-hora-final-servico").change(function () {
+            var valorDataInicio = $("#formDataInicio").val();
+            var valorDataFim = $("#formDataFim").val();
+            var valorHoraServico = $(this).val();
+            var valorHoraInicio = $("#formHoraInicio").val();
+            var valorHoraFim = $("#formHoraFim").val();
+            var valorDataServico = $(".txt-data-final-servico").val();
+            if (compararHora(valorHoraServico, valorHoraInicio, valorHoraFim, valorDataServico, valorDataInicio, valorDataFim)) {
+                $("#modalDataEquiSerRef").modal();
+                $("#modalDataEquiSerRef").modal('open');
+                $(".txt-hora-final-servico").val(valorHoraFim);
+            }
+        });
+    }
+
+    function dataRefeicaoMenorQueDataEvento() {
+        $(".txt-data-inicial-refeicao").change(function () {
+            var valorDataRefeicao = $(this).val();
+            var valorDataInicio = $("#formDataInicio").val();
+            var valorDataFim = $("#formDataFim").val();
+            if ((valorDataRefeicao < valorDataInicio) || (valorDataRefeicao > valorDataFim)) {
+                $("#modalDataEquiSerRef").modal();
+                $("#modalDataEquiSerRef").modal('open');
+                $(".txt-data-inicial-refeicao").val(valorDataInicio);
+            }
+        });
+
+        $(".txt-hora-inicial-refeicao").change(function () {
+            var valorDataInicio = $("#formDataInicio").val();
+            var valorDataFim = $("#formDataFim").val();
+            var valorHoraRefeicao = $(this).val();
+            var valorHoraInicio = $("#formHoraInicio").val();
+            var valorHoraFim = $("#formHoraFim").val();
+            var valorDataServico = $(".txt-data-inicial-servico").val();
+            if (compararHora(valorHoraRefeicao, valorHoraInicio, valorHoraFim, valorDataServico, valorDataInicio, valorDataFim)) {
+                $("#modalDataEquiSerRef").modal();
+                $("#modalDataEquiSerRef").modal('open');
+                $(".txt-hora-inicial-refeicao").val(valorHoraInicio);
+            }
+        });
+
+        $(".txt-data-final-refeicao").change(function () {
+            var valorDataRefeicao = $(this).val();
+            var valorDataInicio = $("#formDataInicio").val();
+            var valorDataFim = $("#formDataFim").val();
+            var valorDataInicioSelecionado = $(".txt-data-inicial-refeicao").val();
+            if (valorDataRefeicao < valorDataInicioSelecionado) {
+                $("#modalDataInicioMaiorQueFinal").modal();
+                $("#modalDataInicioMaiorQueFinal").modal('open');
+                $(this).val(valorDataFim);
+            } else {
+                if ((valorDataRefeicao < valorDataInicio) || (valorDataRefeicao > valorDataFim)) {
+                    $("#modalDataEquiSerRef").modal();
+                    $("#modalDataEquiSerRef").modal('open');
+                    $(".txt-data-final-refeicao").val(valorDataFim);
+                }
+            }
+        });
+
+        $(".txt-hora-final-refeicao").change(function () {
+            var valorDataInicio = $("#formDataInicio").val();
+            var valorDataFim = $("#formDataFim").val();
+            var valorHoraRefeicao = $(this).val();
+            var valorHoraInicio = $("#formHoraInicio").val();
+            var valorHoraFim = $("#formHoraFim").val();
+            var valorDataServico = $(".txt-data-final-servico").val();
+            if (compararHora(valorHoraRefeicao, valorHoraInicio, valorHoraFim, valorDataServico, valorDataInicio, valorDataFim)) {
+                $("#modalDataEquiSerRef").modal();
+                $("#modalDataEquiSerRef").modal('open');
+                $(".txt-hora-final-refeicao").val(valorHoraFim);
+            }
+        });
+    }
+
+    function compararHora(valorHoraEquipamento, valorHoraInicio, valorHoraFim, valorDataEscolhida, valorDataInicio, valorDataFim) {
+        valorHoraEquipamento = valorHoraEquipamento.split(":");
+        valorHoraInicio = valorHoraInicio.split(":");
+        valorHoraFim = valorHoraFim.split(":");
+        var anoInicioEscolhido = valorDataEscolhida.substr(6, 4);
+        var mesInicioEscolhido = valorDataEscolhida.substr(3, 2);
+        var diaInicioEscolhido = valorDataEscolhida.substr(0, 2);
+        var anoInicio = valorDataInicio.substr(6, 4);
+        var mesInicio = valorDataInicio.substr(3, 2);
+        var diaInicio = valorDataInicio.substr(0, 2);
+        var anoFim = valorDataFim.substr(6, 4);
+        var mesFim = valorDataFim.substr(3, 2);
+        var diaFim = valorDataFim.substr(0, 2);
+        var d = new Date();
+        var data1 = new Date(anoInicioEscolhido, mesInicioEscolhido, diaInicioEscolhido, valorHoraEquipamento[0], valorHoraEquipamento[1]);
+        var data2 = new Date(anoInicio, mesInicio, diaInicio, valorHoraInicio[0], valorHoraInicio[1]);
+        var data3 = new Date(anoFim, mesFim, diaFim, valorHoraFim[0], valorHoraFim[1]);
+        if ((data1 < data2) || (data1 > data3)) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
 

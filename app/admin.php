@@ -3,14 +3,15 @@
     <head>
         <meta charset='utf-8' />
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"> 
+        <title>Administrador</title>
         <meta name="csrf-token" content="HYPw6xw4Raa7CMtRIKgqxyu1bRuoyms7zGFfwumP">
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">  
-        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
         <link href="../public/css/materialize.min.css" rel="stylesheet" />
         <link href='../public/css/fullcalendar.min.css' rel='stylesheet' />
         <link href='../public/css/fullcalendar.print.min.css' rel='stylesheet' media='print' />
         <link href='../public/css/nav_footer.css' rel='stylesheet' />
         <link href='../public/css/location_style.css' rel='stylesheet' />
+        <link href='../public/img/favicon.ico' rel='shortcut icon' type='image/vnd.microsoft.icon' />
         <script src='../public/js/lib/moment.min.js'></script>
         <script src='../public/js/lib/jquery.min.js'></script>
         <script src='../public/js/fullcalendar.min.js'></script>
@@ -115,6 +116,15 @@
                     <div class="modal-content">
                         <h4>Alerta</h4>
                         <p>A sua data inicial é maior que a final, por favor corrija isso!</p>
+                    </div>
+                    <div class="modal-footer">
+                        <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Fechar</a>
+                    </div>
+                </div>
+                <div id="modalDataEquiSerRef" class="modal">
+                    <div class="modal-content">
+                        <h4>Alerta</h4>
+                        <p>Data do Equipamento não está de acordo com a data do evento!</p>
                     </div>
                     <div class="modal-footer">
                         <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Fechar</a>
