@@ -56,13 +56,14 @@ class EventoLogica {
         $ambienteEvento = $_REQUEST['ambienteEvento'];
         $eventoTipoRepeticao = $_REQUEST['eventoTipoRepeticao'];
         $idAula = $_REQUEST['idAula'];
-
+        $eventoComeco = $dataInicioEvento;
+        $eventoFinal = $dataFimEvento;
         $horarioFinal = date_format(date_create($dataFimEvento), "H:i");
         $dataInicioEventoAdici = date('Y/m/d H:i', strtotime("+1 days", strtotime($dataInicioEvento)));
         while (date_format(date_create($dataInicioEvento), "Y-m-d H:i") < date_format(date_create($dataFimEvento), "Y-m-d H:i")) {
 //            echo $dataInicioEvento . ' ' . date_format(date_create($dataInicioEvento), "Y-m-d") . ' ' . $horarioFinal . '<br>';
             $dataFimEventoDiario = date_format(date_create($dataInicioEvento), "Y-m-d") . ' ' . $horarioFinal;
-            EventoDao::getInstance()->insertEventoSelecionado($nomeEvento, $descricaoEvento, $solicitanteEvento, $telefoneSolicitante, $emailSolicitante, $dataInicioEvento, $dataFimEventoDiario, $ambienteEvento, $eventoTipoRepeticao, $idAula);
+            EventoDao::getInstance()->insertEventoSelecionado($nomeEvento, $descricaoEvento, $solicitanteEvento, $telefoneSolicitante, $emailSolicitante, $dataInicioEvento, $dataFimEventoDiario, $eventoComeco, $eventoFinal, $ambienteEvento, $eventoTipoRepeticao, $idAula);
             $dataInicioEvento = date('Y-m-d H:i', strtotime("+1 days", strtotime($dataInicioEvento)));
         }
 //        

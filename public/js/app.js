@@ -16,6 +16,14 @@ $(function () {
     var idEventWeekOrHalfYear = 1;
     var arrayValoresCompletos = [];
     var valorIdEvento = [];
+    var inputs = $('input').get();
+    $(".button-collapse").sideNav();
+    $(inputs).on('focus', function () {
+        var pos = $(this).offset();
+        // não precisas de saber o ID se a intenção é somente usar $('#' + id), 
+        // nesse caso já tens o elemento escolhido com $(this).closest('.upage')
+        $(this).closest('.upage').scrollTop(pos.top);
+    });
 
 
     function calendarAdmin(idAmbiente, idBloco, idSetor) {
@@ -52,142 +60,149 @@ $(function () {
 //                console.log("Clicou no dia: " + date.format());
             },
             select: function (start, end) {
-                isNumeric();
-                habilitarInputsEquipamentos();
-                habilitarInputsServicos();
-                habilitarInputsRefeicoes();
-                verifyCheck();
-                verifyCheckServices();
-                verifyCheckRefeicoes();
-                pickDataInicio();
-                pickHoraInicio();
-                pickDataFim();
-                pickHoraFim();
-                start = $.fullCalendar.formatDate(start, "YYYY-MM-DD HH:mm:ss");
-                var ano = hoje.getFullYear();
-                var mes = hoje.getMonth() + 1;
-                var dia = hoje.getDate();
-                if (dia < 10) {
-                    dia = 0 + "" + dia;
-                }
-                if (mes < 10) {
-                    mes = 0 + "" + mes;
-                }
-                var hora = hoje.getHours();
-                var minutos = hoje.getMinutes();
-                var segundos = hoje.getSeconds();
-                var hojeFormatada = ano + "-" + mes + "-" + dia + " " + hora + ":" + minutos + ":" + segundos;
-                if (start < hojeFormatada) {
-                    start = null;
-                    end = null;
-                    $("#modalDataAnterior").modal();
-                    $("#modalDataAnterior").modal('open');
-                } else {
-                    var diaInicio = start.substr(8, 2);
-                    var mesInicio = start.substr(5, 2);
-                    var anoInicio = start.substr(0, 4);
-                    var horaInicio = start.substr(11, 8);
-                    var inicio = diaInicio + "/" + mesInicio + "/" + anoInicio;
-                    end = $.fullCalendar.formatDate(end, "YYYY-MM-DD HH:mm:ss");
-                    var diaFim = end.substr(8, 2);
-                    var mesFim = end.substr(5, 2);
-                    var anoFim = end.substr(0, 4);
-                    var horaFim = end.substr(11, 8);
-                    var fim = diaFim + "/" + mesFim + "/" + anoFim;
-                    $(".divAula").addClass('esconderDivAula');
-                    $('#modalAdicionarEventoClickDay').modal();
-                    $("#form_add_event .dataInicio").attr('disabled', 'disabled');
-                    $("#form_add_event .dataFim").attr('disabled', 'disabled');
-                    $("#form_add_event .horaInicio").attr('disabled', 'disabled');
-                    $("#form_add_event .horaFim").attr('disabled', 'disabled');
-                    $(".dataInicio").val(inicio);
-                    $(".horaInicio").val(horaInicio);
-                    $(".dataFim").val(fim);
-                    $(".horaFim").val(horaFim);
-                    $("#modalAdicionarEventoClickDay").modal({
-                        complete: function () {
-                            start = null;
-                            end = null;
-                            $('#form_add_event').each(function () {
-                                this.reset();
-                            });
-                        }
-                    });
-                    $("#modalAdicionarEventoClickDay").modal('open');
-                    var idSetor = $("#sel-tipo-evento-pesquisa").val();
-                    var idBloco = $("#sel-bloco-pesquisa").val();
-                    var nameBloco = $("#sel-bloco-pesquisa").find('option:selected').text();
-                    var idAmbiente = $("#sel-ambiente-pesquisa").val();
-                    var nameAmbiente = $("#sel-ambiente-pesquisa").find('option:selected').text();
-                    $('#sel-tipo-evento').find('option[value="' + idSetor + '"]').prop('selected', true);
-                    $("#sel-tipo-evento").material_select();
-                    $("#sel-bloco").append("<option selected value=" + idBloco + ">" + nameBloco + "</option>");
-                    $("#sel-bloco").material_select();
-                    $("#sel-ambiente").append("<option selected value=" + idAmbiente + ">" + nameAmbiente + "</option>");
-                    $("#sel-ambiente").material_select();
-
-                    $(".mostrarWhenClickBtn").addClass("cadastroClickBtn");
-                    var title;
-                    var eventData;
-                    $(".buttonOkay").click(function () {
-                        var nomeEvento = $(".nomeEvento").val();
-                        var solicitanteEvento = $(".solicitante").val();
-                        var telefoneSolicitante = $(".telefoneContatoSolicitante").val();
-                        var emailSolicitante = $(".emailContatoSolicitante").val();
-                        var tipoEvento = $("#sel-tipo-evento").val();
-                        var blocoEvento = $("#sel-bloco").val();
-                        var ambienteEvento = $("#sel-ambiente").val();
-                        var eventoTipoRepeticao = 1;
-                        var idAula = 2;
-                        title = $(".descricaoEvento").val();
-                        var resultQuantidade = compararQtdSolicitadaComQtdDisponivel();
-                        var contadorInput = 0;
-                        var contadorSelect = 0;
-                        $("#form_add_event input[type=text]:enabled").each(function () {
-                            $(this).val() == "" ? contadorInput++ : "";
-                        });
-                        $("#form_add_event select:visible").each(function () {
-                            $(this).val() == null ? contadorSelect++ : "";
-                        });
-                        if ((contadorInput == 0) && (contadorSelect == 0)) {
-                            if (resultQuantidade >= 0) {
-//                                updateQtdDisponivelByQtdSolicitada();
-                                eventData = {
-                                    title: title,
-                                    start: start,
-                                    end: end
-                                };
-                                var valorBoolean = verifyDates(start, end, ambienteEvento);
-                                if (valorBoolean == true) {
-                                    if (insertEventoSelecionado(nomeEvento, solicitanteEvento, telefoneSolicitante, emailSolicitante, tipoEvento, blocoEvento, ambienteEvento, eventoTipoRepeticao, idAula, title, start, end) == true) {
-                                        var valorIdEvento = getEventByAmbienteAndStartAndEnd(ambienteEvento, start, end);
-                                        checkboxToEquipamentServiceRefeicao(valorIdEvento, start, end);
-                                        start = null;
-                                        end = null;
-                                        $("#modalAdicionarEventoClickDay").modal('close');
-//                                    location.reload();
-
-                                    }
-                                } else {
-                                    $("#modalDatasIguais").modal();
-                                    $("#modalDatasIguais").modal('open');
-                                }
-//                            $('#calendar').fullCalendar('renderEvent', eventData, true); // stick? = true
-                            } else {
-                                alert("Quantidade solicitada maior que a disponivel");
-                            }
-                        } else {
-
-                            $("#modalCamposNulos").modal();
-                            $("#modalCamposNulos").modal("open");
-                        }
-                    });
-                    $(".buttonCancel").click(function () {
-                        $("#modalAdicionarEventoClickDay").modal('close');
+                dateStart = $.fullCalendar.formatDate(start, "YYYY-MM-DD");
+                dateEnd = $.fullCalendar.formatDate(end, "YYYY-MM-DD");
+                if (dateStart == dateEnd) {
+                    isNumeric();
+                    habilitarInputsEquipamentos();
+                    habilitarInputsServicos();
+                    habilitarInputsRefeicoes();
+                    verifyCheck();
+                    verifyCheckServices();
+                    verifyCheckRefeicoes();
+                    pickDataInicio();
+                    pickHoraInicio();
+                    pickDataFim();
+                    pickHoraFim();
+                    start = $.fullCalendar.formatDate(start, "YYYY-MM-DD HH:mm:ss");
+                    var ano = hoje.getFullYear();
+                    var mes = hoje.getMonth() + 1;
+                    var dia = hoje.getDate();
+                    if (dia < 10) {
+                        dia = 0 + "" + dia;
+                    }
+                    if (mes < 10) {
+                        mes = 0 + "" + mes;
+                    }
+                    var hora = hoje.getHours();
+                    var minutos = hoje.getMinutes();
+                    var segundos = hoje.getSeconds();
+                    var hojeFormatada = ano + "-" + mes + "-" + dia + " " + hora + ":" + minutos + ":" + segundos;
+                    if (start < hojeFormatada) {
                         start = null;
                         end = null;
-                    });
+                        $("#modalDataAnterior").modal();
+                        $("#modalDataAnterior").modal('open');
+                    } else {
+                        var diaInicio = start.substr(8, 2);
+                        var mesInicio = start.substr(5, 2);
+                        var anoInicio = start.substr(0, 4);
+                        var horaInicio = start.substr(11, 8);
+                        var inicio = diaInicio + "/" + mesInicio + "/" + anoInicio;
+                        end = $.fullCalendar.formatDate(end, "YYYY-MM-DD HH:mm:ss");
+                        var diaFim = end.substr(8, 2);
+                        var mesFim = end.substr(5, 2);
+                        var anoFim = end.substr(0, 4);
+                        var horaFim = end.substr(11, 8);
+                        var fim = diaFim + "/" + mesFim + "/" + anoFim;
+                        $(".divAula").addClass('esconderDivAula');
+                        $('#modalAdicionarEventoClickDay').modal();
+                        $("#form_add_event .dataInicio").attr('disabled', 'disabled');
+                        $("#form_add_event .dataFim").attr('disabled', 'disabled');
+                        $("#form_add_event .horaInicio").attr('disabled', 'disabled');
+                        $("#form_add_event .horaFim").attr('disabled', 'disabled');
+                        $(".dataInicio").val(inicio);
+                        $(".horaInicio").val(horaInicio);
+                        $(".dataFim").val(fim);
+                        $(".horaFim").val(horaFim);
+                        $("#modalAdicionarEventoClickDay").modal({
+                            complete: function () {
+                                start = null;
+                                end = null;
+                                $('#form_add_event').each(function () {
+                                    this.reset();
+                                });
+                            }
+                        });
+                        $("#modalAdicionarEventoClickDay").modal('open');
+                        var idSetor = $("#sel-tipo-evento-pesquisa").val();
+                        var idBloco = $("#sel-bloco-pesquisa").val();
+                        var nameBloco = $("#sel-bloco-pesquisa").find('option:selected').text();
+                        var idAmbiente = $("#sel-ambiente-pesquisa").val();
+                        var nameAmbiente = $("#sel-ambiente-pesquisa").find('option:selected').text();
+                        $('#sel-tipo-evento').find('option[value="' + idSetor + '"]').prop('selected', true);
+                        $("#sel-tipo-evento").material_select();
+                        $("#sel-bloco").append("<option selected value=" + idBloco + ">" + nameBloco + "</option>");
+                        $("#sel-bloco").material_select();
+                        $("#sel-ambiente").append("<option selected value=" + idAmbiente + ">" + nameAmbiente + "</option>");
+                        $("#sel-ambiente").material_select();
+
+                        $(".mostrarWhenClickBtn").addClass("cadastroClickBtn");
+                        var title;
+                        var eventData;
+                        $(".buttonOkay").click(function () {
+                            var nomeEvento = $(".nomeEvento").val();
+                            var solicitanteEvento = $(".solicitante").val();
+                            var telefoneSolicitante = $(".telefoneContatoSolicitante").val();
+                            var emailSolicitante = $(".emailContatoSolicitante").val();
+                            var tipoEvento = $("#sel-tipo-evento").val();
+                            var blocoEvento = $("#sel-bloco").val();
+                            var ambienteEvento = $("#sel-ambiente").val();
+                            var eventoTipoRepeticao = 1;
+                            var idAula = 2;
+                            title = $(".descricaoEvento").val();
+                            var resultQuantidade = compararQtdSolicitadaComQtdDisponivel();
+                            var contadorInput = 0;
+                            var contadorSelect = 0;
+                            $("#form_add_event input[type=text]:enabled").each(function () {
+                                $(this).val() == "" ? contadorInput++ : "";
+                            });
+                            $("#form_add_event select:visible").each(function () {
+                                $(this).val() == null ? contadorSelect++ : "";
+                            });
+                            if ((contadorInput == 0) && (contadorSelect == 0)) {
+                                if (resultQuantidade >= 0) {
+//                                updateQtdDisponivelByQtdSolicitada();
+                                    eventData = {
+                                        title: title,
+                                        start: start,
+                                        end: end
+                                    };
+                                    var valorBoolean = verifyDates(start, end, ambienteEvento);
+                                    if (valorBoolean == true) {
+                                        if (insertEventoSelecionado(nomeEvento, solicitanteEvento, telefoneSolicitante, emailSolicitante, tipoEvento, blocoEvento, ambienteEvento, eventoTipoRepeticao, idAula, title, start, end) == true) {
+                                            var valorIdEvento = getEventByAmbienteAndStartAndEnd(ambienteEvento, start, end);
+                                            checkboxToEquipamentServiceRefeicao(valorIdEvento, start, end);
+                                            start = null;
+                                            end = null;
+                                            $("#modalAdicionarEventoClickDay").modal('close');
+                                            location.reload();
+
+                                        }
+                                    } else {
+                                        $("#modalDatasIguais").modal();
+                                        $("#modalDatasIguais").modal('open');
+                                    }
+//                            $('#calendar').fullCalendar('renderEvent', eventData, true); // stick? = true
+                                } else {
+                                    alert("Quantidade solicitada maior que a disponivel");
+                                }
+                            } else {
+
+                                $("#modalCamposNulos").modal();
+                                $("#modalCamposNulos").modal("open");
+                            }
+                        });
+                        $(".buttonCancel").click(function () {
+                            $("#modalAdicionarEventoClickDay").modal('close');
+                            start = null;
+                            end = null;
+                        });
+                        $('#calendar').fullCalendar('unselect');
+                    }
+                } else {
                     $('#calendar').fullCalendar('unselect');
+                    alert("Selecione um evento repetido para continuar");
                 }
             },
             allDayText: 'Dia Inteiro',
@@ -349,7 +364,7 @@ $(function () {
         });
     }
 
-    function loadCalendarDaysOfWeek() {
+    function loadCalendarDaysOfWeek(dataInicio, dataFim) {
         $("#calendarDayOfWeek").fullCalendar("destroy");
         $("#calendarDayOfWeek").fullCalendar({
             monthNames: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro',
@@ -477,8 +492,11 @@ $(function () {
         verifyCampos();
     });
 
+
+
     function pickDataInicio() {
         $('.dataInicio').pickadate({
+            container: 'body',
             selectMonths: true,
             selectYears: 15,
             labelMonthNext: 'Próximo Mês',
@@ -504,6 +522,7 @@ $(function () {
 
     function pickDataFim() {
         $('.dataFim').pickadate({
+            container: 'body',
             selectMonths: true,
             selectYears: 15,
             labelMonthNext: 'Próximo Mês',
@@ -529,6 +548,7 @@ $(function () {
 
     function pickHoraInicio() {
         $('.horaInicio').pickatime({
+            container: 'body',
             default: 'now', horaAtual,
             fromnow: 0,
             twelvehour: false,
@@ -543,6 +563,7 @@ $(function () {
 
     function pickHoraFim() {
         $('.horaFim').pickatime({
+            container: 'body',
             default: 'now', horaAtual,
             fromnow: 0,
             twelvehour: false,
@@ -667,12 +688,12 @@ $(function () {
                                             if (idAula == 1) {
                                                 insertIntoTableAulaDetalhes(valorIdEventoArray[i], idAula, nomeProfessor);
                                             }
-                                            console.log(arrayValoresCompletos[i][1] + " - " + arrayValoresCompletos[i][2]);
+//                                            console.log(arrayValoresCompletos[i][1] + " - " + arrayValoresCompletos[i][2]);
                                             checkboxToEquipamentServiceRefeicao(valorIdEventoArray[i], arrayValoresCompletos[i][1], arrayValoresCompletos[i][2]);
                                         }
                                     }
                                     $("#modalAdicionarEventoClickDay").modal('close');
-//                                    location.reload();
+                                    //location.reload();
                                 }
                             }
                         } else {
@@ -873,13 +894,24 @@ $(function () {
         calendarAdmin(idAmbiente, idBloco, idSetor);
     });
 
+    // Em vez de ser o tipo, pegar pela data final
+
     $(".sel-tip-repeticao").change(function () {
         var idRepeticao = $(this).val();
+        var horaInicio = $("#formHoraInicio").val();
+        var horaFim = $("#formHoraFim").val();
+        var dataInicio = $("#formDataInicio").val();
+        var dataFim = $("#formDataFim").val();
         if (idRepeticao == 2 || idRepeticao == 3) {
-            loadCalendarDaysOfWeek();
+            if (dataInicio == "" || dataFim == "") {
+                $(".sel-tip-repeticao option[value=1]").attr('selected', 'selected');
+            } else {
+                loadCalendarDaysOfWeek(dataInicio, dataFim);
+            }
         } else {
             $("#calendarDayOfWeek").fullCalendar("destroy");
         }
+
     });
 
     function insertEventoSelecionado(nomeEvento, solicitanteEvento, telefoneSolicitante, emailSolicitante, tipoEvento, blocoEvento, ambienteEvento, eventoTipoRepeticao, idAula, title, start, end) {

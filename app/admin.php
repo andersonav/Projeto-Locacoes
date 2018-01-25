@@ -47,7 +47,7 @@
                         </ul>
                         <ul class="right hide-on-med-and-down ulNav">
                             <li >
-                                <a href="#" class="openModalAdicionarEvento"><i class="material-icons left">queue</i>Cadastros</a>
+                                <a href="javascript:void(0);" class="openModalAdicionarEvento"><i class="material-icons left">queue</i>Cadastros</a>
                             </li>
                             <li >
                                 <a href="#"><i class="material-icons left">assessment</i>Relatórios</a>
@@ -71,7 +71,7 @@
                             <li> <a href="JavaScript: window.history.back();"> <i class="material-icons left">undo</i>Voltar </a> </li>
                             <li> <a href="#"> <i class="material-icons left">home</i>Início </a> </li>
                             <li >
-                                <a href="#" class="openModalAdicionarEvento"><i class="material-icons left">queue</i>Cadastros</a>
+                                <a href="javascript:void(0);" class="openModalAdicionarEvento"><i class="material-icons left">queue</i>Cadastros</a>
                             </li>
                             <li >
                                 <a href="#"><i class="material-icons left">assessment</i>Relatórios</a>
@@ -166,6 +166,15 @@
                         <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Fechar</a>
                     </div>
                 </div>
+                <div id="modalMoreOneDaySelected" class="modal">
+                    <div class="modal-content">
+                        <h4>Alerta</h4>
+                        <p>Por favor, selecione um cadastro mais específico para repetir esse evento.</p>
+                    </div>
+                    <div class="modal-footer">
+                        <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Fechar</a>
+                    </div>
+                </div>
                 <div id="modalAdicionarEventoClickDay" class="modal">
                     <div class="modal-content">
                         <h4 class="center">Adicionar Eventos</h4>
@@ -210,7 +219,26 @@
                                     </select>
                                     <label class="corLogo-text">Ambiente: </label>
                                 </div>
-                                <div class="input-field col s12 m3">
+                                <div class="cadastroClickBtn mostrarWhenClickBtn center">
+                                    <div class="input-field col s12 m3">
+                                        <select name="aula" class="sel-aula" id="sel-aula">
+                                        </select>
+                                        <label class="corLogo-text">Aula?</label>
+                                    </div>
+                                    <div class="input-field col s12 m4 divInputProfessor">
+                                        <input id="icon_prefix" type="text" class="validate nomeProfessor" placeholder="Digite o nome do professor" disabled>
+                                        <label for="icon_prefix" class="corLogo-text active">Professor:</label>
+                                    </div>
+                                    <div class="input-field col s12 m5">
+                                        <select name="tipoRepeticao" class="sel-tip-repeticao" id="sel-tip-repeticao">
+                                        </select>
+                                        <label class="corLogo-text">Repetir: </label>
+                                    </div>
+                                    <div class="calendarDayOfWeek" id="calendarDayOfWeek">
+
+                                    </div>
+                                </div>
+                                <div class="input-field col s12 m3 divDataInicio">
                                     <input id="formDataInicio" type="text" class="dataInicio" placeholder="Escolha a Data Inicial" name="dataInicio">
                                     <label for="icon_prefix" class="corLogo-text active">Data Início:</label>
                                 </div>
@@ -248,25 +276,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row cadastroClickBtn mostrarWhenClickBtn center">
-                                <div class="input-field col s12 m3">
-                                    <select name="aula" class="sel-aula" id="sel-aula">
-                                    </select>
-                                    <label class="corLogo-text">Aula?</label>
-                                </div>
-                                <div class="input-field col s12 m4 divInputProfessor">
-                                    <input id="icon_prefix" type="text" class="validate nomeProfessor" placeholder="Digite o nome do professor" disabled>
-                                    <label for="icon_prefix" class="corLogo-text active">Professor:</label>
-                                </div>
-                                <div class="input-field col s12 m5">
-                                    <select name="tipoRepeticao" class="sel-tip-repeticao" id="sel-tip-repeticao">
-                                    </select>
-                                    <label class="corLogo-text">Repetir: </label>
-                                </div>
-                                <div class="calendarDayOfWeek" id="calendarDayOfWeek">
 
-                                </div>
-                            </div>
                             <!--<div id="calendar2" class="cadastroClickBtn calendar2"></div>;-->
                         </form>
 

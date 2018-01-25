@@ -14,6 +14,13 @@ body{
     min-height: 100vh;
     flex-direction: column;
 }
+.picker {
+  position: relative !important;
+}
+.picker .picker__wrap {
+   left: auto !important;
+   right: 0px !important;
+ }
 
 main {
     flex: 1 0 auto;
@@ -41,6 +48,9 @@ main {
 }
 #calendar {
     margin: 15px auto;
+}
+#calendarDayOfWeek{
+    height: auto !important;
 }
 
 #readyCalendar {

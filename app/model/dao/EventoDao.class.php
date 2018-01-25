@@ -70,7 +70,7 @@ class EventoDao {
                     JOIN evento_tipo_repeticao evt ON evt.eve_tip_rep_id = eve.eve_tip_rep_id 
                     JOIN evento_aula eva ON eva.eve_aula_id = eve.eve_aula_id
                     LEFT JOIN evento_aula_detalhes evad ON evad.eve_aula_det_fkeve_id = eve.eve_aula_id 
-                    WHERE eve.eve_amb_id = ? AND blo.blo_eve_id = ? AND sev.set_eve_id = ?";
+                    WHERE eve.eve_amb_id = ? AND blo.blo_eve_id = ? AND sev.set_eve_id = ? AND date(eve.eve_data_inicio) = date(eve.eve_data_fim);";
             $p_sql = ConexaoMysql::getInstance()->prepare($sql);
             $p_sql->bindParam(1, $idAmbiente);
             $p_sql->bindParam(2, $idBloco);
@@ -83,12 +83,12 @@ class EventoDao {
         }
     }
 
-    public function insertEventoSelecionado($nomeEvento, $descricaoEvento, $solicitanteEvento, $telefoneSolicitante, $emailSolicitante, $dataInicioEvento, $dataFimEvento, $ambienteEvento, $eventoTipoRepeticao, $idAula) {
+    public function insertEventoSelecionado($nomeEvento, $descricaoEvento, $solicitanteEvento, $telefoneSolicitante, $emailSolicitante, $dataInicioEvento, $dataFimEvento, $eventoComeco, $eventoFim, $ambienteEvento, $eventoTipoRepeticao, $idAula) {
 
         try {
 
-            $sql = "INSERT INTO eventos (eve_nome, eve_desc, eve_solicitante, eve_sol_tel, eve_sol_email, eve_data_inicio, eve_data_fim, eve_tip_rep_id, eve_aula_id, eve_amb_id)"
-                    . "VALUES (?,?,?,?,?,?,?,?,?,?)";
+            $sql = "INSERT INTO eventos (eve_nome, eve_desc, eve_solicitante, eve_sol_tel, eve_sol_email, eve_data_inicio, eve_data_fim, eve_comeco, eve_fim, eve_tip_rep_id, eve_aula_id, eve_amb_id)"
+                    . "VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
             $p_sql = ConexaoMysql::getInstance()->prepare($sql);
             $p_sql->bindParam(1, $nomeEvento);
             $p_sql->bindParam(2, $descricaoEvento);
@@ -97,9 +97,11 @@ class EventoDao {
             $p_sql->bindParam(5, $emailSolicitante);
             $p_sql->bindParam(6, $dataInicioEvento);
             $p_sql->bindParam(7, $dataFimEvento);
-            $p_sql->bindParam(8, $eventoTipoRepeticao);
-            $p_sql->bindParam(9, $idAula);
-            $p_sql->bindParam(10, $ambienteEvento);
+            $p_sql->bindParam(8, $eventoComeco);
+            $p_sql->bindParam(9, $eventoFim);
+            $p_sql->bindParam(10, $eventoTipoRepeticao);
+            $p_sql->bindParam(11, $idAula);
+            $p_sql->bindParam(12, $ambienteEvento);
             return $p_sql->execute();
         } catch (Exception $e) {
             echo $e->getTraceAsString();
@@ -121,7 +123,7 @@ class EventoDao {
                     JOIN evento_tipo_repeticao evt ON evt.eve_tip_rep_id = eve.eve_tip_rep_id 
                     JOIN evento_aula eva ON eva.eve_aula_id = eve.eve_aula_id
                     LEFT JOIN evento_aula_detalhes evad ON evad.eve_aula_det_fkeve_id = eve.eve_aula_id 
-                    WHERE eve.eve_amb_id = ? AND eve.eve_data_inicio = ? AND eve.eve_data_fim = ?";
+                    WHERE eve.eve_amb_id = ? AND eve.eve_comeco = ? AND eve.eve_fim = ?";
             $p_sql = ConexaoMysql::getInstance()->prepare($sql);
             $p_sql->bindParam(1, $ambienteEvento);
             $p_sql->bindParam(2, $start);

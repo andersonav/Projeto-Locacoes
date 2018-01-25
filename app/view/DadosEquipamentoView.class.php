@@ -41,7 +41,7 @@ class DadosEquipamentoView {
             $mail->SMTPAuth = true;  // Usar autenticação SMTP (obrigatório para smtp.seudomínio.com.br)
             $mail->Port = 465; //  Usar 587 porta SMTP
             $mail->Username = 'cti.maracanau@ifce.edu.br'; // Usuário do servidor SMTP (endereço de email)
-            $mail->Password = 'p@ssw0rd3'; // Senha do servidor SMTP (senha do email usado)
+            $mail->Password = '@ti!2017'; // Senha do servidor SMTP (senha do email usado)
             $mail->SMTPSecure = 'ssl';
             //Define o remetente
             // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=    
