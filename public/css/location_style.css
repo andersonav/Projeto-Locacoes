@@ -15,12 +15,12 @@ body{
     flex-direction: column;
 }
 .picker {
-  position: relative !important;
+    position: relative !important;
 }
 .picker .picker__wrap {
-   left: auto !important;
-   right: 0px !important;
- }
+    left: auto !important;
+    right: 0px !important;
+}
 
 main {
     flex: 1 0 auto;
@@ -194,6 +194,10 @@ button:active{
 }
 .collapsible-body {
     padding: 2px 10px !important;
+}
+
+.hasError{
+   border-color: #dc3545 !important;
 }
 
 /* Icons Materialize */

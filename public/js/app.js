@@ -587,6 +587,7 @@ $(function () {
 
     $("input[name=dataInicio]").change(function () {
         var valorDataInicio = $(this).val();
+        $("#formDataInicio").removeClass("hasError");
         $(".txt-data-inicial").val(valorDataInicio);
         $(".txt-data-inicial-servico").val(valorDataInicio);
         $(".txt-data-inicial-refeicao").val(valorDataInicio);
@@ -904,7 +905,11 @@ $(function () {
         var dataFim = $("#formDataFim").val();
         if (idRepeticao == 2 || idRepeticao == 3) {
             if (dataInicio == "" || dataFim == "") {
-                $(".sel-tip-repeticao option[value=1]").attr('selected', 'selected');
+                $("#formDataInicio").addClass("hasError");
+                $("#formDataInicio").focus();
+                $(".dataInicioLabel").addClass("hasError");
+                $("#sel-tip-repeticao").val("");
+                $("#sel-tip-repeticao").material_select();
             } else {
                 loadCalendarDaysOfWeek(dataInicio, dataFim);
             }

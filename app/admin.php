@@ -175,6 +175,15 @@
                         <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Fechar</a>
                     </div>
                 </div>
+                <div id="modalDateNotSelected" class="modal">
+                    <div class="modal-content">
+                        <h4>Alerta</h4>
+                        <p>Por favor, selecione uma data.</p>
+                    </div>
+                    <div class="modal-footer">
+                        <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Fechar</a>
+                    </div>
+                </div>
                 <div id="modalAdicionarEventoClickDay" class="modal">
                     <div class="modal-content">
                         <h4 class="center">Adicionar Eventos</h4>
@@ -219,6 +228,22 @@
                                     </select>
                                     <label class="corLogo-text">Ambiente: </label>
                                 </div>
+                                <div class="input-field col s12 m3 divDataInicio">
+                                    <input id="formDataInicio" type="text" class="dataInicio" placeholder="Escolha a Data Inicial" name="dataInicio">
+                                    <label for="icon_prefix" class="corLogo-text active dataInicioLabel">Data Início:</label>
+                                </div>
+                                <div class="input-field col s12 m3">
+                                    <input id="formHoraInicio" type="text" class="validate horaInicio" placeholder="Escolha a Hora Inicial" name="horaInicio">
+                                    <label for="icon_prefix" class="corLogo-text active">Hora Início:</label>
+                                </div>
+                                <div class="input-field col s12 m3">
+                                    <input id="formDataFim" type="text" class="dataFim" placeholder="Escolha a Data Final" name="dataFim">
+                                    <label for="icon_prefix" class="corLogo-text active">Data Fim:</label>
+                                </div>
+                                <div class="input-field col s12 m3">
+                                    <input id="formHoraFim" type="text" class="validate horaFim" placeholder="Escolha a Hora Final" name="horaFim">
+                                    <label for="icon_prefix" class="corLogo-text active">Hora Fim:</label>
+                                </div>
                                 <div class="cadastroClickBtn mostrarWhenClickBtn center">
                                     <div class="input-field col s12 m3">
                                         <select name="aula" class="sel-aula" id="sel-aula">
@@ -237,22 +262,6 @@
                                     <div class="calendarDayOfWeek" id="calendarDayOfWeek">
 
                                     </div>
-                                </div>
-                                <div class="input-field col s12 m3 divDataInicio">
-                                    <input id="formDataInicio" type="text" class="dataInicio" placeholder="Escolha a Data Inicial" name="dataInicio">
-                                    <label for="icon_prefix" class="corLogo-text active">Data Início:</label>
-                                </div>
-                                <div class="input-field col s12 m3">
-                                    <input id="formHoraInicio" type="text" class="validate horaInicio" placeholder="Escolha a Hora Inicial" name="horaInicio">
-                                    <label for="icon_prefix" class="corLogo-text active">Hora Início:</label>
-                                </div>
-                                <div class="input-field col s12 m3">
-                                    <input id="formDataFim" type="text" class="dataFim" placeholder="Escolha a Data Final" name="dataFim">
-                                    <label for="icon_prefix" class="corLogo-text active">Data Fim:</label>
-                                </div>
-                                <div class="input-field col s12 m3">
-                                    <input id="formHoraFim" type="text" class="validate horaFim" placeholder="Escolha a Hora Final" name="horaFim">
-                                    <label for="icon_prefix" class="corLogo-text active">Hora Fim:</label>
                                 </div>
                                 <div class="col s12">
                                     <ul id="tabs-swipe-demo" class="tabs">
