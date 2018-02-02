@@ -21,6 +21,9 @@ body{
     left: auto !important;
     right: 0px !important;
 }
+#modalAdicionarEventoClickDay .fc-center, #modalAdicionarEventoClickDay .fc-right, #modalAdicionarEventoClickDay .fc-left{
+    display: none !important;
+}
 
 main {
     flex: 1 0 auto;
@@ -197,7 +200,7 @@ button:active{
 }
 
 .hasError{
-   border-color: #dc3545 !important;
+    border-color: #dc3545 !important;
 }
 
 /* Icons Materialize */

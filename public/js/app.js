@@ -366,7 +366,31 @@ $(function () {
 
     function loadCalendarDaysOfWeek(dataInicio, dataFim) {
         $("#calendarDayOfWeek").fullCalendar("destroy");
+
         $("#calendarDayOfWeek").fullCalendar({
+            firstDay: 0,
+//            viewRender: function (currentView) {
+//                var minDate = moment(myDate);
+//                var maxDate = moment(myDate2);
+//                // Past
+//                console.log(minDate);
+//                console.log(maxDate);
+//                if (minDate >= currentView.start && minDate <= currentView.end) {
+//                    $(".fc-prev-button").prop('disabled', true);
+//                    $(".fc-prev-button").addClass('fc-state-disabled');
+//                } else {
+//                    $(".fc-prev-button").removeClass('fc-state-disabled');
+//                    $(".fc-prev-button").prop('disabled', false);
+//                }
+//                // Future
+//                if (maxDate >= currentView.start && maxDate <= currentView.end) {
+//                    $(".fc-next-button").prop('disabled', true);
+//                    $(".fc-next-button").addClass('fc-state-disabled');
+//                } else {
+//                    $(".fc-next-button").removeClass('fc-state-disabled');
+//                    $(".fc-next-button").prop('disabled', false);
+//                }
+//            },
             monthNames: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro',
                 'Outubro', 'Novembro', 'Dezembro'],
             monthNamesShort: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Aug', 'Set', 'Out', 'Nov', 'Dez'],
@@ -385,8 +409,7 @@ $(function () {
             displayEventEnd: true,
             header: {
                 left: 'prev,next today',
-                center: 'title',
-                right: 'agendaWeek,agendaDay'
+                center: 'title'
             },
             navLinks: true,
             selectable: true,
@@ -397,43 +420,40 @@ $(function () {
                 console.log("Clicou no dia: " + date.format());
             },
             select: function (start, end) {
-                if (start.isBefore(moment())) {
-                    $('#calendarDayOfWeek').fullCalendar('unselect');
-                    alert('Datas anteriores a atual não podem ser selecionadas!');
-                } else {
-                    var arrayStartEnd = [];
-                    start = $.fullCalendar.formatDate(start, "YYYY-MM-DD HH:mm:ss");
-                    end = $.fullCalendar.formatDate(end, "YYYY-MM-DD HH:mm:ss");
-                    var ambienteEvento = $("#sel-ambiente").val();
-                    if (ambienteEvento != null) {
-                        var boolean = verifyDates(start, end, ambienteEvento);
-                        if (boolean == true) {
-                            arrayStartEnd.push(idEventWeekOrHalfYear);
-                            arrayStartEnd.push(start);
-                            arrayStartEnd.push(end);
-                            arrayValoresCompletos.push(arrayStartEnd);
-                            for (var i = 0; i < arrayValoresCompletos.length; i++) {
-                                console.log(arrayValoresCompletos[i][0]);
-                                console.log(arrayValoresCompletos[i][1]);
-                                console.log(arrayValoresCompletos[i][2]);
-                            }
-                            $("#calendarDayOfWeek").fullCalendar('addEventSource', [{
-                                    id: idEventWeekOrHalfYear,
-                                    start: start,
-                                    end: end,
-                                    block: true
-                                }, ]);
-                            $("#calendarDayOfWeek").fullCalendar("unselect");
-                        } else {
-                            $("#modalDatasIguais").modal();
-                            $("#modalDatasIguais").modal("open");
-                        }
+                var arrayStartEnd = [];
+                start = $.fullCalendar.formatDate(start, "YYYY-MM-DD HH:mm:ss");
+                end = $.fullCalendar.formatDate(end, "YYYY-MM-DD HH:mm:ss");
 
+                dataInicioToArray = dataInicio.substr(6, 4) + "-" + dataInicio.substr(3, 2) + "-" + dataInicio.substr(0, 2) + " " + start.substr(11, 8);
+                dataFimToArray = dataFim.substr(6, 4) + "-" + dataFim.substr(3, 2) + "-" + dataFim.substr(0, 2) + " " + end.substr(11, 8);
+                var ambienteEvento = $("#sel-ambiente").val();
+                if (ambienteEvento != null) {
+                    var boolean = verifyDates(start, end, ambienteEvento);
+                    if (boolean == true) {
+                        arrayStartEnd.push(idEventWeekOrHalfYear);
+                        arrayStartEnd.push(dataInicioToArray);
+                        arrayStartEnd.push(dataFimToArray);
+                        arrayValoresCompletos.push(arrayStartEnd);
+                        for (var i = 0; i < arrayValoresCompletos.length; i++) {
+                            console.log(arrayValoresCompletos[i][0]);
+                            console.log(arrayValoresCompletos[i][1]);
+                            console.log(arrayValoresCompletos[i][2]);
+                        }
+                        $("#calendarDayOfWeek").fullCalendar('addEventSource', [{
+                                id: idEventWeekOrHalfYear,
+                                start: start,
+                                end: end,
+                                block: true
+                            }, ]);
+                        $("#calendarDayOfWeek").fullCalendar("unselect");
                     } else {
-                        $("#modalAmbienteNulo").modal();
-                        $("#modalAmbienteNulo").modal("open");
+                        $("#modalDatasIguais").modal();
+                        $("#modalDatasIguais").modal("open");
                     }
 
+                } else {
+                    $("#modalAmbienteNulo").modal();
+                    $("#modalAmbienteNulo").modal("open");
                 }
                 idEventWeekOrHalfYear++;
             },
@@ -459,8 +479,25 @@ $(function () {
             slotLabelInterval: 30,
             slotLabelFormat: 'HH:mm',
             slotMinutes: 30,
-            defaultView: "agendaWeek"
+            defaultDate: '2018-01-28',
+            defaultView: "agenda",
+            duration: {days: 7}
         });
+        $("#modalAdicionarEventoClickDay .fc-day-header.fc-sun").empty();
+        $("#modalAdicionarEventoClickDay .fc-day-header.fc-mon").empty();
+        $("#modalAdicionarEventoClickDay .fc-day-header.fc-tue").empty();
+        $("#modalAdicionarEventoClickDay .fc-day-header.fc-wed").empty();
+        $("#modalAdicionarEventoClickDay .fc-day-header.fc-thu").empty();
+        $("#modalAdicionarEventoClickDay .fc-day-header.fc-fri").empty();
+        $("#modalAdicionarEventoClickDay .fc-day-header.fc-sat").empty();
+
+        $("#modalAdicionarEventoClickDay .fc-day-header.fc-sun").html('<a href="#!">Dom</a>');
+        $("#modalAdicionarEventoClickDay .fc-day-header.fc-mon").html('<a href="#!">Seg</a>');
+        $("#modalAdicionarEventoClickDay .fc-day-header.fc-tue").html('<a href="#!">Ter</a>');
+        $("#modalAdicionarEventoClickDay .fc-day-header.fc-wed").html('<a href="#!">Qua</a>');
+        $("#modalAdicionarEventoClickDay .fc-day-header.fc-thu").html('<a href="#!">Qui</a>');
+        $("#modalAdicionarEventoClickDay .fc-day-header.fc-fri").html('<a href="#!">Sex</a>');
+        $("#modalAdicionarEventoClickDay .fc-day-header.fc-sat").html('<a href="#!">Sab</a>');
     }
 
     $(".openModalAdicionarEvento").click(function () {
@@ -911,9 +948,13 @@ $(function () {
                 $("#sel-tip-repeticao").val("");
                 $("#sel-tip-repeticao").material_select();
             } else {
+                $("#formHoraFim").attr("disabled", true);
+                $("#formHoraInicio").attr("disabled", true);
                 loadCalendarDaysOfWeek(dataInicio, dataFim);
             }
         } else {
+            $("#formHoraFim").attr("disabled", false);
+            $("#formHoraInicio").attr("disabled", false);
             $("#calendarDayOfWeek").fullCalendar("destroy");
         }
 
@@ -943,28 +984,27 @@ $(function () {
                 }
             });
         } else {
-            for (var i = 0; i < arrayValoresCompletos.length; i++) {
-                $.ajax({
-                    type: "POST",
-                    url: controllerToAdmin,
-                    async: false,
-                    data: {
-                        action: "EventoLogica.insertEventoSelecionado",
-                        nomeEvento: nomeEvento,
-                        solicitanteEvento: solicitanteEvento,
-                        telefoneSolicitante: telefoneSolicitante,
-                        emailSolicitante: emailSolicitante,
-                        ambienteEvento: ambienteEvento,
-                        descricaoEvento: title,
-                        eventoTipoRepeticao: eventoTipoRepeticao,
-                        idAula: idAula,
-                        dataInicioEvento: arrayValoresCompletos[i][1],
-                        dataFimEvento: arrayValoresCompletos[i][2]
-                    }, success: function (data, textStatus, jqXHR) {
-                        boolean = true;
-                    }
-                });
-            }
+            var jsonString = JSON.stringify(arrayValoresCompletos);
+            $.ajax({
+                type: "POST",
+                url: controllerToAdmin,
+                async: false,
+                data: {
+                    action: "EventoLogica.insertEventoSelecionado",
+                    nomeEvento: nomeEvento,
+                    solicitanteEvento: solicitanteEvento,
+                    telefoneSolicitante: telefoneSolicitante,
+                    emailSolicitante: emailSolicitante,
+                    ambienteEvento: ambienteEvento,
+                    descricaoEvento: title,
+                    eventoTipoRepeticao: eventoTipoRepeticao,
+                    idAula: idAula,
+                    dataInicioEvento: jsonString,
+                    dataFimEvento: jsonString
+                }, success: function (data, textStatus, jqXHR) {
+                    boolean = true;
+                }
+            });
         }
 
         return boolean;
