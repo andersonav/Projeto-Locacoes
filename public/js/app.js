@@ -177,7 +177,6 @@ $(function () {
                                             end = null;
                                             $("#modalAdicionarEventoClickDay").modal('close');
                                             location.reload();
-
                                         }
                                     } else {
                                         $("#modalDatasIguais").modal();
@@ -428,7 +427,7 @@ $(function () {
                 dataFimToArray = dataFim.substr(6, 4) + "-" + dataFim.substr(3, 2) + "-" + dataFim.substr(0, 2) + " " + end.substr(11, 8);
                 var ambienteEvento = $("#sel-ambiente").val();
                 if (ambienteEvento != null) {
-                    var boolean = verifyDates(start, end, ambienteEvento);
+                    var boolean = verifyDates(dataInicioToArray, dataFimToArray, ambienteEvento);
                     if (boolean == true) {
                         arrayStartEnd.push(idEventWeekOrHalfYear);
                         arrayStartEnd.push(dataInicioToArray);
@@ -713,7 +712,6 @@ $(function () {
                                 $("#modalCamposNulos").modal('open');
                             } else {
                                 if (insertEventoSelecionado(nomeEvento, solicitanteEvento, telefoneSolicitante, emailSolicitante, tipoEvento, blocoEvento, ambienteEvento, tipoRepeticao, idAula, descricaoEvento, inicio, fim) == true) {
-                                    var valorIdEventoArray = [];
                                     if (tipoRepeticao == 1) {
                                         var valorIdEvento = getEventByAmbienteAndStartAndEnd(ambienteEvento, inicio, fim);
                                         if (idAula == 1) {
@@ -721,17 +719,14 @@ $(function () {
                                         }
                                         checkboxToEquipamentServiceRefeicao(valorIdEvento, inicio, fim);
                                     } else {
-                                        for (var i = 0; i < arrayValoresCompletos.length; i++) {
-                                            valorIdEventoArray[i] = getEventByAmbienteAndStartAndEnd(ambienteEvento, arrayValoresCompletos[i][1], arrayValoresCompletos[i][2]);
-                                            if (idAula == 1) {
-                                                insertIntoTableAulaDetalhes(valorIdEventoArray[i], idAula, nomeProfessor);
-                                            }
-//                                            console.log(arrayValoresCompletos[i][1] + " - " + arrayValoresCompletos[i][2]);
-                                            checkboxToEquipamentServiceRefeicao(valorIdEventoArray[i], arrayValoresCompletos[i][1], arrayValoresCompletos[i][2]);
+                                        var valorIdEventoArray = getEventByAmbienteAndStartAndEnd(ambienteEvento, inicio, fim);
+                                        if (idAula == 1) {
+                                            insertIntoTableAulaDetalhes(valorIdEventoArray, idAula, nomeProfessor);
                                         }
+                                        checkboxToEquipamentServiceRefeicao(valorIdEventoArray, inicio, fim);
                                     }
                                     $("#modalAdicionarEventoClickDay").modal('close');
-                                    //location.reload();
+                                    location.reload();
                                 }
                             }
                         } else {
@@ -990,7 +985,7 @@ $(function () {
                 url: controllerToAdmin,
                 async: false,
                 data: {
-                    action: "EventoLogica.insertEventoSelecionado",
+                    action: "EventoLogica.insertEventoSelecionadoTipoRepeticao",
                     nomeEvento: nomeEvento,
                     solicitanteEvento: solicitanteEvento,
                     telefoneSolicitante: telefoneSolicitante,
@@ -999,8 +994,10 @@ $(function () {
                     descricaoEvento: title,
                     eventoTipoRepeticao: eventoTipoRepeticao,
                     idAula: idAula,
-                    dataInicioEvento: jsonString,
-                    dataFimEvento: jsonString
+                    dataInicioEvento: start,
+                    dataFimEvento: end,
+                    horaInicioEvento: jsonString,
+                    horaFimEvento: jsonString
                 }, success: function (data, textStatus, jqXHR) {
                     boolean = true;
                 }
