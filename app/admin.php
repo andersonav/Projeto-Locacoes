@@ -19,19 +19,6 @@
         <script src='../public/js/locale/pt-br.js'></script>
         <script src='../public/js/app.js'></script>
         <script src='../public/js/materialize.min.js'></script>
-        <script>
-            function mask(objeto) {
-                if (objeto.value.length == 1) {
-                    objeto.value = '(' + objeto.value;
-                }
-                if (objeto.value.length == 3) {
-                    objeto.value = objeto.value + ') ';
-                }
-                if (objeto.value.length == 10) {
-                    objeto.value = objeto.value + '-';
-                }
-            }
-        </script>
     </head>
     <body>
         <main>
@@ -200,7 +187,7 @@
                                     <label for="icon_prefix" class="corLogo-text active">Solicitante:</label>
                                 </div>
                                 <div class="input-field col s12 m6">
-                                    <input id="icon_prefix" type="text" class="validate telefoneContatoSolicitante" onkeypress="mask(this);" maxlength="15" placeholder="Digite o telefone do Solicitante">
+                                    <input id="icon_prefix" type="tel" class="validate telefoneContatoSolicitante" onkeypress="mask(this);" maxlength="15" placeholder="Digite o telefone do Solicitante">
                                     <label for="icon_prefix" class="corLogo-text active">Telefone para contato:</label>
                                 </div>
                                 <div class="input-field col s12 m6">
@@ -228,22 +215,6 @@
                                     </select>
                                     <label class="corLogo-text">Ambiente: </label>
                                 </div>
-                                <div class="input-field col s12 m3 divDataInicio">
-                                    <input id="formDataInicio" type="text" class="dataInicio" placeholder="Escolha a Data Inicial" name="dataInicio">
-                                    <label for="icon_prefix" class="corLogo-text active dataInicioLabel">Data Início:</label>
-                                </div>
-                                <div class="input-field col s12 m3">
-                                    <input id="formHoraInicio" type="text" class="validate horaInicio" placeholder="Escolha a Hora Inicial" name="horaInicio">
-                                    <label for="icon_prefix" class="corLogo-text active">Hora Início:</label>
-                                </div>
-                                <div class="input-field col s12 m3">
-                                    <input id="formDataFim" type="text" class="dataFim" placeholder="Escolha a Data Final" name="dataFim">
-                                    <label for="icon_prefix" class="corLogo-text active">Data Fim:</label>
-                                </div>
-                                <div class="input-field col s12 m3">
-                                    <input id="formHoraFim" type="text" class="validate horaFim" placeholder="Escolha a Hora Final" name="horaFim">
-                                    <label for="icon_prefix" class="corLogo-text active">Hora Fim:</label>
-                                </div>
                                 <div class="cadastroClickBtn mostrarWhenClickBtn center">
                                     <div class="input-field col s12 m3">
                                         <select name="aula" class="sel-aula" id="sel-aula">
@@ -262,6 +233,23 @@
                                     <div class="calendarDayOfWeek" id="calendarDayOfWeek">
 
                                     </div>
+                                </div>
+                                <br><br>
+                                <div class="input-field col s12 m3 divDataInicio">
+                                    <input id="formDataInicio" type="text" class="dataInicio" placeholder="Escolha a Data Inicial" name="dataInicio">
+                                    <label for="icon_prefix" class="corLogo-text active dataInicioLabel">Data Início:</label>
+                                </div>
+                                <div class="input-field col s12 m3">
+                                    <input id="formHoraInicio" type="text" class="validate horaInicio" placeholder="Escolha a Hora Inicial" name="horaInicio">
+                                    <label for="icon_prefix" class="corLogo-text active">Hora Início:</label>
+                                </div>
+                                <div class="input-field col s12 m3">
+                                    <input id="formDataFim" type="text" class="dataFim" placeholder="Escolha a Data Final" name="dataFim">
+                                    <label for="icon_prefix" class="corLogo-text active dataFimLabel">Data Fim:</label>
+                                </div>
+                                <div class="input-field col s12 m3">
+                                    <input id="formHoraFim" type="text" class="validate horaFim" placeholder="Escolha a Hora Final" name="horaFim">
+                                    <label for="icon_prefix" class="corLogo-text active">Hora Fim:</label>
                                 </div>
                                 <div class="col s12">
                                     <ul id="tabs-swipe-demo" class="tabs">

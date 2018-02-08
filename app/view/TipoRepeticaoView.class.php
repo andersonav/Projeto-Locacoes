@@ -28,7 +28,7 @@ class TipoRepeticaoView {
 
     public function htmlSelectTipoRepeticao($tipos) {
         ?>
-        <option value="" disabled selected>Escolha sua opção</option>
+        <option value="" disabled>Escolha sua opção</option>
         <?php
         foreach ($tipos as $tipo) {
             ?>

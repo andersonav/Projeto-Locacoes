@@ -513,6 +513,17 @@ $(function () {
             }
         });
         $("#modalAdicionarEventoClickDay").modal('open');
+        var idSetor = $("#sel-tipo-evento-pesquisa").val();
+        var idBloco = $("#sel-bloco-pesquisa").val();
+        var nameBloco = $("#sel-bloco-pesquisa").find('option:selected').text();
+        var idAmbiente = $("#sel-ambiente-pesquisa").val();
+        var nameAmbiente = $("#sel-ambiente-pesquisa").find('option:selected').text();
+        $('#sel-tipo-evento').find('option[value="' + idSetor + '"]').prop('selected', true);
+        $("#sel-tipo-evento").material_select();
+        $("#sel-bloco").append("<option selected value=" + idBloco + ">" + nameBloco + "</option>");
+        $("#sel-bloco").material_select();
+        $("#sel-ambiente").append("<option selected value=" + idAmbiente + ">" + nameAmbiente + "</option>");
+        $("#sel-ambiente").material_select();
         $(".divAula").removeClass('esconderDivAula');
         isNumeric();
         pickDataInicio();
@@ -534,7 +545,7 @@ $(function () {
         $('.dataInicio').pickadate({
             container: 'body',
             selectMonths: true,
-            selectYears: 15,
+            selectYears: 1,
             labelMonthNext: 'Próximo Mês',
             labelMonthPrev: 'Mês Anterior',
             labelMonthSelect: 'Selecione o Mês',
@@ -560,7 +571,7 @@ $(function () {
         $('.dataFim').pickadate({
             container: 'body',
             selectMonths: true,
-            selectYears: 15,
+            selectYears: 1,
             labelMonthNext: 'Próximo Mês',
             labelMonthPrev: 'Mês Anterior',
             labelMonthSelect: 'Selecione o Mês',
@@ -641,6 +652,19 @@ $(function () {
         $(".txt-data-final").val(valorDataFim);
         $(".txt-data-final-servico").val(valorDataFim);
         $(".txt-data-final-refeicao").val(valorDataFim);
+        var idRepeticao = $("#sel-tip-repeticao").val();
+        var dataInicio = $("#formDataInicio").val();
+        if (idRepeticao == 2) {
+            if (dataInicio == "") {
+                $("#formDataInicio").addClass("hasError");
+                $("#formDataInicio").focus();
+                $(".dataInicioLabel").addClass("hasError");
+            } else {
+                loadCalendarDaysOfWeek(dataInicio, valorDataFim);
+            }
+        } else if (idRepeticao == 1) {
+            $("#calendarDayOfWeek").fullCalendar("destroy");
+        }
     });
 
     $("input[name=horaFim]").change(function () {
@@ -927,29 +951,52 @@ $(function () {
         calendarAdmin(idAmbiente, idBloco, idSetor);
     });
 
-    // Em vez de ser o tipo, pegar pela data final
 
     $(".sel-tip-repeticao").change(function () {
         var idRepeticao = $(this).val();
-        var horaInicio = $("#formHoraInicio").val();
-        var horaFim = $("#formHoraFim").val();
-        var dataInicio = $("#formDataInicio").val();
-        var dataFim = $("#formDataFim").val();
-        if (idRepeticao == 2 || idRepeticao == 3) {
-            if (dataInicio == "" || dataFim == "") {
-                $("#formDataInicio").addClass("hasError");
-                $("#formDataInicio").focus();
-                $(".dataInicioLabel").addClass("hasError");
-                $("#sel-tip-repeticao").val("");
-                $("#sel-tip-repeticao").material_select();
-            } else {
-                $("#formHoraFim").attr("disabled", true);
-                $("#formHoraInicio").attr("disabled", true);
-                loadCalendarDaysOfWeek(dataInicio, dataFim);
+        if (idRepeticao == 3) {
+            $.ajax({
+                url: controllerToAdmin,
+                type: 'POST',
+                data: {
+                    action: 'SemestreLogica.getDataBySemestre'
+                }, success: function (data, textStatus, jqXHR) {
+                    data = $.parseJSON(data);
+                    $("#formDataInicio").val(data.dataInicioSemestre);
+                    $("#formDataFim").val(data.dataFimSemestre);
+                    $("#formHoraInicio").attr("disabled", true);
+                    $("#formHoraFim").attr("disabled", true);
+                    loadCalendarDaysOfWeek(data.dataInicioSemestre, data.dataFimSemestre);
+                }
+            });
+        } else if (idRepeticao == 2) {
+            $("#formHoraInicio").attr("disabled", true);
+            $("#formHoraFim").attr("disabled", true);
+            var dataInicio = $("#formDataInicio").val();
+            var dataFim = $("#formDataFim").val();
+            if (dataInicio != "" || dataFim != "") {
+                $("#formDataInicio").val("");
+                $("#formDataFim").val("");
+                $(".txt-data-inicial").val("");
+                $(".txt-data-final").val("");
+                $(".txt-data-inicial-servico").val("");
+                $(".txt-data-final-servico").val("");
+                $(".txt-data-inicial-refeicao").val("");
+                $(".txt-data-final-refeicao").val("");
+                $("#formDataFim").val("");
+                $("#calendarDayOfWeek").fullCalendar("destroy");
             }
         } else {
-            $("#formHoraFim").attr("disabled", false);
             $("#formHoraInicio").attr("disabled", false);
+            $("#formHoraFim").attr("disabled", false);
+            $("#formDataInicio").val("");
+            $("#formDataFim").val("");
+            $(".txt-data-inicial").val("");
+            $(".txt-data-final").val("");
+            $(".txt-data-inicial-servico").val("");
+            $(".txt-data-final-servico").val("");
+            $(".txt-data-inicial-refeicao").val("");
+            $(".txt-data-final-refeicao").val("");
             $("#calendarDayOfWeek").fullCalendar("destroy");
         }
 
@@ -1228,6 +1275,7 @@ $(function () {
                 action: 'TipoRepeticaoLogica.getTipoRepeticao'
             }, success: function (data, textStatus, jqXHR) {
                 $("#sel-tip-repeticao").append(data);
+                $("#sel-tip-repeticao").val("1");
                 $("#sel-tip-repeticao").material_select();
             }
         });
@@ -1238,6 +1286,21 @@ $(function () {
             $(this).val($(this).val().replace(/[^0-9\.]/g, ''));
             if ((event.which != 46 || $(this).val().indexOf('.') != -1) && (event.which < 48 || event.which > 57)) {
                 event.preventDefault();
+            }
+        });
+
+        $(".telefoneContatoSolicitante").on("keypress keyup blur", function (event) {
+            if ((event.which != 46 || $(this).val().indexOf('.') != -1) && (event.which < 48 || event.which > 57)) {
+                event.preventDefault();
+            }
+            if ($(this).val().length == 1) {
+                $(this).val('(' + $(this).val());
+            }
+            if ($(this).val().length == 3) {
+                $(this).val($(this).val() + ') ');
+            }
+            if ($(this).val().length == 10) {
+                $(this).val($(this).val() + '-');
             }
         });
     }
@@ -1489,12 +1552,13 @@ $(function () {
     function dataEquipamentoMenorQueDataEvento() {
         $(".txt-data-inicial").change(function () {
             var valorDataEquipamento = $(this).val();
+            var valorId = $(this).attr('id');
             var valorDataInicio = $("#formDataInicio").val();
             var valorDataFim = $("#formDataFim").val();
-            if ((valorDataEquipamento < valorDataInicio) || (valorDataEquipamento > valorDataFim)) {
+            if (compararData(valorDataEquipamento, valorDataInicio, valorDataFim)) {
                 $("#modalDataEquiSerRef").modal();
                 $("#modalDataEquiSerRef").modal('open');
-                $(".txt-data-inicial").val(valorDataInicio);
+                $(".txt-data-inicial#" + valorId).val(valorDataInicio);
             }
         });
 
@@ -1502,9 +1566,10 @@ $(function () {
             var valorDataInicio = $("#formDataInicio").val();
             var valorDataFim = $("#formDataFim").val();
             var valorHoraEquipamento = $(this).val();
+            var valorId = $(this).attr('id');
             var valorHoraInicio = $("#formHoraInicio").val();
             var valorHoraFim = $("#formHoraFim").val();
-            var valorDataEquipamento = $(".txt-data-inicial").val();
+            var valorDataEquipamento = $(".txt-data-inicial#" + valorId).val();
             if (compararHora(valorHoraEquipamento, valorHoraInicio, valorHoraFim, valorDataEquipamento, valorDataInicio, valorDataFim)) {
                 $("#modalDataEquiSerRef").modal();
                 $("#modalDataEquiSerRef").modal('open');
@@ -1513,15 +1578,16 @@ $(function () {
         });
         $(".txt-data-final").change(function () {
             var valorDataEquipamento = $(this).val();
+            var valorId = $(this).attr('id');
             var valorDataInicio = $("#formDataInicio").val();
             var valorDataFim = $("#formDataFim").val();
-            var valorDataInicioSelecionado = $(".txt-data-inicial").val();
-            if (valorDataEquipamento < valorDataInicioSelecionado) {
+            var valorDataInicioSelecionado = $(".txt-data-inicial#" + valorId).val();
+            if (compararDataMenorQueInicio(valorDataEquipamento, valorDataInicioSelecionado)) {
                 $("#modalDataInicioMaiorQueFinal").modal();
                 $("#modalDataInicioMaiorQueFinal").modal('open');
                 $(this).val(valorDataFim);
             } else {
-                if ((valorDataEquipamento < valorDataInicio) || (valorDataEquipamento > valorDataFim)) {
+                if (compararData(valorDataEquipamento, valorDataInicio, valorDataFim)) {
                     $("#modalDataEquiSerRef").modal();
                     $("#modalDataEquiSerRef").modal('open');
                     $(".txt-data-final").val(valorDataFim);
@@ -1533,9 +1599,10 @@ $(function () {
             var valorDataInicio = $("#formDataInicio").val();
             var valorDataFim = $("#formDataFim").val();
             var valorHoraEquipamento = $(this).val();
+            var valorId = $(this).attr('id');
             var valorHoraInicio = $("#formHoraInicio").val();
             var valorHoraFim = $("#formHoraFim").val();
-            var valorDataEquipamento = $(".txt-data-final").val();
+            var valorDataEquipamento = $(".txt-data-final#" + valorId).val();
             if (compararHora(valorHoraEquipamento, valorHoraInicio, valorHoraFim, valorDataEquipamento, valorDataInicio, valorDataFim)) {
                 $("#modalDataEquiSerRef").modal();
                 $("#modalDataEquiSerRef").modal('open');
@@ -1547,12 +1614,13 @@ $(function () {
     function dataServicoMenorQueDataEvento() {
         $(".txt-data-inicial-servico").change(function () {
             var valorDataServico = $(this).val();
+            var valorId = $(this).attr('id');
             var valorDataInicio = $("#formDataInicio").val();
             var valorDataFim = $("#formDataFim").val();
-            if ((valorDataServico < valorDataInicio) || (valorDataServico > valorDataFim)) {
+            if (compararData(valorDataServico, valorDataInicio, valorDataFim)) {
                 $("#modalDataEquiSerRef").modal();
                 $("#modalDataEquiSerRef").modal('open');
-                $(".txt-data-inicial-servico").val(valorDataInicio);
+                $(".txt-data-inicial-servico#" + valorId).val(valorDataInicio);
             }
         });
 
@@ -1560,30 +1628,33 @@ $(function () {
             var valorDataInicio = $("#formDataInicio").val();
             var valorDataFim = $("#formDataFim").val();
             var valorHoraServico = $(this).val();
+            var valorId = $(this).attr('id');
             var valorHoraInicio = $("#formHoraInicio").val();
             var valorHoraFim = $("#formHoraFim").val();
-            var valorDataServico = $(".txt-data-inicial-servico").val();
+            var valorDataServico = $(".txt-data-inicial-servico#" + valorId).val();
             if (compararHora(valorHoraServico, valorHoraInicio, valorHoraFim, valorDataServico, valorDataInicio, valorDataFim)) {
                 $("#modalDataEquiSerRef").modal();
                 $("#modalDataEquiSerRef").modal('open');
-                $(".txt-hora-inicial-servico").val(valorHoraInicio);
+                $(".txt-hora-inicial-servico#" + valorId).val(valorHoraInicio);
             }
         });
 
         $(".txt-data-final-servico").change(function () {
             var valorDataServico = $(this).val();
+            var valorId = $(this).attr('id');
             var valorDataInicio = $("#formDataInicio").val();
             var valorDataFim = $("#formDataFim").val();
-            var valorDataInicioSelecionado = $(".txt-data-inicial-servico").val();
-            if (valorDataServico < valorDataInicioSelecionado) {
+            var valorDataInicioSelecionado = $(".txt-data-inicial-servico#" + valorId).val();
+
+            if (compararDataMenorQueInicio(valorDataServico, valorDataInicioSelecionado)) {
                 $("#modalDataInicioMaiorQueFinal").modal();
                 $("#modalDataInicioMaiorQueFinal").modal('open');
                 $(this).val(valorDataFim);
             } else {
-                if ((valorDataServico < valorDataInicio) || (valorDataServico > valorDataFim)) {
+                if (compararData(valorDataServico, valorDataInicio, valorDataFim)) {
                     $("#modalDataEquiSerRef").modal();
                     $("#modalDataEquiSerRef").modal('open');
-                    $(".txt-data-final-servico").val(valorDataFim);
+                    $(".txt-data-final-servico#" + valorId).val(valorDataFim);
                 }
             }
         });
@@ -1592,13 +1663,14 @@ $(function () {
             var valorDataInicio = $("#formDataInicio").val();
             var valorDataFim = $("#formDataFim").val();
             var valorHoraServico = $(this).val();
+            var valorId = $(this).attr('id');
             var valorHoraInicio = $("#formHoraInicio").val();
             var valorHoraFim = $("#formHoraFim").val();
-            var valorDataServico = $(".txt-data-final-servico").val();
+            var valorDataServico = $(".txt-data-final-servico#" + valorId).val();
             if (compararHora(valorHoraServico, valorHoraInicio, valorHoraFim, valorDataServico, valorDataInicio, valorDataFim)) {
                 $("#modalDataEquiSerRef").modal();
                 $("#modalDataEquiSerRef").modal('open');
-                $(".txt-hora-final-servico").val(valorHoraFim);
+                $(".txt-hora-final-servico#" + valorId).val(valorHoraFim);
             }
         });
     }
@@ -1606,12 +1678,13 @@ $(function () {
     function dataRefeicaoMenorQueDataEvento() {
         $(".txt-data-inicial-refeicao").change(function () {
             var valorDataRefeicao = $(this).val();
+            var valorId = $(this).attr('id');
             var valorDataInicio = $("#formDataInicio").val();
             var valorDataFim = $("#formDataFim").val();
-            if ((valorDataRefeicao < valorDataInicio) || (valorDataRefeicao > valorDataFim)) {
+            if (compararData(valorDataRefeicao, valorDataInicio, valorDataFim)) {
                 $("#modalDataEquiSerRef").modal();
                 $("#modalDataEquiSerRef").modal('open');
-                $(".txt-data-inicial-refeicao").val(valorDataInicio);
+                $(".txt-data-inicial-refeicao#" + valorId).val(valorDataInicio);
             }
         });
 
@@ -1619,30 +1692,32 @@ $(function () {
             var valorDataInicio = $("#formDataInicio").val();
             var valorDataFim = $("#formDataFim").val();
             var valorHoraRefeicao = $(this).val();
+            var valorId = $(this).attr('id');
             var valorHoraInicio = $("#formHoraInicio").val();
             var valorHoraFim = $("#formHoraFim").val();
-            var valorDataServico = $(".txt-data-inicial-servico").val();
+            var valorDataServico = $(".txt-data-inicial-servico#" + valorId).val();
             if (compararHora(valorHoraRefeicao, valorHoraInicio, valorHoraFim, valorDataServico, valorDataInicio, valorDataFim)) {
                 $("#modalDataEquiSerRef").modal();
                 $("#modalDataEquiSerRef").modal('open');
-                $(".txt-hora-inicial-refeicao").val(valorHoraInicio);
+                $(".txt-hora-inicial-refeicao#" + valorId).val(valorHoraInicio);
             }
         });
 
         $(".txt-data-final-refeicao").change(function () {
             var valorDataRefeicao = $(this).val();
+            var valorId = $(this).attr('id');
             var valorDataInicio = $("#formDataInicio").val();
             var valorDataFim = $("#formDataFim").val();
-            var valorDataInicioSelecionado = $(".txt-data-inicial-refeicao").val();
-            if (valorDataRefeicao < valorDataInicioSelecionado) {
+            var valorDataInicioSelecionado = $(".txt-data-inicial-refeicao#" + valorId).val();
+            if (compararDataMenorQueInicio(valorDataRefeicao, valorDataInicioSelecionado)) {
                 $("#modalDataInicioMaiorQueFinal").modal();
                 $("#modalDataInicioMaiorQueFinal").modal('open');
                 $(this).val(valorDataFim);
             } else {
-                if ((valorDataRefeicao < valorDataInicio) || (valorDataRefeicao > valorDataFim)) {
+                if (compararData(valorDataRefeicao, valorDataInicio, valorDataFim)) {
                     $("#modalDataEquiSerRef").modal();
                     $("#modalDataEquiSerRef").modal('open');
-                    $(".txt-data-final-refeicao").val(valorDataFim);
+                    $(".txt-data-final-refeicao#" + valorId).val(valorDataFim);
                 }
             }
         });
@@ -1651,13 +1726,14 @@ $(function () {
             var valorDataInicio = $("#formDataInicio").val();
             var valorDataFim = $("#formDataFim").val();
             var valorHoraRefeicao = $(this).val();
+            var valorId = $(this).attr('id');
             var valorHoraInicio = $("#formHoraInicio").val();
             var valorHoraFim = $("#formHoraFim").val();
-            var valorDataServico = $(".txt-data-final-servico").val();
+            var valorDataServico = $(".txt-data-final-servico#" + valorId).val();
             if (compararHora(valorHoraRefeicao, valorHoraInicio, valorHoraFim, valorDataServico, valorDataInicio, valorDataFim)) {
                 $("#modalDataEquiSerRef").modal();
                 $("#modalDataEquiSerRef").modal('open');
-                $(".txt-hora-final-refeicao").val(valorHoraFim);
+                $(".txt-hora-final-refeicao#" + valorId).val(valorHoraFim);
             }
         });
     }
@@ -1686,6 +1762,44 @@ $(function () {
         }
     }
 
+    function compararData(valorDataEscolhida, valorDataInicio, valorDataFim) {
+        var anoInicioEscolhido = valorDataEscolhida.substr(6, 4);
+        var mesInicioEscolhido = valorDataEscolhida.substr(3, 2);
+        var diaInicioEscolhido = valorDataEscolhida.substr(0, 2);
+        var anoInicio = valorDataInicio.substr(6, 4);
+        var mesInicio = valorDataInicio.substr(3, 2);
+        var diaInicio = valorDataInicio.substr(0, 2);
+        var anoFim = valorDataFim.substr(6, 4);
+        var mesFim = valorDataFim.substr(3, 2);
+        var diaFim = valorDataFim.substr(0, 2);
+        var d = new Date();
+        var data1 = new Date(anoInicioEscolhido, mesInicioEscolhido, diaInicioEscolhido);
+        var data2 = new Date(anoInicio, mesInicio, diaInicio);
+        var data3 = new Date(anoFim, mesFim, diaFim);
+        if ((data1 < data2) || (data1 > data3)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    function compararDataMenorQueInicio(valorDataEscolhida, valorDataInicio) {
+        var anoInicioEscolhido = valorDataEscolhida.substr(6, 4);
+        var mesInicioEscolhido = valorDataEscolhida.substr(3, 2);
+        var diaInicioEscolhido = valorDataEscolhida.substr(0, 2);
+        var anoInicio = valorDataInicio.substr(6, 4);
+        var mesInicio = valorDataInicio.substr(3, 2);
+        var diaInicio = valorDataInicio.substr(0, 2);
+        var d = new Date();
+        var data1 = new Date(anoInicioEscolhido, mesInicioEscolhido, diaInicioEscolhido);
+        var data2 = new Date(anoInicio, mesInicio, diaInicio);
+        if ((data1 < data2)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
 
     $('#tabs-swipe-demo.tabs').tabs();
     getSetor();
@@ -1701,4 +1815,5 @@ $(function () {
     getRefeicoes();
     getAula();
     getTipoRepeticao();
+
 });
