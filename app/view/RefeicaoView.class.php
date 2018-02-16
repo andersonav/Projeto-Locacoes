@@ -35,8 +35,7 @@ class RefeicaoView {
                         <!--<i class="material-icons">check</i>-->
                         <th></th>
                         <th class="corLogo-text">Refeição</th>
-                        <th class="corLogo-text">Qtd Disponível</th>
-                        <th class="corLogo-text">Qtd Solicitada</th>
+                        <th class="corLogo-text">Qtd de Pessoas</th>
                         <th class="corLogo-text">Data Início</th>
                         <th class="corLogo-text">Hora Início</th>
                         <th class="corLogo-text">Data Final</th>
@@ -45,15 +44,13 @@ class RefeicaoView {
                     </tr>
                 </thead>
                 <tbody>
-
                     <?php
                     foreach ($refeicoes as $refeicao) {
                         ?>
                         <tr id="<?= $refeicao->getIdRefeicao(); ?>">
                             <td><input type="checkbox" id="inputRef<?= $refeicao->getIdRefeicao(); ?>" value="<?= $refeicao->getIdRefeicao(); ?>" class="idRefeicao"/><label for="inputRef<?= $refeicao->getIdRefeicao(); ?>"></label></td>
                             <td><strong><?= $refeicao->getDescricaoRefeicao(); ?></strong></td>
-                            <td><strong><?= $refeicao->getQuantidadeRefeicao(); ?></strong></td>
-                            <td><strong><input type="text" class="txt-quantidade-solicitada-refeicao" placeholder="Digite a quantidade solicitada" id="inputRef<?= $refeicao->getIdRefeicao(); ?>" disabled max="<?= $refeicao->getQuantidadeRefeicao(); ?>"></strong></td>
+                            <td><strong><input type="text" class="txt-quantidade-solicitada-refeicao" placeholder="Digite a quantidade de pessoas" id="inputRef<?= $refeicao->getIdRefeicao(); ?>" disabled max="<?= $refeicao->getQuantidadeRefeicao(); ?>"></strong></td>
                             <td><strong><input type="text" class="txt-data-inicial-refeicao dataInicio" placeholder="Digite a data inicial" id="inputRef<?= $refeicao->getIdRefeicao(); ?>" disabled></strong></td>
                             <td><strong><input type="text" class="txt-hora-inicial-refeicao horaInicio" placeholder="Digite a hora inicial" id="inputRef<?= $refeicao->getIdRefeicao(); ?>" disabled></strong></td>
                             <td><strong><input type="text" class="txt-data-final-refeicao dataFim" placeholder="Digite a data final" id="inputRef<?= $refeicao->getIdRefeicao(); ?>" disabled></strong></td>
@@ -62,7 +59,6 @@ class RefeicaoView {
                         <?php
                     }
                     ?>
-
                 </tbody>
             </table> 
         </div> 

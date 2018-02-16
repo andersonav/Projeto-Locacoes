@@ -83,12 +83,12 @@ class EventoDao {
         }
     }
 
-    public function insertEventoSelecionado($nomeEvento, $descricaoEvento, $solicitanteEvento, $telefoneSolicitante, $emailSolicitante, $dataInicioEvento, $dataFimEvento, $eventoComeco, $eventoFim, $ambienteEvento, $eventoTipoRepeticao, $idAula) {
+    public function insertEventoSelecionado($idUsuario, $nomeEvento, $descricaoEvento, $solicitanteEvento, $telefoneSolicitante, $emailSolicitante, $dataInicioEvento, $dataFimEvento, $eventoComeco, $eventoFim, $ambienteEvento, $eventoTipoRepeticao, $idAula) {
 
         try {
 
-            $sql = "INSERT INTO eventos (eve_nome, eve_desc, eve_solicitante, eve_sol_tel, eve_sol_email, eve_data_inicio, eve_data_fim, eve_comeco, eve_fim, eve_tip_rep_id, eve_aula_id, eve_amb_id)"
-                    . "VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
+            $sql = "INSERT INTO eventos (eve_nome, eve_desc, eve_solicitante, eve_sol_tel, eve_sol_email, eve_data_inicio, eve_data_fim, eve_comeco, eve_fim, eve_tip_rep_id, eve_aula_id, eve_amb_id, eve_usu_id)"
+                    . "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)";
             $p_sql = ConexaoMysql::getInstance()->prepare($sql);
             $p_sql->bindParam(1, $nomeEvento);
             $p_sql->bindParam(2, $descricaoEvento);
@@ -102,6 +102,7 @@ class EventoDao {
             $p_sql->bindParam(10, $eventoTipoRepeticao);
             $p_sql->bindParam(11, $idAula);
             $p_sql->bindParam(12, $ambienteEvento);
+            $p_sql->bindParam(13, $idUsuario);
             return $p_sql->execute();
         } catch (Exception $e) {
             echo $e->getTraceAsString();
@@ -236,10 +237,10 @@ class EventoDao {
         }
     }
 
-    public function updateEventById($idEvento, $nomeEvento, $solicitante, $descricaoEvento, $colorEvento, $tipoEvento, $blocoEvento, $ambienteEvento, $dataInicio, $dataFim) {
+    public function updateEventById($idEvento, $nomeEvento, $solicitante, $descricaoEvento, $tipoEvento, $blocoEvento, $ambienteEvento, $dataInicio, $dataFim) {
         try {
-            $sql = "UPDATE eventos SET eve_nome = ?, eve_solicitante = ?, eve_desc = ?,"
-                    . "eve_amb_id = ?, eve_data_inicio = ?, eve_data_fim = ? WHERE eve_id = ?";
+            $sql = "UPDATE eventos SET eve_nome = ?, eve_solicitante = ?, eve_desc = ?,
+                    eve_amb_id = ?, eve_data_inicio = ?, eve_data_fim = ? WHERE eve_id = ?";
             $p_sql = ConexaoMysql::getInstance()->prepare($sql);
             $p_sql->bindParam(1, $nomeEvento);
             $p_sql->bindParam(2, $solicitante);

@@ -178,6 +178,8 @@
                         <br>
                         <form class="col s12" id="form_add_event">
                             <div class="row">
+                                <!--<input type="hidden" value="<?php echo $_SESSION['usu_id']; ?>" id="idUsuario">-->
+                                <input type="hidden" value="1" id="idUsuario">
                                 <div class="input-field col s12 m6">
                                     <input id="icon_prefix" type="text" class="validate nomeEvento" placeholder="Digite o nome do Evento">
                                     <label for="icon_prefix" class="corLogo-text active">Nome do Evento:</label>
@@ -187,7 +189,7 @@
                                     <label for="icon_prefix" class="corLogo-text active">Solicitante:</label>
                                 </div>
                                 <div class="input-field col s12 m6">
-                                    <input id="icon_prefix" type="tel" class="validate telefoneContatoSolicitante" onkeypress="mask(this);" maxlength="15" placeholder="Digite o telefone do Solicitante">
+                                    <input id="icon_prefix" type="tel" class="validate telefoneContatoSolicitante" maxlength="15" placeholder="Digite o telefone do Solicitante">
                                     <label for="icon_prefix" class="corLogo-text active">Telefone para contato:</label>
                                 </div>
                                 <div class="input-field col s12 m6">
@@ -280,7 +282,7 @@
                     </div>
                     <div class="modal-footer">
                         <button class="btnModal buttonOkay">CADASTRAR</button>
-                        <button class="btnModal buttonCancel">CANCEL</button>
+                        <button class="btnModal buttonCancel">CANCELAR</button>
                     </div>
                 </div>
                 <div id="modalUpdateEvent" class="modal">
@@ -288,7 +290,7 @@
                     </div>
                     <div class="modal-footer">
                         <button class="btnModal buttonUpdate">ATUALIZAR</button>
-                        <button class="btnModal buttonCancel">CANCEL</button>
+                        <button class="btnModal buttonCancel">CANCELAR</button>
                     </div>
                 </div>
                 <br><br>

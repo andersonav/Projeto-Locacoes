@@ -35,6 +35,11 @@ class EquipamentoLogica {
         return EquipamentoView::getInstance()->tableEquipamentos(EquipamentoDao::getInstance()->getEquipamentos());
     }
     
+    public function getEquipamentosByIdEvento() {
+        $idEvento = $_REQUEST['idEvento'];
+        return EquipamentoView::getInstance()->tableEquipamentos(EquipamentoDao::getInstance()->getEquipamentosByIdEvento($idEvento));
+    }
+    
     public function verifyQtdSolicitadaByIdEquipamento() {
         $idEquipamento = $_REQUEST['idEquipamento'];
         

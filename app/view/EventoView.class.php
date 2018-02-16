@@ -92,7 +92,7 @@ class EventoView {
                     </div>
                     <div class="col s12">
                         <ul id="tabs-bosta" class="tabs">
-                            <li class="tab col s3 active"><a class="active" href="#equipamentos-update">Equipamentos</a></li>
+                            <li class="tab col s3 active"><a class="active" href="#equipamentos-update">Materiais</a></li>
                             <li class="tab col s3"><a href="#servicos-update">Serviços</a></li>
                             <li class="tab col s3"><a href="#refeicoes-update">Refeições</a></li>
                         </ul>
