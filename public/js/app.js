@@ -1250,6 +1250,24 @@ $(function () {
         });
     }
 
+    function getEquipamentosToUpdate() {
+        $.ajax({
+            url: controllerToAdmin,
+            type: 'POST',
+            data: {
+                action: 'EquipamentoLogica.getEquipamentos'
+            }, success: function (data, textStatus, jqXHR) {
+                $("#equipamentos-update").html(data);
+                var valorTd = $("#equipamentos-update .tabelaEquipamentos tbody tr").length;
+                if (valorTd == 0) {
+                    $("#equipamentos-update .tabelaEquipamentos tbody").prepend('<tr><td colspan="8">Não há equipamentos disponíveis</td></tr>');
+                }
+                dataEquipamentoMenorQueDataEvento();
+
+            }
+        });
+    }
+
     function getEquipamentosByIdEvento(idEvento) {
         $.ajax({
             url: controllerToAdmin,
@@ -1261,7 +1279,17 @@ $(function () {
                 $("#equipamentos-update").html(data);
                 var valorTd = $("#equipamentos-update .tabelaEquipamentos tbody tr").length;
                 if (valorTd == 0) {
+                    getEquipamentosToUpdate();
                     $("#equipamentos-update .tabelaEquipamentos tbody").prepend('<tr><td colspan="8">Não há equipamentos disponíveis</td></tr>');
+                } else {
+                    $("#equipamentos-update .tabelaEquipamentos .idEquipamento").each(function () {
+                        $(this).attr("checked", true);
+                        $("#equipamentos-update .tabelaEquipamentos input[type=text]:disabled").attr("disabled", false);
+
+                    });
+                    habilitarInputsEquipamentos();
+                    verifyCheck();
+//                    checkboxToEquipamentServiceRefeicao();
                 }
 //                dataEquipamentoMenorQueDataEvento();
             }

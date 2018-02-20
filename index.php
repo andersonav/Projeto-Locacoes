@@ -83,6 +83,15 @@
                         <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Fechar</a>
                     </div>
                 </div>
+                <div id="modalCamposNulos" class="modal">
+                    <div class="modal-content">
+                        <h4>Alerta</h4>
+                        <p>Por favor preencha todos os campos!</p>
+                    </div>
+                    <div class="modal-footer">
+                        <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Fechar</a>
+                    </div>
+                </div>
                 <div id="modalInformationEvent" class="modal">
                     <div class="modal-content" id="contentInformationEvent">
                         <!--                    <h4>Alerta</h4>
@@ -141,6 +150,22 @@
                         </select>
                         <label class="corLogo-text">Ambiente: </label>
                     </div>
+                    <div class="input-field col s12 m6 divDataInicio">
+                        <input id="formDataInicio" type="text" class="dataInicio" placeholder="Escolha a Data Inicial" name="dataInicio">
+                        <label for="icon_prefix" class="corLogo-text active dataInicioLabel">Data Início:</label>
+                    </div>
+                    <!--                    <div class="input-field col s12 m3">
+                                            <input id="formHoraInicio" type="text" class="validate horaInicio" placeholder="Escolha a Hora Inicial" name="horaInicio">
+                                            <label for="icon_prefix" class="corLogo-text active">Hora Início:</label>-->
+                    <!--</div>-->
+                    <div class="input-field col s12 m6">
+                        <input id="formDataFim" type="text" class="dataFim" placeholder="Escolha a Data Final" name="dataFim">
+                        <label for="icon_prefix" class="corLogo-text active dataFimLabel">Data Fim:</label>
+                    </div>
+                    <!--                    <div class="input-field col s12 m3">
+                                            <input id="formHoraFim" type="text" class="validate horaFim" placeholder="Escolha a Hora Final" name="horaFim">
+                                            <label for="icon_prefix" class="corLogo-text active">Hora Fim:</label>
+                                        </div>-->
                 </div>
                 <!--            <div class="texto">
                                 <h3>SysReserva</h3>

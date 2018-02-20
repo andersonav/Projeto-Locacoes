@@ -39,6 +39,16 @@ class EventoLogica {
         return EventoView::getInstance()->jsonCarregarEventos(EventoDao::getInstance()->getEventoByAmbiente($idAmbiente, $idBloco, $idSetor));
     }
 
+    public function getEventoByDatesAndAmbiente() {
+        $idAmbiente = $_REQUEST['idAmbiente'];
+        $idBloco = $_REQUEST['idBloco'];
+        $idSetor = $_REQUEST['idSetor'];
+        $dataInicio = $_REQUEST['dataInicio'];
+        $dataFim = $_REQUEST['dataFim'];
+        $dataFimAux = date('Y-m-d', strtotime("+1 days", strtotime($dataInicio)));
+        return EventoView::getInstance()->jsonCarregarEventos(EventoDao::getInstance()->getEventoByDatesAndAmbiente($idAmbiente, $idBloco, $idSetor, $dataInicio, $dataFimAux));
+    }
+
     public function getEventoByPesquisa() {
         $valorDigitado = $_REQUEST['valorDigitado'];
 

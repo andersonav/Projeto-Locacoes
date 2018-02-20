@@ -121,6 +121,102 @@ $(function () {
         });
     }
 
+    function calendarUserByDatesAndAmbiente(idAmbiente, idBloco, idSetor, dataInicio, dataFim) {
+        var dataInicioUtilizada = dataInicio.substr(6, 4) + "-" + dataInicio.substr(3, 2) + "-" + dataInicio.substr(0, 2);
+        var dataFimUtilizada = dataFim.substr(6, 4) + "-" + dataFim.substr(3, 2) + "-" + dataFim.substr(0, 2);
+        $('#calendarUser').fullCalendar('destroy');
+        $('#readyCalendarUser').fullCalendar('destroy');
+        $('#calendarUser').fullCalendar({
+            monthNames: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro',
+                'Outubro', 'Novembro', 'Dezembro'],
+            monthNamesShort: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Aug', 'Set', 'Out', 'Nov', 'Dez'],
+            dayNames: ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'],
+            dayNamesShort: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab'],
+            lang: 'pt-br',
+            locale: 'pt-br',
+            timeFormat: 'HH:mm',
+            buttonText: {
+                today: 'Hoje',
+                month: 'Mês',
+                week: 'Semana',
+                day: 'Dia'
+            },
+            displayEventEnd: true,
+            header: {
+                left: 'prev,next today',
+                center: 'title',
+                right: 'month,agendaDay'
+            },
+            navLinks: true,
+            selectable: true,
+            selectHelper: true,
+            editable: false,
+            eventLimit: true,
+            dayClick: function (date, jsEvent, view) {
+                console.log("Clicou no dia: " + date.format("DD/MM/YYYY"));
+            },
+            allDayText: 'Dia Inteiro',
+            minTime: '07:00:00',
+            maxTime: '20:30:00',
+            slotDuration: '00:30:00',
+            slotLabelInterval: 30,
+            slotLabelFormat: 'HH:mm',
+            slotMinutes: 30,
+            events: function (start, end, timezone, callback) {
+                $.ajax({
+                    url: controllerToUser,
+                    type: 'POST',
+                    data: {
+                        action: "EventoLogica.getEventoByDatesAndAmbiente",
+                        idAmbiente: idAmbiente,
+                        idBloco: idBloco,
+                        idSetor: idSetor,
+                        dataInicio: dataInicioUtilizada,
+                        dataFim: dataFimUtilizada
+                    },
+                    success: function (data) {
+                        var events = [];
+                        dados = $.parseJSON(data);
+                        if (dados.length != 0) {
+                            for (var i = 0; i < dados.length; i++) {
+                                events.push({
+                                    id: dados[i].idEvento,
+                                    title: dados[i].nomeEvento,
+                                    start: dados[i].dataInicioEvento,
+                                    end: dados[i].dataFimEvento
+                                });
+                            }
+                            callback(events);
+                        } else {
+                            $("#modalEventoNulo").modal();
+                            $("#modalEventoNulo").modal("open");
+                        }
+                    }
+                });
+            },
+            eventClick: function (event, element) {
+                $.ajax({
+                    url: controllerToUser,
+                    type: 'POST',
+                    data: {
+                        action: "EventoLogica.getEventByIdPageUser",
+                        idEvento: event.id
+                    }, success: function (data, textStatus, jqXHR) {
+                        $("#modalInformationEvent").modal();
+                        $("#modalInformationEvent").modal('open');
+                        $("#contentInformationEvent").html(data);
+//                        $('.tabs#tabs-user').tabs();
+                        $('.collapsible').collapsible();
+                        getInformationEquipaments(event.id);
+                        getInformationServices(event.id);
+                        getInformationRefeicoes(event.id);
+                        $("select").material_select();
+                    }
+                });
+            }
+        });
+    }
+
     function mostrarInPage() {
         $('#readyCalendarUser').fullCalendar({
             header: {
@@ -323,6 +419,28 @@ $(function () {
         var idBloco = $("#sel-bloco-pesquisa").val();
         var idSetor = $("#sel-tipo-evento-pesquisa").val();
         calendarUser(idAmbiente, idBloco, idSetor);
+    });
+
+    $(".dataFim").change(function () {
+        var idAmbiente = $("#sel-ambiente-pesquisa").val();
+        var idBloco = $("#sel-bloco-pesquisa").val();
+        var idSetor = $("#sel-tipo-evento-pesquisa").val();
+        var dataInicio = $(".dataInicio").val();
+        var dataFim = $(this).val();
+        var camposNulos = 0;
+        $("select:enabled").each(function () {
+            var valor = $(this).val();
+            if (valor == null) {
+                camposNulos++;
+            }
+        });
+        if (camposNulos == 0 && dataInicio != "") {
+            calendarUserByDatesAndAmbiente(idAmbiente, idBloco, idSetor, dataInicio, dataFim);
+        } else {
+            $("#modalCamposNulos").modal();
+            $("#modalCamposNulos").modal('open');
+        }
+
     });
 
     $(".inputPesquisa").on("keypress keyup", function () {

@@ -83,6 +83,36 @@ class EventoDao {
         }
     }
 
+    public function getEventoByDatesAndAmbiente($idAmbiente, $idBloco, $idSetor, $dataInicio, $dataFim) {
+
+        try {
+
+            $sql = "SELECT eve.eve_id as id, eve.eve_nome, eve.eve_desc as title,
+                    eve.eve_solicitante, eve.eve_data_inicio as start, eve.eve_data_fim as end,
+                    amb.amb_eve_id, amb.amb_eve_desc, blo.blo_eve_id, blo.blo_eve_desc, sev.set_eve_id,
+                    sev.set_eve_desc, evt.eve_tip_rep_id, evt.eve_tip_rep_desc,
+                    eva.eve_aula_id, eva.eve_aula_desc, evad.eve_aula_det_id, evad.eve_aula_det_pro from eventos eve 
+                    JOIN ambiente_evento amb ON amb.amb_eve_id = eve.eve_amb_id
+                    JOIN bloco_evento blo ON blo.blo_eve_id = amb.amb_blo_eve_id 
+                    JOIN setor_evento sev ON sev.set_eve_id = blo.blo_set_eve_id
+                    JOIN evento_tipo_repeticao evt ON evt.eve_tip_rep_id = eve.eve_tip_rep_id 
+                    JOIN evento_aula eva ON eva.eve_aula_id = eve.eve_aula_id
+                    LEFT JOIN evento_aula_detalhes evad ON evad.eve_aula_det_fkeve_id = eve.eve_aula_id 
+                    WHERE eve.eve_amb_id = ? AND blo.blo_eve_id = ? AND sev.set_eve_id = ? AND date(eve.eve_data_inicio) = date(eve.eve_data_fim) AND eve.eve_data_inicio >= ? AND eve.eve_data_fim <= ?";
+            $p_sql = ConexaoMysql::getInstance()->prepare($sql);
+            $p_sql->bindParam(1, $idAmbiente);
+            $p_sql->bindParam(2, $idBloco);
+            $p_sql->bindParam(3, $idSetor);
+            $p_sql->bindParam(4, $dataInicio);
+            $p_sql->bindParam(5, $dataFim);
+            $p_sql->execute();
+
+            return $this->getListObjEvento($p_sql->fetchAll(PDO::FETCH_OBJ));
+        } catch (Exception $e) {
+            echo $e->getTraceAsString();
+        }
+    }
+
     public function insertEventoSelecionado($idUsuario, $nomeEvento, $descricaoEvento, $solicitanteEvento, $telefoneSolicitante, $emailSolicitante, $dataInicioEvento, $dataFimEvento, $eventoComeco, $eventoFim, $ambienteEvento, $eventoTipoRepeticao, $idAula) {
 
         try {
