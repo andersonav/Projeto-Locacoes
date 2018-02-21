@@ -1,0 +1,409 @@
+@import url(https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css);
+
+/*
+    Esse aqui é meu css
+*/
+html,body{
+    height: 100%;
+}
+body{
+    font-family: Verdana, sans-serif !important;
+}
+.margintop{
+    margin-top: 5em !important; 
+}
+body > .container{
+    margin-top: 2em !important;
+}
+
+.corLogo-text{
+    color: #006a20 !important;
+}
+
+.corLogo{
+    background-color: #006a20 !important;
+    color: white;
+}
+
+input{
+    border-bottom: 1px solid #006a20 !important;
+}
+input[type="submit"]{
+    border-bottom: none !important;
+}
+
+input[type=text]:not(.browser-default):disabled{
+    color: black !important;
+}
+
+.input-field .prefix.active {
+    color: #006a20 !important;
+}
+
+input:not(.browser-default):focus:not([readonly]) + label{
+    color: #006a20 !important;
+}
+input:not(.browser-default):disabled + label{
+    color: #006a20 !important;
+}
+
+.cbp-ig-title{
+    font-size: 1.5em !important;
+    font-family: "Arial, sans-serif" !important;
+}
+/* -------------------- FLASH -------------------------- */
+.msg-error{
+    background-color: #f2dede;
+    color: red;
+}
+
+.msg-sucesso{
+    background-color: #dff0d8 !important;
+    color: green;
+
+}
+
+.msg-alert{
+    color: #8a6d3b;
+    background-color: #fcf8e3;
+
+}
+
+.msg-mensagem{
+    padding: 15px;
+}
+
+.msg-box{
+    margin-top: 2em;
+    height: auto;
+    text-align: center;
+    font-weight: bold;
+    margin-bottom: 2em;
+
+}
+
+/* --------- Navbar -------------- */
+
+/* Cor gradiente da nav, e cor branca nos textos, e largura padrão 15%; */
+nav{
+    background-color: #006a20;
+    background-image: radial-gradient(ellipse at center, #19882c 1%, #025310 100%);
+    color: #fff;
+    min-height: 15%;
+    line-height: 30px; 
+}
+@media only screen and (max-height: 750px){
+    nav {
+        min-height: 18%;
+    }
+}
+@media only screen and (max-height: 620px){
+    nav {
+        min-height: 23%;
+    }
+}
+@media only screen and (max-height: 475px){
+    nav {
+        min-height: 30%;
+    }
+}
+@media only screen and (max-height: 365px){
+    nav {
+        min-height: 35%;
+    }
+}
+@media only screen and (max-height: 365px){
+    .submenu {
+        display: none;
+    }
+}
+
+
+
+/* Necessário para não bugar a largura. */
+nav > .container{
+    height: 100%;
+}
+
+.mobile{
+    display: none;
+}
+/* Configuração para o mobile */
+@media only screen and (max-width: 601px){
+    .mobile{
+        display: block;
+    }
+    .desktop{
+        display: none;
+    }
+    main { 
+        min-height: 70%;
+        height: auto !important;
+    }
+    nav{
+        min-height: 10%;
+    }
+}
+/* Menu abaixo da navbar */
+.submenu{
+    width: 100%;
+    background-color: #00420c;
+    height: 25px; 
+    padding-top: 1px;
+}
+/* Ajustando o tamanho da font e estilização */
+.submenu > .container > .breadcrumb {
+    text-transform: capitalize;
+    font-size: 15px !important;
+}
+/* Corrigindo o tamanho da seta */
+.breadcrumb:before{
+    font-size: 16px !important; 
+}
+/* Ajustando o tamanho da nav para desktop*/
+@media only screen and (min-width: 993px){
+    .container {
+        width: 90%;
+    }
+}
+/* Imagens da logos da navbar */
+.logos{
+    width: 50%;
+    height: 100% !important;
+    position: relative;
+}
+@media only screen and (min-width: 1150px){
+    .logos{
+        width: 40%;
+        height: 100% !important;
+        position: relative;
+    }
+}
+/* Ajustando o tamanho e a separação das imagens */
+.logos > img{
+    margin-top: 3%;
+    width: 15%;
+    height: 75%;
+    float: left;
+}
+/* Tirando a borda do último */
+.about > a:last-child{
+    border-right: none !important;;
+    padding-right: 0 !important;
+}
+/* ajustando as tag A do sobre nós */
+.about > a{
+    font-size: 12px;
+    padding-right: 1.8%;
+    border-right: 1px solid white;
+    text-decoration: none;
+    color: white;
+}
+.about > a:hover {
+    text-decoration: underline;
+}
+
+.dropdown-button:hover{
+    text-decoration: underline;
+}
+
+.logos > img:first-child{
+    width: 50%;
+}
+/* Todas as logos que não forem a primeira terá espaçamento */
+.logos > img:not(:first-child){
+    margin-left: 5% !important;
+}
+/* Menu da parte direita da navbar  */
+.menu{
+    width: 50%;
+    height: 100% !important;
+    position: relative;
+}
+/* As informações do menu */
+.informacoes{
+    float: right;
+    height: 100%;
+    width: 100%;
+    text-align: right;
+}
+
+
+/* Parte para o menu de pesquisa e login */
+.filter{
+    width: 100%;
+    height: 30px;
+    display: block;
+    padding-top: 0.5rem;
+
+}
+
+.menuPesquisa{
+    width: 285px !important;
+    color: black;
+    -webkit-border-radius: 5px !important;
+    -moz-border-radius: 5px !important;
+    height: 2.2rem !important;
+    border-radius: 5px !important;
+    background: #fff !important;
+    float: right;
+}
+
+.filter > a > img{
+    margin-left: 1rem;
+    margin-right: -.75rem;
+    float: right;
+}
+/* Colocando o tamanho da pesquisa */
+.filter > .menuPesquisa > .pesquisa{
+    width: 85%;
+    border: none !important;
+    height: 2rem !important;
+    font-size: 14px;
+}
+
+.filter > .menuPesquisa > .material-icons{
+    margin-right: .25rem;
+    display: inline;
+    line-height: initial;
+    vertical-align: middle;
+    cursor: pointer;
+    font-size: 23px;
+}
+
+/* Icon da lupa de pesquisa */
+.filter > .menuPesquisa > .pesquisa > i {
+    float: right;
+    color: black;
+}
+input[type=search]:not(.browser-default):focus:not([readonly]), textarea.materialize-textarea:focus:not([readonly]) {
+    border-bottom: none;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
+
+.blocoMenu{
+    white-space: nowrap;
+}
+@media only screen and (max-width: 740px){
+    .filter > .menuPesquisa{
+        width: 230px !important;
+    }
+}
+/* Notebook */
+@media only screen and (max-width: 850px) and (min-width: 601px){
+    nav > .container {
+        width: 95%;
+    }
+    .submenu > .container {
+        width: 95%;
+    }
+    .logos{
+        width: 50%;
+    }
+    .logos > img{
+        width: 80% !important;
+    }
+    .menu{
+        width: 50%;
+    }
+    .informacoes{
+    }
+}
+/* Navbar para o mobile */
+nav > .mobile{
+    height: 100%;
+    width: 100%;
+}
+.mobile > .col{
+    height: 100%;
+}
+.mobile > .col > img{
+    margin-top: 25%;
+    height: 60%;
+}
+
+.mobile > i{
+    display: initial;
+}
+
+.mobile-demo > img{
+    height: 50% !important;
+    margin-top: 35% !important;
+}
+
+.dropdown-button{
+    border-right: 1px solid white;
+    margin-left: 6px;
+}
+
+.dropdown-button:last-child{
+    border-right: none;
+}
+
+.pesquisar{
+    display: none;
+    margin-right: 1em !important;
+    margin-left: 1em !important;
+    background-color: #006a20;
+    color: white !important;
+}
+
+.fecharPesquisa{
+    line-height: initial;
+    top: 0.5rem !important;
+    color: white !important;
+    cursor: pointer !important;
+    right: 0.5rem !important;
+    font-size: 2rem !important;
+}
+
+.pesquisar > div > div > input[type=search] {
+    width: 75%;
+    margin-left: 3rem;
+    line-height: initial;
+    vertical-align: middle;
+    border: none;
+}
+.pesquisar > div > div > input[type=search]:focus , .pesquisar > div > div > input[type=search]:not(.browser-default):focus:not([readonly]){
+    background-color: #006a20;
+    width: 75%;
+    color: white;
+}
+.pesquisar > div > div > .label-icon {
+    top: -2.5px !important;
+    left: 1rem !important;
+    color: white;
+}
+
+.pesquisar > div > div > .label-icon > .material-icons{
+    color: white !important;
+}
+
+
+
+/* Ajustando o tamanho para mobile */
+@media (max-width: 400px) {
+    nav .button-collapse{
+        margin: 0 3px;
+    }
+    nav .button-collapse i {
+        height: auto; 
+        line-height: 65px;
+    }
+    nav i.material-icons {
+        height: auto; 
+        font-size: 45px;   
+    }
+
+    .nav-FuncoesMobile > a > img{
+        padding-top: 30%;
+        height: 80%;
+    }
+}
+
+
+
+body > .container{
+    width: 75%;
+}

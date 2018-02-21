@@ -10,9 +10,9 @@ and open the template in the editor.
 
 body{
     font-family: 'Verdana', 'sans-serif' !important;
-    display: flex;
-    min-height: 100vh;
-    flex-direction: column;
+    display: flex !important;
+    min-height: 100vh !important;
+    flex-direction: column !important;
 }
 .picker {
     position: relative !important;
@@ -26,7 +26,7 @@ body{
 }
 
 main {
-    flex: 1 0 auto;
+    flex: 1 0 auto !important;
 }
 .eventImg{
     width:20px;

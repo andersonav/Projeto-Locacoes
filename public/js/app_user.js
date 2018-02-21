@@ -13,7 +13,15 @@ $(function () {
     var hora = hoje.getHours();
     var minutos = hoje.getMinutes();
     var horaAtual = hora + ":" + minutos;
+    // Mostrar barra de pesquisa
+    $("#abrirPesquisa").click(function () {
+        $(".pesquisar").show();
+    });
 
+
+    $(".fecharPesquisa").click(function () {
+        $(".pesquisar").hide();
+    });
     function getSetorPageUser() {
         $.ajax({
             url: controllerToUser,
@@ -188,6 +196,12 @@ $(function () {
                             }
                             callback(events);
                         } else {
+                            var $input = $('.dataInicio').pickadate();
+                            var $inputDataFim = $('.dataFim').pickadate();
+                            var picker = $input.pickadate('picker');
+                            var pickerDataFim = $inputDataFim.pickadate('picker');
+                            picker.close();
+                            pickerDataFim.close();
                             $("#modalEventoNulo").modal();
                             $("#modalEventoNulo").modal("open");
                         }
@@ -435,8 +449,20 @@ $(function () {
             }
         });
         if (camposNulos == 0 && dataInicio != "") {
+            var $input = $('.dataInicio').pickadate();
+            var $inputDataFim = $('.dataFim').pickadate();
+            var picker = $input.pickadate('picker');
+            var pickerDataFim = $inputDataFim.pickadate('picker');
+            picker.close();
+            pickerDataFim.close();
             calendarUserByDatesAndAmbiente(idAmbiente, idBloco, idSetor, dataInicio, dataFim);
         } else {
+            var $input = $('.dataInicio').pickadate();
+            var $inputDataFim = $('.dataFim').pickadate();
+            var picker = $input.pickadate('picker');
+            var pickerDataFim = $inputDataFim.pickadate('picker');
+            picker.close();
+            pickerDataFim.close();
             $("#modalCamposNulos").modal();
             $("#modalCamposNulos").modal('open');
         }

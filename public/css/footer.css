@@ -1,0 +1,127 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 24/01/2018, 15:38:38
+    Author     : tvalente
+*/
+
+
+/* Para colocar o rodapé */
+.container { 
+    min-height: 60%;
+    height: auto !important;
+}
+
+/* A classe que fica dentro do footer junto ao container e center  */
+footer{
+    width: 100%;
+    min-height: 40%;
+}
+
+.rodape1{
+    padding-top: 15px;
+    background-color: #006a20;
+    height: 75%;
+    padding-bottom: 30px;
+}
+
+.rodape2{
+    font-family: Calibri, Candara, Segoe, "Segoe UI", Optima, Arial, sans-serif;
+    background-color: #019934 !important;
+    font-size: 13px;  
+    height: 25%;
+    padding-bottom: 0.5rem;
+}
+
+.linefooter{
+    width: 100%;
+    clear: both;
+    margin-bottom: 0.3rem;
+    border: 1px solid #019934;
+}
+
+/* Espaçamento do topo */
+.desenvolvedores > .equipe{
+    padding-top: 0.5em;
+    line-height: 1.5;
+}
+/* Ajustando o espaçamento do P */
+.desenvolvedores > .equipe > p {
+    margin-top: 0 !important;
+    text-align: center;
+    -webkit-margin-after: 0em !important;
+    -webkit-margin-before: 0em !important;
+}
+
+.instituto{
+    color: white;
+    font-family: Calibri, Candara, Segoe, "Segoe UI", Optima, Arial, sans-serif;
+    text-align: center;
+    font-size: 16px;
+    margin-bottom: 0.2rem;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+.titulo-informacao{
+    font-family: Calibri, Candara, Segoe, "Segoe UI", Optima, Arial, sans-serif;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.redes-sociais{
+    line-height: 110%;
+    margin: 1.14rem 0 .912rem 0;
+}
+
+/* Tamanho das imagens da rede social */
+.rede-sociais > a > img{
+    margin: 1.14rem 0 .912rem 0;
+    margin-top: 10%;
+    margin-left: 3%;
+    width: 10%;
+    float: right;
+}
+
+.rodape-icon > img{
+    height: 40px;
+    margin-left: 3%;
+    cursor: pointer;
+}
+
+.rodape-icon.right > img{
+    float: right;
+}
+
+
+.rodape-row{
+    margin-bottom: 10px;
+}
+
+.img-center > img{
+    display: block;
+    margin: 0 auto;
+}
+
+@media only screen and (max-width: 670px){
+    .rodape-icon.right{
+        display: none;
+    }
+}
+@media only screen and (max-width: 600px){
+    .rodape1{
+        padding-bottom: 0;
+    }
+    .rede-sociais > a > img{
+        float: left;
+        margin-top: 5%;
+        margin-left: 0;
+        margin-bottom: 0;
+        margin-right: 3%;
+        width: 10%;
+    }
+
+}
