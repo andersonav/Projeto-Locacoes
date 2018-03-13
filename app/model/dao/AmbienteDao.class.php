@@ -51,7 +51,7 @@ class AmbienteDao {
             $sql = "SELECT * FROM ambiente_evento amb
                     JOIN bloco_evento blo ON blo.blo_eve_id = amb.amb_blo_eve_id
                     JOIN setor_evento sev ON sev.set_eve_id=blo.blo_set_eve_id 
-                    WHERE blo.blo_eve_id = ? ORDER BY amb_eve_desc";
+                    WHERE blo.blo_eve_id = ? AND blo.blo_ativo = 1 AND amb.amb_ativo = 1 ORDER BY amb_eve_desc";
             $p_sql = ConexaoMysql::getInstance()->prepare($sql);
             $p_sql->bindParam(1, $valorBloco);
             $p_sql->execute();

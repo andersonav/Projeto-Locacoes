@@ -45,7 +45,7 @@ class BlocoDao {
 
         try {
 
-            $sql = "SELECT * FROM bloco_evento WHERE blo_set_eve_id = ?";
+            $sql = "SELECT * FROM bloco_evento WHERE blo_set_eve_id = ? AND blo_ativo = 1";
             $p_sql = ConexaoMysql::getInstance()->prepare($sql);
             $p_sql->bindParam(1, $idSetor);
             $p_sql->execute();

@@ -25,7 +25,7 @@ body > .container{
     color: white;
 }
 
-input{
+/*input{
     border-bottom: 1px solid #006a20 !important;
 }
 input[type="submit"]{
@@ -45,7 +45,7 @@ input:not(.browser-default):focus:not([readonly]) + label{
 }
 input:not(.browser-default):disabled + label{
     color: #006a20 !important;
-}
+}*/
 
 .cbp-ig-title{
     font-size: 1.5em !important;

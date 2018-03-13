@@ -25,6 +25,9 @@ body{
     display: none !important;
 }
 
+.fc-time-grid-event{
+    cursor: pointer;
+}
 main {
     flex: 1 0 auto !important;
 }

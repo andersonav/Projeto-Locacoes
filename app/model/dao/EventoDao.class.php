@@ -245,7 +245,10 @@ class EventoDao {
                     AND DATE_FORMAT(eve_data_fim, '%H:%i') > DATE_FORMAT(?, '%H:%i'))
                     OR
                     (DATE_FORMAT(eve_data_inicio, '%H:%i') <= DATE_FORMAT(?, '%H:%i')
-                    AND DATE_FORMAT(eve_data_fim, '%H:%i') >= DATE_FORMAT(?, '%H:%i')))
+                    AND DATE_FORMAT(eve_data_fim, '%H:%i') >= DATE_FORMAT(?, '%H:%i'))
+                    OR 
+                    (DATE_FORMAT(eve_data_fim, '%H:%i') >= DATE_FORMAT(?, '%H:%i')
+                    AND DATE_FORMAT(eve_data_inicio, '%H:%i') <= DATE_FORMAT(?, '%H:%i')))
                     AND eve.eve_amb_id = ?";
             $p_sql = ConexaoMysql::getInstance()->prepare($sql);
             $p_sql->bindParam(1, $dataInicio);
@@ -258,7 +261,9 @@ class EventoDao {
             $p_sql->bindParam(8, $dataFim);
             $p_sql->bindParam(9, $dataInicio);
             $p_sql->bindParam(10, $dataFim);
-            $p_sql->bindParam(11, $ambienteEvento);
+            $p_sql->bindParam(11, $dataInicio);
+            $p_sql->bindParam(12, $dataInicio);
+            $p_sql->bindParam(13, $ambienteEvento);
             $p_sql->execute();
 
             return $this->getListObjEvento($p_sql->fetchAll(PDO::FETCH_OBJ));

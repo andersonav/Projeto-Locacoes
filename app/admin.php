@@ -25,7 +25,7 @@
         <nav class="nav">
             <div class="container desktop">
                 <div class="logos left">
-                    <img src="http://10.50.11.67:8000/img/logos/intraneteifce.png">
+                    <img src="../public/img/intraneteifce.png">
                 </div>
                 <div class="menu right">
                     <div class="informacoes">
@@ -36,7 +36,7 @@
                             <a href="#!">Contatos</a>
                         </div>
                         <div class="filter row">
-                            <a href="http://10.50.11.67:8000/login"><img src="http://10.50.11.67:8000/img/logos/login.png" width="30px" height="30px"></a>
+                            <a href="#!"><img src="../public/img/login.png" width="30px" height="30px"></a>
 
                             <div class="menuPesquisa z-depth-3">
                                 <input class="pesquisa" id="search" type="search" placeholder="Pelo que você está procurando?">
@@ -45,8 +45,8 @@
 
                         </div>
                         <div class="blocoMenu">
-                            <a class='dropdown-button' href='#' data-activates='dropdown1'>
-                                Administrativo
+                            <a class='dropdown-button openModalAdicionarEvento' href='#' data-activates='dropdown1'>
+                                Cadastros
                             </a>
                             <a class='dropdown-button' href='#' data-activates='dropdown1'>
                                 Educacional
@@ -64,34 +64,34 @@
             </div>
             <div class="mobile row">
                 <div class="col s2 nav-FuncoesMobile mobile-demo" id="button-collapse" data-activates="mobile-demo">
-                    <img src="http://10.50.11.67:8000/img/logos/sanduiche.png">
+                    <img src="public/img/sanduiche.png">
                 </div>
                 <div class="col s2 nav-FuncoesMobile">
-                    <a href="JavaScript: window.history.back();"><img src="http://10.50.11.67:8000/img/logos/back.png"></a>
+                    <a href="JavaScript: window.history.back();"><img src="../public/img/back.png"></a>
                 </div>
-                <div class="col s2 nav-FuncoesMobile" onclick="http://10.50.11.67:8000">
-                    <a href="http://10.50.11.67:8000"><img src="http://10.50.11.67:8000/img/logos/home.png"></a>
+                <div class="col s2 nav-FuncoesMobile" onclick="#!">
+                    <a href="#!"><img src="../public/img/home.png"></a>
                 </div>
                 <div class="col s2 nav-FuncoesMobile">
-                    <a href="http://10.50.11.67:8000/login"><img src="http://10.50.11.67:8000/img/logos/login.png"></a>
+                    <a href="#!"><img src="../public/img/login.png"></a>
                 </div>
                 <div class="col offset-s2 s2 nav-FuncoesMobile" id="abrirPesquisa">
-                    <a><img src="http://10.50.11.67:8000/img/logos/lupa.png"></a>
+                    <a><img src="../public/img/lupa.png"></a>
                 </div>
                 <ul class="side-nav" id="mobile-demo">
                     <li> <a href="JavaScript: window.history.back();"> <i class="material-icons left">undo</i>Voltar </a> </li>
-                    <li> <a href="http://10.50.11.67:8000"> <i class="material-icons left">home</i>Início </a> </li>
+                    <li> <a href="#!"> <i class="material-icons left">home</i>Início </a> </li>
                     <li >
-                        <a href="http://10.50.11.67:8000/suporte"><i class="material-icons left">computer</i>Suporte</a>
+                        <a href="#!"><i class="material-icons left">computer</i>Suporte</a>
                     </li>
                     <li >
-                        <a href="http://10.50.11.67:8000/ifce/sistemas"><i class="material-icons left">settings</i>Sistemas</a>
+                        <a href="#!"><i class="material-icons left">settings</i>Sistemas</a>
                     </li>
                     <li >
-                        <a href="http://10.50.11.67:8000/ifce/ra"><i class="material-icons left">restaurant</i>Refeições</a>
+                        <a href="#!"><i class="material-icons left">restaurant</i>Reservas</a>
                     </li>
                     <li >
-                        <a href="http://10.50.11.67:8000/login"><i class="material-icons left">send</i>Entrar</a>
+                        <a href="#!"><i class="material-icons left">send</i>Administrativo</a>
                     </li>
                 </ul>
             </div>
@@ -99,11 +99,11 @@
         <main>
             <div class="submenu desktop">
                 <div class="container">
-                    <a href="http://10.50.11.67:8000" class="breadcrumb">início</a>
-                    <a href="http://10.50.11.67:8000/suporte" class="breadcrumb">Suporte</a>
-                    <a href="http://10.50.11.67:8000/ifce/sistemas" class="breadcrumb">Sistemas</a>
-                    <a href="http://10.50.11.67:8000/ifce/ra" class="breadcrumb">Refeições</a>
-                    <a href="http://10.50.11.67:8000/login" class="breadcrumb">Entrar</a>
+                    <a href="#!" class="breadcrumb">início</a>
+                    <a href="#!" class="breadcrumb">Suporte</a>
+                    <a href="#!" class="breadcrumb">Sistemas</a>
+                    <a href="#!" class="breadcrumb">Reservas</a>
+                    <a href="#!" class="breadcrumb">Administrativo</a>
 
                 </div>
             </div>
@@ -119,7 +119,7 @@
 
                 </div>
             </div>
-            <!--            openModalAdicionarEvento-->
+            <!--            -->
             <!--            <nav>
                             <div class="nav-wrapper">
                                 <div class="container">
@@ -416,21 +416,21 @@
                 <div id="readyCalendar"></div>
             </div>
         </main>
-        <footer>
+       <footer>
             <div class="rodape1">
                 <div class="container">
                     <div class="row rodape-row">
                         <div class="col m4 s12 rodape-icon">
-                            <img src="http://10.50.11.67:8000/img/logos/intranethorizontal.png">
+                            <img src="../public/img/intranethorizontal.png">
                         </div>
                         <div class="col m2 s4 rodape-icon right">
-                            <img src="http://10.50.11.67:8000/img/logos/esportivo.png">
+                            <img src="../public/img/esportivo.png">
                         </div>
                         <div class="col m2 s4 rodape-icon right">
-                            <img src="http://10.50.11.67:8000/img/logos/educacional.png">
+                            <img src="../public/img/educacional.png">
                         </div>
                         <div class="col m2 s4 rodape-icon right">
-                            <img src="http://10.50.11.67:8000/img/logos/administrativo.png">
+                            <img src="../public/img/administrativo.png">
                         </div>
                     </div>
                     <div class="linefooter"></div>
@@ -450,13 +450,13 @@
                         </div>
                         <div class="col m4 s12 rede-sociais">
                             <a  target="_blank" href="#!">
-                                <img src="http://10.50.11.67:8000/img/logos/email.png"></a>
+                                <img src="../public/img/email.png"></a>
                             <a  target="_blank" href="https://www.facebook.com/Instituto-Federal-de-Educa%C3%A7%C3%A3o-Ci%C3%AAncia-e-Tecnologia-do-Cear%C3%A1-IFCE-471223182903300/">
-                                <img src="http://10.50.11.67:8000/img/logos/facebook.png"></a>
+                                <img src="../public/img/facebook.png"></a>
                             <a target="_blank" href="https://www.youtube.com/user/ifcecoficialcomunica?feature=results_main">
-                                <img src="http://10.50.11.67:8000/img/logos/youtube.png" ></a>
+                                <img src="../public/img/youtube.png" ></a>
                             <a target="_blank" href="https://twitter.com/IFCE_">
-                                <img src="http://10.50.11.67:8000/img/logos/twitter.png"></a>
+                                <img src="../public/img/twitter.png"></a>
                         </div>
                     </div>
 

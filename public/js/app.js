@@ -20,8 +20,6 @@ $(function () {
     $(".button-collapse").sideNav();
     $(inputs).on('focus', function () {
         var pos = $(this).offset();
-        // não precisas de saber o ID se a intenção é somente usar $('#' + id), 
-        // nesse caso já tens o elemento escolhido com $(this).closest('.upage')
         $(this).closest('.upage').scrollTop(pos.top);
     });
 
@@ -62,115 +60,117 @@ $(function () {
             select: function (start, end) {
                 dateStart = $.fullCalendar.formatDate(start, "YYYY-MM-DD");
                 dateEnd = $.fullCalendar.formatDate(end, "YYYY-MM-DD");
+                start = $.fullCalendar.formatDate(start, "YYYY-MM-DD HH:mm:ss");
+                end = $.fullCalendar.formatDate(end, "YYYY-MM-DD HH:mm:ss");
+                var ambienteEvento = $("#sel-ambiente-pesquisa").val();
+                var valorBoolean = verifyDates(start, end, ambienteEvento);
                 if (dateStart == dateEnd) {
-                    isNumeric();
-                    habilitarInputsEquipamentos();
-                    habilitarInputsServicos();
-                    habilitarInputsRefeicoes();
-                    verifyCheck();
-                    verifyCheckServices();
-                    verifyCheckRefeicoes();
-                    pickDataInicio();
-                    pickHoraInicio();
-                    pickDataFim();
-                    pickHoraFim();
-                    start = $.fullCalendar.formatDate(start, "YYYY-MM-DD HH:mm:ss");
-                    var ano = hoje.getFullYear();
-                    var mes = hoje.getMonth() + 1;
-                    var dia = hoje.getDate();
-                    if (dia < 10) {
-                        dia = 0 + "" + dia;
-                    }
-                    if (mes < 10) {
-                        mes = 0 + "" + mes;
-                    }
-                    var hora = hoje.getHours();
-                    var minutos = hoje.getMinutes();
-                    var segundos = hoje.getSeconds();
-                    var hojeFormatada = ano + "-" + mes + "-" + dia + " " + hora + ":" + minutos + ":" + segundos;
-                    if (start < hojeFormatada) {
-                        start = null;
-                        end = null;
-                        $("#modalDataAnterior").modal();
-                        $("#modalDataAnterior").modal('open');
-                    } else {
-                        var diaInicio = start.substr(8, 2);
-                        var mesInicio = start.substr(5, 2);
-                        var anoInicio = start.substr(0, 4);
-                        var horaInicio = start.substr(11, 8);
-                        var inicio = diaInicio + "/" + mesInicio + "/" + anoInicio;
-                        end = $.fullCalendar.formatDate(end, "YYYY-MM-DD HH:mm:ss");
-                        var diaFim = end.substr(8, 2);
-                        var mesFim = end.substr(5, 2);
-                        var anoFim = end.substr(0, 4);
-                        var horaFim = end.substr(11, 8);
-                        var fim = diaFim + "/" + mesFim + "/" + anoFim;
-                        $(".divAula").addClass('esconderDivAula');
-                        $('#modalAdicionarEventoClickDay').modal();
-                        $("#form_add_event .dataInicio").attr('disabled', 'disabled');
-                        $("#form_add_event .dataFim").attr('disabled', 'disabled');
-                        $("#form_add_event .horaInicio").attr('disabled', 'disabled');
-                        $("#form_add_event .horaFim").attr('disabled', 'disabled');
-                        $(".dataInicio").val(inicio);
-                        $(".horaInicio").val(horaInicio);
-                        $(".dataFim").val(fim);
-                        $(".horaFim").val(horaFim);
-                        $("#modalAdicionarEventoClickDay").modal({
-                            complete: function () {
-                                start = null;
-                                end = null;
-                                $('#form_add_event').each(function () {
-                                    this.reset();
-                                });
-                            }
-                        });
-                        $("#modalAdicionarEventoClickDay").modal('open');
-                        var idSetor = $("#sel-tipo-evento-pesquisa").val();
-                        var idBloco = $("#sel-bloco-pesquisa").val();
-                        var nameBloco = $("#sel-bloco-pesquisa").find('option:selected').text();
-                        var idAmbiente = $("#sel-ambiente-pesquisa").val();
-                        var nameAmbiente = $("#sel-ambiente-pesquisa").find('option:selected').text();
-                        $('#sel-tipo-evento').find('option[value="' + idSetor + '"]').prop('selected', true);
-                        $("#sel-tipo-evento").material_select();
-                        $("#sel-bloco").append("<option selected value=" + idBloco + ">" + nameBloco + "</option>");
-                        $("#sel-bloco").material_select();
-                        $("#sel-ambiente").append("<option selected value=" + idAmbiente + ">" + nameAmbiente + "</option>");
-                        $("#sel-ambiente").material_select();
+                    if (valorBoolean == true) {
+                        isNumeric();
+                        habilitarInputsEquipamentos();
+                        habilitarInputsServicos();
+                        habilitarInputsRefeicoes();
+                        verifyCheck();
+                        verifyCheckServices();
+                        verifyCheckRefeicoes();
+                        pickDataInicio();
+                        pickHoraInicio();
+                        pickDataFim();
+                        pickHoraFim();
+                        var ano = hoje.getFullYear();
+                        var mes = hoje.getMonth() + 1;
+                        var dia = hoje.getDate();
+                        if (dia < 10) {
+                            dia = 0 + "" + dia;
+                        }
+                        if (mes < 10) {
+                            mes = 0 + "" + mes;
+                        }
+                        var hora = hoje.getHours();
+                        var minutos = hoje.getMinutes();
+                        var segundos = hoje.getSeconds();
+                        var hojeFormatada = ano + "-" + mes + "-" + dia + " " + hora + ":" + minutos + ":" + segundos;
+                        if (start < hojeFormatada) {
+                            start = null;
+                            end = null;
+                            $("#modalDataAnterior").modal();
+                            $("#modalDataAnterior").modal('open');
+                        } else {
+                            var diaInicio = start.substr(8, 2);
+                            var mesInicio = start.substr(5, 2);
+                            var anoInicio = start.substr(0, 4);
+                            var horaInicio = start.substr(11, 8);
+                            var inicio = diaInicio + "/" + mesInicio + "/" + anoInicio;
 
-                        $(".mostrarWhenClickBtn").addClass("cadastroClickBtn");
-                        var title;
-                        var eventData;
-                        $(".buttonOkay").click(function () {
-                            var nomeEvento = $(".nomeEvento").val();
-                            var idUsuario = $("#idUsuario").val();
-                            var solicitanteEvento = $(".solicitante").val();
-                            var telefoneSolicitante = $(".telefoneContatoSolicitante").val();
-                            var emailSolicitante = $(".emailContatoSolicitante").val();
-                            var tipoEvento = $("#sel-tipo-evento").val();
-                            var blocoEvento = $("#sel-bloco").val();
-                            var ambienteEvento = $("#sel-ambiente").val();
-                            var eventoTipoRepeticao = 1;
-                            var idAula = 2;
-                            title = $(".descricaoEvento").val();
-                            var resultQuantidade = compararQtdSolicitadaComQtdDisponivel();
-                            var contadorInput = 0;
-                            var contadorSelect = 0;
-                            $("#form_add_event input[type=text]:enabled").each(function () {
-                                $(this).val() == "" ? contadorInput++ : "";
+                            var diaFim = end.substr(8, 2);
+                            var mesFim = end.substr(5, 2);
+                            var anoFim = end.substr(0, 4);
+                            var horaFim = end.substr(11, 8);
+                            var fim = diaFim + "/" + mesFim + "/" + anoFim;
+                            $(".divAula").addClass('esconderDivAula');
+                            $('#modalAdicionarEventoClickDay').modal();
+                            $("#form_add_event .dataInicio").attr('disabled', 'disabled');
+                            $("#form_add_event .dataFim").attr('disabled', 'disabled');
+                            $("#form_add_event .horaInicio").attr('disabled', 'disabled');
+                            $("#form_add_event .horaFim").attr('disabled', 'disabled');
+                            $(".dataInicio").val(inicio);
+                            $(".horaInicio").val(horaInicio);
+                            $(".dataFim").val(fim);
+                            $(".horaFim").val(horaFim);
+                            $("#modalAdicionarEventoClickDay").modal({
+                                complete: function () {
+                                    start = null;
+                                    end = null;
+                                    $('#form_add_event').each(function () {
+                                        this.reset();
+                                    });
+                                }
                             });
-                            $("#form_add_event select:visible").each(function () {
-                                $(this).val() == null ? contadorSelect++ : "";
-                            });
-                            if ((contadorInput == 0) && (contadorSelect == 0)) {
-                                if (resultQuantidade >= 0) {
+                            $("#modalAdicionarEventoClickDay").modal('open');
+                            var idSetor = $("#sel-tipo-evento-pesquisa").val();
+                            var idBloco = $("#sel-bloco-pesquisa").val();
+                            var nameBloco = $("#sel-bloco-pesquisa").find('option:selected').text();
+                            var idAmbiente = $("#sel-ambiente-pesquisa").val();
+                            var nameAmbiente = $("#sel-ambiente-pesquisa").find('option:selected').text();
+                            $('#sel-tipo-evento').find('option[value="' + idSetor + '"]').prop('selected', true);
+                            $("#sel-tipo-evento").material_select();
+                            $("#sel-bloco").append("<option selected value=" + idBloco + ">" + nameBloco + "</option>");
+                            $("#sel-bloco").material_select();
+                            $("#sel-ambiente").append("<option selected value=" + idAmbiente + ">" + nameAmbiente + "</option>");
+                            $("#sel-ambiente").material_select();
+
+                            $(".mostrarWhenClickBtn").addClass("cadastroClickBtn");
+                            var title;
+                            var eventData;
+                            $(".buttonOkay").click(function () {
+                                var nomeEvento = $(".nomeEvento").val();
+                                var idUsuario = $("#idUsuario").val();
+                                var solicitanteEvento = $(".solicitante").val();
+                                var telefoneSolicitante = $(".telefoneContatoSolicitante").val();
+                                var emailSolicitante = $(".emailContatoSolicitante").val();
+                                var tipoEvento = $("#sel-tipo-evento").val();
+                                var blocoEvento = $("#sel-bloco").val();
+                                var ambienteEvento = $("#sel-ambiente").val();
+                                var eventoTipoRepeticao = 1;
+                                var idAula = 2;
+                                title = $(".descricaoEvento").val();
+                                var resultQuantidade = compararQtdSolicitadaComQtdDisponivel();
+                                var contadorInput = 0;
+                                var contadorSelect = 0;
+                                $("#form_add_event input[type=text]:enabled").each(function () {
+                                    $(this).val() == "" ? contadorInput++ : "";
+                                });
+                                $("#form_add_event select:visible").each(function () {
+                                    $(this).val() == null ? contadorSelect++ : "";
+                                });
+                                if ((contadorInput == 0) && (contadorSelect == 0)) {
+                                    if (resultQuantidade >= 0) {
 //                                updateQtdDisponivelByQtdSolicitada();
-                                    eventData = {
-                                        title: title,
-                                        start: start,
-                                        end: end
-                                    };
-                                    var valorBoolean = verifyDates(start, end, ambienteEvento);
-                                    if (valorBoolean == true) {
+                                        eventData = {
+                                            title: title,
+                                            start: start,
+                                            end: end
+                                        };
                                         if (insertEventoSelecionado(idUsuario, nomeEvento, solicitanteEvento, telefoneSolicitante, emailSolicitante, tipoEvento, blocoEvento, ambienteEvento, eventoTipoRepeticao, idAula, title, start, end) == true) {
                                             var valorIdEvento = getEventByAmbienteAndStartAndEnd(ambienteEvento, start, end);
                                             for (var i = 0; i < valorIdEvento.length; i++) {
@@ -181,26 +181,26 @@ $(function () {
                                             $("#modalAdicionarEventoClickDay").modal('close');
                                             location.reload();
                                         }
-                                    } else {
-                                        $("#modalDatasIguais").modal();
-                                        $("#modalDatasIguais").modal('open');
-                                    }
 //                            $('#calendar').fullCalendar('renderEvent', eventData, true); // stick? = true
+                                    } else {
+                                        alert("Quantidade solicitada maior que a disponivel");
+                                    }
                                 } else {
-                                    alert("Quantidade solicitada maior que a disponivel");
-                                }
-                            } else {
 
-                                $("#modalCamposNulos").modal();
-                                $("#modalCamposNulos").modal("open");
-                            }
-                        });
-                        $(".buttonCancel").click(function () {
-                            $("#modalAdicionarEventoClickDay").modal('close');
-                            start = null;
-                            end = null;
-                        });
-                        $('#calendar').fullCalendar('unselect');
+                                    $("#modalCamposNulos").modal();
+                                    $("#modalCamposNulos").modal("open");
+                                }
+                            });
+                            $(".buttonCancel").click(function () {
+                                $("#modalAdicionarEventoClickDay").modal('close');
+                                start = null;
+                                end = null;
+                            });
+                            $('#calendar').fullCalendar('unselect');
+                        }
+                    } else {
+                        $("#modalDatasIguais").modal();
+                        $("#modalDatasIguais").modal('open');
                     }
                 } else {
                     $('#calendar').fullCalendar('unselect');
@@ -1360,13 +1360,14 @@ $(function () {
     function isNumeric() {
         $(".txt-quantidade-solicitada").on("keypress keyup blur", function (event) {
             $(this).val($(this).val().replace(/[^0-9\.]/g, ''));
-            if ((event.which != 46 || $(this).val().indexOf('.') != -1) && (event.which < 48 || event.which > 57)) {
+            $(this).val($(this).val().replace('.', ''));
+            if ((event.which < 48 || event.which > 57)) {
                 event.preventDefault();
             }
         });
 
-        $(".telefoneContatoSolicitante").on("keypress keyup blur", function (event) {
-            if ((event.which != 46 || $(this).val().indexOf('.') != -1) && (event.which < 48 || event.which > 57)) {
+        $(".telefoneContatoSolicitante").on("keypress", function (event) {
+            if ((event.which < 48 || event.which > 57)) {
                 event.preventDefault();
             }
             if ($(this).val().length == 1) {
@@ -1632,6 +1633,9 @@ $(function () {
             var valorDataInicio = $("#formDataInicio").val();
             var valorDataFim = $("#formDataFim").val();
             if (compararData(valorDataEquipamento, valorDataInicio, valorDataFim)) {
+                var $input = $('.txt-data-inicial').pickadate();
+                var picker = $input.pickadate('picker');
+                picker.close();
                 $("#modalDataEquiSerRef").modal();
                 $("#modalDataEquiSerRef").modal('open');
                 $(".txt-data-inicial#" + valorId).val(valorDataInicio);
@@ -1647,6 +1651,9 @@ $(function () {
             var valorHoraFim = $("#formHoraFim").val();
             var valorDataEquipamento = $(".txt-data-inicial#" + valorId).val();
             if (compararHora(valorHoraEquipamento, valorHoraInicio, valorHoraFim, valorDataEquipamento, valorDataInicio, valorDataFim)) {
+                var $input = $('.txt-hora-inicial').pickadate();
+                var picker = $input.pickadate('picker');
+                picker.close();
                 $("#modalDataEquiSerRef").modal();
                 $("#modalDataEquiSerRef").modal('open');
                 $(".txt-hora-inicial").val(valorHoraInicio);
@@ -1664,6 +1671,9 @@ $(function () {
                 $(this).val(valorDataFim);
             } else {
                 if (compararData(valorDataEquipamento, valorDataInicio, valorDataFim)) {
+                    var $input = $('.txt-data-final').pickadate();
+                    var picker = $input.pickadate('picker');
+                    picker.close();
                     $("#modalDataEquiSerRef").modal();
                     $("#modalDataEquiSerRef").modal('open');
                     $(".txt-data-final").val(valorDataFim);
@@ -1680,6 +1690,9 @@ $(function () {
             var valorHoraFim = $("#formHoraFim").val();
             var valorDataEquipamento = $(".txt-data-final#" + valorId).val();
             if (compararHora(valorHoraEquipamento, valorHoraInicio, valorHoraFim, valorDataEquipamento, valorDataInicio, valorDataFim)) {
+                var $input = $('.txt-hora-final').pickadate();
+                var picker = $input.pickadate('picker');
+                picker.close();
                 $("#modalDataEquiSerRef").modal();
                 $("#modalDataEquiSerRef").modal('open');
                 $(".txt-hora-final").val(valorHoraFim);
@@ -1694,6 +1707,9 @@ $(function () {
             var valorDataInicio = $("#formDataInicio").val();
             var valorDataFim = $("#formDataFim").val();
             if (compararData(valorDataServico, valorDataInicio, valorDataFim)) {
+                var $input = $('.txt-data-inicial-servico').pickadate();
+                var picker = $input.pickadate('picker');
+                picker.close();
                 $("#modalDataEquiSerRef").modal();
                 $("#modalDataEquiSerRef").modal('open');
                 $(".txt-data-inicial-servico#" + valorId).val(valorDataInicio);
@@ -1709,6 +1725,9 @@ $(function () {
             var valorHoraFim = $("#formHoraFim").val();
             var valorDataServico = $(".txt-data-inicial-servico#" + valorId).val();
             if (compararHora(valorHoraServico, valorHoraInicio, valorHoraFim, valorDataServico, valorDataInicio, valorDataFim)) {
+                var $input = $('.txt-hora-inicial-servico').pickadate();
+                var picker = $input.pickadate('picker');
+                picker.close();
                 $("#modalDataEquiSerRef").modal();
                 $("#modalDataEquiSerRef").modal('open');
                 $(".txt-hora-inicial-servico#" + valorId).val(valorHoraInicio);
@@ -1728,6 +1747,9 @@ $(function () {
                 $(this).val(valorDataFim);
             } else {
                 if (compararData(valorDataServico, valorDataInicio, valorDataFim)) {
+                    var $input = $('.txt-data-final-servico').pickadate();
+                    var picker = $input.pickadate('picker');
+                    picker.close();
                     $("#modalDataEquiSerRef").modal();
                     $("#modalDataEquiSerRef").modal('open');
                     $(".txt-data-final-servico#" + valorId).val(valorDataFim);
@@ -1744,6 +1766,9 @@ $(function () {
             var valorHoraFim = $("#formHoraFim").val();
             var valorDataServico = $(".txt-data-final-servico#" + valorId).val();
             if (compararHora(valorHoraServico, valorHoraInicio, valorHoraFim, valorDataServico, valorDataInicio, valorDataFim)) {
+                var $input = $('.txt-hora-final-servico').pickadate();
+                var picker = $input.pickadate('picker');
+                picker.close();
                 $("#modalDataEquiSerRef").modal();
                 $("#modalDataEquiSerRef").modal('open');
                 $(".txt-hora-final-servico#" + valorId).val(valorHoraFim);
@@ -1758,6 +1783,9 @@ $(function () {
             var valorDataInicio = $("#formDataInicio").val();
             var valorDataFim = $("#formDataFim").val();
             if (compararData(valorDataRefeicao, valorDataInicio, valorDataFim)) {
+                var $input = $('.txt-data-inicial-refeicao').pickadate();
+                var picker = $input.pickadate('picker');
+                picker.close();
                 $("#modalDataEquiSerRef").modal();
                 $("#modalDataEquiSerRef").modal('open');
                 $(".txt-data-inicial-refeicao#" + valorId).val(valorDataInicio);
@@ -1773,6 +1801,9 @@ $(function () {
             var valorHoraFim = $("#formHoraFim").val();
             var valorDataServico = $(".txt-data-inicial-servico#" + valorId).val();
             if (compararHora(valorHoraRefeicao, valorHoraInicio, valorHoraFim, valorDataServico, valorDataInicio, valorDataFim)) {
+                var $input = $('.txt-hora-inicial-refeicao').pickadate();
+                var picker = $input.pickadate('picker');
+                picker.close();
                 $("#modalDataEquiSerRef").modal();
                 $("#modalDataEquiSerRef").modal('open');
                 $(".txt-hora-inicial-refeicao#" + valorId).val(valorHoraInicio);
@@ -1791,6 +1822,9 @@ $(function () {
                 $(this).val(valorDataFim);
             } else {
                 if (compararData(valorDataRefeicao, valorDataInicio, valorDataFim)) {
+                    var $input = $('.txt-data-final-refeicao').pickadate();
+                    var picker = $input.pickadate('picker');
+                    picker.close();
                     $("#modalDataEquiSerRef").modal();
                     $("#modalDataEquiSerRef").modal('open');
                     $(".txt-data-final-refeicao#" + valorId).val(valorDataFim);
@@ -1807,6 +1841,9 @@ $(function () {
             var valorHoraFim = $("#formHoraFim").val();
             var valorDataServico = $(".txt-data-final-servico#" + valorId).val();
             if (compararHora(valorHoraRefeicao, valorHoraInicio, valorHoraFim, valorDataServico, valorDataInicio, valorDataFim)) {
+                var $input = $('.txt-hora-final-refeicao').pickadate();
+                var picker = $input.pickadate('picker');
+                picker.close();
                 $("#modalDataEquiSerRef").modal();
                 $("#modalDataEquiSerRef").modal('open');
                 $(".txt-hora-final-refeicao#" + valorId).val(valorHoraFim);
