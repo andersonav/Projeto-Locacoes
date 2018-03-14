@@ -21,6 +21,7 @@ body{
     left: auto !important;
     right: 0px !important;
 }
+
 #modalAdicionarEventoClickDay .fc-center, #modalAdicionarEventoClickDay .fc-right, #modalAdicionarEventoClickDay .fc-left{
     display: none !important;
 }
@@ -169,6 +170,14 @@ button:focus{
 button:active{
     background-color: #006B43 !important;
     color: white !important;
+}
+
+input:not(.browser-default):disabled + label {
+    color: #006B43 !important;
+}
+
+input:enabled {
+    border-bottom: 1px solid #006B43 !important;
 }
 .fc-day-number, .fc-list-heading-main, .fc-list-heading-alt{
     color: #006B43;

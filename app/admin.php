@@ -305,13 +305,11 @@
                                 </div>
                                 <div class="input-field col s12 m4">
                                     <select name="bloco" class="sel-bloco" id="sel-bloco">
-                                        <option value="" disabled selected>Escolha sua opção</option>
                                     </select>
                                     <label class="corLogo-text">Bloco: </label>
                                 </div>
                                 <div class="input-field col s12 m4">
                                     <select name="ambiente" class="sel-ambiente" id="sel-ambiente">
-                                        <option value="" disabled selected>Escolha sua opção</option>
                                     </select>
                                     <label class="corLogo-text">Ambiente: </label>
                                 </div>
@@ -416,7 +414,7 @@
                 <div id="readyCalendar"></div>
             </div>
         </main>
-       <footer>
+        <footer>
             <div class="rodape1">
                 <div class="container">
                     <div class="row rodape-row">
