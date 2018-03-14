@@ -154,7 +154,6 @@ $(function () {
                                 var eventoTipoRepeticao = 1;
                                 var idAula = 2;
                                 title = $(".descricaoEvento").val();
-                                var resultQuantidade = compararQtdSolicitadaComQtdDisponivel();
                                 var contadorInput = 0;
                                 var contadorSelect = 0;
                                 $("#form_add_event input[type=text]:enabled").each(function () {
@@ -164,27 +163,23 @@ $(function () {
                                     $(this).val() == null ? contadorSelect++ : "";
                                 });
                                 if ((contadorInput == 0) && (contadorSelect == 0)) {
-                                    if (resultQuantidade >= 0) {
-//                                updateQtdDisponivelByQtdSolicitada();
-                                        eventData = {
-                                            title: title,
-                                            start: start,
-                                            end: end
-                                        };
-                                        if (insertEventoSelecionado(idUsuario, nomeEvento, solicitanteEvento, telefoneSolicitante, emailSolicitante, tipoEvento, blocoEvento, ambienteEvento, eventoTipoRepeticao, idAula, title, start, end) == true) {
-                                            var valorIdEvento = getEventByAmbienteAndStartAndEnd(ambienteEvento, start, end);
-                                            for (var i = 0; i < valorIdEvento.length; i++) {
-                                                checkboxToEquipamentServiceRefeicao(valorIdEvento[i], start, end);
-                                            }
-                                            start = null;
-                                            end = null;
-                                            $("#modalAdicionarEventoClickDay").modal('close');
-                                            location.reload();
+                                    eventData = {
+                                        title: title,
+                                        start: start,
+                                        end: end
+                                    };
+                                    if (insertEventoSelecionado(idUsuario, nomeEvento, solicitanteEvento, telefoneSolicitante, emailSolicitante, tipoEvento, blocoEvento, ambienteEvento, eventoTipoRepeticao, idAula, title, start, end) == true) {
+                                        var valorIdEvento = getEventByAmbienteAndStartAndEnd(ambienteEvento, start, end);
+                                        getQtdSolicitadaAndUpdateQtdDisponivel();
+                                        for (var i = 0; i < valorIdEvento.length; i++) {
+                                            checkboxToEquipamentServiceRefeicao(valorIdEvento[i], start, end);
                                         }
-//                            $('#calendar').fullCalendar('renderEvent', eventData, true); // stick? = true
-                                    } else {
-                                        alert("Quantidade solicitada maior que a disponivel");
+                                        start = null;
+                                        end = null;
+                                        $("#modalAdicionarEventoClickDay").modal('close');
+                                        location.reload();
                                     }
+//                            $('#calendar').fullCalendar('renderEvent', eventData, true); // stick? = true
                                 } else {
 
                                     $("#modalCamposNulos").modal();
@@ -1358,12 +1353,15 @@ $(function () {
     }
 
     function isNumeric() {
-        $(".txt-quantidade-solicitada").on("keypress keyup blur", function (event) {
+        $(".txt-quantidade-solicitada").on("keyup", function (event) {
             $(this).val($(this).val().replace(/[^0-9\.]/g, ''));
             $(this).val($(this).val().replace('.', ''));
             if ((event.which < 48 || event.which > 57)) {
                 event.preventDefault();
             }
+            var valorId = $(this).attr("id");
+            var valorQtdSolicitada = $(this).val();
+            compararQtdSolicitadaComQtdDisponivel(valorId, valorQtdSolicitada);
         });
 
         $(".telefoneContatoSolicitante").on("keypress", function (event) {
@@ -1382,11 +1380,60 @@ $(function () {
         });
     }
 
-    function compararQtdSolicitadaComQtdDisponivel() {
-        var resultQuantidade;
-        var input1 = $('.txt-quantidade-solicitada').attr('id');
-        var idEquipamento = input1.substr(5, 1);
-        var qtdSolicitada = $('.txt-quantidade-solicitada').val();
+    function compararQtdSolicitadaComQtdDisponivel(id, qtdSolicitada) {
+        $(".txt-quantidade-solicitada:enabled").each(function () {
+            var valorId = $(this).attr("id");
+            var valorQtdSolicitada = $(this).val();
+            var idEquipamento = valorId.substr(5, valorId.length - 5);
+            $.ajax({
+                url: controllerToAdmin,
+                type: 'POST',
+                async: false,
+                data: {
+                    action: 'EquipamentoLogica.verifyQtdSolicitadaByIdEquipamento',
+                    idEquipamento: idEquipamento
+
+                }, success: function (data, textStatus, jqXHR) {
+                    dados = $.parseJSON(data);
+                    if (parseInt(valorQtdSolicitada) <= parseInt(dados.qtdDisponivel)) {
+//                        console.log(dados.qtdDisponivel);
+                        $(".buttonOkay").prop("disabled", false);
+                        $(".buttonOkay").css("cursor", "pointer");
+                    } else {
+                        $(".buttonOkay").prop("disabled", true);
+                        $(".buttonOkay").css("cursor", "not-allowed");
+                        $("#modalQuantidadeSolicitadaMaiorQueDisponivel").modal();
+                        $("#modalQuantidadeSolicitadaMaiorQueDisponivel").modal('open');
+                    }
+//                resultQuantidade = dados.qtdDisponivel - qtdSolicitada;
+                }
+            });
+        });
+    }
+
+    function getQtdSolicitadaAndUpdateQtdDisponivel() {
+        $(".txt-quantidade-solicitada:enabled").each(function () {
+            var valorId = $(this).attr("id");
+            var valorQtdSolicitada = $(this).val();
+            var idEquipamento = valorId.substr(5, valorId.length - 5);
+            var novaQuantidade = getQtdDisponivel(idEquipamento, valorQtdSolicitada);
+            console.log(novaQuantidade);
+            $.ajax({
+                url: controllerToAdmin,
+                type: 'POST',
+                data: {
+                    action: 'EquipamentoLogica.updateQtdDisponivelByIdEquipamento',
+                    idEquipamento: idEquipamento,
+                    valorAtual: novaQuantidade
+                }, success: function (data, textStatus, jqXHR) {
+                    console.log("Deu certo");
+                }
+            });
+        });
+    }
+
+    function getQtdDisponivel(idEquipamento, valorQtdSolicitada) {
+        var novaQuantidade;
         $.ajax({
             url: controllerToAdmin,
             type: 'POST',
@@ -1394,27 +1441,12 @@ $(function () {
             data: {
                 action: 'EquipamentoLogica.verifyQtdSolicitadaByIdEquipamento',
                 idEquipamento: idEquipamento
-
             }, success: function (data, textStatus, jqXHR) {
                 dados = $.parseJSON(data);
-                resultQuantidade = dados.qtdDisponivel - qtdSolicitada;
+                novaQuantidade = parseInt(dados.qtdDisponivel) - parseInt(valorQtdSolicitada);
             }
         });
-        return resultQuantidade;
-    }
-
-    function updateQtdDisponivelByQtdSolicitada(valorAtual, idEquipamento) {
-        $.ajax({
-            url: controllerToAdmin,
-            type: 'POST',
-            data: {
-                action: 'EquipamentoLogica.updateQtdDisponivelByIdEquipamento',
-                idEquipamento: idEquipamento,
-                valorAtual: valorAtual
-            }, success: function (data, textStatus, jqXHR) {
-                console.log("Deu certo");
-            }
-        });
+        return novaQuantidade;
     }
 
     function habilitarInputsEquipamentos() {
