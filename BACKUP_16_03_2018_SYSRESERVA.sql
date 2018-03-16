@@ -71,6 +71,31 @@ INSERT INTO `bloco_evento` VALUES (1,1,'Bloco Administrativo',1),(2,1,'Restauran
 UNLOCK TABLES;
 
 --
+-- Table structure for table `dias_semana`
+--
+
+DROP TABLE IF EXISTS `dias_semana`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `dias_semana` (
+  `dia_sem_id` int(11) NOT NULL AUTO_INCREMENT,
+  `dia_sem_nome` varchar(45) NOT NULL,
+  `dia_sem_codigo` int(11) NOT NULL,
+  PRIMARY KEY (`dia_sem_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `dias_semana`
+--
+
+LOCK TABLES `dias_semana` WRITE;
+/*!40000 ALTER TABLE `dias_semana` DISABLE KEYS */;
+INSERT INTO `dias_semana` VALUES (1,'Domingo',0),(2,'Segunda',1),(3,'Terça',2),(4,'Quarta',3),(5,'Quinta',4),(6,'Sexta',5),(7,'Sábado',6);
+/*!40000 ALTER TABLE `dias_semana` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `equipamentos_evento`
 --
 
@@ -92,7 +117,7 @@ CREATE TABLE `equipamentos_evento` (
 
 LOCK TABLES `equipamentos_evento` WRITE;
 /*!40000 ALTER TABLE `equipamentos_evento` DISABLE KEYS */;
-INSERT INTO `equipamentos_evento` VALUES (1,'Microfones','100','alveesbezerra13@gmail.com'),(2,'DataShow','200','anderson.alvesprogrammer@gmail.com');
+INSERT INTO `equipamentos_evento` VALUES (1,'Microfones','80','alveesbezerra13@gmail.com'),(2,'DataShow','160','anderson.alvesprogrammer@gmail.com');
 /*!40000 ALTER TABLE `equipamentos_evento` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -160,7 +185,7 @@ CREATE TABLE `evento_equipamento_utilizado` (
   `eve_equi_uti_data_inicio` datetime NOT NULL,
   `eve_equi_uti_data_fim` datetime NOT NULL,
   PRIMARY KEY (`eve_equi_uti_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -169,7 +194,6 @@ CREATE TABLE `evento_equipamento_utilizado` (
 
 LOCK TABLES `evento_equipamento_utilizado` WRITE;
 /*!40000 ALTER TABLE `evento_equipamento_utilizado` DISABLE KEYS */;
-INSERT INTO `evento_equipamento_utilizado` VALUES (1,1,0,'-','2018-03-14 08:00:00','2018-03-14 11:00:00');
 /*!40000 ALTER TABLE `evento_equipamento_utilizado` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -188,7 +212,7 @@ CREATE TABLE `evento_refeicao_utilizado` (
   `eve_ref_uti_data_inicio` datetime NOT NULL,
   `eve_ref_uti_data_fim` datetime NOT NULL,
   PRIMARY KEY (`eve_ref_uti_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -197,7 +221,6 @@ CREATE TABLE `evento_refeicao_utilizado` (
 
 LOCK TABLES `evento_refeicao_utilizado` WRITE;
 /*!40000 ALTER TABLE `evento_refeicao_utilizado` DISABLE KEYS */;
-INSERT INTO `evento_refeicao_utilizado` VALUES (1,1,0,'-','2018-03-14 08:00:00','2018-03-14 11:00:00');
 /*!40000 ALTER TABLE `evento_refeicao_utilizado` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -215,7 +238,7 @@ CREATE TABLE `evento_servico_utilizado` (
   `eve_ser_uti_data_inicio` datetime NOT NULL,
   `eve_ser_uti_data_fim` datetime NOT NULL,
   PRIMARY KEY (`eve_ser_uti_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -224,7 +247,6 @@ CREATE TABLE `evento_servico_utilizado` (
 
 LOCK TABLES `evento_servico_utilizado` WRITE;
 /*!40000 ALTER TABLE `evento_servico_utilizado` DISABLE KEYS */;
-INSERT INTO `evento_servico_utilizado` VALUES (1,1,0,'2018-03-14 08:00:00','2018-03-14 11:00:00');
 /*!40000 ALTER TABLE `evento_servico_utilizado` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -271,6 +293,7 @@ CREATE TABLE `eventos` (
   `eve_comeco` datetime DEFAULT NULL,
   `eve_fim` datetime DEFAULT NULL,
   `eve_tip_rep_id` int(11) NOT NULL,
+  `eve_fkdia_codigo` int(11) NOT NULL,
   `eve_aula_id` int(11) NOT NULL,
   `eve_amb_id` int(11) NOT NULL,
   `eve_usu_id` int(11) NOT NULL,
@@ -279,7 +302,7 @@ CREATE TABLE `eventos` (
   KEY `fk_eventos_ambiente_evento_idx` (`eve_amb_id`),
   CONSTRAINT `fk_eventos_ambiente_evento` FOREIGN KEY (`eve_amb_id`) REFERENCES `ambiente_evento` (`amb_eve_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_eventos_evento_tipo_repeticao1` FOREIGN KEY (`eve_tip_rep_id`) REFERENCES `evento_tipo_repeticao` (`eve_tip_rep_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -288,7 +311,6 @@ CREATE TABLE `eventos` (
 
 LOCK TABLES `eventos` WRITE;
 /*!40000 ALTER TABLE `eventos` DISABLE KEYS */;
-INSERT INTO `eventos` VALUES (1,'Teste de Evento','Teste de Evento','Anderson','(85) 98888-8888','anderson@gmail.com','2018-03-14 08:00:00','2018-03-14 11:00:00','2018-03-14 08:00:00','2018-03-14 11:00:00',1,2,1,1);
 /*!40000 ALTER TABLE `eventos` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -458,4 +480,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-03-13 16:39:36
+-- Dump completed on 2018-03-16 16:26:38

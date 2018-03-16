@@ -113,12 +113,12 @@ class EventoDao {
         }
     }
 
-    public function insertEventoSelecionado($idUsuario, $nomeEvento, $descricaoEvento, $solicitanteEvento, $telefoneSolicitante, $emailSolicitante, $dataInicioEvento, $dataFimEvento, $eventoComeco, $eventoFim, $ambienteEvento, $eventoTipoRepeticao, $idAula) {
+    public function insertEventoSelecionado($idUsuario, $nomeEvento, $descricaoEvento, $solicitanteEvento, $telefoneSolicitante, $emailSolicitante, $dataInicioEvento, $dataFimEvento, $eventoComeco, $eventoFim, $ambienteEvento, $eventoTipoRepeticao, $idAula, $diaNumero) {
 
         try {
 
-            $sql = "INSERT INTO eventos (eve_nome, eve_desc, eve_solicitante, eve_sol_tel, eve_sol_email, eve_data_inicio, eve_data_fim, eve_comeco, eve_fim, eve_tip_rep_id, eve_aula_id, eve_amb_id, eve_usu_id)"
-                    . "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)";
+            $sql = "INSERT INTO eventos (eve_nome, eve_desc, eve_solicitante, eve_sol_tel, eve_sol_email, eve_data_inicio, eve_data_fim, eve_comeco, eve_fim, eve_tip_rep_id, eve_aula_id, eve_amb_id, eve_usu_id, eve_fkdia_codigo)"
+                    . "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
             $p_sql = ConexaoMysql::getInstance()->prepare($sql);
             $p_sql->bindParam(1, $nomeEvento);
             $p_sql->bindParam(2, $descricaoEvento);
@@ -133,6 +133,7 @@ class EventoDao {
             $p_sql->bindParam(11, $idAula);
             $p_sql->bindParam(12, $ambienteEvento);
             $p_sql->bindParam(13, $idUsuario);
+            $p_sql->bindParam(14, $diaNumero);
             return $p_sql->execute();
         } catch (Exception $e) {
             echo $e->getTraceAsString();

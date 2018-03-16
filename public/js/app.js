@@ -417,11 +417,11 @@ $(function () {
             dayClick: function (date, jsEvent, view) {
                 console.log("Clicou no dia: " + date.format());
             },
-            select: function (start, end) {
+            select: function (start, end, date) {
+                var diaNumero = start.day();
                 var arrayStartEnd = [];
                 start = $.fullCalendar.formatDate(start, "YYYY-MM-DD HH:mm:ss");
                 end = $.fullCalendar.formatDate(end, "YYYY-MM-DD HH:mm:ss");
-
                 dataInicioToArray = dataInicio.substr(6, 4) + "-" + dataInicio.substr(3, 2) + "-" + dataInicio.substr(0, 2) + " " + start.substr(11, 8);
                 dataFimToArray = dataFim.substr(6, 4) + "-" + dataFim.substr(3, 2) + "-" + dataFim.substr(0, 2) + " " + end.substr(11, 8);
                 var ambienteEvento = $("#sel-ambiente").val();
@@ -431,11 +431,12 @@ $(function () {
                         arrayStartEnd.push(idEventWeekOrHalfYear);
                         arrayStartEnd.push(dataInicioToArray);
                         arrayStartEnd.push(dataFimToArray);
+                        arrayStartEnd.push(diaNumero);
                         arrayValoresCompletos.push(arrayStartEnd);
                         for (var i = 0; i < arrayValoresCompletos.length; i++) {
-                            console.log(arrayValoresCompletos[i][0]);
-                            console.log(arrayValoresCompletos[i][1]);
-                            console.log(arrayValoresCompletos[i][2]);
+//                            console.log(arrayValoresCompletos[i][0]);
+//                            console.log(arrayValoresCompletos[i][1]);
+//                            console.log(arrayValoresCompletos[i][2]);
                         }
                         $("#calendarDayOfWeek").fullCalendar('addEventSource', [{
                                 id: idEventWeekOrHalfYear,
