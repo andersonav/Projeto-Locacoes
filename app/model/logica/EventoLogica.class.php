@@ -91,28 +91,35 @@ class EventoLogica {
         $horaInicioEvento = json_decode(stripslashes($_REQUEST['horaInicioEvento']));
         $horaFimEvento = json_decode(stripslashes($_REQUEST['horaFimEvento']));
         $contador = 0;
+        $tamanhoArray = count($horaInicioEvento);
         $ambienteEvento = $_REQUEST['ambienteEvento'];
         $eventoTipoRepeticao = $_REQUEST['eventoTipoRepeticao'];
         $idAula = $_REQUEST['idAula'];
         $eventoComeco = $dataInicioEvento;
         $eventoFinal = $dataFimEvento;
         while (date_format(date_create($dataInicioEvento), "Y-m-d H:i") <= date_format(date_create($dataFimEvento), "Y-m-d H:i")) {
-            if ($contador == 7) {
-                $contador = 0;
-            }
             $dataInicioToValorDia = date_format(date_create($dataInicioEvento), 'Y-m-d');
             $diaNumero = date("w", strtotime($dataInicioToValorDia));
+            if ($diaNumero == 6 || $contador == $tamanhoArray) {
+                $contador = 0;
+            }
             $valorDiaRecebido = $horaInicioEvento[$contador][3];
             if ($diaNumero == $valorDiaRecebido) {
                 $horarioInicio = date_format(date_create($horaInicioEvento[$contador][1]), "H:i");
                 $horarioFinal = date_format(date_create($horaFimEvento[$contador][2]), "H:i");
                 $dataInicioEventoDiario = date_format(date_create($dataInicioEvento), "Y-m-d") . ' ' . $horarioInicio;
                 $dataFimEventoDiario = date_format(date_create($dataInicioEvento), "Y-m-d") . ' ' . $horarioFinal;
-                EventoDao::getInstance()->insertEventoSelecionado($idUsuario, $nomeEvento, $descricaoEvento, $solicitanteEvento, $telefoneSolicitante, $emailSolicitante, $dataInicioEventoDiario, $dataFimEventoDiario, $eventoComeco, $eventoFinal, $ambienteEvento, $eventoTipoRepeticao, $idAula, $diaNumero);
+                $objeto = EventoDao::getInstance()->verifyDates($dataInicioEventoDiario, $dataFimEventoDiario, $ambienteEvento, $diaNumero);
+//                print_r($objeto);
+                if (count($objeto) > 0) {
+                    $dataInicioEvento = date('Y-m-d H:i', strtotime($dataFimEvento));
+                    return EventoView::getInstance()->modalErrorVerifyDates($objeto);
+                } else {
+                    EventoDao::getInstance()->insertEventoSelecionado($idUsuario, $nomeEvento, $descricaoEvento, $solicitanteEvento, $telefoneSolicitante, $emailSolicitante, $dataInicioEventoDiario, $dataFimEventoDiario, $eventoComeco, $eventoFinal, $ambienteEvento, $eventoTipoRepeticao, $idAula, $diaNumero);
+                    $contador++;
+                }
             }
             $dataInicioEvento = date('Y-m-d H:i', strtotime("+1 days", strtotime($dataInicioEvento)));
-
-            $contador++;
         }
     }
 
@@ -146,8 +153,9 @@ class EventoLogica {
         $dataInicio = $_REQUEST['dataInicio'];
         $dataFim = $_REQUEST['dataFim'];
         $ambienteEvento = $_REQUEST['ambienteEvento'];
-
-        return EventoView::getInstance()->jsonVerifyDates(EventoDao::getInstance()->verifyDates($dataInicio, $dataFim, $ambienteEvento));
+        $dataInicioToValorDia = date_format(date_create($dataInicio), 'Y-m-d');
+        $diaNumero = date("w", strtotime($dataInicioToValorDia));
+        return EventoView::getInstance()->jsonVerifyDates(EventoDao::getInstance()->verifyDates($dataInicio, $dataFim, $ambienteEvento, $diaNumero));
     }
 
     public function getEventByAmbienteAndStartAndEnd() {

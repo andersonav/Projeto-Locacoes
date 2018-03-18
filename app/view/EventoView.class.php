@@ -232,4 +232,14 @@ class EventoView {
         echo json_encode($evento);
     }
 
+    public function modalErrorVerifyDates($evento) {
+        foreach ($evento as $event) {
+            ?>
+            <h4>Alerta</h4>
+            <p>No dia <?= date_format(date_create($event->getDataInicioEvento()), 'd/m/Y'); ?> às <?= date_format(date_create($event->getDataInicioEvento()), 'H:i:s'); ?>,
+                já existe um evento cadastrado, por favor mude o horário, do mesmo.</p>
+            <?php
+        }
+    }
+
 }

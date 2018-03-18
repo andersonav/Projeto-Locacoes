@@ -233,6 +233,15 @@
                         <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Fechar</a>
                     </div>
                 </div>
+                <div id="modalDatasIguaisToRepeticao" class="modal">
+                    <div class="modal-content contentTipoRepeticaoDataIgual">
+                        <h4>Alerta</h4>
+                        <p>No ambiente selecionado já existe um evento com esse horário, por favor selecione um novo ambiente ou um novo horário.</p>
+                    </div>
+                    <div class="modal-footer">
+                        <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Fechar</a>
+                    </div>
+                </div>
                 <div id="modalQuantidadeSolicitadaMaiorQueDisponivel" class="modal">
                     <div class="modal-content">
                         <h4>Alerta</h4>

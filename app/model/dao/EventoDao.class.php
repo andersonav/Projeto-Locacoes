@@ -218,7 +218,7 @@ class EventoDao {
         }
     }
 
-    public function verifyDates($dataInicio, $dataFim, $ambienteEvento) {
+    public function verifyDates($dataInicio, $dataFim, $ambienteEvento, $diaNumero) {
 
         try {
 
@@ -250,7 +250,7 @@ class EventoDao {
                     OR 
                     (DATE_FORMAT(eve_data_fim, '%H:%i') >= DATE_FORMAT(?, '%H:%i')
                     AND DATE_FORMAT(eve_data_inicio, '%H:%i') <= DATE_FORMAT(?, '%H:%i')))
-                    AND eve.eve_amb_id = ?";
+                    AND eve.eve_amb_id = ? AND eve.eve_fkdia_codigo = ?";
             $p_sql = ConexaoMysql::getInstance()->prepare($sql);
             $p_sql->bindParam(1, $dataInicio);
             $p_sql->bindParam(2, $dataFim);
@@ -265,6 +265,7 @@ class EventoDao {
             $p_sql->bindParam(11, $dataInicio);
             $p_sql->bindParam(12, $dataInicio);
             $p_sql->bindParam(13, $ambienteEvento);
+            $p_sql->bindParam(14, $diaNumero);
             $p_sql->execute();
 
             return $this->getListObjEvento($p_sql->fetchAll(PDO::FETCH_OBJ));

@@ -433,11 +433,7 @@ $(function () {
                         arrayStartEnd.push(dataFimToArray);
                         arrayStartEnd.push(diaNumero);
                         arrayValoresCompletos.push(arrayStartEnd);
-                        for (var i = 0; i < arrayValoresCompletos.length; i++) {
-//                            console.log(arrayValoresCompletos[i][0]);
-//                            console.log(arrayValoresCompletos[i][1]);
-//                            console.log(arrayValoresCompletos[i][2]);
-                        }
+//                        console.log(arrayValoresCompletos);
                         $("#calendarDayOfWeek").fullCalendar('addEventSource', [{
                                 id: idEventWeekOrHalfYear,
                                 start: start,
@@ -761,7 +757,7 @@ $(function () {
 
                                     }
                                     $("#modalAdicionarEventoClickDay").modal('close');
-                                    location.reload();
+//                                    location.reload();
                                 }
                             }
                         } else {
@@ -1073,7 +1069,15 @@ $(function () {
                     horaInicioEvento: jsonString,
                     horaFimEvento: jsonString
                 }, success: function (data, textStatus, jqXHR) {
-                    boolean = true;
+                    if (data) {
+                        $(".contentTipoRepeticaoDataIgual").html(data);
+                        $("#modalDatasIguaisToRepeticao").modal();
+                        $("#modalDatasIguaisToRepeticao").modal('open');
+                        boolean = false;
+                    } else {
+                        boolean = true;
+
+                    }
                 }
             });
         }
