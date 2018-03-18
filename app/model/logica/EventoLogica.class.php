@@ -105,18 +105,22 @@ class EventoLogica {
             }
             $valorDiaRecebido = $horaInicioEvento[$contador][3];
             if ($diaNumero == $valorDiaRecebido) {
-                $horarioInicio = date_format(date_create($horaInicioEvento[$contador][1]), "H:i");
-                $horarioFinal = date_format(date_create($horaFimEvento[$contador][2]), "H:i");
-                $dataInicioEventoDiario = date_format(date_create($dataInicioEvento), "Y-m-d") . ' ' . $horarioInicio;
-                $dataFimEventoDiario = date_format(date_create($dataInicioEvento), "Y-m-d") . ' ' . $horarioFinal;
-                $objeto = EventoDao::getInstance()->verifyDates($dataInicioEventoDiario, $dataFimEventoDiario, $ambienteEvento, $diaNumero);
-//                print_r($objeto);
-                if (count($objeto) > 0) {
-                    $dataInicioEvento = date('Y-m-d H:i', strtotime($dataFimEvento));
-                    return EventoView::getInstance()->modalErrorVerifyDates($objeto);
-                } else {
-                    EventoDao::getInstance()->insertEventoSelecionado($idUsuario, $nomeEvento, $descricaoEvento, $solicitanteEvento, $telefoneSolicitante, $emailSolicitante, $dataInicioEventoDiario, $dataFimEventoDiario, $eventoComeco, $eventoFinal, $ambienteEvento, $eventoTipoRepeticao, $idAula, $diaNumero);
-                    $contador++;
+                foreach ($horaInicioEvento as $value) {
+                    if ($diaNumero == $value[3]) {
+                        $horarioInicio = date_format(date_create($value[1]), "H:i");
+                        $horarioFinal = date_format(date_create($value[2]), "H:i");
+                        $dataInicioEventoDiario = date_format(date_create($dataInicioEvento), "Y-m-d") . ' ' . $horarioInicio;
+                        $dataFimEventoDiario = date_format(date_create($dataInicioEvento), "Y-m-d") . ' ' . $horarioFinal;
+                        $objeto = EventoDao::getInstance()->verifyDates($dataInicioEventoDiario, $dataFimEventoDiario, $ambienteEvento, $diaNumero);
+//                          print_r($objeto);
+                        if (count($objeto) > 0) {
+                            $dataInicioEvento = date('Y-m-d H:i', strtotime($dataFimEvento));
+                            return EventoView::getInstance()->modalErrorVerifyDates($objeto);
+                        } else {
+                            EventoDao::getInstance()->insertEventoSelecionado($idUsuario, $nomeEvento, $descricaoEvento, $solicitanteEvento, $telefoneSolicitante, $emailSolicitante, $dataInicioEventoDiario, $dataFimEventoDiario, $eventoComeco, $eventoFinal, $ambienteEvento, $eventoTipoRepeticao, $idAula, $diaNumero);
+                            $contador++;
+                        }
+                    }
                 }
             }
             $dataInicioEvento = date('Y-m-d H:i', strtotime("+1 days", strtotime($dataInicioEvento)));
