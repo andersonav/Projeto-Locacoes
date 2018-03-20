@@ -42,6 +42,7 @@ class EventoDao {
         $evento->setAulaIdEvento($row->eve_aula_id);
         $evento->setAulaDescricaoEvento($row->eve_aula_desc);
         $evento->setNomeProfessorEvento($row->eve_aula_det_pro);
+        $evento->setDiaSemanaDescricao(utf8_decode($row->dia_sem_nome));
 
         return $evento;
     }
@@ -63,13 +64,14 @@ class EventoDao {
                     eve.eve_solicitante, eve.eve_data_inicio as start, eve.eve_data_fim as end,
                     amb.amb_eve_id, amb.amb_eve_desc, blo.blo_eve_id, blo.blo_eve_desc, sev.set_eve_id,
                     sev.set_eve_desc, evt.eve_tip_rep_id, evt.eve_tip_rep_desc,
-                    eva.eve_aula_id, eva.eve_aula_desc, evad.eve_aula_det_id, evad.eve_aula_det_pro from eventos eve 
+                    eva.eve_aula_id, eva.eve_aula_desc, diaSem.dia_sem_nome, evad.eve_aula_det_id, evad.eve_aula_det_pro from eventos eve 
                     JOIN ambiente_evento amb ON amb.amb_eve_id = eve.eve_amb_id
                     JOIN bloco_evento blo ON blo.blo_eve_id = amb.amb_blo_eve_id 
                     JOIN setor_evento sev ON sev.set_eve_id = blo.blo_set_eve_id
                     JOIN evento_tipo_repeticao evt ON evt.eve_tip_rep_id = eve.eve_tip_rep_id 
                     JOIN evento_aula eva ON eva.eve_aula_id = eve.eve_aula_id
-                    LEFT JOIN evento_aula_detalhes evad ON evad.eve_aula_det_fkeve_id = eve.eve_aula_id 
+                    JOIN dias_semana diaSem ON diaSem.dia_sem_codigo = eve.eve_fkdia_codigo
+                    LEFT JOIN evento_aula_detalhes evad ON evad.eve_aula_det_fkeve_id = eve.eve_id
                     WHERE eve.eve_amb_id = ? AND blo.blo_eve_id = ? AND sev.set_eve_id = ? AND date(eve.eve_data_inicio) = date(eve.eve_data_fim);";
             $p_sql = ConexaoMysql::getInstance()->prepare($sql);
             $p_sql->bindParam(1, $idAmbiente);
@@ -91,13 +93,14 @@ class EventoDao {
                     eve.eve_solicitante, eve.eve_data_inicio as start, eve.eve_data_fim as end,
                     amb.amb_eve_id, amb.amb_eve_desc, blo.blo_eve_id, blo.blo_eve_desc, sev.set_eve_id,
                     sev.set_eve_desc, evt.eve_tip_rep_id, evt.eve_tip_rep_desc,
-                    eva.eve_aula_id, eva.eve_aula_desc, evad.eve_aula_det_id, evad.eve_aula_det_pro from eventos eve 
+                    eva.eve_aula_id, eva.eve_aula_desc, evad.eve_aula_det_id, evad.eve_aula_det_pro, diaSem.dia_sem_nome from eventos eve 
                     JOIN ambiente_evento amb ON amb.amb_eve_id = eve.eve_amb_id
                     JOIN bloco_evento blo ON blo.blo_eve_id = amb.amb_blo_eve_id 
                     JOIN setor_evento sev ON sev.set_eve_id = blo.blo_set_eve_id
                     JOIN evento_tipo_repeticao evt ON evt.eve_tip_rep_id = eve.eve_tip_rep_id 
                     JOIN evento_aula eva ON eva.eve_aula_id = eve.eve_aula_id
-                    LEFT JOIN evento_aula_detalhes evad ON evad.eve_aula_det_fkeve_id = eve.eve_aula_id 
+                    JOIN dias_semana diaSem ON diaSem.dia_sem_codigo = eve.eve_fkdia_codigo
+                    LEFT JOIN evento_aula_detalhes evad ON evad.eve_aula_det_fkeve_id = eve.eve_id 
                     WHERE eve.eve_amb_id = ? AND blo.blo_eve_id = ? AND sev.set_eve_id = ? AND date(eve.eve_data_inicio) = date(eve.eve_data_fim) AND eve.eve_data_inicio >= ? AND eve.eve_data_fim <= ?";
             $p_sql = ConexaoMysql::getInstance()->prepare($sql);
             $p_sql->bindParam(1, $idAmbiente);
@@ -148,13 +151,14 @@ class EventoDao {
                     eve.eve_solicitante, eve.eve_data_inicio as start, eve.eve_data_fim as end,
                     amb.amb_eve_id, amb.amb_eve_desc, blo.blo_eve_id, blo.blo_eve_desc, sev.set_eve_id,
                     sev.set_eve_desc, evt.eve_tip_rep_id, evt.eve_tip_rep_desc,
-                    eva.eve_aula_id, eva.eve_aula_desc, evad.eve_aula_det_id, evad.eve_aula_det_pro from eventos eve 
+                    eva.eve_aula_id, eva.eve_aula_desc, evad.eve_aula_det_id, evad.eve_aula_det_pro, diaSem.dia_sem_nome from eventos eve 
                     JOIN ambiente_evento amb ON amb.amb_eve_id = eve.eve_amb_id
                     JOIN bloco_evento blo ON blo.blo_eve_id = amb.amb_blo_eve_id 
                     JOIN setor_evento sev ON sev.set_eve_id = blo.blo_set_eve_id
                     JOIN evento_tipo_repeticao evt ON evt.eve_tip_rep_id = eve.eve_tip_rep_id 
                     JOIN evento_aula eva ON eva.eve_aula_id = eve.eve_aula_id
-                    LEFT JOIN evento_aula_detalhes evad ON evad.eve_aula_det_fkeve_id = eve.eve_aula_id 
+                    JOIN dias_semana diaSem ON diaSem.dia_sem_codigo = eve.eve_fkdia_codigo
+                    LEFT JOIN evento_aula_detalhes evad ON evad.eve_aula_det_fkeve_id = eve.eve_id 
                     WHERE eve.eve_amb_id = ? AND eve.eve_comeco = ? AND eve.eve_fim = ?";
             $p_sql = ConexaoMysql::getInstance()->prepare($sql);
             $p_sql->bindParam(1, $ambienteEvento);
@@ -174,13 +178,14 @@ class EventoDao {
                     eve.eve_solicitante, eve.eve_data_inicio as start, eve.eve_data_fim as end,
                     amb.amb_eve_id, amb.amb_eve_desc, blo.blo_eve_id, blo.blo_eve_desc, sev.set_eve_id,
                     sev.set_eve_desc, evt.eve_tip_rep_id, evt.eve_tip_rep_desc,
-                    eva.eve_aula_id, eva.eve_aula_desc, evad.eve_aula_det_id, evad.eve_aula_det_pro from eventos eve 
+                    eva.eve_aula_id, eva.eve_aula_desc, evad.eve_aula_det_id, evad.eve_aula_det_pro, diaSem.dia_sem_nome from eventos eve 
                     JOIN ambiente_evento amb ON amb.amb_eve_id = eve.eve_amb_id
                     JOIN bloco_evento blo ON blo.blo_eve_id = amb.amb_blo_eve_id 
                     JOIN setor_evento sev ON sev.set_eve_id = blo.blo_set_eve_id
                     JOIN evento_tipo_repeticao evt ON evt.eve_tip_rep_id = eve.eve_tip_rep_id 
                     JOIN evento_aula eva ON eva.eve_aula_id = eve.eve_aula_id
-                    LEFT JOIN evento_aula_detalhes evad ON evad.eve_aula_det_fkeve_id = eve.eve_aula_id 
+                    JOIN dias_semana diaSem ON diaSem.dia_sem_codigo = eve.eve_fkdia_codigo
+                    LEFT JOIN evento_aula_detalhes evad ON evad.eve_aula_det_fkeve_id = eve.eve_id
                     WHERE eve.eve_id = ? ";
             $p_sql = ConexaoMysql::getInstance()->prepare($sql);
             $p_sql->bindParam(1, $idEvento);
@@ -198,13 +203,14 @@ class EventoDao {
                     eve.eve_solicitante, eve.eve_data_inicio as start, eve.eve_data_fim as end,
                     amb.amb_eve_id, amb.amb_eve_desc, blo.blo_eve_id, blo.blo_eve_desc, sev.set_eve_id,
                     sev.set_eve_desc, evt.eve_tip_rep_id, evt.eve_tip_rep_desc,
-                    eva.eve_aula_id, eva.eve_aula_desc, evad.eve_aula_det_id, evad.eve_aula_det_pro from eventos eve 
+                    eva.eve_aula_id, eva.eve_aula_desc, evad.eve_aula_det_id, evad.eve_aula_det_pro, diaSem.dia_sem_nome from eventos eve 
                     JOIN ambiente_evento amb ON amb.amb_eve_id = eve.eve_amb_id
                     JOIN bloco_evento blo ON blo.blo_eve_id = amb.amb_blo_eve_id 
                     JOIN setor_evento sev ON sev.set_eve_id = blo.blo_set_eve_id
                     JOIN evento_tipo_repeticao evt ON evt.eve_tip_rep_id = eve.eve_tip_rep_id 
                     JOIN evento_aula eva ON eva.eve_aula_id = eve.eve_aula_id
-                    LEFT JOIN evento_aula_detalhes evad ON evad.eve_aula_det_fkeve_id = eve.eve_aula_id
+                    JOIN dias_semana diaSem ON diaSem.dia_sem_codigo = eve.eve_fkdia_codigo
+                    LEFT JOIN evento_aula_detalhes evad ON evad.eve_aula_det_fkeve_id = eve.eve_id
                     WHERE eve.eve_nome LIKE '%" . $valorDigitado . "%' OR eve.eve_desc LIKE '%" . $valorDigitado . "%'
                     OR eve.eve_solicitante LIKE '%" . $valorDigitado . "%'
                     OR amb.amb_eve_desc LIKE '%" . $valorDigitado . "%'
@@ -226,14 +232,15 @@ class EventoDao {
                     eve.eve_solicitante, eve.eve_data_inicio as start, eve.eve_data_fim as end,
                     amb.amb_eve_id, amb.amb_eve_desc, blo.blo_eve_id, blo.blo_eve_desc, sev.set_eve_id,
                     sev.set_eve_desc, evt.eve_tip_rep_id, evt.eve_tip_rep_desc,
-                    eva.eve_aula_id, eva.eve_aula_desc, evad.eve_aula_det_id, evad.eve_aula_det_pro
+                    eva.eve_aula_id, eva.eve_aula_desc, evad.eve_aula_det_id, evad.eve_aula_det_pro, diaSem.dia_sem_nome
                     FROM eventos eve
                     JOIN ambiente_evento amb ON amb.amb_eve_id = eve.eve_amb_id
                     JOIN bloco_evento blo ON blo.blo_eve_id = amb.amb_blo_eve_id 
                     JOIN setor_evento sev ON sev.set_eve_id = blo.blo_set_eve_id
                     JOIN evento_tipo_repeticao evt ON evt.eve_tip_rep_id = eve.eve_tip_rep_id 
                     JOIN evento_aula eva ON eva.eve_aula_id = eve.eve_aula_id
-                    LEFT JOIN evento_aula_detalhes evad ON evad.eve_aula_det_fkeve_id = eve.eve_aula_id 
+                    JOIN dias_semana diaSem ON diaSem.dia_sem_codigo = eve.eve_fkdia_codigo
+                    LEFT JOIN evento_aula_detalhes evad ON evad.eve_aula_det_fkeve_id = eve.eve_id
                     WHERE DATE(eve_data_inicio) >= DATE(?) 
                     AND DATE(eve_data_fim) <= DATE(?)
                     AND ((DATE_FORMAT(eve_data_inicio, '%H:%i') >= DATE_FORMAT(?, '%H:%i')

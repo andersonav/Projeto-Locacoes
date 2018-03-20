@@ -37,6 +37,7 @@ class Evento {
     public $equipamentoIdEvento;
     public $equipamentoDescricaoEvento;
     public $equipamentoQtdUtilizadaEvento;
+    public $diaSemanaDescricao;
 
     function getIdEvento() {
         return $this->idEvento;
@@ -118,6 +119,10 @@ class Evento {
         return $this->equipamentoQtdUtilizadaEvento;
     }
 
+    function getDiaSemanaDescricao() {
+        return $this->diaSemanaDescricao;
+    }
+
     function setIdEvento($idEvento) {
         $this->idEvento = $idEvento;
     }
@@ -196,6 +201,10 @@ class Evento {
 
     function setEquipamentoQtdUtilizadaEvento($equipamentoQtdUtilizadaEvento) {
         $this->equipamentoQtdUtilizadaEvento = $equipamentoQtdUtilizadaEvento;
+    }
+
+    function setDiaSemanaDescricao($diaSemanaDescricao) {
+        $this->diaSemanaDescricao = $diaSemanaDescricao;
     }
 
 }

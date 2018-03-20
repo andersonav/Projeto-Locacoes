@@ -426,26 +426,19 @@ $(function () {
                 dataFimToArray = dataFim.substr(6, 4) + "-" + dataFim.substr(3, 2) + "-" + dataFim.substr(0, 2) + " " + end.substr(11, 8);
                 var ambienteEvento = $("#sel-ambiente").val();
                 if (ambienteEvento != null) {
-                    var boolean = verifyDates(dataInicioToArray, dataFimToArray, ambienteEvento);
-                    if (boolean == true) {
-                        arrayStartEnd.push(idEventWeekOrHalfYear);
-                        arrayStartEnd.push(dataInicioToArray);
-                        arrayStartEnd.push(dataFimToArray);
-                        arrayStartEnd.push(diaNumero);
-                        arrayValoresCompletos.push(arrayStartEnd);
+                    arrayStartEnd.push(idEventWeekOrHalfYear);
+                    arrayStartEnd.push(dataInicioToArray);
+                    arrayStartEnd.push(dataFimToArray);
+                    arrayStartEnd.push(diaNumero);
+                    arrayValoresCompletos.push(arrayStartEnd);
 //                        console.log(arrayValoresCompletos);
-                        $("#calendarDayOfWeek").fullCalendar('addEventSource', [{
-                                id: idEventWeekOrHalfYear,
-                                start: start,
-                                end: end,
-                                block: true
-                            }, ]);
-                        $("#calendarDayOfWeek").fullCalendar("unselect");
-                    } else {
-                        $("#modalDatasIguais").modal();
-                        $("#modalDatasIguais").modal("open");
-                    }
-
+                    $("#calendarDayOfWeek").fullCalendar('addEventSource', [{
+                            id: idEventWeekOrHalfYear,
+                            start: start,
+                            end: end,
+                            block: true
+                        }, ]);
+                    $("#calendarDayOfWeek").fullCalendar("unselect");
                 } else {
                     $("#modalAmbienteNulo").modal();
                     $("#modalAmbienteNulo").modal("open");
@@ -725,44 +718,38 @@ $(function () {
                         $("#modalDataInicioMaiorQueFinal").modal();
                         $("#modalDataInicioMaiorQueFinal").modal('open');
                     } else {
-                        var valorBoolean = verifyDates(inicio, fim, ambienteEvento);
-                        if (valorBoolean == true) {
-                            var nomeProfessor = $(".nomeProfessor").val();
-                            if ((idAula == 1) && (nomeProfessor == "")) {
-                                $("#modalCamposNulos").modal();
-                                $("#modalCamposNulos").modal('open');
-                            } else {
-                                if (insertEventoSelecionado(idUsuario, nomeEvento, solicitanteEvento, telefoneSolicitante, emailSolicitante, tipoEvento, blocoEvento, ambienteEvento, tipoRepeticao, idAula, descricaoEvento, inicio, fim) == true) {
-                                    if (tipoRepeticao == 1) {
-                                        var valorIdEvento = getEventByAmbienteAndStartAndEnd(ambienteEvento, inicio, fim);
-                                        if (idAula == 1) {
-                                            for (var i = 0; i < valorIdEvento.length; i++) {
-                                                insertIntoTableAulaDetalhes(valorIdEvento[i], idAula, nomeProfessor);
-                                            }
-                                        }
-                                        for (var i = 0; i < valorIdEvento.length; i++) {
-                                            checkboxToEquipamentServiceRefeicao(valorIdEvento[i], inicio, fim);
-                                        }
-
-                                    } else {
-                                        var valorIdEventoArray = getEventByAmbienteAndStartAndEnd(ambienteEvento, inicio, fim);
-                                        if (idAula == 1) {
-                                            for (var i = 0; i < valorIdEventoArray.length; i++) {
-                                                insertIntoTableAulaDetalhes(valorIdEventoArray[i], idAula, nomeProfessor);
-                                            }
-                                        }
-                                        for (var i = 0; i < valorIdEventoArray.length; i++) {
-                                            checkboxToEquipamentServiceRefeicao(valorIdEventoArray[i], inicio, fim);
-                                        }
-
-                                    }
-                                    $("#modalAdicionarEventoClickDay").modal('close');
-//                                    location.reload();
-                                }
-                            }
+                        var nomeProfessor = $(".nomeProfessor").val();
+                        if ((idAula == 1) && (nomeProfessor == "")) {
+                            $("#modalCamposNulos").modal();
+                            $("#modalCamposNulos").modal('open');
                         } else {
-                            $("#modalDatasIguais").modal();
-                            $("#modalDatasIguais").modal('open');
+                            if (insertEventoSelecionado(idUsuario, nomeEvento, solicitanteEvento, telefoneSolicitante, emailSolicitante, tipoEvento, blocoEvento, ambienteEvento, tipoRepeticao, idAula, descricaoEvento, inicio, fim) == true) {
+                                if (tipoRepeticao == 1) {
+                                    var valorIdEvento = getEventByAmbienteAndStartAndEnd(ambienteEvento, inicio, fim);
+                                    if (idAula == 1) {
+                                        for (var i = 0; i < valorIdEvento.length; i++) {
+                                            insertIntoTableAulaDetalhes(valorIdEvento[i], idAula, nomeProfessor);
+                                        }
+                                    }
+                                    for (var i = 0; i < valorIdEvento.length; i++) {
+                                        checkboxToEquipamentServiceRefeicao(valorIdEvento[i], inicio, fim);
+                                    }
+
+                                } else {
+                                    var valorIdEventoArray = getEventByAmbienteAndStartAndEnd(ambienteEvento, inicio, fim);
+                                    if (idAula == 1) {
+                                        for (var i = 0; i < valorIdEventoArray.length; i++) {
+                                            insertIntoTableAulaDetalhes(valorIdEventoArray[i], idAula, nomeProfessor);
+                                        }
+                                    }
+                                    for (var i = 0; i < valorIdEventoArray.length; i++) {
+                                        checkboxToEquipamentServiceRefeicao(valorIdEventoArray[i], inicio, fim);
+                                    }
+
+                                }
+                                $("#modalAdicionarEventoClickDay").modal('close');
+                                location.reload();
+                            }
                         }
                     }
 

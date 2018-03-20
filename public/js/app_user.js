@@ -61,8 +61,10 @@ $(function () {
                 center: 'title',
                 right: 'month,agendaDay'
             },
-            navLinks: true,
-            selectable: true,
+            allDaySlot: false,
+            height: 700,
+            navLinks: false,
+            selectable: false,
             selectHelper: true,
             editable: false,
             eventLimit: true,
@@ -170,6 +172,8 @@ $(function () {
             slotLabelInterval: 30,
             slotLabelFormat: 'HH:mm',
             slotMinutes: 30,
+            allDaySlot: false,
+            height: 700,
             events: function (start, end, timezone, callback) {
                 $.ajax({
                     url: controllerToUser,
@@ -297,30 +301,24 @@ $(function () {
 
     function pickDataInicio() {
         $('.dataInicio').pickadate({
+            container: 'body',
             selectMonths: true,
-            selectYears: 15,
-            // Título dos botões de navegação
+            selectYears: 1,
             labelMonthNext: 'Próximo Mês',
             labelMonthPrev: 'Mês Anterior',
-            // Título dos seletores de mês e ano
             labelMonthSelect: 'Selecione o Mês',
             labelYearSelect: 'Selecione o Ano',
-            // Meses e dias da semana
             monthsFull: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],
             monthsShort: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'],
             weekdaysFull: ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'],
             weekdaysShort: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab'],
-            // Letras da semana
             weekdaysLetter: ['D', 'S', 'T', 'Q', 'Q', 'S', 'S'],
-            //Botões
             today: 'Hoje',
             clear: 'Limpar',
             close: 'Confirmar',
-            // Formato da data que aparece no input
             format: 'dd/mm/yyyy',
             formatSubmit: 'yyyy-mm-dd',
             min: hoje,
-            // Dia possível de ser marcado
             onClose: function () {
                 $(document.activeElement).blur();
             }
@@ -329,30 +327,24 @@ $(function () {
 
     function pickDataFim() {
         $('.dataFim').pickadate({
+            container: 'body',
             selectMonths: true,
-            selectYears: 15,
-            // Título dos botões de navegação
+            selectYears: 1,
             labelMonthNext: 'Próximo Mês',
             labelMonthPrev: 'Mês Anterior',
-            // Título dos seletores de mês e ano
             labelMonthSelect: 'Selecione o Mês',
             labelYearSelect: 'Selecione o Ano',
-            // Meses e dias da semana
             monthsFull: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],
             monthsShort: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'],
             weekdaysFull: ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'],
             weekdaysShort: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab'],
-            // Letras da semana
             weekdaysLetter: ['D', 'S', 'T', 'Q', 'Q', 'S', 'S'],
-            //Botões
             today: 'Hoje',
             clear: 'Limpar',
             close: 'Confirmar',
-            // Formato da data que aparece no input
             format: 'dd/mm/yyyy',
             formatSubmit: 'yyyy-mm-dd',
             min: hoje,
-            // Dia possível de ser marcado
             onClose: function () {
                 $(document.activeElement).blur();
             }
@@ -441,30 +433,41 @@ $(function () {
         var idSetor = $("#sel-tipo-evento-pesquisa").val();
         var dataInicio = $(".dataInicio").val();
         var dataFim = $(this).val();
-        var camposNulos = 0;
-        $("select:enabled").each(function () {
-            var valor = $(this).val();
-            if (valor == null) {
-                camposNulos++;
-            }
-        });
-        if (camposNulos == 0 && dataInicio != "") {
+        if (dataFim < dataInicio) {
             var $input = $('.dataInicio').pickadate();
             var $inputDataFim = $('.dataFim').pickadate();
             var picker = $input.pickadate('picker');
             var pickerDataFim = $inputDataFim.pickadate('picker');
             picker.close();
             pickerDataFim.close();
-            calendarUserByDatesAndAmbiente(idAmbiente, idBloco, idSetor, dataInicio, dataFim);
+            $("#modalDataInicioMaiorQueFinal").modal();
+            $("#modalDataInicioMaiorQueFinal").modal('open');
         } else {
-            var $input = $('.dataInicio').pickadate();
-            var $inputDataFim = $('.dataFim').pickadate();
-            var picker = $input.pickadate('picker');
-            var pickerDataFim = $inputDataFim.pickadate('picker');
-            picker.close();
-            pickerDataFim.close();
-            $("#modalCamposNulos").modal();
-            $("#modalCamposNulos").modal('open');
+            var camposNulos = 0;
+            $("select:enabled").each(function () {
+                var valor = $(this).val();
+                if (valor == null) {
+                    camposNulos++;
+                }
+            });
+            if (camposNulos == 0 && dataInicio != "") {
+                var $input = $('.dataInicio').pickadate();
+                var $inputDataFim = $('.dataFim').pickadate();
+                var picker = $input.pickadate('picker');
+                var pickerDataFim = $inputDataFim.pickadate('picker');
+                picker.close();
+                pickerDataFim.close();
+                calendarUserByDatesAndAmbiente(idAmbiente, idBloco, idSetor, dataInicio, dataFim);
+            } else {
+                var $input = $('.dataInicio').pickadate();
+                var $inputDataFim = $('.dataFim').pickadate();
+                var picker = $input.pickadate('picker');
+                var pickerDataFim = $inputDataFim.pickadate('picker');
+                picker.close();
+                pickerDataFim.close();
+                $("#modalCamposNulos").modal();
+                $("#modalCamposNulos").modal('open');
+            }
         }
 
     });
