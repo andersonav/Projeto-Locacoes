@@ -195,6 +195,11 @@ input:enabled {
     color: #006B43 !important;
 }
 .tabs .indicator{
+    background-color: transparent !important;
+}
+
+.tabs .tab .active{
+    color: white !important;
     background-color: #006B43 !important;
 }
 

@@ -10,9 +10,9 @@
         <link href="public/css/materialize.min.css" rel="stylesheet" />
         <link href='public/css/fullcalendar.min.css' rel='stylesheet' />
         <link href='public/css/fullcalendar.print.min.css' rel='stylesheet' media='print' />
-        <link href='public/css/location_style.css' rel='stylesheet' />
         <link href='public/css/footer.css' rel='stylesheet' />
         <link href='public/css/estilo.css' rel='stylesheet' />
+        <link href='public/css/location_style.css' rel='stylesheet' />
         <script src='public/js/lib/moment.min.js'></script>
         <script src='public/js/lib/jquery.min.js'></script>
         <script src='public/js/lib/jquery-ui.min.js'></script>

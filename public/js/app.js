@@ -47,7 +47,7 @@ $(function () {
             header: {
                 left: 'prev,next today',
                 center: 'title',
-                right: 'month,agendaWeek,agendaDay'
+                right: 'agendaWeek,agendaDay'
             },
             navLinks: true,
             selectable: true,
@@ -118,6 +118,7 @@ $(function () {
                             $(".dataFim").val(fim);
                             $(".horaFim").val(horaFim);
                             $("#modalAdicionarEventoClickDay").modal({
+                                dismissible: false,
                                 complete: function () {
                                     start = null;
                                     end = null;
@@ -449,10 +450,8 @@ $(function () {
 //                var start = $.fullCalendar.formatDate(event.start, "YYYY-MM-DD HH:mm:ss");
                 for (var i = 0; i < arrayValoresCompletos.length; i++) {
                     if (arrayValoresCompletos[i][0] == event.id) {
-                        var index = arrayValoresCompletos[i].indexOf(arrayValoresCompletos[i][0]);
-                        if (index > -1) {
-                            arrayValoresCompletos.splice(index, 1);
-                        }
+//                        console.log(arrayValoresCompletos[i][0]);
+                        arrayValoresCompletos.splice(i, 1);
                     }
                 }
                 $("#calendarDayOfWeek").fullCalendar("removeEvents", event.id);
@@ -495,12 +494,14 @@ $(function () {
         $("#formHoraFim").removeAttr("disabled");
         $(".mostrarWhenClickBtn").removeClass("cadastroClickBtn");
         $("#modalAdicionarEventoClickDay").modal({
+            dismissible: false,
             complete: function () {
                 $('#form_add_event').each(function () {
                     this.reset();
                 });
             }
         });
+
         $("#modalAdicionarEventoClickDay").modal('open');
         var idSetor = $("#sel-tipo-evento-pesquisa").val();
         var idBloco = $("#sel-bloco-pesquisa").val();
@@ -550,6 +551,7 @@ $(function () {
             format: 'dd/mm/yyyy',
             formatSubmit: 'yyyy-mm-dd',
             min: hoje,
+
             onClose: function () {
                 $(document.activeElement).blur();
             }
@@ -589,8 +591,8 @@ $(function () {
             fromnow: 0,
             twelvehour: false,
             donetext: 'OK',
-            cleartext: 'Clear',
-            canceltext: 'Cancel',
+            cleartext: 'Limpar',
+            canceltext: 'Cancelar',
             autoclose: false,
             ampmclickable: true,
             aftershow: function () {}
@@ -604,8 +606,8 @@ $(function () {
             fromnow: 0,
             twelvehour: false,
             donetext: 'OK',
-            cleartext: 'Clear',
-            canceltext: 'Cancel',
+            cleartext: 'Limpar',
+            canceltext: 'Cancelar',
             autoclose: false,
             ampmclickable: true,
             aftershow: function () {}
@@ -724,6 +726,7 @@ $(function () {
                             $("#modalCamposNulos").modal('open');
                         } else {
                             if (insertEventoSelecionado(idUsuario, nomeEvento, solicitanteEvento, telefoneSolicitante, emailSolicitante, tipoEvento, blocoEvento, ambienteEvento, tipoRepeticao, idAula, descricaoEvento, inicio, fim) == true) {
+                                getQtdSolicitadaAndUpdateQtdDisponivel();
                                 if (tipoRepeticao == 1) {
                                     var valorIdEvento = getEventByAmbienteAndStartAndEnd(ambienteEvento, inicio, fim);
                                     if (idAula == 1) {
@@ -1295,7 +1298,7 @@ $(function () {
                 if (valorTd == 0) {
                     $(".tabelaServicos tbody").prepend('<tr><td colspan="6">Não há serviços disponíveis</td></tr>');
                 }
-                dataServicoMenorQueDataEvento();
+//                dataServicoMenorQueDataEvento();
             }
         });
     }
@@ -1356,20 +1359,18 @@ $(function () {
             compararQtdSolicitadaComQtdDisponivel(valorId, valorQtdSolicitada);
         });
 
-        $(".telefoneContatoSolicitante").on("keypress", function (event) {
-            if ((event.which < 48 || event.which > 57)) {
-                event.preventDefault();
+        $.mask.definitions['~'] = '[+-]';
+        $('.telefoneContatoSolicitante').focusout(function () {
+            var phone, element;
+            element = $(this);
+            element.unmask();
+            phone = element.val().replace(/\D/g, '');
+            if (phone.length > 10) {
+                element.mask("(99) 99999-999?9");
+            } else {
+                element.mask("(99) 9999-9999?9");
             }
-            if ($(this).val().length == 1) {
-                $(this).val('(' + $(this).val());
-            }
-            if ($(this).val().length == 3) {
-                $(this).val($(this).val() + ') ');
-            }
-            if ($(this).val().length == 10) {
-                $(this).val($(this).val() + '-');
-            }
-        });
+        }).trigger('focusout');
     }
 
     function compararQtdSolicitadaComQtdDisponivel(id, qtdSolicitada) {
@@ -1724,81 +1725,81 @@ $(function () {
         });
     }
 
-    function dataServicoMenorQueDataEvento() {
-        $(".txt-data-inicial-servico").change(function () {
-            var valorDataServico = $(this).val();
-            var valorId = $(this).attr('id');
-            var valorDataInicio = $("#formDataInicio").val();
-            var valorDataFim = $("#formDataFim").val();
-            if (compararData(valorDataServico, valorDataInicio, valorDataFim)) {
-                var $input = $('.txt-data-inicial-servico').pickadate();
-                var picker = $input.pickadate('picker');
-                picker.close();
-                $("#modalDataEquiSerRef").modal();
-                $("#modalDataEquiSerRef").modal('open');
-                $(".txt-data-inicial-servico#" + valorId).val(valorDataInicio);
-            }
-        });
-
-        $(".txt-hora-inicial-servico").change(function () {
-            var valorDataInicio = $("#formDataInicio").val();
-            var valorDataFim = $("#formDataFim").val();
-            var valorHoraServico = $(this).val();
-            var valorId = $(this).attr('id');
-            var valorHoraInicio = $("#formHoraInicio").val();
-            var valorHoraFim = $("#formHoraFim").val();
-            var valorDataServico = $(".txt-data-inicial-servico#" + valorId).val();
-            if (compararHora(valorHoraServico, valorHoraInicio, valorHoraFim, valorDataServico, valorDataInicio, valorDataFim)) {
-                var $input = $('.txt-hora-inicial-servico').pickadate();
-                var picker = $input.pickadate('picker');
-                picker.close();
-                $("#modalDataEquiSerRef").modal();
-                $("#modalDataEquiSerRef").modal('open');
-                $(".txt-hora-inicial-servico#" + valorId).val(valorHoraInicio);
-            }
-        });
-
-        $(".txt-data-final-servico").change(function () {
-            var valorDataServico = $(this).val();
-            var valorId = $(this).attr('id');
-            var valorDataInicio = $("#formDataInicio").val();
-            var valorDataFim = $("#formDataFim").val();
-            var valorDataInicioSelecionado = $(".txt-data-inicial-servico#" + valorId).val();
-
-            if (compararDataMenorQueInicio(valorDataServico, valorDataInicioSelecionado)) {
-                $("#modalDataInicioMaiorQueFinal").modal();
-                $("#modalDataInicioMaiorQueFinal").modal('open');
-                $(this).val(valorDataFim);
-            } else {
-                if (compararData(valorDataServico, valorDataInicio, valorDataFim)) {
-                    var $input = $('.txt-data-final-servico').pickadate();
-                    var picker = $input.pickadate('picker');
-                    picker.close();
-                    $("#modalDataEquiSerRef").modal();
-                    $("#modalDataEquiSerRef").modal('open');
-                    $(".txt-data-final-servico#" + valorId).val(valorDataFim);
-                }
-            }
-        });
-
-        $(".txt-hora-final-servico").change(function () {
-            var valorDataInicio = $("#formDataInicio").val();
-            var valorDataFim = $("#formDataFim").val();
-            var valorHoraServico = $(this).val();
-            var valorId = $(this).attr('id');
-            var valorHoraInicio = $("#formHoraInicio").val();
-            var valorHoraFim = $("#formHoraFim").val();
-            var valorDataServico = $(".txt-data-final-servico#" + valorId).val();
-            if (compararHora(valorHoraServico, valorHoraInicio, valorHoraFim, valorDataServico, valorDataInicio, valorDataFim)) {
-                var $input = $('.txt-hora-final-servico').pickadate();
-                var picker = $input.pickadate('picker');
-                picker.close();
-                $("#modalDataEquiSerRef").modal();
-                $("#modalDataEquiSerRef").modal('open');
-                $(".txt-hora-final-servico#" + valorId).val(valorHoraFim);
-            }
-        });
-    }
+//    function dataServicoMenorQueDataEvento() {
+//        $(".txt-data-inicial-servico").change(function () {
+//            var valorDataServico = $(this).val();
+//            var valorId = $(this).attr('id');
+//            var valorDataInicio = $("#formDataInicio").val();
+//            var valorDataFim = $("#formDataFim").val();
+//            if (compararData(valorDataServico, valorDataInicio, valorDataFim)) {
+//                var $input = $('.txt-data-inicial-servico').pickadate();
+//                var picker = $input.pickadate('picker');
+//                picker.close();
+//                $("#modalDataEquiSerRef").modal();
+//                $("#modalDataEquiSerRef").modal('open');
+//                $(".txt-data-inicial-servico#" + valorId).val(valorDataInicio);
+//            }
+//        });
+//
+//        $(".txt-hora-inicial-servico").change(function () {
+//            var valorDataInicio = $("#formDataInicio").val();
+//            var valorDataFim = $("#formDataFim").val();
+//            var valorHoraServico = $(this).val();
+//            var valorId = $(this).attr('id');
+//            var valorHoraInicio = $("#formHoraInicio").val();
+//            var valorHoraFim = $("#formHoraFim").val();
+//            var valorDataServico = $(".txt-data-inicial-servico#" + valorId).val();
+//            if (compararHora(valorHoraServico, valorHoraInicio, valorHoraFim, valorDataServico, valorDataInicio, valorDataFim)) {
+//                var $input = $('.txt-hora-inicial-servico').pickadate();
+//                var picker = $input.pickadate('picker');
+//                picker.close();
+//                $("#modalDataEquiSerRef").modal();
+//                $("#modalDataEquiSerRef").modal('open');
+//                $(".txt-hora-inicial-servico#" + valorId).val(valorHoraInicio);
+//            }
+//        });
+//
+//        $(".txt-data-final-servico").change(function () {
+//            var valorDataServico = $(this).val();
+//            var valorId = $(this).attr('id');
+//            var valorDataInicio = $("#formDataInicio").val();
+//            var valorDataFim = $("#formDataFim").val();
+//            var valorDataInicioSelecionado = $(".txt-data-inicial-servico#" + valorId).val();
+//
+//            if (compararDataMenorQueInicio(valorDataServico, valorDataInicioSelecionado)) {
+//                $("#modalDataInicioMaiorQueFinal").modal();
+//                $("#modalDataInicioMaiorQueFinal").modal('open');
+//                $(this).val(valorDataFim);
+//            } else {
+//                if (compararData(valorDataServico, valorDataInicio, valorDataFim)) {
+//                    var $input = $('.txt-data-final-servico').pickadate();
+//                    var picker = $input.pickadate('picker');
+//                    picker.close();
+//                    $("#modalDataEquiSerRef").modal();
+//                    $("#modalDataEquiSerRef").modal('open');
+//                    $(".txt-data-final-servico#" + valorId).val(valorDataFim);
+//                }
+//            }
+//        });
+//
+//        $(".txt-hora-final-servico").change(function () {
+//            var valorDataInicio = $("#formDataInicio").val();
+//            var valorDataFim = $("#formDataFim").val();
+//            var valorHoraServico = $(this).val();
+//            var valorId = $(this).attr('id');
+//            var valorHoraInicio = $("#formHoraInicio").val();
+//            var valorHoraFim = $("#formHoraFim").val();
+//            var valorDataServico = $(".txt-data-final-servico#" + valorId).val();
+//            if (compararHora(valorHoraServico, valorHoraInicio, valorHoraFim, valorDataServico, valorDataInicio, valorDataFim)) {
+//                var $input = $('.txt-hora-final-servico').pickadate();
+//                var picker = $input.pickadate('picker');
+//                picker.close();
+//                $("#modalDataEquiSerRef").modal();
+//                $("#modalDataEquiSerRef").modal('open');
+//                $(".txt-hora-final-servico#" + valorId).val(valorHoraFim);
+//            }
+//        });
+//    }
 
     function dataRefeicaoMenorQueDataEvento() {
         $(".txt-data-inicial-refeicao").change(function () {
@@ -1936,6 +1937,19 @@ $(function () {
             return false;
         }
     }
+
+
+    $(".nomeEvento").keyup(function () {
+        $(this).val($(this).val().replace(/\^|#|\?|,|\*|\.|\-|\%|\@|\¨|\&|\(|\)|\=|\+|\$|\!|\'|\"|\;|\/|\\|\]|\[|\{|\}|\||\§|\ª|\º|\°|\£|\¢|\¬|\_|/g, ""));
+    });
+    
+    $(".solicitante").keyup(function () {
+        $(this).val($(this).val().replace(/\^|#|\?|,|\*|\.|\-|\%|\@|\¨|\&|\(|\)|\=|\+|\$|\!|\'|\"|\;|\\|\]|\[|\{|\}|\||\§|\ª|\º|\°|\£|\¢|\¬|\_|/g, ""));
+    });
+
+    $(".descricaoEvento").keyup(function () {
+        $(this).val($(this).val().replace(/\^|#|\?|\*|\%|\@|\¨|\&|\=|\+|\$|\!|\;|\]|\[|\{|\}|\||\§|\ª|\º|\°|\£|\¢|\¬|\_|/g, ""));
+    });
 
 
     $('#tabs-swipe-demo.tabs').tabs();

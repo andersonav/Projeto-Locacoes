@@ -7,7 +7,7 @@ html,body{
     height: 100%;
 }
 body{
-    font-family: Verdana, sans-serif !important;
+    /*font-family: Verdana, sans-serif !important;*/
 }
 .margintop{
     margin-top: 5em !important; 

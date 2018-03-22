@@ -15,6 +15,7 @@
         <link href='../public/img/favicon.ico' rel='shortcut icon' type='image/vnd.microsoft.icon' />
         <script src='../public/js/lib/moment.min.js'></script>
         <script src='../public/js/lib/jquery.min.js'></script>
+        <script src='../public/js/lib/jquery.maskedinput.min.js'></script>
         <script src='../public/js/fullcalendar.min.js'></script>
         <script src='../public/js/locale-all.js'></script>
         <script src='../public/js/locale/pt-br.js'></script>
@@ -323,6 +324,11 @@
                                     <label class="corLogo-text">Ambiente: </label>
                                 </div>
                                 <div class="cadastroClickBtn mostrarWhenClickBtn center">
+                                    <div class="input-field col s12 m5">
+                                        <select name="tipoRepeticao" class="sel-tip-repeticao" id="sel-tip-repeticao">
+                                        </select>
+                                        <label class="corLogo-text">Repetir: </label>
+                                    </div>
                                     <div class="input-field col s12 m3">
                                         <select name="aula" class="sel-aula" id="sel-aula">
                                         </select>
@@ -331,11 +337,6 @@
                                     <div class="input-field col s12 m4 divInputProfessor">
                                         <input id="icon_prefix" type="text" class="validate nomeProfessor" placeholder="Digite o nome do professor" disabled>
                                         <label for="icon_prefix" class="corLogo-text active">Professor:</label>
-                                    </div>
-                                    <div class="input-field col s12 m5">
-                                        <select name="tipoRepeticao" class="sel-tip-repeticao" id="sel-tip-repeticao">
-                                        </select>
-                                        <label class="corLogo-text">Repetir: </label>
                                     </div>
                                     <div class="calendarDayOfWeek" id="calendarDayOfWeek">
 
