@@ -45,7 +45,7 @@ class EquipamentoDao {
 
         try {
 
-            $sql = "SELECT * FROM equipamentos_evento";
+            $sql = "SELECT * FROM equipamentos_evento WHERE equi_eve_qtd > 0";
             $p_sql = ConexaoMysql::getInstance()->prepare($sql);
             $p_sql->execute();
 
@@ -59,7 +59,7 @@ class EquipamentoDao {
 
         try {
 
-            $sql = "SELECT * FROM evento_equipamento_utilizado JOIN equipamentos_evento ON eve_equi_uti_fkequi_id = equi_eve_id WHERE eve_equi_uti_fkeve_id = ?";
+            $sql = "SELECT * FROM evento_equipamento_utilizado JOIN equipamentos_evento ON eve_equi_uti_fkequi_id = equi_eve_id WHERE eve_equi_uti_fkeve_id = ? AND equi_eve_qtd > 0";
             $p_sql = ConexaoMysql::getInstance()->prepare($sql);
             $p_sql->bindParam(1, $idEvento);
             $p_sql->execute();
@@ -74,7 +74,7 @@ class EquipamentoDao {
 
         try {
 
-            $sql = "SELECT * FROM equipamentos_evento equi WHERE equi.equi_eve_id = ?";
+            $sql = "SELECT * FROM equipamentos_evento equi WHERE equi.equi_eve_id = ? AND equi_eve_qtd > 0";
             $p_sql = ConexaoMysql::getInstance()->prepare($sql);
             $p_sql->bindParam(1, $idEquipamento);
             $p_sql->execute();
@@ -89,7 +89,7 @@ class EquipamentoDao {
 
         try {
 
-            $sql = "UPDATE equipamentos_evento equi SET equi.equi_eve_qtd = ? WHERE equi.equi_eve_id = ?";
+            $sql = "UPDATE equipamentos_evento equi SET equi.equi_eve_qtd = ? WHERE equi.equi_eve_id = ? AND equi_eve_qtd > 0";
             $p_sql = ConexaoMysql::getInstance()->prepare($sql);
             $p_sql->bindParam(1, $valorAtual);
             $p_sql->bindParam(2, $idEquipamento);
