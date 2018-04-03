@@ -37,4 +37,9 @@ class EventoEquipamentoUtilizadoLogica {
         return EventoEquipamentoUtilizadoView::getInstance()->htmlInformationEquipaments(EventoEquipamentoUtilizadoDao::getInstance()->getInformationsEquipaments($idEvento));
     }
 
+    public function getEquipamentosByIdEvento() {
+        $idEvento = $_REQUEST['idEvento'];
+        return EventoEquipamentoUtilizadoView::getInstance()->tableEquipamentosByEventId(EventoEquipamentoUtilizadoDao::getInstance()->getInformationsEquipaments($idEvento));
+    }
+
 }

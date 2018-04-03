@@ -30,6 +30,8 @@ class EventoEquipamentoUtilizadoDao {
         $equipamento->setQtdEventoEquipamentoUtilizado($row->eve_equi_uti_qtd);
         $equipamento->setDataInicioEquipamentoUtilizado($row->eve_equi_uti_data_inicio);
         $equipamento->setDataFimEquipamentoUtilizado($row->eve_equi_uti_data_fim);
+        $equipamento->setQtdDisponivelEquipamento($row->equi_eve_qtd);
+        $equipamento->setIdEquipamento($row->equi_eve_id);
 
         return $equipamento;
     }
@@ -45,9 +47,9 @@ class EventoEquipamentoUtilizadoDao {
 
     public function getInformationsEquipaments($idEvento) {
         try {
-            $sql = "SELECT * from evento_equipamento_utilizado
-                    JOIN equipamentos_evento equi ON equi.equi_eve_id = eve_equi_uti_fkequi_id
-                    WHERE eve_equi_uti_fkeve_id = ? ";
+            $sql = "SELECT * from  equipamentos_evento equi
+                    LEFT JOIN evento_equipamento_utilizado ON equi.equi_eve_id = eve_equi_uti_fkequi_id
+                    WHERE eve_equi_uti_fkeve_id = ? AND equi.equi_eve_qtd > 0";
             $p_sql = ConexaoMysql::getInstance()->prepare($sql);
             $p_sql->bindParam(1, $idEvento);
             $p_sql->execute();

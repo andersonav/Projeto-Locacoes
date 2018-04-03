@@ -57,11 +57,53 @@ class EventoEquipamentoUtilizadoView {
                             <?php
                         }
                         ?>
-                    
+
                     </tbody>
                 </table> 
             </div>
         </div>
+        <?php
+    }
+
+    public function tableEquipamentosByEventId($equipamentos) {
+        ?>
+        <div class="scroll">
+            <table class="highlight centered tabelaEquipamentos">
+                <thead>
+                    <tr> 
+                        <!--<i class="material-icons">check</i>-->
+                        <th class="corLogo-text">Material</th>
+                        <th class="corLogo-text">Qtd Disponível</th>
+                        <th class="corLogo-text">Qtd Solicitada</th>
+                        <th class="corLogo-text">Data Início</th>
+                        <th class="corLogo-text">Hora Início</th>
+                        <th class="corLogo-text">Data Final</th>
+                        <th class="corLogo-text">Hora Final</th>
+                        <th class="corLogo-text">Opção</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    <?php
+                    foreach ($equipamentos as $equipamento) {
+                        ?>
+                        <tr id="<?= $equipamento->getIdEventoEquipamentoUtilizado(); ?>">
+                            <td><strong><?= $equipamento->getDescricaoEventoEquipamentoUtilizado(); ?></strong></td>
+                            <td><strong><?= $equipamento->getQtdDisponivelEquipamento(); ?></strong></td>
+                            <td><strong><?= $equipamento->getQtdEventoEquipamentoUtilizado(); ?></strong></td>
+                            <td><strong><?= date_format(date_create($equipamento->getDataInicioEquipamentoUtilizado()), "d/m/Y"); ?></strong></td>
+                            <td><strong><?= date_format(date_create($equipamento->getDataInicioEquipamentoUtilizado()), "H:i"); ?></strong></td>
+                            <td><strong><?= date_format(date_create($equipamento->getDataFimEquipamentoUtilizado()), "d/m/Y"); ?></strong></td>
+                            <td><strong><?= date_format(date_create($equipamento->getDataFimEquipamentoUtilizado()), "H:i"); ?></strong></td>
+                            <td><i class="material-icons btn-editar-material" id="<?= $equipamento->getIdEventoEquipamentoUtilizado(); ?>">edit</i><i class="material-icons btn-deletar-material" id="<?= $equipamento->getIdEventoEquipamentoUtilizado(); ?>">delete</i></td>
+                        </tr>
+                        <?php
+                    }
+                    ?>
+                <td><a class="btn-floating btn-large waves-effect waves-light btn-add-material"><i class="material-icons">add</i></a></td>
+                </tbody>
+            </table> 
+        </div> 
         <?php
     }
 

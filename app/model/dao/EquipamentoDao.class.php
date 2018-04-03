@@ -55,21 +55,6 @@ class EquipamentoDao {
         }
     }
 
-    public function getEquipamentosByIdEvento($idEvento) {
-
-        try {
-
-            $sql = "SELECT * FROM evento_equipamento_utilizado JOIN equipamentos_evento ON eve_equi_uti_fkequi_id = equi_eve_id WHERE eve_equi_uti_fkeve_id = ? AND equi_eve_qtd > 0";
-            $p_sql = ConexaoMysql::getInstance()->prepare($sql);
-            $p_sql->bindParam(1, $idEvento);
-            $p_sql->execute();
-
-            return $this->getListObjEquipamento($p_sql->fetchAll(PDO::FETCH_OBJ));
-        } catch (Exception $e) {
-            echo $e->getTraceAsString();
-        }
-    }
-
     public function verifyQtdDisponivelByQtdSolicitadaAndIdEquipamento($idEquipamento) {
 
         try {

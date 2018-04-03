@@ -22,6 +22,8 @@ class EventoEquipamentoUtilizado {
     private $dataInicioEquipamentoUtilizado;
     private $dataFimEquipamentoUtilizado;
     private $qtdEventoEquipamentoUtilizado;
+    private $qtdDisponivelEquipamento;
+    private $idEquipamento;
 
     function getIdEventoEquipamentoUtilizado() {
         return $this->idEventoEquipamentoUtilizado;
@@ -43,6 +45,14 @@ class EventoEquipamentoUtilizado {
         return $this->qtdEventoEquipamentoUtilizado;
     }
 
+    function getIdEquipamento() {
+        return $this->idEquipamento;
+    }
+
+    function getQtdDisponivelEquipamento() {
+        return $this->qtdDisponivelEquipamento;
+    }
+
     function setIdEventoEquipamentoUtilizado($idEventoEquipamentoUtilizado) {
         $this->idEventoEquipamentoUtilizado = $idEventoEquipamentoUtilizado;
     }
@@ -61,6 +71,14 @@ class EventoEquipamentoUtilizado {
 
     function setDataFimEquipamentoUtilizado($dataFimEquipamentoUtilizada) {
         $this->dataFimEquipamentoUtilizado = $dataFimEquipamentoUtilizada;
+    }
+
+    function setQtdDisponivelEquipamento($qtdDisponivelEquipamento) {
+        $this->qtdDisponivelEquipamento = $qtdDisponivelEquipamento;
+    }
+
+    function setIdEquipamento($idEquipamento) {
+        $this->idEquipamento = $idEquipamento;
     }
 
 }

@@ -261,6 +261,9 @@ $(function () {
                         getBlocoBySetorModalUpdate();
                         getAmbienteByBlocoModalUpdate();
                         getEquipamentosByIdEvento(event.id);
+                        adicionarMaterialByEvento();
+                        editarMaterialByEvento();
+                        deletarMaterialByEvento();
                         updateEventById(event.id);
                     }
                 });
@@ -318,6 +321,46 @@ $(function () {
             var dataFimFormatadaCompleta = dataFimRefeicao.substr(6, 4) + "-" + dataFimRefeicao.substr(3, 2) + "-" + dataFimRefeicao.substr(0, 2) + " " + horaFimRefeicao;
             insertInTabelEventRefeicaoUsed(valorIdEvento, idRefeicao, qtdRefeicaoSolicitada, dataInicioFormatadaCompleta, dataFimFormatadaCompleta);
             getDadosRefeicoesByIdEventoSendEmail(valorIdEvento, idRefeicao)
+        });
+    }
+
+    function adicionarMaterialByEvento() {
+        $(".btn-add-material").click(function () {
+            // Abrir Modal para cadastro de Material
+
+        });
+    }
+
+    function editarMaterialByEvento() {
+        $(".btn-editar-material").click(function () {
+            var idMaterialUtilizado = $(this).attr("id");
+            // Carregar Modal com as informações do Material
+        });
+    }
+
+    function deletarMaterialByEvento() {
+        $(".btn-deletar-material").click(function () {
+            var idMaterialUtilizado = $(this).attr("id");
+//            getInformationsMaterialByIdToExclusao(valorId);
+            $("#dialog-confirm").dialog({
+                show: {
+                    effect: 'fade',
+                    duration: 200 //at your convenience
+                },
+                resizable: false,
+                height: "auto",
+                width: 400,
+                modal: true,
+                buttons: {
+                    "Sim": function () {
+                        $(this).dialog("close");
+                        deleteMaterialById(idMaterialUtilizado);
+                    },
+                    Nao: function () {
+                        $(this).dialog("close");
+                    }
+                }
+            });
         });
     }
 
@@ -725,33 +768,38 @@ $(function () {
                             $("#modalCamposNulos").modal();
                             $("#modalCamposNulos").modal('open');
                         } else {
-                            if (insertEventoSelecionado(idUsuario, nomeEvento, solicitanteEvento, telefoneSolicitante, emailSolicitante, tipoEvento, blocoEvento, ambienteEvento, tipoRepeticao, idAula, descricaoEvento, inicio, fim) == true) {
-                                getQtdSolicitadaAndUpdateQtdDisponivel();
-                                if (tipoRepeticao == 1) {
-                                    var valorIdEvento = getEventByAmbienteAndStartAndEnd(ambienteEvento, inicio, fim);
-                                    if (idAula == 1) {
+                            if (verifyDates(inicio, fim, ambienteEvento) == true) {
+                                if (insertEventoSelecionado(idUsuario, nomeEvento, solicitanteEvento, telefoneSolicitante, emailSolicitante, tipoEvento, blocoEvento, ambienteEvento, tipoRepeticao, idAula, descricaoEvento, inicio, fim) == true) {
+                                    getQtdSolicitadaAndUpdateQtdDisponivel();
+                                    if (tipoRepeticao == 1) {
+                                        var valorIdEvento = getEventByAmbienteAndStartAndEnd(ambienteEvento, inicio, fim);
+                                        if (idAula == 1) {
+                                            for (var i = 0; i < valorIdEvento.length; i++) {
+                                                insertIntoTableAulaDetalhes(valorIdEvento[i], idAula, nomeProfessor);
+                                            }
+                                        }
                                         for (var i = 0; i < valorIdEvento.length; i++) {
-                                            insertIntoTableAulaDetalhes(valorIdEvento[i], idAula, nomeProfessor);
+                                            checkboxToEquipamentServiceRefeicao(valorIdEvento[i], inicio, fim);
                                         }
-                                    }
-                                    for (var i = 0; i < valorIdEvento.length; i++) {
-                                        checkboxToEquipamentServiceRefeicao(valorIdEvento[i], inicio, fim);
-                                    }
 
-                                } else {
-                                    var valorIdEventoArray = getEventByAmbienteAndStartAndEnd(ambienteEvento, inicio, fim);
-                                    if (idAula == 1) {
+                                    } else {
+                                        var valorIdEventoArray = getEventByAmbienteAndStartAndEnd(ambienteEvento, inicio, fim);
+                                        if (idAula == 1) {
+                                            for (var i = 0; i < valorIdEventoArray.length; i++) {
+                                                insertIntoTableAulaDetalhes(valorIdEventoArray[i], idAula, nomeProfessor);
+                                            }
+                                        }
                                         for (var i = 0; i < valorIdEventoArray.length; i++) {
-                                            insertIntoTableAulaDetalhes(valorIdEventoArray[i], idAula, nomeProfessor);
+                                            checkboxToEquipamentServiceRefeicao(valorIdEventoArray[i], inicio, fim);
                                         }
-                                    }
-                                    for (var i = 0; i < valorIdEventoArray.length; i++) {
-                                        checkboxToEquipamentServiceRefeicao(valorIdEventoArray[i], inicio, fim);
-                                    }
 
+                                    }
+                                    $("#modalAdicionarEventoClickDay").modal('close');
+                                    location.reload();
                                 }
-                                $("#modalAdicionarEventoClickDay").modal('close');
-                                location.reload();
+                            } else {
+                                $("#modalDatasIguais").modal();
+                                $("#modalDatasIguais").modal('open');
                             }
                         }
                     }
@@ -1262,8 +1310,9 @@ $(function () {
         $.ajax({
             url: controllerToAdmin,
             type: 'POST',
+            async: false,
             data: {
-                action: 'EquipamentoLogica.getEquipamentosByIdEvento',
+                action: 'EventoEquipamentoUtilizadoLogica.getEquipamentosByIdEvento',
                 idEvento: idEvento
             }, success: function (data, textStatus, jqXHR) {
                 $("#equipamentos-update").html(data);
@@ -1274,11 +1323,9 @@ $(function () {
                 } else {
                     $("#equipamentos-update .tabelaEquipamentos .idEquipamento").each(function () {
                         $(this).attr("checked", true);
-                        $("#equipamentos-update .tabelaEquipamentos input[type=text]:disabled").attr("disabled", false);
-
                     });
-                    habilitarInputsEquipamentos();
-                    verifyCheck();
+//                    habilitarInputsEquipamentos();
+//                    verifyCheck();
 //                    checkboxToEquipamentServiceRefeicao();
                 }
 //                dataEquipamentoMenorQueDataEvento();
@@ -1942,7 +1989,7 @@ $(function () {
     $(".nomeEvento").keyup(function () {
         $(this).val($(this).val().replace(/\^|#|\?|,|\*|\.|\-|\%|\@|\¨|\&|\(|\)|\=|\+|\$|\!|\'|\"|\;|\/|\\|\]|\[|\{|\}|\||\§|\ª|\º|\°|\£|\¢|\¬|\_|\>|\<|/g, ""));
     });
-    
+
     $(".solicitante").keyup(function () {
         $(this).val($(this).val().replace(/\^|#|\?|,|\*|\.|\-|\%|\@|\¨|\&|\(|\)|\=|\+|\$|\!|\'|\"|\;|\\|\]|\[|\{|\}|\||\§|\ª|\º|\°|\£|\¢|\¬|\_|/g, ""));
     });
@@ -1968,3 +2015,23 @@ $(function () {
     getTipoRepeticao();
 
 });
+
+function clickSelectMaterialUpdate(idEquipamento) {
+    if ($(".tabelaEquipamentos #" + idEquipamento).is(":checked")) {
+        $('#equipamentos-update .tabelaEquipamentos input[type=text]:disabled').each(function () {
+            var valorIdInput = $(this).attr('id');
+            if (idEquipamento == valorIdInput) {
+                $(this).attr('disabled', false);
+                $(this).addClass('getInformationsEquipaments');
+            }
+        });
+    } else {
+        $('#equipamentos-update .tabelaEquipamentos input[type=text]:enabled').each(function () {
+            var valorIdInput = $(this).attr('id');
+            if (idEquipamento == valorIdInput) {
+                $(this).attr('disabled', 'disabled');
+                $(this).removeClass('getInformationsEquipaments');
+            }
+        });
+    }
+}

@@ -40,15 +40,28 @@ main {
     overflow: auto;
     width: 100%;
 }
-.tabelaEquipamentos, .tabelaServicos, .tabelaRefeicoes {
+.material-icons {
+    cursor: pointer;
+}
+#equipamentos-update .tabelaEquipamentos, #equipamentos-update .tabelaServicos, #equipamentos-update .tabelaRefeicoes {
     border-collapse: collapse;
 }
 .tabelaEquipamentos th, .tabelaServicos th, .tabelaRefeicoes th {
-    text-align: left;
 }
-/*.tabelaEquipamentos th, .tabelaServicos th, .tabelaRefeicoes th, .tabelaEquipamentos td, .tabelaServicos td, .tabelaRefeicoes td {
-    padding: 0.1em 1em;
-}*/
+#equipamentos-update .tabelaEquipamentos th, #equipamentos-update .tabelaServicos th, #equipamentos-update .tabelaRefeicoes th, #equipamentos-update .tabelaEquipamentos td, #equipamentos-update .tabelaServicos td, #equipamentos-update .tabelaRefeicoes td {
+    padding: 0.5em 1em;
+    font-size: 18px;
+}
+.btn-add-material, .btn-add-servico, .btn-add-refeicao, .btn-add-bloco, .btn-add-ambiente, .btn-add-usuario {
+    width: 40px !important;
+    height: 40px !important;
+}
+.btn-add-material, .btn-add-servico, .btn-add-refeicao, .btn-add-bloco, .btn-add-ambiente, .btn-add-usuario {
+    background-color: #006B43 !important;
+}
+.btn-add-material i, .btn-add-servico i, .btn-add-refeicao i, .btn-add-bloco i, .btn-add-ambiente i, .btn-add-usuario i {
+    line-height: 10px !important;
+}
 .corLogo-text {
     color: #006B43 !important;
     font-weight: normal !important;
@@ -80,6 +93,11 @@ main {
 .equipamento input[type=text], .servicos input[type=text], .refeicoes input[type=text]{
     text-align: center;
 }
+
+.tabelaEquipamentos th, .tabelaServicos th, .tabelaRefeicoes th{
+    text-align: center;
+}
+
 .fc-list-empty{
     font-size: 20px !important;
 }

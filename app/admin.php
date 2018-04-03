@@ -6,6 +6,7 @@
         <title>Administrador</title>
         <meta name="csrf-token" content="HYPw6xw4Raa7CMtRIKgqxyu1bRuoyms7zGFfwumP">
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">  
+        <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
         <link href="../public/css/materialize.min.css" rel="stylesheet" />
         <link href='../public/css/fullcalendar.min.css' rel='stylesheet' />
         <link href='../public/css/fullcalendar.print.min.css' rel='stylesheet' media='print' />
@@ -14,6 +15,7 @@
         <link href='../public/css/location_style.css' rel='stylesheet' />
         <link href='../public/img/favicon.ico' rel='shortcut icon' type='image/vnd.microsoft.icon' />
         <script src='../public/js/lib/moment.min.js'></script>
+        <script src="../public/js/lib/jquery-ui.js"></script>
         <script src='../public/js/lib/jquery.min.js'></script>
         <script src='../public/js/lib/jquery.maskedinput.min.js'></script>
         <script src='../public/js/fullcalendar.min.js'></script>
@@ -480,7 +482,9 @@
                 </div>
             </div>
         </footer>
-
+        <div id="dialog-confirm" title="Exclusão">
+            <p class="textExclusao"><span class="ui-icon ui-icon-alert" style="float:left; margin:12px 12px 20px 0;"></span></p>
+        </div>
         <script>
             (function (i, s, o, g, r, a, m) {
                 i['GoogleAnalyticsObject'] = r;
