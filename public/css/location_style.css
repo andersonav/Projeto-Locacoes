@@ -238,6 +238,10 @@ input:enabled {
     border-color: #dc3545 !important;
 }
 
+.ui-dialog{
+    z-index: 9999 !important;
+}
+
 /* Icons Materialize */
 @font-face {
     font-family: 'Material Icons';

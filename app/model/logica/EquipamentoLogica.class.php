@@ -47,5 +47,10 @@ class EquipamentoLogica {
         
         return EquipamentoDao::getInstance()->updateQtdDisponivelByIdEquipamento($idEquipamento, $valorAtual);
     }
+    
+    public function getEquipamentosNotInEvento() {
+        $idEvento = $_REQUEST['idEvento'];
+        return EquipamentoView::getInstance()->htmlSelectEquipamentos(EquipamentoDao::getInstance()->getEquipamentosNotInEvento($idEvento));
+    }
 
 }

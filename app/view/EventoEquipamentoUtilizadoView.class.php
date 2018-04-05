@@ -85,7 +85,9 @@ class EventoEquipamentoUtilizadoView {
                 <tbody>
 
                     <?php
+                    $idEvento;
                     foreach ($equipamentos as $equipamento) {
+                        $idEvento = $equipamento->getIdEvento();
                         ?>
                         <tr id="<?= $equipamento->getIdEventoEquipamentoUtilizado(); ?>">
                             <td><strong><?= $equipamento->getDescricaoEventoEquipamentoUtilizado(); ?></strong></td>
@@ -100,7 +102,7 @@ class EventoEquipamentoUtilizadoView {
                         <?php
                     }
                     ?>
-                <td><a class="btn-floating btn-large waves-effect waves-light btn-add-material"><i class="material-icons">add</i></a></td>
+                <td><a class="btn-floating btn-large waves-effect waves-light btn-add-material" id="<?php echo $idEvento; ?>"><i class="material-icons">add</i></a></td>
                 </tbody>
             </table> 
         </div> 

@@ -42,7 +42,7 @@ class EventoView {
             <h4 class="center">Atualizar Eventos</h4>
             <div class="divider"></div>
             <br>
-            <form class="col s12" id="form_add_event">
+            <form class="col s12" id="form_upd_event">
                 <div class="row">
                     <div class="input-field col s12 m6">
                         <input id="icon_prefix" type="text" class="validate nomeEvento" placeholder="Digite o nome do Evento" value="<?= $evento->getNomeEvento(); ?>">

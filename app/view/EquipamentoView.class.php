@@ -80,4 +80,16 @@ class EquipamentoView {
         echo json_encode($array);
     }
 
+    public function htmlSelectEquipamentos($equipamentos) {
+        ?>
+        <option value="" selected disabled>Escolha sua opção</option>
+
+        <?php
+        foreach ($equipamentos as $equipamento) {
+            ?>
+            <option value="<?= $equipamento->getIdEquipamento() ?>"><?= $equipamento->getDescricaoEquipamento(); ?></option>
+            <?php
+        }
+    }
+
 }

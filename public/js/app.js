@@ -249,7 +249,9 @@ $(function () {
                         action: "EventoLogica.getEventById",
                         idEvento: event.id
                     }, success: function (data, textStatus, jqXHR) {
-                        $("#modalUpdateEvent").modal();
+                        $("#modalUpdateEvent").modal({
+                            dismissible: false
+                        });
                         $("#modalUpdateEvent").modal('open');
                         $("#contentUpdateEvent").html(data);
                         $('.tabs#tabs-bosta').tabs();
@@ -326,8 +328,19 @@ $(function () {
 
     function adicionarMaterialByEvento() {
         $(".btn-add-material").click(function () {
-            // Abrir Modal para cadastro de Material
-
+            var idEvento = $(this).attr("id");
+            
+            $(".textAdionarAtualizarMaterial").html("Adicionar Material");
+            loadInSelectMateriais(idEvento);
+            $("#modalAdicionarAtualizarMaterial").modal({
+                dismissible: false,
+                complete: function () {
+                    $('#form_upd_event').each(function () {
+                        this.reset();
+                    });
+                }
+            });
+            $("#modalAdicionarAtualizarMaterial").modal('open');
         });
     }
 
@@ -359,6 +372,38 @@ $(function () {
                     Nao: function () {
                         $(this).dialog("close");
                     }
+                }
+            });
+        });
+    }
+
+    function loadInSelectMateriais(idEvento) {
+        $.ajax({
+            url: controllerToAdmin,
+            type: 'POST',
+            data: {
+                action: 'EquipamentoLogica.getEquipamentosNotInEvento',
+                idEvento: idEvento
+            }, success: function (data, textStatus, jqXHR) {
+                $("#sel-equipamentos").html(data);
+                $("#sel-equipamentos").material_select();
+                getQuantidadeDisponivelByIdEquipamento();
+            }
+        });
+    }
+
+    function getQuantidadeDisponivelByIdEquipamento() {
+        $("#sel-equipamentos").change(function () {
+            var idEquipamento = $(this).val();
+            $.ajax({
+                url: controllerToAdmin,
+                type: 'POST',
+                data: {
+                    action: 'EquipamentoLogica.verifyQtdSolicitadaByIdEquipamento',
+                    idEquipamento: idEquipamento
+                }, success: function (data, textStatus, jqXHR) {
+                    data = $.parseJSON(data);
+                    $(".quantidadeDisponivel").val(data.qtdDisponivel);
                 }
             });
         });
@@ -740,10 +785,10 @@ $(function () {
             var idAula = $("#sel-aula").val();
             var tipoRepeticao = $("#sel-tip-repeticao").val();
             var descricaoEvento = $(".descricaoEvento").val();
-            var dataInicio = $(".dataInicio").val();
-            var horaInicio = $(".horaInicio").val();
-            var dataFim = $(".dataFim").val();
-            var horaFim = $(".horaFim").val();
+            var dataInicio = $("#form_add_event .dataInicio").val();
+            var horaInicio = $("#form_add_event .horaInicio").val();
+            var dataFim = $("#form_add_event .dataFim").val();
+            var horaFim = $("#form_add_event .horaFim").val();
             var contadorInput = 0;
             var contadorSelect = 0;
             $("#form_add_event input[type=text]:enabled").each(function () {
@@ -1439,6 +1484,8 @@ $(function () {
 //                        console.log(dados.qtdDisponivel);
                         $(".buttonOkay").prop("disabled", false);
                         $(".buttonOkay").css("cursor", "pointer");
+                    } else if (valorQtdSolicitada == "") {
+                        // Nulo
                     } else {
                         $(".buttonOkay").prop("disabled", true);
                         $(".buttonOkay").css("cursor", "not-allowed");

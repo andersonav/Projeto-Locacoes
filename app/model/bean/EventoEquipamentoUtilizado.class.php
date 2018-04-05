@@ -24,6 +24,7 @@ class EventoEquipamentoUtilizado {
     private $qtdEventoEquipamentoUtilizado;
     private $qtdDisponivelEquipamento;
     private $idEquipamento;
+    private $idEvento;
 
     function getIdEventoEquipamentoUtilizado() {
         return $this->idEventoEquipamentoUtilizado;
@@ -47,6 +48,10 @@ class EventoEquipamentoUtilizado {
 
     function getIdEquipamento() {
         return $this->idEquipamento;
+    }
+
+    function getIdEvento() {
+        return $this->idEvento;
     }
 
     function getQtdDisponivelEquipamento() {
@@ -79,6 +84,10 @@ class EventoEquipamentoUtilizado {
 
     function setIdEquipamento($idEquipamento) {
         $this->idEquipamento = $idEquipamento;
+    }
+
+    function setIdEvento($idEvento) {
+        $this->idEvento = $idEvento;
     }
 
 }
