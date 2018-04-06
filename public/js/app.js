@@ -264,7 +264,7 @@ $(function () {
                         getAmbienteByBlocoModalUpdate();
                         getEquipamentosByIdEvento(event.id);
                         adicionarMaterialByEvento();
-                        editarMaterialByEvento();
+                        editarMaterialByEvento(event.id);
                         deletarMaterialByEvento();
                         updateEventById(event.id);
                     }
@@ -329,25 +329,41 @@ $(function () {
     function adicionarMaterialByEvento() {
         $(".btn-add-material").click(function () {
             var idEvento = $(this).attr("id");
-            
             $(".textAdionarAtualizarMaterial").html("Adicionar Material");
             loadInSelectMateriais(idEvento);
+            dataEquipamentoMenorQueDataEventoToUpdate();
+            isNumeric();
+            addMaterialInEvent(idEvento);
             $("#modalAdicionarAtualizarMaterial").modal({
                 dismissible: false,
                 complete: function () {
-                    $('#form_upd_event').each(function () {
+                    $('#formAddMaterialEvent').each(function () {
                         this.reset();
                     });
                 }
             });
             $("#modalAdicionarAtualizarMaterial").modal('open');
+            $(".buttonCadastroMaterial").show();
+            $(".buttonUpdateMaterial").hide();
+            fecharModalAddMaterial();
         });
     }
 
-    function editarMaterialByEvento() {
+    function editarMaterialByEvento(idEvento) {
         $(".btn-editar-material").click(function () {
             var idMaterialUtilizado = $(this).attr("id");
-            // Carregar Modal com as informações do Material
+            $(".textAdionarAtualizarMaterial").html("Atualizar Material");
+            getInformationsMaterialToEdit(idMaterialUtilizado, idEvento);
+            $("#modalAdicionarAtualizarMaterial").modal({
+                dismissible: false,
+                complete: function () {
+                    $('#formAddMaterialEvent').each(function () {
+                        this.reset();
+                    });
+                }
+            });
+            $("#modalAdicionarAtualizarMaterial").modal('open');
+            fecharModalAddMaterial();
         });
     }
 
@@ -374,6 +390,74 @@ $(function () {
                     }
                 }
             });
+        });
+    }
+
+    function addMaterialInEvent(idEvento) {
+        $(".buttonCadastroMaterial").click(function () {
+            var valorEquipamento = $("#sel-equipamentos").val();
+            var quantidadeSolicitada = $(".quantidadeSolicitada").val();
+            var dataInicio = $("#formAddMaterialEvent .dataInicio").val();
+            var horaInicio = $("#formAddMaterialEvent .horaInicio").val();
+            var dataFim = $("#formAddMaterialEvent .dataFim").val();
+            var horaFim = $("#formAddMaterialEvent .horaFim").val();
+            var contadorInput = 0;
+            $("#formAddMaterialEvent input:enabled").each(function () {
+                if ($(this).val() == "") {
+                    contadorInput++;
+                }
+            });
+            if (contadorInput == 0 && valorEquipamento != null) {
+                var inicio = dataInicio.substr(6, 4) + "-" + dataInicio.substr(3, 2) + "-" + dataInicio.substr(0, 2) + " " + horaInicio;
+                var fim = dataFim.substr(6, 4) + "-" + dataFim.substr(3, 2) + "-" + dataFim.substr(0, 2) + " " + horaFim;
+                getQtdSolicitadaAndUpdateQtdDisponivelToUpdate();
+                $.ajax({
+                    url: controllerToAdmin,
+                    type: 'POST',
+                    data: {
+                        action: 'EventoLogica.insertInTabelEventEquipamentUsed',
+                        valorIdEvento: idEvento,
+                        idEquipamento: valorEquipamento,
+                        qtdEquipamento: quantidadeSolicitada,
+                        dataInicio: inicio,
+                        dataFim: fim
+                    }, success: function (data, textStatus, jqXHR) {
+                        $("#modalCadastroMaterial").modal();
+                        $("#modalCadastroMaterial").modal('open');
+                    }
+                });
+            }
+
+        });
+    }
+
+    function getInformationsMaterialToEdit(idMaterialUtilizado, idEvento) {
+        $.ajax({
+            url: controllerToAdmin,
+            type: 'POST',
+            async: false,
+            data: {
+                action: 'EventoEquipamentoUtilizadoLogica.getInformationsMaterialToEdit',
+                idMaterialUtilizado: idMaterialUtilizado,
+                idEvento: idEvento
+            }, success: function (data, textStatus, jqXHR) {
+                data = $.parseJSON(data);
+                loadInSelectMateriais(idEvento);
+                $(".quantidadeDisponivel").val(data.qtdDisponivel);
+                $(".quantidadeSolicitada").val(data.qtdSolicitada);
+                $("#formAddMaterialEvent .dataInicio").val(data.dataInicio);
+                $("#formAddMaterialEvent .horaInicio").val(data.horaInicio);
+                $("#formAddMaterialEvent .dataFim").val(data.dataFim);
+                $("#formAddMaterialEvent .horaFim").val(data.horaFim);
+                $(".buttonCadastroMaterial").hide();
+                $(".buttonUpdateMaterial").show();
+            }
+        });
+    }
+
+    function fecharModalAddMaterial() {
+        $("#modalAdicionarAtualizarMaterial .btnCancel").click(function () {
+            $("#modalAdicionarAtualizarMaterial").modal("close");
         });
     }
 
@@ -404,6 +488,7 @@ $(function () {
                 }, success: function (data, textStatus, jqXHR) {
                     data = $.parseJSON(data);
                     $(".quantidadeDisponivel").val(data.qtdDisponivel);
+                    $(".quantidadeSolicitada").val("");
                 }
             });
         });
@@ -1463,6 +1548,17 @@ $(function () {
                 element.mask("(99) 9999-9999?9");
             }
         }).trigger('focusout');
+
+        $("#formAddMaterialEvent .quantidadeSolicitada").on("keyup", function (event) {
+            $(this).val($(this).val().replace(/[^0-9\.]/g, ''));
+            $(this).val($(this).val().replace('.', ''));
+            if ((event.which < 48 || event.which > 57)) {
+                event.preventDefault();
+            }
+            var valorId = $("#sel-equipamentos").val();
+            var valorQtdSolicitada = $(this).val();
+            compararQtdSolicitadaComQtdDisponivelToUpdate(valorId, valorQtdSolicitada);
+        });
     }
 
     function compararQtdSolicitadaComQtdDisponivel(id, qtdSolicitada) {
@@ -1498,13 +1594,39 @@ $(function () {
         });
     }
 
+    function compararQtdSolicitadaComQtdDisponivelToUpdate(id, qtdSolicitada) {
+        $.ajax({
+            url: controllerToAdmin,
+            type: 'POST',
+            async: false,
+            data: {
+                action: 'EquipamentoLogica.verifyQtdSolicitadaByIdEquipamento',
+                idEquipamento: id
+            }, success: function (data, textStatus, jqXHR) {
+                dados = $.parseJSON(data);
+                if (parseInt(qtdSolicitada) <= parseInt(dados.qtdDisponivel)) {
+//                        console.log(dados.qtdDisponivel);
+                    $(".buttonOkay").prop("disabled", false);
+                    $(".buttonOkay").css("cursor", "pointer");
+                } else if (qtdSolicitada == "") {
+                    // Nulo
+                } else {
+                    $(".buttonOkay").prop("disabled", true);
+                    $(".buttonOkay").css("cursor", "not-allowed");
+                    $("#modalQuantidadeSolicitadaMaiorQueDisponivel").modal();
+                    $("#modalQuantidadeSolicitadaMaiorQueDisponivel").modal('open');
+                }
+//                resultQuantidade = dados.qtdDisponivel - qtdSolicitada;
+            }
+        });
+    }
+
     function getQtdSolicitadaAndUpdateQtdDisponivel() {
         $(".txt-quantidade-solicitada:enabled").each(function () {
             var valorId = $(this).attr("id");
             var valorQtdSolicitada = $(this).val();
             var idEquipamento = valorId.substr(5, valorId.length - 5);
             var novaQuantidade = getQtdDisponivel(idEquipamento, valorQtdSolicitada);
-            console.log(novaQuantidade);
             $.ajax({
                 url: controllerToAdmin,
                 type: 'POST',
@@ -1516,6 +1638,23 @@ $(function () {
                     console.log("Deu certo");
                 }
             });
+        });
+    }
+
+    function getQtdSolicitadaAndUpdateQtdDisponivelToUpdate() {
+        var valorQtdSolicitada = $(".quantidadeSolicitada").val();
+        var idEquipamento = $("#sel-equipamentos").val();
+        var novaQuantidade = getQtdDisponivel(idEquipamento, valorQtdSolicitada);
+        $.ajax({
+            url: controllerToAdmin,
+            type: 'POST',
+            data: {
+                action: 'EquipamentoLogica.updateQtdDisponivelByIdEquipamento',
+                idEquipamento: idEquipamento,
+                valorAtual: novaQuantidade
+            }, success: function (data, textStatus, jqXHR) {
+                console.log("Deu certo");
+            }
         });
     }
 
@@ -1815,6 +1954,87 @@ $(function () {
                 $("#modalDataEquiSerRef").modal();
                 $("#modalDataEquiSerRef").modal('open');
                 $(".txt-hora-final").val(valorHoraFim);
+            }
+        });
+    }
+
+    function dataEquipamentoMenorQueDataEventoToUpdate() {
+        $("#formAddMaterialEvent .dataInicio").change(function () {
+            var valorDataEquipamento = $(this).val();
+            var valorDataInicio = $("#form_upd_event .dataInicio").val();
+            var valorDataFim = $("#form_upd_event .dataFim").val();
+            if (compararData(valorDataEquipamento, valorDataInicio, valorDataFim)) {
+                var $input = $('#formAddMaterialEvent .dataInicio').pickadate();
+                var picker = $input.pickadate('picker');
+                picker.close();
+                $("#modalDataEquiSerRef").modal();
+                $("#modalDataEquiSerRef").modal('open');
+                $("#formAddMaterialEvent .dataInicio").val(valorDataInicio);
+            }
+        });
+
+        $("#formAddMaterialEvent .horaInicio").change(function () {
+            var valorDataInicio = $("#form_upd_event .dataInicio").val();
+            var valorDataFim = $("#form_upd_event .dataFim").val();
+            var valorHoraEquipamento = $(this).val();
+            var valorId = $(this).attr('id');
+            var valorHoraInicio = $("#form_upd_event .horaInicio").val();
+            var valorHoraFim = $("#form_upd_event .horaFim").val();
+            var valorDataEquipamento = $("#formAddMaterialEvent .dataInicio").val();
+            if (valorDataEquipamento == "") {
+                valorDataEquipamento = valorDataInicio;
+                $("#formAddMaterialEvent .dataInicio").val(valorDataInicio);
+            }
+            if (compararHora(valorHoraEquipamento, valorHoraInicio, valorHoraFim, valorDataEquipamento, valorDataInicio, valorDataFim)) {
+                var $input = $('#formAddMaterialEvent .horaInicio').pickadate();
+                var picker = $input.pickadate('picker');
+                picker.close();
+                $("#modalDataEquiSerRef").modal();
+                $("#modalDataEquiSerRef").modal('open');
+                $("#formAddMaterialEvent .horaInicio").val(valorHoraInicio);
+            }
+        });
+        $("#formAddMaterialEvent .dataFim").change(function () {
+            var valorDataEquipamento = $(this).val();
+            var valorId = $(this).attr('id');
+            var valorDataInicio = $("#form_upd_event .dataInicio").val();
+            var valorDataFim = $("#form_upd_event .dataFim").val();
+            var valorDataInicioSelecionado = $("#formAddMaterialEvent .dataInicio").val();
+            if (compararDataMenorQueInicio(valorDataEquipamento, valorDataInicioSelecionado)) {
+                $("#modalDataInicioMaiorQueFinal").modal();
+                $("#modalDataInicioMaiorQueFinal").modal('open');
+                $(this).val(valorDataFim);
+            } else {
+                if (compararData(valorDataEquipamento, valorDataInicio, valorDataFim)) {
+                    var $input = $('#formAddMaterialEvent .dataFim').pickadate();
+                    var picker = $input.pickadate('picker');
+                    picker.close();
+                    $("#modalDataEquiSerRef").modal();
+                    $("#modalDataEquiSerRef").modal('open');
+                    $("#formAddMaterialEvent .dataFim").val(valorDataFim);
+                }
+            }
+
+        });
+        $("#formAddMaterialEvent .horaFim").change(function () {
+            var valorDataInicio = $("#form_upd_event .dataInicio").val();
+            var valorDataFim = $("#form_upd_event .dataFim").val();
+            var valorHoraEquipamento = $(this).val();
+            var valorId = $(this).attr('id');
+            var valorHoraInicio = $("#form_upd_event .horaInicio").val();
+            var valorHoraFim = $("#form_upd_event .horaFim").val();
+            var valorDataEquipamento = $("#formAddMaterialEvent .dataInicio").val();
+            if (valorDataEquipamento == "") {
+                valorDataEquipamento = valorDataInicio;
+                $("#formAddMaterialEvent .dataInicio").val(valorDataInicio);
+            }
+            if (compararHora(valorHoraEquipamento, valorHoraInicio, valorHoraFim, valorDataEquipamento, valorDataInicio, valorDataFim)) {
+                var $input = $('#formAddMaterialEvent .horaFim').pickadate();
+                var picker = $input.pickadate('picker');
+                picker.close();
+                $("#modalDataEquiSerRef").modal();
+                $("#modalDataEquiSerRef").modal('open');
+                $("#formAddMaterialEvent .horaFim").val(valorHoraFim);
             }
         });
     }

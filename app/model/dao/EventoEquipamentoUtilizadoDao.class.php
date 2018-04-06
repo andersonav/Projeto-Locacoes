@@ -61,4 +61,20 @@ class EventoEquipamentoUtilizadoDao {
         }
     }
 
+    public function getInformationsMaterialToEdit($idMaterialUtilizado, $idEvento) {
+        try {
+            $sql = "SELECT * FROM evento_equipamento_utilizado
+                    INNER JOIN equipamentos_evento ON equi_eve_id = eve_equi_uti_fkequi_id
+                    WHERE eve_equi_uti_id = ? AND eve_equi_uti_fkeve_id = ?";
+            $p_sql = ConexaoMysql::getInstance()->prepare($sql);
+            $p_sql->bindParam(1, $idMaterialUtilizado);
+            $p_sql->bindParam(2, $idEvento);
+            $p_sql->execute();
+
+            return $this->getListObjEventoEquipamentoUtilizado($p_sql->fetchAll(PDO::FETCH_OBJ));
+        } catch (Exception $e) {
+            echo $e->getTraceAsString();
+        }
+    }
+
 }

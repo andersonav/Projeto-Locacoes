@@ -287,22 +287,19 @@
                         <h4 class="center textAdionarAtualizarMaterial"></h4>
                         <div class="divider"></div>
                         <br>
-                        <form class="col s12" id="form_upd_event">
+                        <form class="col s12" id="formAddMaterialEvent">
                             <div class="row">
                                 <div class="input-field col s12 m4">
                                     <select name="sel-equipamentos" class="sel-equipamentos" id="sel-equipamentos">
-                                        <option>Teste</option>
-                                        <option>Teste</option>
-                                        <option>Teste</option>
                                     </select>
                                     <label class="corLogo-text">Equipamentos disponíveis:</label>
                                 </div>
                                 <div class="input-field col s12 m4">
-                                    <input id="icon_prefix" type="text" class="validate quantidadeDisponivel" placeholder="Quantidade disponível" disabled>
+                                    <input id="icon_prefix" type="text" class="quantidadeDisponivel" placeholder="Quantidade disponível" disabled>
                                     <label for="icon_prefix" class="corLogo-text active">Quantidade disponível:</label>
                                 </div>
                                 <div class="input-field col s12 m4">
-                                    <input id="icon_prefix" type="text" class="validate quantidadeSolicitada" placeholder="Digite a quantidade solicitada">
+                                    <input id="icon_prefix" type="text" class="quantidadeSolicitada" placeholder="Digite a quantidade solicitada">
                                     <label for="icon_prefix" class="corLogo-text active">Quantidade solicitada:</label>
                                 </div>
                                 <div class="input-field col s12 m3 divDataInicio">
@@ -310,7 +307,7 @@
                                     <label for="icon_prefix" class="corLogo-text active dataInicioLabel">Data Início:</label>
                                 </div>
                                 <div class="input-field col s12 m3">
-                                    <input id="formHoraInicio" type="text" class="validate horaInicio" placeholder="Escolha a Hora Inicial" name="horaInicio">
+                                    <input id="formHoraInicio" type="text" class="horaInicio" placeholder="Escolha a Hora Inicial" name="horaInicio">
                                     <label for="icon_prefix" class="corLogo-text active">Hora Início:</label>
                                 </div>
                                 <div class="input-field col s12 m3">
@@ -318,11 +315,22 @@
                                     <label for="icon_prefix" class="corLogo-text active dataFimLabel">Data Fim:</label>
                                 </div>
                                 <div class="input-field col s12 m3">
-                                    <input id="formHoraFim" type="text" class="validate horaFim" placeholder="Escolha a Hora Final" name="horaFim">
+                                    <input id="formHoraFim" type="text" class="horaFim" placeholder="Escolha a Hora Final" name="horaFim">
                                     <label for="icon_prefix" class="corLogo-text active">Hora Fim:</label>
                                 </div>
                             </div>
                         </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btnModal btnCancel">CANCELAR</button>
+                        <button class="btnModal buttonCadastroMaterial">CADASTRAR</button>
+                        <button class="btnModal buttonUpdateMaterial">ATUALIZAR</button>
+                    </div>
+                </div>
+                <div id="modalCadastroMaterial" class="modal">
+                    <div class="modal-content">
+                        <h4>Alerta</h4>
+                        <p>Cadastro realizado com sucesso.</p>
                     </div>
                     <div class="modal-footer">
                         <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Fechar</a>
@@ -436,16 +444,17 @@
 
                     </div>
                     <div class="modal-footer">
-                        <button class="btnModal buttonOkay">CADASTRAR</button>
                         <button class="btnModal buttonCancel">CANCELAR</button>
+                        <button class="btnModal buttonOkay">CADASTRAR</button>
                     </div>
                 </div>
                 <div id="modalUpdateEvent" class="modal">
                     <div class="modal-content" id="contentUpdateEvent">
                     </div>
                     <div class="modal-footer">
-                        <button class="btnModal buttonUpdate">ATUALIZAR</button>
                         <button class="btnModal buttonCancel">CANCELAR</button>
+                        <button class="btnModal buttonUpdate">ATUALIZAR</button>
+
                     </div>
                 </div>
                 <br><br>

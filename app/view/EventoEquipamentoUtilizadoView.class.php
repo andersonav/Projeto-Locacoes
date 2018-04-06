@@ -120,4 +120,20 @@ class EventoEquipamentoUtilizadoView {
         echo json_encode($array);
     }
 
+    public function jsonInformationsMaterial($materiais) {
+        $array = array();
+        foreach ($materiais as $material) {
+            $array = array(
+                "idEquipamento" => $material->getIdEquipamento(),
+                "qtdDisponivel" => $material->getQtdDisponivelEquipamento(),
+                "qtdSolicitada" => $material->getQtdEventoEquipamentoUtilizado(),
+                "dataInicio" => date_format(date_create($material->getDataInicioEquipamentoUtilizado()), "d/m/Y"),
+                "horaInicio" => date_format(date_create($material->getDataInicioEquipamentoUtilizado()), "H:i"),
+                "dataFim" => date_format(date_create($material->getDataFimEquipamentoUtilizado()), "d/m/Y"),
+                "horaFim" => date_format(date_create($material->getDataFimEquipamentoUtilizado()), "H:i")
+            );
+        }
+        echo json_encode($array);
+    }
+
 }
