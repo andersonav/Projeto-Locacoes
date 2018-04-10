@@ -128,6 +128,7 @@ $(function () {
                                 }
                             });
                             $("#modalAdicionarEventoClickDay").modal('open');
+                            $(".buttonOkay").attr("disabled", false);
                             var idSetor = $("#sel-tipo-evento-pesquisa").val();
                             var idBloco = $("#sel-bloco-pesquisa").val();
                             var nameBloco = $("#sel-bloco-pesquisa").find('option:selected').text();
@@ -265,7 +266,7 @@ $(function () {
                         getEquipamentosByIdEvento(event.id);
                         adicionarMaterialByEvento();
                         editarMaterialByEvento(event.id);
-                        deletarMaterialByEvento();
+                        deletarMaterialByEvento(event.id);
                         updateEventById(event.id);
                     }
                 });
@@ -328,6 +329,7 @@ $(function () {
 
     function adicionarMaterialByEvento() {
         $(".btn-add-material").click(function () {
+            $("#sel-equipamentos").attr("disabled", false);
             var idEvento = $(this).attr("id");
             $(".textAdionarAtualizarMaterial").html("Adicionar Material");
             loadInSelectMateriais(idEvento);
@@ -354,6 +356,7 @@ $(function () {
             var idMaterialUtilizado = $(this).attr("id");
             $(".textAdionarAtualizarMaterial").html("Atualizar Material");
             getInformationsMaterialToEdit(idMaterialUtilizado, idEvento);
+            dataEquipamentoMenorQueDataEventoToUpdate();
             $("#modalAdicionarAtualizarMaterial").modal({
                 dismissible: false,
                 complete: function () {
@@ -367,10 +370,11 @@ $(function () {
         });
     }
 
-    function deletarMaterialByEvento() {
+    function deletarMaterialByEvento(idEvento) {
         $(".btn-deletar-material").click(function () {
             var idMaterialUtilizado = $(this).attr("id");
-//            getInformationsMaterialByIdToExclusao(valorId);
+            var informationsMaterial = [];
+            informationsMaterial = getInformationsMaterialByIdToExclusao(idMaterialUtilizado, idEvento);
             $("#dialog-confirm").dialog({
                 show: {
                     effect: 'fade',
@@ -383,9 +387,9 @@ $(function () {
                 buttons: {
                     "Sim": function () {
                         $(this).dialog("close");
-                        deleteMaterialById(idMaterialUtilizado);
+                        deleteInTableMaterialUtilizado(informationsMaterial, idEvento);
                     },
-                    Nao: function () {
+                    Não: function () {
                         $(this).dialog("close");
                     }
                 }
@@ -414,6 +418,7 @@ $(function () {
                 $.ajax({
                     url: controllerToAdmin,
                     type: 'POST',
+                    async: false,
                     data: {
                         action: 'EventoLogica.insertInTabelEventEquipamentUsed',
                         valorIdEvento: idEvento,
@@ -422,8 +427,13 @@ $(function () {
                         dataInicio: inicio,
                         dataFim: fim
                     }, success: function (data, textStatus, jqXHR) {
-                        $("#modalCadastroMaterial").modal();
-                        $("#modalCadastroMaterial").modal('open');
+                        $("#modalAdicionarAtualizarMaterial").modal();
+                        $("#modalAdicionarAtualizarMaterial").modal('close');
+                        getEquipamentosByIdEvento(idEvento);
+                        adicionarMaterialByEvento();
+                        editarMaterialByEvento(idEvento);
+                        deletarMaterialByEvento(idEvento);
+                        updateEventById(idEvento);
                     }
                 });
             }
@@ -442,15 +452,106 @@ $(function () {
                 idEvento: idEvento
             }, success: function (data, textStatus, jqXHR) {
                 data = $.parseJSON(data);
-                loadInSelectMateriais(idEvento);
+                var optionMaterial = "<option value=" + data.idEquipamento + ">" + data.descricaoEquipamento + "</option>";
+                $("#sel-equipamentos").html(optionMaterial);
+                $("#sel-equipamentos").attr("disabled", true);
+                $("#sel-equipamentos").material_select();
                 $(".quantidadeDisponivel").val(data.qtdDisponivel);
                 $(".quantidadeSolicitada").val(data.qtdSolicitada);
                 $("#formAddMaterialEvent .dataInicio").val(data.dataInicio);
                 $("#formAddMaterialEvent .horaInicio").val(data.horaInicio);
                 $("#formAddMaterialEvent .dataFim").val(data.dataFim);
                 $("#formAddMaterialEvent .horaFim").val(data.horaFim);
+                updateMaterialByIdEventoUtilizado(data.idTableEventoUtilizado, idEvento);
+                isNumeric();
                 $(".buttonCadastroMaterial").hide();
                 $(".buttonUpdateMaterial").show();
+                $(".buttonUpdateMaterial").prop("disabled", false);
+                $(".buttonUpdateMaterial").css("cursor", "pointer");
+            }
+        });
+    }
+
+    function updateMaterialByIdEventoUtilizado(idTableEventoUtilizado, idEvento) {
+        $(".buttonUpdateMaterial").click(function () {
+            var quantidadeSolicitada = $("#formAddMaterialEvent .quantidadeSolicitada").val();
+            var dataInicio = $("#formAddMaterialEvent .dataInicio").val();
+            var horaInicio = $("#formAddMaterialEvent .horaInicio").val();
+            var dataFim = $("#formAddMaterialEvent .dataFim").val();
+            var horaFim = $("#formAddMaterialEvent .horaFim").val();
+            var contadorInput = 0;
+            $("#formAddMaterialEvent input:enabled").each(function () {
+                if ($(this).val() == "") {
+                    contadorInput++;
+                }
+            });
+            if (contadorInput == 0) {
+                var inicio = dataInicio.substr(6, 4) + "-" + dataInicio.substr(3, 2) + "-" + dataInicio.substr(0, 2) + " " + horaInicio;
+                var fim = dataFim.substr(6, 4) + "-" + dataFim.substr(3, 2) + "-" + dataFim.substr(0, 2) + " " + horaFim;
+                getQtdSolicitadaAndUpdateQtdDisponivelToUpdate();
+                $.ajax({
+                    url: controllerToAdmin,
+                    type: 'POST',
+                    data: {
+                        action: "EventoEquipamentoUtilizadoLogica.updateMaterialByIdEventoUtilizado",
+                        idTableEventoUtilizado: idTableEventoUtilizado,
+                        quantidadeSolicitada: quantidadeSolicitada,
+                        dataInicio: inicio,
+                        dataFim: fim
+                    }, success: function (data, textStatus, jqXHR) {
+                        $("#modalAdicionarAtualizarMaterial").modal();
+                        $("#modalAdicionarAtualizarMaterial").modal('close');
+                        getEquipamentosByIdEvento(idEvento);
+                        adicionarMaterialByEvento();
+                        editarMaterialByEvento(idEvento);
+                        deletarMaterialByEvento(idEvento);
+                        updateEventById(idEvento);
+                    }
+                });
+            } else {
+                $("#modalCamposNulos").modal();
+                $("#modalCamposNulos").modal("open");
+            }
+        });
+    }
+
+    function getInformationsMaterialByIdToExclusao(idMaterialUtilizado, idEvento) {
+        var informationsMaterial = [];
+        $.ajax({
+            url: controllerToAdmin,
+            type: 'POST',
+            async: false,
+            data: {
+                action: 'EventoEquipamentoUtilizadoLogica.getInformationsMaterialToEdit',
+                idMaterialUtilizado: idMaterialUtilizado,
+                idEvento: idEvento
+            }, success: function (data, textStatus, jqXHR) {
+                data = $.parseJSON(data);
+                informationsMaterial.push(data.idTableEventoUtilizado);
+                informationsMaterial.push(data.dataInicioBancoDeDados);
+                informationsMaterial.push(data.dataFimBancoDeDados);
+                $(".textExclusao").html("Você deseja realmente excluir <b>" + data.descricaoEquipamento + "</b> ?");
+            }
+        });
+        return informationsMaterial;
+    }
+
+    function deleteInTableMaterialUtilizado(informationsMaterial, idEvento) {
+        $.ajax({
+            url: controllerToAdmin,
+            type: 'POST',
+            async: false,
+            data: {
+                action: 'EventoEquipamentoUtilizadoLogica.deleteInTableMaterialUtilizado',
+                idMaterialUtilizadoOfTable: informationsMaterial[0],
+                dataInicio: informationsMaterial[1],
+                dataFim: informationsMaterial[2]
+            }, success: function (data, textStatus, jqXHR) {
+                getEquipamentosByIdEvento(idEvento);
+                adicionarMaterialByEvento();
+                editarMaterialByEvento(idEvento);
+                deletarMaterialByEvento(idEvento);
+                updateEventById(idEvento);
             }
         });
     }
@@ -676,6 +777,7 @@ $(function () {
         });
 
         $("#modalAdicionarEventoClickDay").modal('open');
+        $(".buttonOkay").attr("disabled", false);
         var idSetor = $("#sel-tipo-evento-pesquisa").val();
         var idBloco = $("#sel-bloco-pesquisa").val();
         var nameBloco = $("#sel-bloco-pesquisa").find('option:selected').text();
@@ -1608,11 +1710,15 @@ $(function () {
 //                        console.log(dados.qtdDisponivel);
                     $(".buttonOkay").prop("disabled", false);
                     $(".buttonOkay").css("cursor", "pointer");
+                    $(".buttonUpdateMaterial").prop("disabled", false);
+                    $(".buttonUpdateMaterial").css("cursor", "pointer");
                 } else if (qtdSolicitada == "") {
                     // Nulo
                 } else {
                     $(".buttonOkay").prop("disabled", true);
                     $(".buttonOkay").css("cursor", "not-allowed");
+                    $(".buttonUpdateMaterial").prop("disabled", true);
+                    $(".buttonUpdateMaterial").css("cursor", "not-allowed");
                     $("#modalQuantidadeSolicitadaMaiorQueDisponivel").modal();
                     $("#modalQuantidadeSolicitadaMaiorQueDisponivel").modal('open');
                 }

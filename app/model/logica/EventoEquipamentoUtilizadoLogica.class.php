@@ -49,4 +49,21 @@ class EventoEquipamentoUtilizadoLogica {
         return EventoEquipamentoUtilizadoView::getInstance()->jsonInformationsMaterial(EventoEquipamentoUtilizadoDao::getInstance()->getInformationsMaterialToEdit($idMaterialUtilizado, $idEvento));
     }
 
+    public function updateMaterialByIdEventoUtilizado() {
+        $idTableEventoUtilizado = $_REQUEST['idTableEventoUtilizado'];
+        $quantidadeSolicitada = $_REQUEST['quantidadeSolicitada'];
+        $dataInicio = $_REQUEST['dataInicio'];
+        $dataFim = $_REQUEST['dataFim'];
+
+        return EventoEquipamentoUtilizadoDao::getInstance()->updateMaterialByIdEventoUtilizado($idTableEventoUtilizado, $quantidadeSolicitada, $dataInicio, $dataFim);
+    }
+
+    public function deleteInTableMaterialUtilizado() {
+        $idMaterialUtilizadoOfTable = $_REQUEST['idMaterialUtilizadoOfTable'];
+        $dataInicio = $_REQUEST['dataInicio'];
+        $dataFim = $_REQUEST['dataFim'];
+
+        return EventoEquipamentoUtilizadoDao::getInstance()->deleteInTableMaterialUtilizado($idMaterialUtilizadoOfTable, $dataInicio, $dataFim);
+    }
+
 }

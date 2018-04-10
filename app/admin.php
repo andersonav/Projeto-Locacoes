@@ -292,7 +292,7 @@
                                 <div class="input-field col s12 m4">
                                     <select name="sel-equipamentos" class="sel-equipamentos" id="sel-equipamentos">
                                     </select>
-                                    <label class="corLogo-text">Equipamentos disponíveis:</label>
+                                    <label class="corLogo-text">Material:</label>
                                 </div>
                                 <div class="input-field col s12 m4">
                                     <input id="icon_prefix" type="text" class="quantidadeDisponivel" placeholder="Quantidade disponível" disabled>

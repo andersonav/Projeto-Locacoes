@@ -124,13 +124,17 @@ class EventoEquipamentoUtilizadoView {
         $array = array();
         foreach ($materiais as $material) {
             $array = array(
+                "idTableEventoUtilizado" => $material->getIdEventoEquipamentoUtilizado(),
                 "idEquipamento" => $material->getIdEquipamento(),
+                "descricaoEquipamento" => $material->getDescricaoEventoEquipamentoUtilizado(),
                 "qtdDisponivel" => $material->getQtdDisponivelEquipamento(),
                 "qtdSolicitada" => $material->getQtdEventoEquipamentoUtilizado(),
                 "dataInicio" => date_format(date_create($material->getDataInicioEquipamentoUtilizado()), "d/m/Y"),
                 "horaInicio" => date_format(date_create($material->getDataInicioEquipamentoUtilizado()), "H:i"),
                 "dataFim" => date_format(date_create($material->getDataFimEquipamentoUtilizado()), "d/m/Y"),
-                "horaFim" => date_format(date_create($material->getDataFimEquipamentoUtilizado()), "H:i")
+                "horaFim" => date_format(date_create($material->getDataFimEquipamentoUtilizado()), "H:i"), 
+                "dataInicioBancoDeDados" => $material->getDataInicioEquipamentoUtilizado(),
+                "dataFimBancoDeDados" => $material->getDataFimEquipamentoUtilizado()
             );
         }
         echo json_encode($array);

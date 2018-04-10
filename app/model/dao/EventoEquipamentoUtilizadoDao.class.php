@@ -77,4 +77,37 @@ class EventoEquipamentoUtilizadoDao {
         }
     }
 
+    public function updateMaterialByIdEventoUtilizado($idTableEventoUtilizado, $quantidadeSolicitada, $dataInicio, $dataFim) {
+        try {
+            $sql = "UPDATE evento_equipamento_utilizado SET eve_equi_uti_qtd = ?, eve_equi_uti_data_inicio = ?, eve_equi_uti_data_fim = ? WHERE eve_equi_uti_id = ?";
+            $p_sql = ConexaoMysql::getInstance()->prepare($sql);
+            $p_sql->bindParam(1, $quantidadeSolicitada);
+            $p_sql->bindParam(2, $dataInicio);
+            $p_sql->bindParam(3, $dataFim);
+            $p_sql->bindParam(4, $idTableEventoUtilizado);
+            return $p_sql->execute();
+        } catch (Exception $exc) {
+            echo $exc->getTraceAsString();
+        }
+    }
+
+    public function deleteInTableMaterialUtilizado($idMaterialUtilizadoOfTable, $dataInicio, $dataFim) {
+        try {
+
+            $sql = "UPDATE evento_equipamento_utilizado SET eve_equi_uti_fkequi_id = ?, eve_equi_uti_qtd = ?, eve_equi_uti_data_inicio = ?, eve_equi_uti_data_fim = ? WHERE eve_equi_uti_id = ?";
+            $p_sql = ConexaoMysql::getInstance()->prepare($sql);
+            $idEvento = 0;
+            $qtd = '-';
+            $p_sql->bindParam(1, $idEvento);
+            $p_sql->bindParam(2, $qtd);
+            $p_sql->bindParam(3, $dataInicio);
+            $p_sql->bindParam(4, $dataFim);
+            $p_sql->bindParam(5, $idMaterialUtilizadoOfTable);
+
+            return $p_sql->execute();
+        } catch (Exception $exc) {
+            echo $exc->getTraceAsString();
+        }
+    }
+
 }
