@@ -264,7 +264,7 @@ $(function () {
                         getBlocoBySetorModalUpdate();
                         getAmbienteByBlocoModalUpdate();
                         getEquipamentosByIdEvento(event.id);
-                        adicionarMaterialByEvento();
+                        adicionarMaterialByEvento(event.id);
                         editarMaterialByEvento(event.id);
                         deletarMaterialByEvento(event.id);
                         updateEventById(event.id);
@@ -327,10 +327,10 @@ $(function () {
         });
     }
 
-    function adicionarMaterialByEvento() {
+    function adicionarMaterialByEvento(idEvento) {
         $(".btn-add-material").click(function () {
             $("#sel-equipamentos").attr("disabled", false);
-            var idEvento = $(this).attr("id");
+//            var idEvento = $(this).attr("id");
             $(".textAdionarAtualizarMaterial").html("Adicionar Material");
             loadInSelectMateriais(idEvento);
             dataEquipamentoMenorQueDataEventoToUpdate();
@@ -430,7 +430,7 @@ $(function () {
                         $("#modalAdicionarAtualizarMaterial").modal();
                         $("#modalAdicionarAtualizarMaterial").modal('close');
                         getEquipamentosByIdEvento(idEvento);
-                        adicionarMaterialByEvento();
+                        adicionarMaterialByEvento(idEvento);
                         editarMaterialByEvento(idEvento);
                         deletarMaterialByEvento(idEvento);
                         updateEventById(idEvento);
@@ -502,7 +502,7 @@ $(function () {
                         $("#modalAdicionarAtualizarMaterial").modal();
                         $("#modalAdicionarAtualizarMaterial").modal('close');
                         getEquipamentosByIdEvento(idEvento);
-                        adicionarMaterialByEvento();
+                        adicionarMaterialByEvento(idEvento);
                         editarMaterialByEvento(idEvento);
                         deletarMaterialByEvento(idEvento);
                         updateEventById(idEvento);
@@ -548,7 +548,7 @@ $(function () {
                 dataFim: informationsMaterial[2]
             }, success: function (data, textStatus, jqXHR) {
                 getEquipamentosByIdEvento(idEvento);
-                adicionarMaterialByEvento();
+                adicionarMaterialByEvento(idEvento);
                 editarMaterialByEvento(idEvento);
                 deletarMaterialByEvento(idEvento);
                 updateEventById(idEvento);
