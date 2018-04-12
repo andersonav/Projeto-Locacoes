@@ -85,7 +85,7 @@ class EventoEquipamentoUtilizadoView {
                 <tbody>
 
                     <?php
-                    $idEvento;
+                    $idEvento= "";
                     foreach ($equipamentos as $equipamento) {
                         $idEvento = $equipamento->getIdEvento();
                         ?>
@@ -101,8 +101,18 @@ class EventoEquipamentoUtilizadoView {
                         </tr>
                         <?php
                     }
+                    if ($idEvento == "" || $idEvento == null) {
+                        ?>
+                        <tr><td colspan="8">Não há equipamentos disponíveis</td></tr>
+                    <td><a class="btn-floating btn-large waves-effect waves-light btn-add-material" id=""><i class="material-icons">add</i></a></td>
+
+                    <?php
+                } else {
                     ?>
-                <td><a class="btn-floating btn-large waves-effect waves-light btn-add-material" id="<?php echo $idEvento; ?>"><i class="material-icons">add</i></a></td>
+                    <td><a class="btn-floating btn-large waves-effect waves-light btn-add-material" id="<?php echo $idEvento; ?>"><i class="material-icons">add</i></a></td>
+                    <?php
+                }
+                ?>
                 </tbody>
             </table> 
         </div> 
@@ -132,7 +142,7 @@ class EventoEquipamentoUtilizadoView {
                 "dataInicio" => date_format(date_create($material->getDataInicioEquipamentoUtilizado()), "d/m/Y"),
                 "horaInicio" => date_format(date_create($material->getDataInicioEquipamentoUtilizado()), "H:i"),
                 "dataFim" => date_format(date_create($material->getDataFimEquipamentoUtilizado()), "d/m/Y"),
-                "horaFim" => date_format(date_create($material->getDataFimEquipamentoUtilizado()), "H:i"), 
+                "horaFim" => date_format(date_create($material->getDataFimEquipamentoUtilizado()), "H:i"),
                 "dataInicioBancoDeDados" => $material->getDataInicioEquipamentoUtilizado(),
                 "dataFimBancoDeDados" => $material->getDataFimEquipamentoUtilizado()
             );
