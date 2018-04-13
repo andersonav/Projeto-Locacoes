@@ -75,4 +75,16 @@ class ServicoView {
         echo json_encode($array);
     }
 
+    public function htmlSelectServicos($servicos) {
+        ?>
+        <option value="" selected disabled>Escolha sua opção</option>
+
+        <?php
+        foreach ($servicos as $servico) {
+            ?>
+            <option value="<?= $servico->getIdServico() ?>"><?= $servico->getDescricaoServico(); ?></option>
+            <?php
+        }
+    }
+
 }

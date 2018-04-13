@@ -83,4 +83,20 @@ class ServicoDao {
         }
     }
 
+    public function getServicoNotInEvento($idEvento) {
+
+        try {
+
+            $sql = "SELECT * FROM servicos_evento
+                    WHERE ser_eve_id NOT IN (SELECT eve_ser_uti_fkser_id FROM evento_servico_utilizado WHERE eve_ser_uti_fkeve_id = ?)";
+            $p_sql = ConexaoMysql::getInstance()->prepare($sql);
+            $p_sql->bindParam(1, $idEvento);
+            $p_sql->execute();
+
+            return $this->getListObjServico($p_sql->fetchAll(PDO::FETCH_OBJ));
+        } catch (Exception $e) {
+            echo $e->getTraceAsString();
+        }
+    }
+
 }

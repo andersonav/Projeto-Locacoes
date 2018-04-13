@@ -267,10 +267,8 @@ $(function () {
                         getBlocoBySetorModalUpdate();
                         getAmbienteByBlocoModalUpdate();
                         getEquipamentosByIdEvento(event.id);
+                        getServicosByIdEvento(event.id);
                         idEventoToUpdate = event.id;
-//                        adicionarMaterialByEvento(event.id);
-//                        editarMaterialByEvento(event.id);
-//                        deletarMaterialByEvento(event.id);
                         updateEventById(event.id);
                     }
                 });
@@ -331,7 +329,7 @@ $(function () {
         });
     }
 
-    function adicionarMaterialByEvento(idEvento) {
+    function logicaAddEditDeleteMaterial(idEvento) {
         $(".btn-add-material").click(function () {
             $("#sel-equipamentos").attr("disabled", false);
 //            var idEvento = $(this).attr("id");
@@ -348,6 +346,14 @@ $(function () {
                     });
                 }
             });
+            var dataInicioForm = $("#form_upd_event .dataInicio").val();
+            var horaInicioForm = $("#form_upd_event .horaInicio").val();
+            var dataFimForm = $("#form_upd_event .dataFim").val();
+            var horaFimForm = $("#form_upd_event .horaFim").val();
+            $("#formAddMaterialEvent .dataInicio").val(dataInicioForm);
+            $("#formAddMaterialEvent .horaInicio").val(horaInicioForm);
+            $("#formAddMaterialEvent .dataFim").val(dataFimForm);
+            $("#formAddMaterialEvent .horaFim").val(horaFimForm);
             $("#modalAdicionarAtualizarMaterial").modal('open');
             $(".buttonCadastroMaterial").show();
             $(".buttonUpdateMaterial").hide();
@@ -398,16 +404,88 @@ $(function () {
         });
     }
 
-    function editarMaterialByEvento(idEvento) {
+    function logicaAddEditDeleteServico(idEvento) {
+        $(".btn-add-servico").click(function () {
+            $("#sel-servicos").attr("disabled", false);
+            $(".textAdionarAtualizarServico").html("Adicionar Serviço");
+            loadInSelectServicos(idEvento);
+            $("#modalAdicionarAtualizarServico").modal({
+                dismissible: false,
+                complete: function () {
+                    $('#formAddServicoEvent').each(function () {
+                        this.reset();
+                    });
+                }
+            });
+            var dataInicioForm = $("#form_upd_event .dataInicio").val();
+            var horaInicioForm = $("#form_upd_event .horaInicio").val();
+            var dataFimForm = $("#form_upd_event .dataFim").val();
+            var horaFimForm = $("#form_upd_event .horaFim").val();
+            $("#formAddServicoEvent .dataInicio").val(dataInicioForm);
+            $("#formAddServicoEvent .horaInicio").val(horaInicioForm);
+            $("#formAddServicoEvent .dataFim").val(dataFimForm);
+            $("#formAddServicoEvent .horaFim").val(horaFimForm);
+            $("#modalAdicionarAtualizarServico").modal('open');
+            $(".buttonCadastroServico").show();
+            $(".buttonUpdateServico").hide();
+            fecharModalAddServico();
+        });
 
+        $(".btn-editar-servico").click(function () {
+            var idServicoUtilizado = $(this).attr("id");
+            $(".textAdionarAtualizarServico").html("Atualizar Serviço");
+            getInformationsServicoToEdit(idServicoUtilizado, idEvento);
+            $("#modalAdicionarAtualizarServico").modal({
+                dismissible: false,
+                complete: function () {
+                    $('#formAddServicoEvent').each(function () {
+                        this.reset();
+                    });
+                }
+            });
+            $("#modalAdicionarAtualizarServico").modal('open');
+            fecharModalAddServico();
+        });
+
+        $(".btn-deletar-servico").click(function () {
+            var idServicoUtilizado = $(this).attr("id");
+            var informationsServico = [];
+            informationsServico = getInformationsServicoByIdToExclusao(idServicoUtilizado, idEvento);
+            $("#dialog-confirm").dialog({
+                show: {
+                    effect: 'fade',
+                    duration: 200 //at your convenience
+                },
+                resizable: false,
+                height: "auto",
+                width: 400,
+                modal: true,
+                buttons: {
+                    "Sim": function () {
+                        $(this).dialog("close");
+                        deleteInTableServicoUtilizado(informationsServico, idEvento);
+                    },
+                    Não: function () {
+                        $(this).dialog("close");
+                    }
+                }
+            });
+        });
     }
 
-    function deletarMaterialByEvento(idEvento) {
-
-    }
-
-    function addMaterialInEvent(idEvento) {
-
+    function loadInSelectMateriais(idEvento) {
+        $.ajax({
+            url: controllerToAdmin,
+            type: 'POST',
+            data: {
+                action: 'EquipamentoLogica.getEquipamentosNotInEvento',
+                idEvento: idEvento
+            }, success: function (data, textStatus, jqXHR) {
+                $("#sel-equipamentos").html(data);
+                $("#sel-equipamentos").material_select();
+                getQuantidadeDisponivelByIdEquipamento();
+            }
+        });
     }
 
     function getInformationsMaterialToEdit(idMaterialUtilizado, idEvento) {
@@ -432,7 +510,6 @@ $(function () {
                 $("#formAddMaterialEvent .dataFim").val(data.dataFim);
                 $("#formAddMaterialEvent .horaFim").val(data.horaFim);
                 idTableEventoUtilizado = data.idTableEventoUtilizado;
-//                updateMaterialByIdEventoUtilizado(data.idTableEventoUtilizado, idEvento);
                 $(".buttonCadastroMaterial").hide();
                 $(".buttonUpdateMaterial").show();
                 $(".buttonUpdateMaterial").prop("disabled", false);
@@ -440,46 +517,6 @@ $(function () {
             }
         });
     }
-
-//    function updateMaterialByIdEventoUtilizado(idTableEventoUtilizado, id) {
-    $(".buttonUpdateMaterial").click(function () {
-        var quantidadeSolicitada = $("#formAddMaterialEvent .quantidadeSolicitada").val();
-        var dataInicio = $("#formAddMaterialEvent .dataInicio").val();
-        var horaInicio = $("#formAddMaterialEvent .horaInicio").val();
-        var dataFim = $("#formAddMaterialEvent .dataFim").val();
-        var horaFim = $("#formAddMaterialEvent .horaFim").val();
-        var contadorInput = 0;
-        $("#formAddMaterialEvent input:enabled").each(function () {
-            if ($(this).val() == "") {
-                contadorInput++;
-            }
-        });
-        if (contadorInput == 0) {
-            var inicio = dataInicio.substr(6, 4) + "-" + dataInicio.substr(3, 2) + "-" + dataInicio.substr(0, 2) + " " + horaInicio;
-            var fim = dataFim.substr(6, 4) + "-" + dataFim.substr(3, 2) + "-" + dataFim.substr(0, 2) + " " + horaFim;
-            getQtdSolicitadaAndUpdateQtdDisponivelToUpdate();
-            $.ajax({
-                url: controllerToAdmin,
-                type: 'POST',
-                data: {
-                    action: "EventoEquipamentoUtilizadoLogica.updateMaterialByIdEventoUtilizado",
-                    idTableEventoUtilizado: idTableEventoUtilizado,
-                    quantidadeSolicitada: quantidadeSolicitada,
-                    dataInicio: inicio,
-                    dataFim: fim
-                }, success: function (data, textStatus, jqXHR) {
-                    $("#modalAdicionarAtualizarMaterial").modal();
-                    $("#modalAdicionarAtualizarMaterial").modal('close');
-                    getEquipamentosByIdEvento(idEventoToUpdate);
-                    updateEventById(idEventoToUpdate);
-                }
-            });
-        } else {
-            $("#modalCamposNulos").modal();
-            $("#modalCamposNulos").modal("open");
-        }
-    });
-//    }
 
     function getInformationsMaterialByIdToExclusao(idMaterialUtilizado, idEvento) {
         var informationsMaterial = [];
@@ -525,18 +562,89 @@ $(function () {
         });
     }
 
-    function loadInSelectMateriais(idEvento) {
+    function loadInSelectServicos(idEvento) {
         $.ajax({
             url: controllerToAdmin,
             type: 'POST',
             data: {
-                action: 'EquipamentoLogica.getEquipamentosNotInEvento',
+                action: 'ServicoLogica.getServicoNotInEvento',
                 idEvento: idEvento
             }, success: function (data, textStatus, jqXHR) {
-                $("#sel-equipamentos").html(data);
-                $("#sel-equipamentos").material_select();
-                getQuantidadeDisponivelByIdEquipamento();
+                $("#sel-servicos").html(data);
+                $("#sel-servicos").material_select();
             }
+        });
+    }
+
+    function getInformationsServicoToEdit(idServicoUtilizado, idEvento) {
+        $.ajax({
+            url: controllerToAdmin,
+            type: 'POST',
+            async: false,
+            data: {
+                action: 'EventoServicoUtilizadoLogica.getInformationsServicoToEdit',
+                idServicoUtilizado: idServicoUtilizado,
+                idEvento: idEvento
+            }, success: function (data, textStatus, jqXHR) {
+                data = $.parseJSON(data);
+                var optionServico = "<option value=" + data.idServico + ">" + data.descricaoServico + "</option>";
+                $("#sel-servicos").html(optionServico);
+                $("#sel-servicos").attr("disabled", true);
+                $("#sel-servicos").material_select();
+                $("#formAddServicoEvent .dataInicio").val(data.dataInicio);
+                $("#formAddServicoEvent .horaInicio").val(data.horaInicio);
+                $("#formAddServicoEvent .dataFim").val(data.dataFim);
+                $("#formAddServicoEvent .horaFim").val(data.horaFim);
+                idTableEventoUtilizado = data.idTableEventoUtilizado;
+                $(".buttonCadastroServico").hide();
+                $(".buttonUpdateServico").show();
+                $(".buttonUpdateServico").prop("disabled", false);
+                $(".buttonUpdateServico").css("cursor", "pointer");
+            }
+        });
+    }
+
+    function getInformationsServicoByIdToExclusao(idServicoUtilizado, idEvento) {
+        var informationsServico = [];
+        $.ajax({
+            url: controllerToAdmin,
+            type: 'POST',
+            async: false,
+            data: {
+                action: 'EventoServicoUtilizadoLogica.getInformationsServicoToEdit',
+                idServicoUtilizado: idServicoUtilizado,
+                idEvento: idEvento
+            }, success: function (data, textStatus, jqXHR) {
+                data = $.parseJSON(data);
+                informationsServico.push(data.idTableEventoUtilizado);
+                informationsServico.push(data.dataInicioBancoDeDados);
+                informationsServico.push(data.dataFimBancoDeDados);
+                $(".textExclusao").html("Você deseja realmente excluir <b>" + data.descricaoServico + "</b> ?");
+            }
+        });
+        return informationsServico;
+    }
+
+    function deleteInTableServicoUtilizado(informationsServico, idEvento) {
+        $.ajax({
+            url: controllerToAdmin,
+            type: 'POST',
+            async: false,
+            data: {
+                action: 'EventoServicoUtilizadoLogica.deleteInTableServicoUtilizado',
+                idServicoUtilizadoOfTable: informationsServico[0],
+                dataInicio: informationsServico[1],
+                dataFim: informationsServico[2]
+            }, success: function (data, textStatus, jqXHR) {
+                getServicosByIdEvento(idEvento);
+                updateEventById(idEvento);
+            }
+        });
+    }
+
+    function fecharModalAddServico() {
+        $("#modalAdicionarAtualizarServico .btnCancel").click(function () {
+            $("#modalAdicionarAtualizarServico").modal("close");
         });
     }
 
@@ -1511,7 +1619,22 @@ $(function () {
                 idEvento: idEvento
             }, success: function (data, textStatus, jqXHR) {
                 $("#equipamentos-update").html(data);
-                adicionarMaterialByEvento(idEvento);
+                logicaAddEditDeleteMaterial(idEvento);
+            }
+        });
+    }
+
+    function getServicosByIdEvento(idEvento) {
+        $.ajax({
+            url: controllerToAdmin,
+            type: 'POST',
+            async: false,
+            data: {
+                action: 'EventoServicoUtilizadoLogica.getServicosByIdEvento',
+                idEvento: idEvento
+            }, success: function (data, textStatus, jqXHR) {
+                $("#servicos-update").html(data);
+                logicaAddEditDeleteServico(idEvento);
             }
         });
     }
@@ -2357,7 +2480,44 @@ $(function () {
                 }
             });
         }
+    });
 
+    $(".buttonUpdateMaterial").click(function () {
+        var quantidadeSolicitada = $("#formAddMaterialEvent .quantidadeSolicitada").val();
+        var dataInicio = $("#formAddMaterialEvent .dataInicio").val();
+        var horaInicio = $("#formAddMaterialEvent .horaInicio").val();
+        var dataFim = $("#formAddMaterialEvent .dataFim").val();
+        var horaFim = $("#formAddMaterialEvent .horaFim").val();
+        var contadorInput = 0;
+        $("#formAddMaterialEvent input:enabled").each(function () {
+            if ($(this).val() == "") {
+                contadorInput++;
+            }
+        });
+        if (contadorInput == 0) {
+            var inicio = dataInicio.substr(6, 4) + "-" + dataInicio.substr(3, 2) + "-" + dataInicio.substr(0, 2) + " " + horaInicio;
+            var fim = dataFim.substr(6, 4) + "-" + dataFim.substr(3, 2) + "-" + dataFim.substr(0, 2) + " " + horaFim;
+            getQtdSolicitadaAndUpdateQtdDisponivelToUpdate();
+            $.ajax({
+                url: controllerToAdmin,
+                type: 'POST',
+                data: {
+                    action: "EventoEquipamentoUtilizadoLogica.updateMaterialByIdEventoUtilizado",
+                    idTableEventoUtilizado: idTableEventoUtilizado,
+                    quantidadeSolicitada: quantidadeSolicitada,
+                    dataInicio: inicio,
+                    dataFim: fim
+                }, success: function (data, textStatus, jqXHR) {
+                    $("#modalAdicionarAtualizarMaterial").modal();
+                    $("#modalAdicionarAtualizarMaterial").modal('close');
+                    getEquipamentosByIdEvento(idEventoToUpdate);
+                    updateEventById(idEventoToUpdate);
+                }
+            });
+        } else {
+            $("#modalCamposNulos").modal();
+            $("#modalCamposNulos").modal("open");
+        }
     });
 
 

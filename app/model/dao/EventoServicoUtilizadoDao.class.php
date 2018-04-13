@@ -29,7 +29,9 @@ class EventoServicoUtilizadoDao {
         $servico->setDescricaoEventoServicoUtilizado($row->ser_eve_desc);
         $servico->setDataInicioServicoUtilizado($row->eve_ser_uti_data_inicio);
         $servico->setDataFimServicoUtilizado($row->eve_ser_uti_data_fim);
-
+        $servico->setIdEvento($row->eve_ser_uti_fkeve_id);
+        $servico->setIdServico($row->eve_ser_uti_fkser_id);
+        
         return $servico;
     }
 
@@ -50,7 +52,6 @@ class EventoServicoUtilizadoDao {
             $p_sql = ConexaoMysql::getInstance()->prepare($sql);
             $p_sql->bindParam(1, $idEvento);
             $p_sql->execute();
-
             return $this->getListObjEventoServicoUtilizado($p_sql->fetchAll(PDO::FETCH_OBJ));
         } catch (Exception $e) {
             echo $e->getTraceAsString();

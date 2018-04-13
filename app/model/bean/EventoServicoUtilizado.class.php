@@ -21,6 +21,8 @@ class EventoServicoUtilizado {
     private $descricaoEventoServicoUtilizado;
     private $dataInicioServicoUtilizado;
     private $dataFimServicoUtilizado;
+    private $idServico;
+    private $idEvento;
 
     function getIdEventoServicoUtilizado() {
         return $this->idEventoServicoUtilizado;
@@ -38,6 +40,14 @@ class EventoServicoUtilizado {
         return $this->dataFimServicoUtilizado;
     }
 
+    function getIdServico() {
+        return $this->idServico;
+    }
+
+    function getIdEvento() {
+        return $this->idEvento;
+    }
+
     function setIdEventoServicoUtilizado($idEventoServicoUtilizado) {
         $this->idEventoServicoUtilizado = $idEventoServicoUtilizado;
     }
@@ -52,6 +62,14 @@ class EventoServicoUtilizado {
 
     function setDataFimServicoUtilizado($dataFimServicoUtilizado) {
         $this->dataFimServicoUtilizado = $dataFimServicoUtilizado;
+    }
+
+    function setIdServico($idServico) {
+        $this->idServico = $idServico;
+    }
+
+    function setIdEvento($idEvento) {
+        $this->idEvento = $idEvento;
     }
 
 }

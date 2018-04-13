@@ -48,4 +48,9 @@ class ServicoLogica {
         return ServicoDao::getInstance()->updateQtdDisponivelByIdServico($idEquipamento, $valorQtdisponivel);
     }
 
+    public function getServicoNotInEvento() {
+        $idEvento = $_REQUEST['idEvento'];
+        return ServicoView::getInstance()->htmlSelectServicos(ServicoDao::getInstance()->getServicoNotInEvento($idEvento));
+    }
+
 }

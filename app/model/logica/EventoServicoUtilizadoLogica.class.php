@@ -37,4 +37,9 @@ class EventoServicoUtilizadoLogica {
         return EventoServicoUtilizadoView::getInstance()->htmlInformationServices(EventoServicoUtilizadoDao::getInstance()->getInformationsServices($idEvento));
     }
 
+    public function getServicosByIdEvento() {
+        $idEvento = $_REQUEST['idEvento'];
+        return EventoServicoUtilizadoView::getInstance()->tableServicosByEventId(EventoServicoUtilizadoDao::getInstance()->getInformationsServices($idEvento));
+    }
+
 }

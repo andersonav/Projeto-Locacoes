@@ -16,7 +16,7 @@ class EventoEquipamentoUtilizado {
     public function __construct() {
         
     }
-
+    
     private $idEventoEquipamentoUtilizado;
     private $descricaoEventoEquipamentoUtilizado;
     private $dataInicioEquipamentoUtilizado;
