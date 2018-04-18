@@ -42,4 +42,27 @@ class EventoServicoUtilizadoLogica {
         return EventoServicoUtilizadoView::getInstance()->tableServicosByEventId(EventoServicoUtilizadoDao::getInstance()->getInformationsServices($idEvento));
     }
 
+    public function getInformationsServicoToEdit() {
+        $idServicoUtilizado = $_REQUEST['idServicoUtilizado'];
+        $idEvento = $_REQUEST['idEvento'];
+
+        return EventoServicoUtilizadoView::getInstance()->jsonInformationsServico(EventoServicoUtilizadoDao::getInstance()->getInformationsServicoToEdit($idServicoUtilizado, $idEvento));
+    }
+
+    public function updateServicoByIdEventoUtilizado() {
+        $idTableEventoUtilizado = $_REQUEST['idTableEventoUtilizado'];
+        $dataInicio = $_REQUEST['dataInicio'];
+        $dataFim = $_REQUEST['dataFim'];
+
+        return EventoServicoUtilizadoDao::getInstance()->updateServicoByIdEventoUtilizado($idTableEventoUtilizado, $dataInicio, $dataFim);
+    }
+
+    public function deleteInTableServicoUtilizado() {
+        $idServicoUtilizadoOfTable = $_REQUEST['idServicoUtilizadoOfTable'];
+        $dataInicio = $_REQUEST['dataInicio'];
+        $dataFim = $_REQUEST['dataFim'];
+
+        return EventoServicoUtilizadoDao::getInstance()->deleteInTableServicoUtilizado($idServicoUtilizadoOfTable, $dataInicio, $dataFim);
+    }
+
 }

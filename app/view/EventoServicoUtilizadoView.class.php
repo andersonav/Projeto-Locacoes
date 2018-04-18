@@ -116,7 +116,25 @@ class EventoServicoUtilizadoView {
         $array = array();
         foreach ($servico as $service) {
             $array = array(
-                "idEquipamento" => $service->getIdServico()
+                "idServico" => $service->getIdServico()
+            );
+        }
+        echo json_encode($array);
+    }
+
+    public function jsonInformationsServico($servicos) {
+        $array = array();
+        foreach ($servicos as $servico) {
+            $array = array(
+                "idTableEventoUtilizado" => $servico->getIdEventoServicoUtilizado(),
+                "idServico" => $servico->getIdServico(),
+                "descricaoServico" => $servico->getDescricaoEventoServicoUtilizado(),
+                "dataInicio" => date_format(date_create($servico->getDataInicioServicoUtilizado()), "d/m/Y"),
+                "horaInicio" => date_format(date_create($servico->getDataInicioServicoUtilizado()), "H:i"),
+                "dataFim" => date_format(date_create($servico->getDataFimServicoUtilizado()), "d/m/Y"),
+                "horaFim" => date_format(date_create($servico->getDataFimServicoUtilizado()), "H:i"),
+                "dataInicioBancoDeDados" => $servico->getDataInicioServicoUtilizado(),
+                "dataFimBancoDeDados" => $servico->getDataFimServicoUtilizado()
             );
         }
         echo json_encode($array);
