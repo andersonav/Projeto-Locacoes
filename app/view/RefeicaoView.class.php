@@ -50,7 +50,7 @@ class RefeicaoView {
                         <tr id="<?= $refeicao->getIdRefeicao(); ?>">
                             <td><input type="checkbox" id="inputRef<?= $refeicao->getIdRefeicao(); ?>" value="<?= $refeicao->getIdRefeicao(); ?>" class="idRefeicao"/><label for="inputRef<?= $refeicao->getIdRefeicao(); ?>"></label></td>
                             <td><strong><?= $refeicao->getDescricaoRefeicao(); ?></strong></td>
-                            <td><strong><input type="text" class="txt-quantidade-solicitada-refeicao" placeholder="Digite a quantidade de pessoas" id="inputRef<?= $refeicao->getIdRefeicao(); ?>" disabled max="<?= $refeicao->getQuantidadeRefeicao(); ?>"></strong></td>
+                            <td><strong><input type="text" class="txt-quantidade-solicitada-refeicao" placeholder="Digite a quantidade de pessoas" id="inputRef<?= $refeicao->getIdRefeicao(); ?>" disabled></strong></td>
                             <td><strong><input type="text" class="txt-data-inicial-refeicao dataInicio" placeholder="Digite a data inicial" id="inputRef<?= $refeicao->getIdRefeicao(); ?>" disabled></strong></td>
                             <td><strong><input type="text" class="txt-hora-inicial-refeicao horaInicio" placeholder="Digite a hora inicial" id="inputRef<?= $refeicao->getIdRefeicao(); ?>" disabled></strong></td>
                             <td><strong><input type="text" class="txt-data-final-refeicao dataFim" placeholder="Digite a data final" id="inputRef<?= $refeicao->getIdRefeicao(); ?>" disabled></strong></td>
@@ -63,6 +63,18 @@ class RefeicaoView {
             </table> 
         </div> 
         <?php
+    }
+
+    public function htmlOptionRefeicoes($refeicoes) {
+        ?>
+        <option value="" selected disabled>Escolha sua opção</option>
+
+        <?php
+        foreach ($refeicoes as $refeicao) {
+            ?>
+            <option value="<?= $refeicao->getIdRefeicao() ?>"><?= $refeicao->getDescricaoRefeicao(); ?></option>
+            <?php
+        }
     }
 
     public function jsonVerifyQtdSolicitadaByIdRefeicao($refeicao) {

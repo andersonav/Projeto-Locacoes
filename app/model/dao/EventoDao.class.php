@@ -246,16 +246,16 @@ class EventoDao {
                     AND ((DATE_FORMAT(eve_data_inicio, '%H:%i') >= DATE_FORMAT(?, '%H:%i')
                     AND DATE_FORMAT(eve_data_fim, '%H:%i') <= DATE_FORMAT(?, '%H:%i'))
                     OR 
-                    (DATE_FORMAT(eve_data_inicio, '%H:%i') <= DATE_FORMAT(?, '%H:%i')
-                    AND DATE_FORMAT(eve_data_fim, '%H:%i') >= DATE_FORMAT(?, '%H:%i'))
+                    (DATE_FORMAT(eve_data_inicio, '%H:%i') < DATE_FORMAT(?, '%H:%i')
+                    AND DATE_FORMAT(eve_data_fim, '%H:%i') > DATE_FORMAT(?, '%H:%i'))
                     OR
-                    (DATE_FORMAT(eve_data_inicio, '%H:%i') <= DATE_FORMAT(?, '%H:%i')
-                    AND DATE_FORMAT(eve_data_fim, '%H:%i') >= DATE_FORMAT(?, '%H:%i'))
+                    (DATE_FORMAT(eve_data_inicio, '%H:%i') < DATE_FORMAT(?, '%H:%i')
+                    AND DATE_FORMAT(eve_data_fim, '%H:%i') > DATE_FORMAT(?, '%H:%i'))
                     OR
                     (DATE_FORMAT(eve_data_inicio, '%H:%i') <= DATE_FORMAT(?, '%H:%i')
                     AND DATE_FORMAT(eve_data_fim, '%H:%i') >= DATE_FORMAT(?, '%H:%i'))
                     OR 
-                    (DATE_FORMAT(eve_data_fim, '%H:%i') >= DATE_FORMAT(?, '%H:%i')
+                    (DATE_FORMAT(eve_data_fim, '%H:%i') > DATE_FORMAT(?, '%H:%i')
                     AND DATE_FORMAT(eve_data_inicio, '%H:%i') <= DATE_FORMAT(?, '%H:%i')))
                     AND eve.eve_amb_id = ? AND eve.eve_fkdia_codigo = ?";
             $p_sql = ConexaoMysql::getInstance()->prepare($sql);

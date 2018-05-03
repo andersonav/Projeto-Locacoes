@@ -22,6 +22,8 @@ class EventoRefeicaoUtilizado {
     private $dataInicioRefeicaoUtilizado;
     private $dataFimRefeicaoUtilizado;
     private $qtdEventoRefeicaoUtilizado;
+    private $idRefeicao;
+    private $idEvento;
 
     function getIdEventoRefeicaoUtilizado() {
         return $this->idEventoRefeicaoUtilizado;
@@ -43,6 +45,14 @@ class EventoRefeicaoUtilizado {
         return $this->qtdEventoRefeicaoUtilizado;
     }
 
+    function getIdRefeicao() {
+        return $this->idRefeicao;
+    }
+
+    function getIdEvento() {
+        return $this->idEvento;
+    }
+
     function setIdEventoRefeicaoUtilizado($idEventoRefeicaoUtilizado) {
         $this->idEventoRefeicaoUtilizado = $idEventoRefeicaoUtilizado;
     }
@@ -61,6 +71,14 @@ class EventoRefeicaoUtilizado {
 
     function setDataFimRefeicaoUtilizado($dataFimRefeicaoUtilizada) {
         $this->dataFimRefeicaoUtilizado = $dataFimRefeicaoUtilizada;
+    }
+
+    function setIdRefeicao($idRefeicao) {
+        $this->idRefeicao = $idRefeicao;
+    }
+
+    function setIdEvento($idEvento) {
+        $this->idEvento = $idEvento;
     }
 
 }

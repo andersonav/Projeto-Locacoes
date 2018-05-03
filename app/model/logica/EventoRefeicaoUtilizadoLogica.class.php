@@ -36,5 +36,26 @@ class EventoRefeicaoUtilizadoLogica {
 
         return EventoRefeicaoUtilizadoView::getInstance()->htmlInformationRefeicoes(EventoRefeicaoUtilizadoDao::getInstance()->getInformationsRefeicoes($idEvento));
     }
+    
+    public function getRefeicoesByIdEvento() {
+        $idEvento = $_REQUEST['idEvento'];
+        return EventoRefeicaoUtilizadoView::getInstance()->tableRefeicoesByEventId(EventoRefeicaoUtilizadoDao::getInstance()->getInformationsRefeicoes($idEvento));
+    }
+    
+    public function getInformationsRefeicaoToEdit() {
+        $idRefeicaoUtilizado = $_REQUEST['idRefeicaoUtilizado'];
+        $idEvento = $_REQUEST['idEvento'];
+
+        return EventoRefeicaoUtilizadoView::getInstance()->jsonInformationsRefeicao(EventoRefeicaoUtilizadoDao::getInstance()->getInformationsRefeicaoToEdit($idRefeicaoUtilizado, $idEvento));
+    }
+    
+    public function deleteInTableRefeicaoUtilizado() {
+        $idRefeicaoUtilizadoOfTable = $_REQUEST['idRefeicaoUtilizadoOfTable'];
+        $dataInicio = $_REQUEST['dataInicio'];
+        $dataFim = $_REQUEST['dataFim'];
+
+        return EventoRefeicaoUtilizadoDao::getInstance()->deleteInTableRefeicaoUtilizado($idRefeicaoUtilizadoOfTable, $dataInicio, $dataFim);
+    }
+
 
 }

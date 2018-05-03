@@ -27,7 +27,6 @@ class RefeicaoDao {
         $refeicao = new Refeicao();
         $refeicao->setIdRefeicao($row->ref_eve_id);
         $refeicao->setDescricaoRefeicao($row->ref_eve_desc);
-        $refeicao->setQuantidadeRefeicao($row->ref_eve_qtd);
 
         return $refeicao;
     }
@@ -55,30 +54,17 @@ class RefeicaoDao {
         }
     }
 
-    public function verifyQtdDisponivelByQtdSolicitadaAndIdRefeicao($idEquipamento) {
+    public function getRefeicaoNotInEvento($idEvento) {
 
         try {
 
-            $sql = "SELECT * FROM refeicoes_evento ser WHERE ser.ser_eve_id = ?";
+            $sql = "SELECT * FROM refeicoes_evento
+                    WHERE ref_eve_id NOT IN (SELECT eve_ref_uti_fkref_id FROM evento_refeicao_utilizado WHERE eve_ref_uti_fkeve_id = ?)";
             $p_sql = ConexaoMysql::getInstance()->prepare($sql);
-            $p_sql->bindParam(1, $idEquipamento);
+            $p_sql->bindParam(1, $idEvento);
             $p_sql->execute();
 
-            return $this->getListObjServico($p_sql->fetchAll(PDO::FETCH_OBJ));
-        } catch (Exception $e) {
-            echo $e->getTraceAsString();
-        }
-    }
-
-    public function updateQtdDisponivelByIdServico($idEquipamento, $valorQtdisponivel) {
-
-        try {
-
-            $sql = "UPDATE equipamentos_evento equi SET equi.equi_eve_qtd = ? WHERE equi.equi_eve_id = ?";
-            $p_sql = ConexaoMysql::getInstance()->prepare($sql);
-            $p_sql->bindParam(1, $valorQtdisponivel);
-            $p_sql->bindParam(2, $idEquipamento);
-            return $p_sql->execute();
+            return $this->getListObjRefeicao($p_sql->fetchAll(PDO::FETCH_OBJ));
         } catch (Exception $e) {
             echo $e->getTraceAsString();
         }

@@ -19,7 +19,6 @@ class Refeicao {
 
     private $idRefeicao;
     private $descricaoRefeicao;
-    private $quantidadeRefeicao;
 
     function getIdRefeicao() {
         return $this->idRefeicao;
@@ -29,20 +28,12 @@ class Refeicao {
         return $this->descricaoRefeicao;
     }
 
-    function getQuantidadeRefeicao() {
-        return $this->quantidadeRefeicao;
-    }
-
     function setIdRefeicao($idRefeicao) {
         $this->idRefeicao = $idRefeicao;
     }
 
     function setDescricaoRefeicao($descricaoRefeicao) {
         $this->descricaoRefeicao = $descricaoRefeicao;
-    }
-
-    function setQuantidadeRefeicao($quantidadeRefeicao) {
-        $this->quantidadeRefeicao = $quantidadeRefeicao;
     }
 
 }

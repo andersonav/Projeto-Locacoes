@@ -364,6 +364,43 @@
                         <button class="btnModal buttonUpdateServico">ATUALIZAR</button>
                     </div>
                 </div>
+                <div id="modalAdicionarAtualizarRefeicao" class="modal">
+                    <div class="modal-content">
+                        <h4 class="center textAdionarAtualizarRefeicao"></h4>
+                        <div class="divider"></div>
+                        <br>
+                        <form class="col s12" id="formAddRefeicaoEvent">
+                            <div class="row">
+                                <div class="input-field col s12 m4">
+                                    <select name="sel-refeicoes" class="sel-refeicoes" id="sel-refeicoes">
+                                    </select>
+                                    <label class="corLogo-text">Refeição:</label>
+                                </div>
+                                <div class="input-field col s12 m3 divDataInicio">
+                                    <input id="formDataInicio" type="text" class="dataInicio" placeholder="Escolha a Data Inicial" name="dataInicio">
+                                    <label for="icon_prefix" class="corLogo-text active dataInicioLabel">Data Início:</label>
+                                </div>
+                                <div class="input-field col s12 m3">
+                                    <input id="formHoraInicio" type="text" class="horaInicio" placeholder="Escolha a Hora Inicial" name="horaInicio">
+                                    <label for="icon_prefix" class="corLogo-text active">Hora Início:</label>
+                                </div>
+                                <div class="input-field col s12 m3">
+                                    <input id="formDataFim" type="text" class="dataFim" placeholder="Escolha a Data Final" name="dataFim">
+                                    <label for="icon_prefix" class="corLogo-text active dataFimLabel">Data Fim:</label>
+                                </div>
+                                <div class="input-field col s12 m3">
+                                    <input id="formHoraFim" type="text" class="horaFim" placeholder="Escolha a Hora Final" name="horaFim">
+                                    <label for="icon_prefix" class="corLogo-text active">Hora Fim:</label>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btnModal btnCancel">CANCELAR</button>
+                        <button class="btnModal buttonCadastroRefeicao">CADASTRAR</button>
+                        <button class="btnModal buttonUpdateRefeicao">ATUALIZAR</button>
+                    </div>
+                </div>
                 <div id="modalCadastroMaterial" class="modal">
                     <div class="modal-content">
                         <h4>Alerta</h4>

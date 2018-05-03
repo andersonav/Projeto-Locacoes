@@ -268,6 +268,7 @@ $(function () {
                         getAmbienteByBlocoModalUpdate();
                         getEquipamentosByIdEvento(event.id);
                         getServicosByIdEvento(event.id);
+                        getRefeicoesByIdEvento(event.id);
                         idEventoToUpdate = event.id;
                         updateEventById(event.id);
                     }
@@ -475,6 +476,77 @@ $(function () {
         });
     }
 
+    function logicaAddEditDeleteRefeicao(idEvento) {
+        $(".btn-add-refeicao").click(function () {
+            $("#sel-refeicoes").attr("disabled", false);
+            $(".textAdionarAtualizarRefeicao").html("Adicionar Refeição");
+            loadInSelectRefeicoes(idEvento);
+            $("#modalAdicionarAtualizarRefeicao").modal({
+                dismissible: false,
+                complete: function () {
+                    $('#formAddRefeicaoEvent').each(function () {
+                        this.reset();
+                    });
+                }
+            });
+            var dataInicioForm = $("#form_upd_event .dataInicio").val();
+            var horaInicioForm = $("#form_upd_event .horaInicio").val();
+            var dataFimForm = $("#form_upd_event .dataFim").val();
+            var horaFimForm = $("#form_upd_event .horaFim").val();
+            $("#formAddRefeicaoEvent .dataInicio").val(dataInicioForm);
+            $("#formAddRefeicaoEvent .horaInicio").val(horaInicioForm);
+            $("#formAddRefeicaoEvent .dataFim").val(dataFimForm);
+            $("#formAddRefeicaoEvent .horaFim").val(horaFimForm);
+            $("#modalAdicionarAtualizarRefeicao").modal('open');
+            $(".buttonCadastroRefeicao").show();
+            $(".buttonUpdateRefeicao").hide();
+            fecharModalAddRefeicao();
+        });
+
+        $(".btn-editar-refeicao").click(function () {
+            var idRefeicaoUtilizado = $(this).attr("id");
+            $(".textAdionarAtualizarRefeicao").html("Atualizar Serviço");
+            getInformationsRefeicaoToEdit(idRefeicaoUtilizado, idEvento);
+            $("#modalAdicionarAtualizarRefeicao").modal({
+                dismissible: false,
+                complete: function () {
+                    $('#formAddRefeicaoEvent').each(function () {
+                        this.reset();
+                    });
+                }
+            });
+            $("#modalAdicionarAtualizarRefeicao").modal('open');
+            $(".buttonCadastroRefeicao").hide();
+            $(".buttonUpdateRefeicao").show();
+            fecharModalAddRefeicao();
+        });
+
+        $(".btn-deletar-refeicao").click(function () {
+            var idRefeicaoUtilizado = $(this).attr("id");
+            var informationsRefeicao = [];
+            informationsRefeicao = getInformationsRefeicaoByIdToExclusao(idRefeicaoUtilizado, idEvento);
+            $("#dialog-confirm").dialog({
+                show: {
+                    effect: 'fade',
+                    duration: 200 //at your convenience
+                },
+                resizable: false,
+                height: "auto",
+                width: 400,
+                modal: true,
+                buttons: {
+                    "Sim": function () {
+                        $(this).dialog("close");
+                        deleteInTableRefeicaoUtilizado(informationsRefeicao, idEvento);
+                    },
+                    Não: function () {
+                        $(this).dialog("close");
+                    }
+                }
+            });
+        });
+    }
+
     function loadInSelectMateriais(idEvento) {
         $.ajax({
             url: controllerToAdmin,
@@ -646,6 +718,91 @@ $(function () {
     function fecharModalAddServico() {
         $("#modalAdicionarAtualizarServico .btnCancel").click(function () {
             $("#modalAdicionarAtualizarServico").modal("close");
+        });
+    }
+
+    function loadInSelectRefeicoes(idEvento) {
+        $.ajax({
+            url: controllerToAdmin,
+            type: 'POST',
+            data: {
+                action: 'RefeicaoLogica.getRefeicaoNotInEvento',
+                idEvento: idEvento
+            }, success: function (data, textStatus, jqXHR) {
+                $("#sel-refeicoes").html(data);
+                $("#sel-refeicoes").material_select();
+            }
+        });
+    }
+
+    function getInformationsRefeicaoToEdit(idRefeicaoUtilizado, idEvento) {
+        $.ajax({
+            url: controllerToAdmin,
+            type: 'POST',
+            async: false,
+            data: {
+                action: 'EventoRefeicaoUtilizadoLogica.getInformationsRefeicaoToEdit',
+                idRefeicaoUtilizado: idRefeicaoUtilizado,
+                idEvento: idEvento
+            }, success: function (data, textStatus, jqXHR) {
+                data = $.parseJSON(data);
+                var optionRefeicao = "<option value=" + data.idRefeicao + ">" + data.descricaoRefeicao + "</option>";
+                $("#sel-refeicoes").html(optionRefeicao);
+                $("#sel-refeicoes").attr("disabled", true);
+                $("#sel-refeicoes").material_select();
+                $("#formAddRefeicaoEvent .dataInicio").val(data.dataInicio);
+                $("#formAddRefeicaoEvent .horaInicio").val(data.horaInicio);
+                $("#formAddRefeicaoEvent .dataFim").val(data.dataFim);
+                $("#formAddRefeicaoEvent .horaFim").val(data.horaFim);
+                idTableEventoUtilizado = data.idTableEventoUtilizado;
+                $(".buttonCadastroRefeicao").hide();
+                $(".buttonUpdateRefeicao").show();
+                $(".buttonUpdateRefeicao").prop("disabled", false);
+                $(".buttonUpdateRefeicao").css("cursor", "pointer");
+            }
+        });
+    }
+    
+    function getInformationsRefeicaoByIdToExclusao(idRefeicaoUtilizado, idEvento) {
+        var informationsRefeicao = [];
+        $.ajax({
+            url: controllerToAdmin,
+            type: 'POST',
+            async: false,
+            data: {
+                action: 'EventoRefeicaoUtilizadoLogica.getInformationsRefeicaoToEdit',
+                idRefeicaoUtilizado: idRefeicaoUtilizado,
+                idEvento: idEvento
+            }, success: function (data, textStatus, jqXHR) {
+                data = $.parseJSON(data);
+                informationsRefeicao.push(data.idTableEventoUtilizado);
+                informationsRefeicao.push(data.dataInicioBancoDeDados);
+                informationsRefeicao.push(data.dataFimBancoDeDados);
+                $(".textExclusao").html("Você deseja realmente excluir <b>" + data.descricaoRefeicao + "</b> ?");
+            }
+        });
+        return informationsRefeicao;
+    }
+    
+    function deleteInTableRefeicaoUtilizado(informationsRefeicao, idEvento) {
+        $.ajax({
+            url: controllerToAdmin,
+            type: 'POST',
+            async: false,
+            data: {
+                action: 'EventoRefeicaoUtilizadoLogica.deleteInTableRefeicaoUtilizado',
+                idRefeicaoUtilizadoOfTable: informationsRefeicao[0],
+                dataInicio: informationsRefeicao[1],
+                dataFim: informationsRefeicao[2]
+            }, success: function (data, textStatus, jqXHR) {
+                getRefeicoesByIdEvento(idEvento);
+            }
+        });
+    }
+    
+    function fecharModalAddRefeicao() {
+        $("#modalAdicionarAtualizarRefeicao .btnCancel").click(function () {
+            $("#modalAdicionarAtualizarRefeicao").modal("close");
         });
     }
 
@@ -1596,6 +1753,21 @@ $(function () {
             }, success: function (data, textStatus, jqXHR) {
                 $("#servicos-update").html(data);
                 logicaAddEditDeleteServico(idEvento);
+            }
+        });
+    }
+
+    function getRefeicoesByIdEvento(idEvento) {
+        $.ajax({
+            url: controllerToAdmin,
+            type: 'POST',
+            async: false,
+            data: {
+                action: 'EventoRefeicaoUtilizadoLogica.getRefeicoesByIdEvento',
+                idEvento: idEvento
+            }, success: function (data, textStatus, jqXHR) {
+                $("#refeicoes-update").html(data);
+                logicaAddEditDeleteRefeicao(idEvento);
             }
         });
     }

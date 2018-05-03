@@ -35,17 +35,10 @@ class RefeicaoLogica {
         return RefeicaoView::getInstance()->tableRefeicoes(RefeicaoDao::getInstance()->getRefeicoes());
     }
 
-    public function verifyQtdSolicitadaByIdServico() {
-        $idEquipamento = $_REQUEST['idEquipamento'];
-
-        return ServicoView::getInstance()->jsonVerifyQtdSolicitadaByIdServico(ServicoDao::getInstance()->verifyQtdDisponivelByQtdSolicitadaAndIdServico($idEquipamento));
-    }
-
-    public function updateQtdDisponivelByIdServico() {
-        $idEquipamento = $_REQUEST['idEquipamento'];
-        $valorQtdisponivel = $_REQUEST['qtdDisponivelAtual'];
-
-        return ServicoDao::getInstance()->updateQtdDisponivelByIdServico($idEquipamento, $valorQtdisponivel);
+    public function getRefeicaoNotInEvento() {
+        $idEvento = $_REQUEST['idEvento'];
+        
+        return RefeicaoView::getInstance()->htmlOptionRefeicoes(RefeicaoDao::getInstance()->getRefeicaoNotInEvento($idEvento));
     }
 
 }
