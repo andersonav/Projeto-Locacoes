@@ -127,7 +127,7 @@ class EventoRefeicaoUtilizadoView {
         }
         echo json_encode($array);
     }
-    
+
     public function jsonInformationsRefeicao($refeicoes) {
         $array = array();
         foreach ($refeicoes as $refeicao) {
@@ -135,6 +135,7 @@ class EventoRefeicaoUtilizadoView {
                 "idTableEventoUtilizado" => $refeicao->getIdEventoRefeicaoUtilizado(),
                 "idRefeicao" => $refeicao->getIdRefeicao(),
                 "descricaoRefeicao" => $refeicao->getDescricaoEventoRefeicaoUtilizado(),
+                "qtdPessoasRefeicao" => $refeicao->getQtdEventoRefeicaoUtilizado(),
                 "dataInicio" => date_format(date_create($refeicao->getDataInicioRefeicaoUtilizado()), "d/m/Y"),
                 "horaInicio" => date_format(date_create($refeicao->getDataInicioRefeicaoUtilizado()), "H:i"),
                 "dataFim" => date_format(date_create($refeicao->getDataFimRefeicaoUtilizado()), "d/m/Y"),

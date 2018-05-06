@@ -754,6 +754,7 @@ $(function () {
                 $("#formAddRefeicaoEvent .horaInicio").val(data.horaInicio);
                 $("#formAddRefeicaoEvent .dataFim").val(data.dataFim);
                 $("#formAddRefeicaoEvent .horaFim").val(data.horaFim);
+                $(".qtdPessoasRefeicao").val(data.qtdPessoasRefeicao);
                 idTableEventoUtilizado = data.idTableEventoUtilizado;
                 $(".buttonCadastroRefeicao").hide();
                 $(".buttonUpdateRefeicao").show();
@@ -762,7 +763,7 @@ $(function () {
             }
         });
     }
-    
+
     function getInformationsRefeicaoByIdToExclusao(idRefeicaoUtilizado, idEvento) {
         var informationsRefeicao = [];
         $.ajax({
@@ -783,7 +784,7 @@ $(function () {
         });
         return informationsRefeicao;
     }
-    
+
     function deleteInTableRefeicaoUtilizado(informationsRefeicao, idEvento) {
         $.ajax({
             url: controllerToAdmin,
@@ -799,7 +800,7 @@ $(function () {
             }
         });
     }
-    
+
     function fecharModalAddRefeicao() {
         $("#modalAdicionarAtualizarRefeicao .btnCancel").click(function () {
             $("#modalAdicionarAtualizarRefeicao").modal("close");
@@ -2555,6 +2556,9 @@ $(function () {
                     getEquipamentosByIdEvento(idEventoToUpdate);
                 }
             });
+        } else {
+            $("#modalCamposNulos").modal();
+            $("#modalCamposNulos").modal('open');
         }
     });
 
@@ -2603,7 +2607,7 @@ $(function () {
         var dataFim = $("#formAddServicoEvent .dataFim").val();
         var horaFim = $("#formAddServicoEvent .horaFim").val();
         var contadorInput = 0;
-        $("#formAddServicolEvent input:enabled").each(function () {
+        $("#formAddServicoEvent input:enabled").each(function () {
             if ($(this).val() == "") {
                 contadorInput++;
             }
@@ -2628,6 +2632,9 @@ $(function () {
                         getServicosByIdEvento(idEventoToUpdate);
                     }
                 });
+            } else {
+                $("#modalCamposNulos").modal();
+                $("#modalCamposNulos").modal('open');
             }
         } else {
             console.log("vacilou");
@@ -2642,7 +2649,7 @@ $(function () {
         var dataFim = $("#formAddServicoEvent .dataFim").val();
         var horaFim = $("#formAddServicoEvent .horaFim").val();
         var contadorInput = 0;
-        $("#formAddServicolEvent input:enabled").each(function () {
+        $("#formAddServicoEvent input:enabled").each(function () {
             if ($(this).val() == "") {
                 contadorInput++;
             }
@@ -2666,6 +2673,96 @@ $(function () {
                         getServicosByIdEvento(idEventoToUpdate);
                     }
                 });
+            } else {
+                $("#modalCamposNulos").modal();
+                $("#modalCamposNulos").modal('open');
+            }
+        } else {
+            console.log("Vacilou");
+        }
+
+    });
+
+    $(".buttonCadastroRefeicao").click(function () {
+        var valorRefeicao = $("#sel-refeicoes").val();
+        var dataInicio = $("#formAddRefeicaoEvent .dataInicio").val();
+        var horaInicio = $("#formAddRefeicaoEvent .horaInicio").val();
+        var dataFim = $("#formAddRefeicaoEvent .dataFim").val();
+        var horaFim = $("#formAddRefeicaoEvent .horaFim").val();
+        var qtdPessoasRefeicao = $("#formAddRefeicaoEvent .qtdPessoasRefeicao").val();
+        var contadorInput = 0;
+        $("#formAddRefeicaoEvent input:enabled").each(function () {
+            if ($(this).val() == "") {
+                contadorInput++;
+            }
+        });
+        if (compararDataInicioFim(dataInicio, dataFim, horaInicio, horaFim)) {
+            if (contadorInput == 0 && valorRefeicao != null) {
+                var inicio = dataInicio.substr(6, 4) + "-" + dataInicio.substr(3, 2) + "-" + dataInicio.substr(0, 2) + " " + horaInicio;
+                var fim = dataFim.substr(6, 4) + "-" + dataFim.substr(3, 2) + "-" + dataFim.substr(0, 2) + " " + horaFim;
+                $.ajax({
+                    url: controllerToAdmin,
+                    type: 'POST',
+                    async: false,
+                    data: {
+                        action: 'EventoLogica.insertInTabelEventRefeicaoUsed',
+                        valorIdEvento: idEventoToUpdate,
+                        qtdRefeicao: qtdPessoasRefeicao,
+                        idRefeicao: valorRefeicao,
+                        dataInicio: inicio,
+                        dataFim: fim
+                    }, success: function (data, textStatus, jqXHR) {
+                        $("#modalAdicionarAtualizarRefeicao").modal();
+                        $("#modalAdicionarAtualizarRefeicao").modal('close');
+                        getRefeicoesByIdEvento(idEventoToUpdate);
+                    }
+                });
+            } else {
+                $("#modalCamposNulos").modal();
+                $("#modalCamposNulos").modal('open');
+            }
+        } else {
+            console.log("vacilou");
+        }
+
+    });
+
+    $(".buttonUpdateRefeicao").click(function () {
+        var valorRefeicao = $("#sel-refeicoes").val();
+        var dataInicio = $("#formAddRefeicaoEvent .dataInicio").val();
+        var horaInicio = $("#formAddRefeicaoEvent .horaInicio").val();
+        var dataFim = $("#formAddRefeicaoEvent .dataFim").val();
+        var horaFim = $("#formAddRefeicaoEvent .horaFim").val();
+        var qtdPessoasRefeicao = $("#formAddRefeicaoEvent .qtdPessoasRefeicao").val();
+        var contadorInput = 0;
+        $("#formAddRefeicaoEvent input:enabled").each(function () {
+            if ($(this).val() == "") {
+                contadorInput++;
+            }
+        });
+        if (compararDataInicioFim(dataInicio, dataFim, horaInicio, horaFim)) {
+            if (contadorInput == 0 && valorRefeicao != null) {
+                var inicio = dataInicio.substr(6, 4) + "-" + dataInicio.substr(3, 2) + "-" + dataInicio.substr(0, 2) + " " + horaInicio;
+                var fim = dataFim.substr(6, 4) + "-" + dataFim.substr(3, 2) + "-" + dataFim.substr(0, 2) + " " + horaFim;
+                $.ajax({
+                    url: controllerToAdmin,
+                    type: 'POST',
+                    async: false,
+                    data: {
+                        action: "EventoRefeicaoUtilizadoLogica.updateRefeicaoByIdEventoUtilizado",
+                        idTableEventoUtilizado: idTableEventoUtilizado,
+                        qtdPessoasRefeicao: qtdPessoasRefeicao,
+                        dataInicio: inicio,
+                        dataFim: fim
+                    }, success: function (data, textStatus, jqXHR) {
+                        $("#modalAdicionarAtualizarRefeicao").modal();
+                        $("#modalAdicionarAtualizarRefeicao").modal('close');
+                        getRefeicoesByIdEvento(idEventoToUpdate);
+                    }
+                });
+            } else {
+                $("#modalCamposNulos").modal();
+                $("#modalCamposNulos").modal('open');
             }
         } else {
             console.log("Vacilou");

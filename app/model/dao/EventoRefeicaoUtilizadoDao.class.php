@@ -32,7 +32,7 @@ class EventoRefeicaoUtilizadoDao {
         $refeicao->setDataFimRefeicaoUtilizado($row->eve_ref_uti_data_fim);
         $refeicao->setIdEvento($row->eve_ref_uti_fkeve_id);
         $refeicao->setIdRefeicao($row->eve_ref_uti_fkref_id);
-        
+
         return $refeicao;
     }
 
@@ -59,7 +59,7 @@ class EventoRefeicaoUtilizadoDao {
             echo $e->getTraceAsString();
         }
     }
-    
+
     public function getInformationsRefeicaoToEdit($idRefeicaoUtilizado, $idEvento) {
         try {
             $sql = "SELECT * FROM evento_refeicao_utilizado
@@ -75,7 +75,21 @@ class EventoRefeicaoUtilizadoDao {
             echo $e->getTraceAsString();
         }
     }
-    
+
+    public function updateRefeicaoByIdEventoUtilizado($idTableEventoUtilizado, $qtdPessoasRefeicao, $dataInicio, $dataFim) {
+        try {
+            $sql = "UPDATE evento_refeicao_utilizado SET eve_ref_uti_qtd = ?, eve_ref_uti_data_inicio = ?, eve_ref_uti_data_fim = ? WHERE eve_ref_uti_id = ?";
+            $p_sql = ConexaoMysql::getInstance()->prepare($sql);
+            $p_sql->bindParam(1, $qtdPessoasRefeicao);
+            $p_sql->bindParam(2, $dataInicio);
+            $p_sql->bindParam(3, $dataFim);
+            $p_sql->bindParam(4, $idTableEventoUtilizado);
+            return $p_sql->execute();
+        } catch (Exception $exc) {
+            echo $exc->getTraceAsString();
+        }
+    }
+
     public function deleteInTableRefeicaoUtilizado($idRefeicaoUtilizadoOfTable, $dataInicio, $dataFim) {
         try {
 
@@ -91,6 +105,5 @@ class EventoRefeicaoUtilizadoDao {
             echo $exc->getTraceAsString();
         }
     }
-
 
 }

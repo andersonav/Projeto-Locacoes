@@ -371,10 +371,14 @@
                         <br>
                         <form class="col s12" id="formAddRefeicaoEvent">
                             <div class="row">
-                                <div class="input-field col s12 m4">
+                                <div class="input-field col s12 m6">
                                     <select name="sel-refeicoes" class="sel-refeicoes" id="sel-refeicoes">
                                     </select>
                                     <label class="corLogo-text">Refeição:</label>
+                                </div>
+                                <div class="input-field col s12 m6">
+                                    <input id="formDataInicio" type="text" class="qtdPessoasRefeicao" placeholder="Quantidade de Pessoas" name="qtdPessoasRefeicao">
+                                    <label for="icon_prefix" class="corLogo-text active dataInicioLabel">Quantidade de Pessoas:</label>
                                 </div>
                                 <div class="input-field col s12 m3 divDataInicio">
                                     <input id="formDataInicio" type="text" class="dataInicio" placeholder="Escolha a Data Inicial" name="dataInicio">
