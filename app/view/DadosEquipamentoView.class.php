@@ -42,7 +42,7 @@ class DadosEquipamentoView {
             $mail->Port = 465; //  Usar 587 porta SMTP
             $mail->Username = 'cti.maracanau@ifce.edu.br'; // Usuário do servidor SMTP (endereço de email)
             // Senha nova: @cti!2018
-            $mail->Password = '@ti!2017'; // Senha do servidor SMTP (senha do email usado)
+            $mail->Password = '@cti!2018'; // Senha do servidor SMTP (senha do email usado)
             $mail->SMTPSecure = 'ssl';
             //Define o remetente
             // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=    

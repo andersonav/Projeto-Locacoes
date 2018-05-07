@@ -1461,10 +1461,10 @@ $(function () {
                     action: 'SemestreLogica.getDataBySemestre'
                 }, success: function (data, textStatus, jqXHR) {
                     data = $.parseJSON(data);
-                    $("#formDataInicio").val(data.dataInicioSemestre);
-                    $("#formDataFim").val(data.dataFimSemestre);
-                    $("#formHoraInicio").attr("disabled", true);
-                    $("#formHoraFim").attr("disabled", true);
+                    $("#modalAdicionarEventoClickDay #formDataInicio").val(data.dataInicioSemestre);
+                    $("#modalAdicionarEventoClickDay #formDataFim").val(data.dataFimSemestre);
+                    $("#modalAdicionarEventoClickDay #formHoraInicio").attr("disabled", true);
+                    $("#modalAdicionarEventoClickDay #formHoraFim").attr("disabled", true);
                     loadCalendarDaysOfWeek(data.dataInicioSemestre, data.dataFimSemestre);
                 }
             });
