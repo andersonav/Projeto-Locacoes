@@ -559,66 +559,68 @@
                 <div id='calendar'></div>
                 <div id="readyCalendar"></div>
             </div>
-        </main>
-        <footer>
-            <div class="rodape1">
-                <div class="container">
-                    <div class="row rodape-row">
-                        <div class="col m4 s12 rodape-icon">
-                            <img src="../public/img/intranethorizontal.png">
+            <footer>
+                <div class="rodape1">
+                    <div class="container">
+                        <div class="row rodape-row">
+                            <div class="col m4 s12 rodape-icon">
+                                <img src="../public/img/intranethorizontal.png">
+                            </div>
+                            <div class="col m2 s4 rodape-icon right">
+                                <img src="../public/img/esportivo.png">
+                            </div>
+                            <div class="col m2 s4 rodape-icon right">
+                                <img src="../public/img/educacional.png">
+                            </div>
+                            <div class="col m2 s4 rodape-icon right">
+                                <img src="../public/img/administrativo.png">
+                            </div>
                         </div>
-                        <div class="col m2 s4 rodape-icon right">
-                            <img src="../public/img/esportivo.png">
+                        <div class="linefooter"></div>
+                        <div class="instituto">
+                            Instituto Federal de Educação, Ciência e Tecnologia do Ceará
                         </div>
-                        <div class="col m2 s4 rodape-icon right">
-                            <img src="../public/img/educacional.png">
+                        <div class="row white-text">
+                            <div class="col m4 s12">
+                                <h4 class="titulo-informacao">Endereço</h4>
+                                Avenidade Parque Central, S/N Distrito Industrial I,
+                                CEP: 61.939-140 - Maracanaú - Ceará
+                            </div>
+                            <div class="col m4 s12">
+                                <h4 class="titulo-informacao">Contato</h4>
+                                Horário de atendimento: 7h às 18h
+                                Maiores informações: (85) 3878-6301
+                            </div>
+                            <div class="col m4 s12 rede-sociais">
+                                <a  target="_blank" href="#!">
+                                    <img src="../public/img/email.png"></a>
+                                <a  target="_blank" href="https://www.facebook.com/Instituto-Federal-de-Educa%C3%A7%C3%A3o-Ci%C3%AAncia-e-Tecnologia-do-Cear%C3%A1-IFCE-471223182903300/">
+                                    <img src="../public/img/facebook.png"></a>
+                                <a target="_blank" href="https://www.youtube.com/user/ifcecoficialcomunica?feature=results_main">
+                                    <img src="../public/img/youtube.png" ></a>
+                                <a target="_blank" href="https://twitter.com/IFCE_">
+                                    <img src="../public/img/twitter.png"></a>
+                            </div>
                         </div>
-                        <div class="col m2 s4 rodape-icon right">
-                            <img src="../public/img/administrativo.png">
-                        </div>
-                    </div>
-                    <div class="linefooter"></div>
-                    <div class="instituto">
-                        Instituto Federal de Educação, Ciência e Tecnologia do Ceará
-                    </div>
-                    <div class="row white-text">
-                        <div class="col m4 s12">
-                            <h4 class="titulo-informacao">Endereço</h4>
-                            Avenidade Parque Central, S/N Distrito Industrial I,
-                            CEP: 61.939-140 - Maracanaú - Ceará
-                        </div>
-                        <div class="col m4 s12">
-                            <h4 class="titulo-informacao">Contato</h4>
-                            Horário de atendimento: 7h às 18h
-                            Maiores informações: (85) 3878-6301
-                        </div>
-                        <div class="col m4 s12 rede-sociais">
-                            <a  target="_blank" href="#!">
-                                <img src="../public/img/email.png"></a>
-                            <a  target="_blank" href="https://www.facebook.com/Instituto-Federal-de-Educa%C3%A7%C3%A3o-Ci%C3%AAncia-e-Tecnologia-do-Cear%C3%A1-IFCE-471223182903300/">
-                                <img src="../public/img/facebook.png"></a>
-                            <a target="_blank" href="https://www.youtube.com/user/ifcecoficialcomunica?feature=results_main">
-                                <img src="../public/img/youtube.png" ></a>
-                            <a target="_blank" href="https://twitter.com/IFCE_">
-                                <img src="../public/img/twitter.png"></a>
-                        </div>
-                    </div>
 
-                </div>
-            </div>
-            <div class="rodape2">
-                <div class="desenvolvedores container">
-                    <div class="equipe">
-                        <p class="white-text">Núcleo de Desenvolvimento de Softwares - NDS</p>
-                        <p class="white-text">Coordenadoria de Tecnologia da Informação - CTI</p>
-                        <p class="white-text">IFCE Campus Maracanaú - 2018</p>
                     </div>
                 </div>
+                <div class="rodape2">
+                    <div class="desenvolvedores container">
+                        <div class="equipe">
+                            <p class="white-text">Núcleo de Desenvolvimento de Softwares - NDS</p>
+                            <p class="white-text">Coordenadoria de Tecnologia da Informação - CTI</p>
+                            <p class="white-text">IFCE Campus Maracanaú - 2018</p>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+
+            <div id="dialog-confirm" title="Exclusão" style="display: none;">
+                <p class="textExclusao"><span class="ui-icon ui-icon-alert" style="float:left; margin:12px 12px 20px 0;"></span></p>
             </div>
-        </footer>
-        <div id="dialog-confirm" title="Exclusão">
-            <p class="textExclusao"><span class="ui-icon ui-icon-alert" style="float:left; margin:12px 12px 20px 0;"></span></p>
-        </div>
+        </main>
+
         <script>
             (function (i, s, o, g, r, a, m) {
                 i['GoogleAnalyticsObject'] = r;

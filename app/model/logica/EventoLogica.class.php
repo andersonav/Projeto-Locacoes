@@ -112,7 +112,7 @@ class EventoLogica {
                         $dataInicioEventoDiario = date_format(date_create($dataInicioEvento), "Y-m-d") . ' ' . $horarioInicio;
                         $dataFimEventoDiario = date_format(date_create($dataInicioEvento), "Y-m-d") . ' ' . $horarioFinal;
                         $objeto = EventoDao::getInstance()->verifyDates($dataInicioEventoDiario, $dataFimEventoDiario, $ambienteEvento, $diaNumero);
-//                          print_r($objeto);
+//                        print_r($objeto);
                         if (count($objeto) > 0) {
                             $dataInicioEvento = date('Y-m-d H:i', strtotime($dataFimEvento));
                             return EventoView::getInstance()->modalErrorVerifyDates($objeto);
