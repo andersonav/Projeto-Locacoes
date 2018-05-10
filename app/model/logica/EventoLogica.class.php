@@ -207,4 +207,10 @@ class EventoLogica {
         return EventoDao::getInstance()->insertIntoTableAulaDetalhes($valorIdEvento, $idAula, $nomeProfessor);
     }
 
+    public function updateEveLogicaToZero() {
+        $valorIdEvento = $_REQUEST['valorIdEvento'];
+
+        return EventoDao::getInstance()->updateEveLogicaToZero($valorIdEvento);
+    }
+
 }

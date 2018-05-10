@@ -119,9 +119,12 @@ class EventoDao {
     public function insertEventoSelecionado($idUsuario, $nomeEvento, $descricaoEvento, $solicitanteEvento, $telefoneSolicitante, $emailSolicitante, $dataInicioEvento, $dataFimEvento, $eventoComeco, $eventoFim, $ambienteEvento, $eventoTipoRepeticao, $idAula, $diaNumero) {
 
         try {
-
-            $sql = "INSERT INTO eventos (eve_nome, eve_desc, eve_solicitante, eve_sol_tel, eve_sol_email, eve_data_inicio, eve_data_fim, eve_comeco, eve_fim, eve_tip_rep_id, eve_aula_id, eve_amb_id, eve_usu_id, eve_fkdia_codigo)"
-                    . "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+            $logicaAula = 0;
+            if ($idAula == 1) {
+                $logicaAula = 1;
+            }
+            $sql = "INSERT INTO eventos (eve_nome, eve_desc, eve_solicitante, eve_sol_tel, eve_sol_email, eve_data_inicio, eve_data_fim, eve_comeco, eve_fim, eve_tip_rep_id, eve_aula_id, eve_amb_id, eve_usu_id, eve_fkdia_codigo, eve_logica)"
+                    . "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
             $p_sql = ConexaoMysql::getInstance()->prepare($sql);
             $p_sql->bindParam(1, $nomeEvento);
             $p_sql->bindParam(2, $descricaoEvento);
@@ -137,6 +140,7 @@ class EventoDao {
             $p_sql->bindParam(12, $ambienteEvento);
             $p_sql->bindParam(13, $idUsuario);
             $p_sql->bindParam(14, $diaNumero);
+            $p_sql->bindParam(15, $logicaAula);
             return $p_sql->execute();
         } catch (Exception $e) {
             echo $e->getTraceAsString();
@@ -159,7 +163,7 @@ class EventoDao {
                     JOIN evento_aula eva ON eva.eve_aula_id = eve.eve_aula_id
                     JOIN dias_semana diaSem ON diaSem.dia_sem_codigo = eve.eve_fkdia_codigo
                     LEFT JOIN evento_aula_detalhes evad ON evad.eve_aula_det_fkeve_id = eve.eve_id 
-                    WHERE eve.eve_amb_id = ? AND eve.eve_comeco = ? AND eve.eve_fim = ?";
+                    WHERE eve.eve_amb_id = ? AND eve.eve_comeco = ? AND eve.eve_fim = ? AND eve_logica = 1";
             $p_sql = ConexaoMysql::getInstance()->prepare($sql);
             $p_sql->bindParam(1, $ambienteEvento);
             $p_sql->bindParam(2, $start);
@@ -354,6 +358,17 @@ class EventoDao {
             $p_sql->bindParam(1, $valorIdEvento);
             $p_sql->bindParam(2, $idAula);
             $p_sql->bindParam(3, $nomeProfessor);
+            return $p_sql->execute();
+        } catch (Exception $e) {
+            echo $e->getTraceAsString();
+        }
+    }
+
+    public function updateEveLogicaToZero($idEvento) {
+        try {
+            $sql = "UPDATE eventos SET eve_logica = 0 WHERE eve_id = ?";
+            $p_sql = ConexaoMysql::getInstance()->prepare($sql);
+            $p_sql->bindParam(1, $idEvento);
             return $p_sql->execute();
         } catch (Exception $e) {
             echo $e->getTraceAsString();

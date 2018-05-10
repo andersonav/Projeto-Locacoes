@@ -1216,6 +1216,7 @@ $(function () {
                                         if (idAula == 1) {
                                             for (var i = 0; i < valorIdEvento.length; i++) {
                                                 insertIntoTableAulaDetalhes(valorIdEvento[i], idAula, nomeProfessor);
+                                                updateEveLogicaToZero(valorIdEvento[i]);
                                             }
                                         }
                                         for (var i = 0; i < valorIdEvento.length; i++) {
@@ -1227,6 +1228,8 @@ $(function () {
                                         if (idAula == 1) {
                                             for (var i = 0; i < valorIdEventoArray.length; i++) {
                                                 insertIntoTableAulaDetalhes(valorIdEventoArray[i], idAula, nomeProfessor);
+                                                updateEveLogicaToZero(valorIdEventoArray[i]);
+
                                             }
                                         }
                                         for (var i = 0; i < valorIdEventoArray.length; i++) {
@@ -1235,7 +1238,7 @@ $(function () {
 
                                     }
                                     $("#modalAdicionarEventoClickDay").modal('close');
-                                    location.reload();
+//                                    location.reload();
                                 }
                             } else {
                                 $("#modalDatasIguais").modal();
@@ -1574,6 +1577,19 @@ $(function () {
                 nomeProfessor: nomeProfessor
             }, success: function (data, textStatus, jqXHR) {
 //                console.log("Insert deu certo na tabela aulaDetails");
+            }
+        });
+    }
+
+    function updateEveLogicaToZero(valorIdEvento) {
+        $.ajax({
+            url: controllerToAdmin,
+            type: 'POST',
+            data: {
+                action: 'EventoLogica.updateEveLogicaToZero',
+                valorIdEvento: valorIdEvento
+            }, success: function (data, textStatus, jqXHR) {
+                console.log("Atualização deu certo!");
             }
         });
     }
