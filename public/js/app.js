@@ -181,7 +181,7 @@ $(function () {
                                         start = null;
                                         end = null;
                                         $("#modalAdicionarEventoClickDay").modal('close');
-                                        location.reload();
+                                        //location.reload();
                                     }
 //                            $('#calendar').fullCalendar('renderEvent', eventData, true); // stick? = true
                                 } else {
@@ -1238,7 +1238,7 @@ $(function () {
 
                                     }
                                     $("#modalAdicionarEventoClickDay").modal('close');
-//                                    location.reload();
+                                    location.reload();
                                 }
                             } else {
                                 $("#modalDatasIguais").modal();
@@ -2785,6 +2785,41 @@ $(function () {
         }
 
     });
+
+    $(".logout").click(function () {
+        $(".textExclusao").html("Você deseja realmente sair da aplicação?");
+        $("#dialog-confirm").dialog({
+            show: {
+                effect: 'fade',
+                duration: 200 //at your convenience
+            },
+            resizable: false,
+            height: "auto",
+            width: 400,
+            modal: true,
+            buttons: {
+                "Sim": function () {
+                    $(this).dialog("close");
+                    logout();
+                },
+                Não: function () {
+                    $(this).dialog("close");
+                }
+            }
+        });
+    });
+
+    function logout() {
+        $.ajax({
+            url: controllerToAdmin,
+            type: 'POST',
+            data: {
+                action: 'UsuarioLogica.logout'
+            }, success: function (data, textStatus, jqXHR) {
+                window.location = '../index.php';
+            }
+        });
+    }
 
 
     $('#tabs-swipe-demo.tabs').tabs();

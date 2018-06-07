@@ -8,7 +8,7 @@
  Author     : andersonalves
  */
 $(function () {
-    var controllerToUser = "app/controller/FrontController.php";
+    var controllerToUser = "controller/FrontController.php";
     var hoje = new Date();
     var hora = hoje.getHours();
     var minutos = hoje.getMinutes();
@@ -499,6 +499,41 @@ $(function () {
         }
 
     });
+
+    $(".logout").click(function () {
+        $(".textExclusao").html("Você deseja realmente sair da aplicação?");
+        $("#dialog-confirm").dialog({
+            show: {
+                effect: 'fade',
+                duration: 200 //at your convenience
+            },
+            resizable: false,
+            height: "auto",
+            width: 400,
+            modal: true,
+            buttons: {
+                "Sim": function () {
+                    $(this).dialog("close");
+                    logout();
+                },
+                Não: function () {
+                    $(this).dialog("close");
+                }
+            }
+        });
+    });
+
+    function logout() {
+        $.ajax({
+            url: controllerToUser,
+            type: 'POST',
+            data: {
+                action: 'UsuarioLogica.logout'
+            }, success: function (data, textStatus, jqXHR) {
+                window.location = '../index.php';
+            }
+        });
+    }
 
     getSetorPageUser();
     mostrarInPage();

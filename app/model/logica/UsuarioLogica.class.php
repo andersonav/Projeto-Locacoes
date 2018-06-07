@@ -9,7 +9,7 @@
 /**
  * Description of Logica
  *
- * @author cleonilson.ti
+ * @author anderson.alves
  */
 require_once '../autoload.php';
 spl_autoload_register('autoloadDao');
@@ -28,9 +28,11 @@ class UsuarioLogica {
         return self::$instance;
     }
 
-    public function login(array $param) {
+    public function login() {
+        $login = $_REQUEST['login'];
+        $senha = $_REQUEST['senha'];
 
-        return UsuarioDao::getInstance()->login($param);
+        return UsuarioView::getInstance()->jsonInformationsUser(UsuarioDao::getInstance()->login($login, $senha));
     }
 
     public function logout() {

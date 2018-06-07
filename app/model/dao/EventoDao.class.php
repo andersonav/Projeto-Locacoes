@@ -119,10 +119,7 @@ class EventoDao {
     public function insertEventoSelecionado($idUsuario, $nomeEvento, $descricaoEvento, $solicitanteEvento, $telefoneSolicitante, $emailSolicitante, $dataInicioEvento, $dataFimEvento, $eventoComeco, $eventoFim, $ambienteEvento, $eventoTipoRepeticao, $idAula, $diaNumero) {
 
         try {
-            $logicaAula = 0;
-            if ($idAula == 1) {
-                $logicaAula = 1;
-            }
+            $logicaAula = 1;
             $sql = "INSERT INTO eventos (eve_nome, eve_desc, eve_solicitante, eve_sol_tel, eve_sol_email, eve_data_inicio, eve_data_fim, eve_comeco, eve_fim, eve_tip_rep_id, eve_aula_id, eve_amb_id, eve_usu_id, eve_fkdia_codigo, eve_logica)"
                     . "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
             $p_sql = ConexaoMysql::getInstance()->prepare($sql);

@@ -7,30 +7,24 @@
  */
 
 /**
- * Description of Revisor
+ * Description of Usuario
  *
- * @author cleonilson.ti
+ * @author anderson.alves
  */
 class Usuario {
 
-    private $id;
-    private $login;
-    private $nome;
-    private $senha;
-    private $tipoID;
-    private $setorID;
-    private $fornecedorID;
-    private $codFornecedorMillennium;
+    public $id;
+    public $login;
+    public $nome;
+    public $senha;
+    public $tipoID;
 
-    public function __construct($id, $login, $nome, $senha, $tipoID, $setorID, $fornecedorID, $codFornecedorMillennium) {
+    public function __construct($id, $login, $nome, $senha, $tipoID) {
         $this->id = $id;
         $this->login = $login;
         $this->nome = $nome;
         $this->senha = $senha;
         $this->tipoID = $tipoID;
-        $this->setorID = $setorID;
-        $this->fornecedorID = $fornecedorID;
-        $this->codFornecedorMillennium = $codFornecedorMillennium;
     }
 
     public function getID() {
@@ -48,7 +42,7 @@ class Usuario {
 
     public function setLogin($login) {
 
-        $this->login = strtoupper($login);
+        $this->login = $login;
     }
 
     public function getSenha() {
@@ -75,30 +69,6 @@ class Usuario {
 
     function setNome($nome) {
         $this->nome = $nome;
-    }
-
-    function getSetorID() {
-        return $this->setorID;
-    }
-
-    function getFornecedorID() {
-        return $this->fornecedorID;
-    }
-
-    function setSetorID($setorID) {
-        $this->setorID = $setorID;
-    }
-
-    function setFornecedorID($fornecedorID) {
-        $this->fornecedorID = $fornecedorID;
-    }
-
-    function getCodFornecedorMillennium() {
-        return $this->codFornecedorMillennium;
-    }
-
-    function setCodFornecedorMillennium($codFornecedorMillennium) {
-        $this->codFornecedorMillennium = $codFornecedorMillennium;
     }
 
 }

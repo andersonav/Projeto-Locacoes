@@ -1,3 +1,14 @@
+<?php
+session_start();
+
+if ($_SESSION['usuario_tipo_id'] == 3) {
+    unset($_SESSION['usuario_id']);
+    unset($_SESSION['usuario_login']);
+    unset($_SESSION['usuario_tipo_id']);
+    session_destroy();
+    header("Location: ../index.php");
+}
+?>
 <!DOCTYPE html>
 <html>
     <head>
@@ -15,7 +26,6 @@
         <link href='../public/css/location_style.css' rel='stylesheet' />
         <link href='../public/img/favicon.ico' rel='shortcut icon' type='image/vnd.microsoft.icon' />
         <script src='../public/js/lib/moment.min.js'></script>
-
         <script src='../public/js/lib/jquery.min.js'></script>
         <script src="../public/js/lib/jquery-ui.js"></script>
         <script src='../public/js/lib/jquery.maskedinput.min.js'></script>
@@ -37,24 +47,26 @@
                             <a href="#!">Sobre nós</a>
                             <a href="#!">Equipe</a>
                             <a href="#!">Trabalhe conosco</a>
-                            <a href="#!">Contatos</a>
+                            <a href="#!" class="logout">Sair</a>
                         </div>
                         <div class="filter row">
+                            Seja Bem Vindo, <?php echo $_SESSION['usuario_nome']; ?>
                             <a href="#!"><img src="../public/img/login.png" width="30px" height="30px"></a>
-
-                            <div class="menuPesquisa z-depth-3">
-                                <input class="pesquisa" id="search" type="search" placeholder="Pelo que você está procurando?">
-                                <i class="material-icons prefix">&#xE8B6;</i>
-                            </div>
-
                         </div>
                         <div class="blocoMenu">
                             <a class='dropdown-button openModalAdicionarEvento' href='#' data-activates='dropdown1'>
                                 Cadastros
                             </a>
-                            <a class='dropdown-button' href='#' data-activates='dropdown1'>
-                                Educacional
-                            </a>
+                            <?php
+                            if ($_SESSION['usuario_tipo_id'] == 1) {
+                                ?>
+                                <a class='dropdown-button' href='#' data-activates='dropdown1'>
+                                    Painel Administrativo
+                                </a>
+
+                                <?php
+                            }
+                            ?>
                             <a class='dropdown-button' href='#' data-activates='dropdown1'>
                                 Esportivo
                             </a>
@@ -115,7 +127,7 @@
             <div class="input-field col s12 pesquisar">
                 <div class="z-depth-2">
                     <div class="input-field">
-                        <input id="search" type="search" name="pesquisar" placeholder="Pelo que você está procurando?">                
+                        <input id="search" type="search" name="pesquisar" placeholder="Pelo que você está ?">                
                         <label class="label-icon" for="search"><i class="material-icons">&#xE8B6;</i></label>
                         <i class="material-icons fecharPesquisa">&#xE5CD;</i>
 

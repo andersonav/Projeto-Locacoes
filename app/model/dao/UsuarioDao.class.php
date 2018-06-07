@@ -42,24 +42,26 @@ class UsuarioDao {
         }
     }
 
-    public function login(array $param) {
+    public function login($login, $senha) {
 
         try {
 
-            $sql = "SELECT * FROM usuario JOIN fornecedor ON (for_id = usu_for_id) WHERE usu_login = ? AND usu_sta_id = 1";
+            $sql = "SELECT * FROM usuario WHERE usu_login = ? AND usu_ativo = 1";
 
             $p_sql = ConexaoMysql::getInstance()->prepare($sql);
-            $p_sql->bindParam(1, strtoupper($param['usuario']));
+            $p_sql->bindValue(1, strtoupper($login));
 
             $p_sql->execute();
 
             $obj = $p_sql->fetch(PDO::FETCH_OBJ);
 
             if ($obj) {
-                $usuario = new Usuario($obj->usu_id, $obj->usu_login, $obj->usu_nome, $obj->usu_senha, $obj->usu_tip_id, $obj->usu_set_id, $obj->usu_for_id, $obj->for_cod_millennium);
-                if (password_verify($param['senha'], $usuario->getSenha())) {
+                $usuario = new Usuario($obj->usu_id, $obj->usu_login, $obj->usu_nome, $obj->usu_senha, $obj->usu_tip_id);
+                if (md5($senha) == $usuario->getSenha()) {
                     $this->registraSessao($usuario);
-                    print TRUE;
+                    return $usuario;
+                } else {
+                    print FALSE;
                 }
             } else {
                 print FALSE;
@@ -78,14 +80,11 @@ class UsuarioDao {
     }
 
     public function registraSessao(Usuario $usuario) {
-
         session_start();
         $_SESSION['usuario_id'] = $usuario->getID();
         $_SESSION['usuario_login'] = $usuario->getLogin();
+        $_SESSION['usuario_nome'] = $usuario->getNome();
         $_SESSION['usuario_tipo_id'] = $usuario->getTipoID();
-        $_SESSION['usuario_setor_id'] = $usuario->getSetorID();
-        $_SESSION['usuario_fornecedor_id'] = $usuario->getFornecedorID();
-        $_SESSION['usuario_cod_fornecedor_millennium'] = $usuario->getCodFornecedorMillennium();
     }
 
     public function resetSenha($usuarioId, $senhaNova) {
@@ -127,17 +126,16 @@ class UsuarioDao {
             echo $exc->getTraceAsString();
         }
     }
-    
-    public function novaSenha(array $param){
-        
+
+    public function novaSenha(array $param) {
+
         $teste = $this->verificaSenha($param['usuario'], $param['senhaAntiga']);
-        
-        if($teste){
+
+        if ($teste) {
             return $this->resetSenha($param['usuario'], $param['senhaNova']);
-        }else{
+        } else {
             echo 'error-pass';
         }
-        
     }
 
 }
