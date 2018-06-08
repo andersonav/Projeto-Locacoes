@@ -3,11 +3,18 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/var/www/html/Projeto_Locacoes/public/css/login.css</file>
-            <file>file:/var/www/html/Projeto_Locacoes/app/admin.php</file>
-            <file>file:/var/www/html/Projeto_Locacoes/app/controller/FrontController.php</file>
+            <file>file:/var/www/html/Projeto_Locacoes/app/model/logica/UsuarioLogica.class.php</file>
+            <file>file:/var/www/html/Projeto_Locacoes/public/css/loading.css</file>
+            <file>file:/var/www/html/Projeto_Locacoes/app/view/UsuarioView.class.php</file>
             <file>file:/var/www/html/Projeto_Locacoes/public/js/app.js</file>
             <file>file:/var/www/html/Projeto_Locacoes/app/usuario.php</file>
+            <file>file:/var/www/html/Projeto_Locacoes/public/js/app_user.js</file>
+            <file>file:/var/www/html/Projeto_Locacoes/public/css/login.css</file>
+            <file>file:/var/www/html/Projeto_Locacoes/app/model/bean/Usuario.class.php</file>
+            <file>file:/var/www/html/Projeto_Locacoes/app/controller/FrontController.php</file>
+            <file>file:/var/www/html/Projeto_Locacoes/app/admin.php</file>
+            <file>file:/var/www/html/Projeto_Locacoes/app/model/dao/UsuarioDao.class.php</file>
+            <file>file:/var/www/html/Projeto_Locacoes/public/js/signin.js</file>
             <file>file:/var/www/html/Projeto_Locacoes/index.php</file>
         </group>
     </open-files>

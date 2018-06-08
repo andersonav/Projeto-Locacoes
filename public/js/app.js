@@ -181,7 +181,7 @@ $(function () {
                                         start = null;
                                         end = null;
                                         $("#modalAdicionarEventoClickDay").modal('close');
-                                        //location.reload();
+                                        location.reload();
                                     }
 //                            $('#calendar').fullCalendar('renderEvent', eventData, true); // stick? = true
                                 } else {

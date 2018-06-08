@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-if ($_SESSION['usuario_tipo_id'] == 3) {
+if (!isset($_SESSION['usuario_login']) || ($_SESSION['usuario_tipo_id'] == 3)) {
     unset($_SESSION['usuario_id']);
     unset($_SESSION['usuario_login']);
     unset($_SESSION['usuario_tipo_id']);
@@ -60,7 +60,7 @@ if ($_SESSION['usuario_tipo_id'] == 3) {
                             <?php
                             if ($_SESSION['usuario_tipo_id'] == 1) {
                                 ?>
-                                <a class='dropdown-button' href='#' data-activates='dropdown1'>
+                                <a class='dropdown-button' href='../../Painel_Administrativo/' target="_blank" data-activates=''>
                                     Painel Administrativo
                                 </a>
 
@@ -458,7 +458,7 @@ if ($_SESSION['usuario_tipo_id'] == 3) {
                                 <div class="input-field col s12 m4">
                                     <select name="tipo" class="sel-tipo-evento" id="sel-tipo-evento">
                                     </select>
-                                    <label class="corLogo-text">Tipo de Evento: </label>
+                                    <label class="corLogo-text">Ambiente: </label>
                                 </div>
                                 <div class="input-field col s12 m4">
                                     <select name="bloco" class="sel-bloco" id="sel-bloco">
@@ -468,7 +468,7 @@ if ($_SESSION['usuario_tipo_id'] == 3) {
                                 <div class="input-field col s12 m4">
                                     <select name="ambiente" class="sel-ambiente" id="sel-ambiente">
                                     </select>
-                                    <label class="corLogo-text">Ambiente: </label>
+                                    <label class="corLogo-text">Local: </label>
                                 </div>
                                 <div class="cadastroClickBtn mostrarWhenClickBtn center">
                                     <div class="input-field col s12 m5">
@@ -553,7 +553,7 @@ if ($_SESSION['usuario_tipo_id'] == 3) {
                         <select name="tipo" class="sel-tipo-evento-pesquisa" id="sel-tipo-evento-pesquisa">
                             <option value="" disabled selected>Escolha sua opção</option>
                         </select>
-                        <label class="corLogo-text">Tipo de Evento: </label>
+                        <label class="corLogo-text">Ambiente: </label>
                     </div>
                     <div class="input-field col s12 m4">
                         <select name="bloco" class="sel-bloco-pesquisa" id="sel-bloco-pesquisa">
@@ -565,7 +565,7 @@ if ($_SESSION['usuario_tipo_id'] == 3) {
                         <select name="ambiente" class="sel-ambiente-pesquisa" id="sel-ambiente-pesquisa">
                             <option value="" disabled selected>Escolha sua opção</option>
                         </select>
-                        <label class="corLogo-text">Ambiente: </label>
+                        <label class="corLogo-text">Local: </label>
                     </div>
                 </div>
                 <div id='calendar'></div>

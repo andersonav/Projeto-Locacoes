@@ -26,21 +26,21 @@ $(document).ready(function () {
                     if (data.length == 0) {
                         $("#modalErroLogin").modal("show");
                     } else {
-                        $(".lds-ring").css("display", "inline-block");
-                        if (data.tipoID == 1) {
-                            setTimeout("window.location='app/admin.php'", 2000);
+                        if (data.tipoID == 1 || data.tipoID == 2) {
+                            window.location = 'app/admin.php';
                         } else {
-                            setTimeout("window.location='app/usuario.php'", 2000);
+                            window.location = 'app/usuario.php';
                         }
                     }
-
                 }
             });
         }
     });
-    
-    function onEnter() {
-        
-    }
+
+    $("#login, #password").keyup(function (e) {
+        if (e.keyCode == 13) {
+            $(".btn-login").trigger("click");
+        }
+    });
 });
 

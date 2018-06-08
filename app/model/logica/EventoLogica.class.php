@@ -56,74 +56,84 @@ class EventoLogica {
     }
 
     public function insertEventoSelecionado() {
-        $idUsuario = $_REQUEST['idUsuario'];
-        $nomeEvento = $_REQUEST['nomeEvento'];
-        $descricaoEvento = $_REQUEST['descricaoEvento'];
-        $solicitanteEvento = $_REQUEST['solicitanteEvento'];
-        $telefoneSolicitante = $_REQUEST['telefoneSolicitante'];
-        $emailSolicitante = $_REQUEST['emailSolicitante'];
-        $dataInicioEvento = $_REQUEST['dataInicioEvento'];
-        $dataFimEvento = $_REQUEST['dataFimEvento'];
-        $ambienteEvento = $_REQUEST['ambienteEvento'];
-        $eventoTipoRepeticao = $_REQUEST['eventoTipoRepeticao'];
-        $idAula = $_REQUEST['idAula'];
-        $eventoComeco = $dataInicioEvento;
-        $eventoFinal = $dataFimEvento;
-        $horarioFinal = date_format(date_create($dataFimEvento), "H:i");
-        while (date_format(date_create($dataInicioEvento), "Y-m-d H:i") <= date_format(date_create($dataFimEvento), "Y-m-d H:i")) {
-            $dataInicioToValorDia = date_format(date_create($dataInicioEvento), 'Y-m-d');
-            $diaNumero = date("w", strtotime($dataInicioToValorDia));
-            $dataFimEventoDiario = date_format(date_create($dataInicioEvento), "Y-m-d") . ' ' . $horarioFinal;
-            EventoDao::getInstance()->insertEventoSelecionado($idUsuario, $nomeEvento, $descricaoEvento, $solicitanteEvento, $telefoneSolicitante, $emailSolicitante, $dataInicioEvento, $dataFimEventoDiario, $eventoComeco, $eventoFinal, $ambienteEvento, $eventoTipoRepeticao, $idAula, $diaNumero);
-            $dataInicioEvento = date('Y-m-d H:i', strtotime("+1 days", strtotime($dataInicioEvento)));
+        session_start();
+        if ($_SESSION['usuario_tipo_id'] == 1 || $_SESSION['usuario_tipo_id'] == 2) {
+            $idUsuario = $_SESSION['usuario_id'];
+            $nomeEvento = $_REQUEST['nomeEvento'];
+            $descricaoEvento = $_REQUEST['descricaoEvento'];
+            $solicitanteEvento = $_REQUEST['solicitanteEvento'];
+            $telefoneSolicitante = $_REQUEST['telefoneSolicitante'];
+            $emailSolicitante = $_REQUEST['emailSolicitante'];
+            $dataInicioEvento = $_REQUEST['dataInicioEvento'];
+            $dataFimEvento = $_REQUEST['dataFimEvento'];
+            $ambienteEvento = $_REQUEST['ambienteEvento'];
+            $eventoTipoRepeticao = $_REQUEST['eventoTipoRepeticao'];
+            $idAula = $_REQUEST['idAula'];
+            $eventoComeco = $dataInicioEvento;
+            $eventoFinal = $dataFimEvento;
+            $horarioFinal = date_format(date_create($dataFimEvento), "H:i");
+            while (date_format(date_create($dataInicioEvento), "Y-m-d H:i") <= date_format(date_create($dataFimEvento), "Y-m-d H:i")) {
+                $dataInicioToValorDia = date_format(date_create($dataInicioEvento), 'Y-m-d');
+                $diaNumero = date("w", strtotime($dataInicioToValorDia));
+                $dataFimEventoDiario = date_format(date_create($dataInicioEvento), "Y-m-d") . ' ' . $horarioFinal;
+                EventoDao::getInstance()->insertEventoSelecionado($idUsuario, $nomeEvento, $descricaoEvento, $solicitanteEvento, $telefoneSolicitante, $emailSolicitante, $dataInicioEvento, $dataFimEventoDiario, $eventoComeco, $eventoFinal, $ambienteEvento, $eventoTipoRepeticao, $idAula, $diaNumero);
+                $dataInicioEvento = date('Y-m-d H:i', strtotime("+1 days", strtotime($dataInicioEvento)));
+            }
+        } else {
+            echo "Permissão negada";
         }
     }
 
     public function insertEventoSelecionadoTipoRepeticao() {
-        $idUsuario = $_REQUEST['idUsuario'];
-        $nomeEvento = $_REQUEST['nomeEvento'];
-        $descricaoEvento = $_REQUEST['descricaoEvento'];
-        $solicitanteEvento = $_REQUEST['solicitanteEvento'];
-        $telefoneSolicitante = $_REQUEST['telefoneSolicitante'];
-        $emailSolicitante = $_REQUEST['emailSolicitante'];
-        $dataInicioEvento = $_REQUEST['dataInicioEvento'];
-        $dataFimEvento = $_REQUEST['dataFimEvento'];
-        $horaInicioEvento = json_decode(stripslashes($_REQUEST['horaInicioEvento']));
-        $horaFimEvento = json_decode(stripslashes($_REQUEST['horaFimEvento']));
-        $contador = 0;
-        $tamanhoArray = count($horaInicioEvento);
-        $ambienteEvento = $_REQUEST['ambienteEvento'];
-        $eventoTipoRepeticao = $_REQUEST['eventoTipoRepeticao'];
-        $idAula = $_REQUEST['idAula'];
-        $eventoComeco = $dataInicioEvento;
-        $eventoFinal = $dataFimEvento;
-        while (date_format(date_create($dataInicioEvento), "Y-m-d H:i") <= date_format(date_create($dataFimEvento), "Y-m-d H:i")) {
-            $dataInicioToValorDia = date_format(date_create($dataInicioEvento), 'Y-m-d');
-            $diaNumero = date("w", strtotime($dataInicioToValorDia));
-            if ($diaNumero == 6 || $contador == $tamanhoArray) {
-                $contador = 0;
-            }
-            $valorDiaRecebido = $horaInicioEvento[$contador][3];
-            if ($diaNumero == $valorDiaRecebido) {
-                foreach ($horaInicioEvento as $value) {
-                    if ($diaNumero == $value[3]) {
-                        $horarioInicio = date_format(date_create($value[1]), "H:i");
-                        $horarioFinal = date_format(date_create($value[2]), "H:i");
-                        $dataInicioEventoDiario = date_format(date_create($dataInicioEvento), "Y-m-d") . ' ' . $horarioInicio;
-                        $dataFimEventoDiario = date_format(date_create($dataInicioEvento), "Y-m-d") . ' ' . $horarioFinal;
-                        $objeto = EventoDao::getInstance()->verifyDates($dataInicioEventoDiario, $dataFimEventoDiario, $ambienteEvento, $diaNumero);
+        session_start();
+        if ($_SESSION['usuario_tipo_id'] == 1 || $_SESSION['usuario_tipo_id'] == 2) {
+            $idUsuario = $_REQUEST['idUsuario'];
+            $nomeEvento = $_REQUEST['nomeEvento'];
+            $descricaoEvento = $_REQUEST['descricaoEvento'];
+            $solicitanteEvento = $_REQUEST['solicitanteEvento'];
+            $telefoneSolicitante = $_REQUEST['telefoneSolicitante'];
+            $emailSolicitante = $_REQUEST['emailSolicitante'];
+            $dataInicioEvento = $_REQUEST['dataInicioEvento'];
+            $dataFimEvento = $_REQUEST['dataFimEvento'];
+            $horaInicioEvento = json_decode(stripslashes($_REQUEST['horaInicioEvento']));
+            $horaFimEvento = json_decode(stripslashes($_REQUEST['horaFimEvento']));
+            $contador = 0;
+            $tamanhoArray = count($horaInicioEvento);
+            $ambienteEvento = $_REQUEST['ambienteEvento'];
+            $eventoTipoRepeticao = $_REQUEST['eventoTipoRepeticao'];
+            $idAula = $_REQUEST['idAula'];
+            $eventoComeco = $dataInicioEvento;
+            $eventoFinal = $dataFimEvento;
+            while (date_format(date_create($dataInicioEvento), "Y-m-d H:i") <= date_format(date_create($dataFimEvento), "Y-m-d H:i")) {
+                $dataInicioToValorDia = date_format(date_create($dataInicioEvento), 'Y-m-d');
+                $diaNumero = date("w", strtotime($dataInicioToValorDia));
+                if ($diaNumero == 6 || $contador == $tamanhoArray) {
+                    $contador = 0;
+                }
+                $valorDiaRecebido = $horaInicioEvento[$contador][3];
+                if ($diaNumero == $valorDiaRecebido) {
+                    foreach ($horaInicioEvento as $value) {
+                        if ($diaNumero == $value[3]) {
+                            $horarioInicio = date_format(date_create($value[1]), "H:i");
+                            $horarioFinal = date_format(date_create($value[2]), "H:i");
+                            $dataInicioEventoDiario = date_format(date_create($dataInicioEvento), "Y-m-d") . ' ' . $horarioInicio;
+                            $dataFimEventoDiario = date_format(date_create($dataInicioEvento), "Y-m-d") . ' ' . $horarioFinal;
+                            $objeto = EventoDao::getInstance()->verifyDates($dataInicioEventoDiario, $dataFimEventoDiario, $ambienteEvento, $diaNumero);
 //                        print_r($objeto);
-                        if (count($objeto) > 0) {
-                            $dataInicioEvento = date('Y-m-d H:i', strtotime($dataFimEvento));
-                            return EventoView::getInstance()->modalErrorVerifyDates($objeto);
-                        } else {
-                            EventoDao::getInstance()->insertEventoSelecionado($idUsuario, $nomeEvento, $descricaoEvento, $solicitanteEvento, $telefoneSolicitante, $emailSolicitante, $dataInicioEventoDiario, $dataFimEventoDiario, $eventoComeco, $eventoFinal, $ambienteEvento, $eventoTipoRepeticao, $idAula, $diaNumero);
-                            $contador++;
+                            if (count($objeto) > 0) {
+                                $dataInicioEvento = date('Y-m-d H:i', strtotime($dataFimEvento));
+                                return EventoView::getInstance()->modalErrorVerifyDates($objeto);
+                            } else {
+                                EventoDao::getInstance()->insertEventoSelecionado($idUsuario, $nomeEvento, $descricaoEvento, $solicitanteEvento, $telefoneSolicitante, $emailSolicitante, $dataInicioEventoDiario, $dataFimEventoDiario, $eventoComeco, $eventoFinal, $ambienteEvento, $eventoTipoRepeticao, $idAula, $diaNumero);
+                                $contador++;
+                            }
                         }
                     }
                 }
+                $dataInicioEvento = date('Y-m-d H:i', strtotime("+1 days", strtotime($dataInicioEvento)));
             }
-            $dataInicioEvento = date('Y-m-d H:i', strtotime("+1 days", strtotime($dataInicioEvento)));
+        } else {
+            echo "Permissão negada";
         }
     }
 

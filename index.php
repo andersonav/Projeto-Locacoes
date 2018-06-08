@@ -7,7 +7,6 @@
         <link href='public/img/favicon.ico' rel='shortcut icon' type='image/vnd.microsoft.icon' />
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
         <link rel="stylesheet" type="text/css" href="public/css/login.css">
-        <link rel="stylesheet" type="text/css" href="public/css/loading.css">
         <script src="public/js/lib/jquery.min.js"></script>
         <script src="public/js/signin.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
@@ -45,7 +44,6 @@
                     <div class="loader container" id="loader"></div><br/>
                     <span class="">
                         <a href="#" style="color: white;">Esqueceu sua senha?</a><br><br>
-                        <div class="lds-ring"><div></div><div></div><div></div><div></div></div>
                     </span>
                     <div class="informacoes">
                         <span class="">CTI - Coordenadoria de Tecnologia da Informação</span><br>
