@@ -72,11 +72,15 @@ class EventoLogica {
             $eventoComeco = $dataInicioEvento;
             $eventoFinal = $dataFimEvento;
             $horarioFinal = date_format(date_create($dataFimEvento), "H:i");
+            $t = microtime(true);
+            $micro = sprintf("%06d", ($t - floor($t)) * 1000000);
+            $d = new DateTime(date('Y-m-d H:i:s.' . $micro, $t));
             while (date_format(date_create($dataInicioEvento), "Y-m-d H:i") <= date_format(date_create($dataFimEvento), "Y-m-d H:i")) {
                 $dataInicioToValorDia = date_format(date_create($dataInicioEvento), 'Y-m-d');
                 $diaNumero = date("w", strtotime($dataInicioToValorDia));
                 $dataFimEventoDiario = date_format(date_create($dataInicioEvento), "Y-m-d") . ' ' . $horarioFinal;
-                EventoDao::getInstance()->insertEventoSelecionado($idUsuario, $nomeEvento, $descricaoEvento, $solicitanteEvento, $telefoneSolicitante, $emailSolicitante, $dataInicioEvento, $dataFimEventoDiario, $eventoComeco, $eventoFinal, $ambienteEvento, $eventoTipoRepeticao, $idAula, $diaNumero);
+                $random = $d->format("ymdHisu");
+                EventoDao::getInstance()->insertEventoSelecionado($idUsuario, $nomeEvento, $descricaoEvento, $solicitanteEvento, $telefoneSolicitante, $emailSolicitante, $dataInicioEvento, $dataFimEventoDiario, $eventoComeco, $eventoFinal, $ambienteEvento, $eventoTipoRepeticao, $idAula, $diaNumero, $random);
                 $dataInicioEvento = date('Y-m-d H:i', strtotime("+1 days", strtotime($dataInicioEvento)));
             }
         } else {
@@ -104,6 +108,9 @@ class EventoLogica {
             $idAula = $_REQUEST['idAula'];
             $eventoComeco = $dataInicioEvento;
             $eventoFinal = $dataFimEvento;
+            $t = microtime(true);
+            $micro = sprintf("%06d", ($t - floor($t)) * 1000000);
+            $d = new DateTime(date('Y-m-d H:i:s.' . $micro, $t));
             while (date_format(date_create($dataInicioEvento), "Y-m-d H:i") <= date_format(date_create($dataFimEvento), "Y-m-d H:i")) {
                 $dataInicioToValorDia = date_format(date_create($dataInicioEvento), 'Y-m-d');
                 $diaNumero = date("w", strtotime($dataInicioToValorDia));
@@ -124,7 +131,8 @@ class EventoLogica {
                                 $dataInicioEvento = date('Y-m-d H:i', strtotime($dataFimEvento));
                                 return EventoView::getInstance()->modalErrorVerifyDates($objeto);
                             } else {
-                                EventoDao::getInstance()->insertEventoSelecionado($idUsuario, $nomeEvento, $descricaoEvento, $solicitanteEvento, $telefoneSolicitante, $emailSolicitante, $dataInicioEventoDiario, $dataFimEventoDiario, $eventoComeco, $eventoFinal, $ambienteEvento, $eventoTipoRepeticao, $idAula, $diaNumero);
+                                $random = $d->format("ymdHisu");
+                                EventoDao::getInstance()->insertEventoSelecionado($idUsuario, $nomeEvento, $descricaoEvento, $solicitanteEvento, $telefoneSolicitante, $emailSolicitante, $dataInicioEventoDiario, $dataFimEventoDiario, $eventoComeco, $eventoFinal, $ambienteEvento, $eventoTipoRepeticao, $idAula, $diaNumero, $random);
                                 $contador++;
                             }
                         }

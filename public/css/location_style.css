@@ -242,6 +242,18 @@ input:enabled {
     z-index: 9999 !important;
 }
 
+.buttonExcluir{
+    background-color: red;
+    color: white;
+    font-weight: bold;
+}
+
+.buttonUpdate, .buttonOkay{
+    background-color: #006B43 !important;
+    color: white;
+    font-weight: bold;
+}
+
 /* Icons Materialize */
 @font-face {
     font-family: 'Material Icons';

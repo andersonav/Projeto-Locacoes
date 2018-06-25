@@ -543,8 +543,8 @@ if (!isset($_SESSION['usuario_login']) || ($_SESSION['usuario_tipo_id'] == 3)) {
                     </div>
                     <div class="modal-footer">
                         <button class="btnModal buttonCancel">CANCELAR</button>
+                        <button class="btnModal buttonExcluir">EXCLUIR</button>
                         <button class="btnModal buttonUpdate">ATUALIZAR</button>
-
                     </div>
                 </div>
                 <br><br>

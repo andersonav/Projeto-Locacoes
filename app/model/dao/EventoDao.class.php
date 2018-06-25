@@ -61,7 +61,7 @@ class EventoDao {
         try {
 
             $sql = "SELECT eve.eve_id as id, eve.eve_nome, eve.eve_desc as title,
-                    eve.eve_solicitante, eve.eve_data_inicio as start, eve.eve_data_fim as end,
+                    eve.eve_solicitante, eve.eve_data_inicio as start, eve.eve_data_fim as end, eve.eve_ativo,
                     amb.amb_eve_id, amb.amb_eve_desc, blo.blo_eve_id, blo.blo_eve_desc, sev.set_eve_id,
                     sev.set_eve_desc, evt.eve_tip_rep_id, evt.eve_tip_rep_desc,
                     eva.eve_aula_id, eva.eve_aula_desc, diaSem.dia_sem_nome, evad.eve_aula_det_id, evad.eve_aula_det_pro from eventos eve 
@@ -72,7 +72,7 @@ class EventoDao {
                     JOIN evento_aula eva ON eva.eve_aula_id = eve.eve_aula_id
                     JOIN dias_semana diaSem ON diaSem.dia_sem_codigo = eve.eve_fkdia_codigo
                     LEFT JOIN evento_aula_detalhes evad ON evad.eve_aula_det_fkeve_id = eve.eve_id
-                    WHERE eve.eve_amb_id = ? AND blo.blo_eve_id = ? AND sev.set_eve_id = ? AND date(eve.eve_data_inicio) = date(eve.eve_data_fim);";
+                    WHERE eve.eve_amb_id = ? AND blo.blo_eve_id = ? AND sev.set_eve_id = ? AND date(eve.eve_data_inicio) = date(eve.eve_data_fim) AND eve.eve_ativo = 1;";
             $p_sql = ConexaoMysql::getInstance()->prepare($sql);
             $p_sql->bindParam(1, $idAmbiente);
             $p_sql->bindParam(2, $idBloco);
@@ -90,7 +90,7 @@ class EventoDao {
         try {
 
             $sql = "SELECT eve.eve_id as id, eve.eve_nome, eve.eve_desc as title,
-                    eve.eve_solicitante, eve.eve_data_inicio as start, eve.eve_data_fim as end,
+                    eve.eve_solicitante, eve.eve_data_inicio as start, eve.eve_data_fim as end, eve.eve_ativo,
                     amb.amb_eve_id, amb.amb_eve_desc, blo.blo_eve_id, blo.blo_eve_desc, sev.set_eve_id,
                     sev.set_eve_desc, evt.eve_tip_rep_id, evt.eve_tip_rep_desc,
                     eva.eve_aula_id, eva.eve_aula_desc, evad.eve_aula_det_id, evad.eve_aula_det_pro, diaSem.dia_sem_nome from eventos eve 
@@ -101,7 +101,7 @@ class EventoDao {
                     JOIN evento_aula eva ON eva.eve_aula_id = eve.eve_aula_id
                     JOIN dias_semana diaSem ON diaSem.dia_sem_codigo = eve.eve_fkdia_codigo
                     LEFT JOIN evento_aula_detalhes evad ON evad.eve_aula_det_fkeve_id = eve.eve_id 
-                    WHERE eve.eve_amb_id = ? AND blo.blo_eve_id = ? AND sev.set_eve_id = ? AND date(eve.eve_data_inicio) = date(eve.eve_data_fim) AND eve.eve_data_inicio >= ? AND eve.eve_data_fim <= ?";
+                    WHERE eve.eve_amb_id = ? AND blo.blo_eve_id = ? AND sev.set_eve_id = ? AND date(eve.eve_data_inicio) = date(eve.eve_data_fim) AND eve.eve_data_inicio >= ? AND eve.eve_data_fim <= ? AND eve.eve_ativo = 1";
             $p_sql = ConexaoMysql::getInstance()->prepare($sql);
             $p_sql->bindParam(1, $idAmbiente);
             $p_sql->bindParam(2, $idBloco);
@@ -116,12 +116,13 @@ class EventoDao {
         }
     }
 
-    public function insertEventoSelecionado($idUsuario, $nomeEvento, $descricaoEvento, $solicitanteEvento, $telefoneSolicitante, $emailSolicitante, $dataInicioEvento, $dataFimEvento, $eventoComeco, $eventoFim, $ambienteEvento, $eventoTipoRepeticao, $idAula, $diaNumero) {
+    public function insertEventoSelecionado($idUsuario, $nomeEvento, $descricaoEvento, $solicitanteEvento, $telefoneSolicitante, $emailSolicitante, $dataInicioEvento, $dataFimEvento, $eventoComeco, $eventoFim, $ambienteEvento, $eventoTipoRepeticao, $idAula, $diaNumero, $random) {
 
         try {
             $logicaAula = 1;
-            $sql = "INSERT INTO eventos (eve_nome, eve_desc, eve_solicitante, eve_sol_tel, eve_sol_email, eve_data_inicio, eve_data_fim, eve_comeco, eve_fim, eve_tip_rep_id, eve_aula_id, eve_amb_id, eve_usu_id, eve_fkdia_codigo, eve_logica)"
-                    . "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+            $ativo = 1;
+            $sql = "INSERT INTO eventos (eve_nome, eve_desc, eve_solicitante, eve_sol_tel, eve_sol_email, eve_data_inicio, eve_data_fim, eve_comeco, eve_fim, eve_tip_rep_id, eve_aula_id, eve_amb_id, eve_usu_id, eve_fkdia_codigo, eve_logica, eve_random, eve_ativo)"
+                    . "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
             $p_sql = ConexaoMysql::getInstance()->prepare($sql);
             $p_sql->bindParam(1, $nomeEvento);
             $p_sql->bindParam(2, $descricaoEvento);
@@ -138,6 +139,8 @@ class EventoDao {
             $p_sql->bindParam(13, $idUsuario);
             $p_sql->bindParam(14, $diaNumero);
             $p_sql->bindParam(15, $logicaAula);
+            $p_sql->bindParam(16, $random);
+            $p_sql->bindParam(17, $ativo);
             return $p_sql->execute();
         } catch (Exception $e) {
             echo $e->getTraceAsString();
@@ -149,7 +152,7 @@ class EventoDao {
         try {
 
             $sql = "SELECT eve.eve_id as id, eve.eve_nome, eve.eve_desc as title,
-                    eve.eve_solicitante, eve.eve_data_inicio as start, eve.eve_data_fim as end,
+                    eve.eve_solicitante, eve.eve_data_inicio as start, eve.eve_data_fim as end, eve.eve_ativo,
                     amb.amb_eve_id, amb.amb_eve_desc, blo.blo_eve_id, blo.blo_eve_desc, sev.set_eve_id,
                     sev.set_eve_desc, evt.eve_tip_rep_id, evt.eve_tip_rep_desc,
                     eva.eve_aula_id, eva.eve_aula_desc, evad.eve_aula_det_id, evad.eve_aula_det_pro, diaSem.dia_sem_nome from eventos eve 
@@ -160,7 +163,7 @@ class EventoDao {
                     JOIN evento_aula eva ON eva.eve_aula_id = eve.eve_aula_id
                     JOIN dias_semana diaSem ON diaSem.dia_sem_codigo = eve.eve_fkdia_codigo
                     LEFT JOIN evento_aula_detalhes evad ON evad.eve_aula_det_fkeve_id = eve.eve_id 
-                    WHERE eve.eve_amb_id = ? AND eve.eve_comeco = ? AND eve.eve_fim = ? AND eve_logica = 1";
+                    WHERE eve.eve_amb_id = ? AND eve.eve_comeco = ? AND eve.eve_fim = ? AND eve.eve_logica = 1 AND eve.eve_ativo = 1";
             $p_sql = ConexaoMysql::getInstance()->prepare($sql);
             $p_sql->bindParam(1, $ambienteEvento);
             $p_sql->bindParam(2, $start);
@@ -176,7 +179,7 @@ class EventoDao {
     public function getEventById($idEvento) {
         try {
             $sql = "SELECT eve.eve_id as id, eve.eve_nome, eve.eve_desc as title,
-                    eve.eve_solicitante, eve.eve_data_inicio as start, eve.eve_data_fim as end,
+                    eve.eve_solicitante, eve.eve_data_inicio as start, eve.eve_data_fim as end, eve.eve_ativo,
                     amb.amb_eve_id, amb.amb_eve_desc, blo.blo_eve_id, blo.blo_eve_desc, sev.set_eve_id,
                     sev.set_eve_desc, evt.eve_tip_rep_id, evt.eve_tip_rep_desc,
                     eva.eve_aula_id, eva.eve_aula_desc, evad.eve_aula_det_id, evad.eve_aula_det_pro, diaSem.dia_sem_nome from eventos eve 
@@ -187,7 +190,7 @@ class EventoDao {
                     JOIN evento_aula eva ON eva.eve_aula_id = eve.eve_aula_id
                     JOIN dias_semana diaSem ON diaSem.dia_sem_codigo = eve.eve_fkdia_codigo
                     LEFT JOIN evento_aula_detalhes evad ON evad.eve_aula_det_fkeve_id = eve.eve_id
-                    WHERE eve.eve_id = ? ";
+                    WHERE eve.eve_id = ? AND eve.eve_ativo = 1";
             $p_sql = ConexaoMysql::getInstance()->prepare($sql);
             $p_sql->bindParam(1, $idEvento);
             $p_sql->execute();
@@ -201,7 +204,7 @@ class EventoDao {
     public function getEventoByPesquisa($valorDigitado) {
         try {
             $sql = "SELECT eve.eve_id as id, eve.eve_nome, eve.eve_desc as title,
-                    eve.eve_solicitante, eve.eve_data_inicio as start, eve.eve_data_fim as end,
+                    eve.eve_solicitante, eve.eve_data_inicio as start, eve.eve_data_fim as end, eve.eve_ativo,
                     amb.amb_eve_id, amb.amb_eve_desc, blo.blo_eve_id, blo.blo_eve_desc, sev.set_eve_id,
                     sev.set_eve_desc, evt.eve_tip_rep_id, evt.eve_tip_rep_desc,
                     eva.eve_aula_id, eva.eve_aula_desc, evad.eve_aula_det_id, evad.eve_aula_det_pro, diaSem.dia_sem_nome from eventos eve 
@@ -215,7 +218,7 @@ class EventoDao {
                     WHERE eve.eve_nome LIKE '%" . $valorDigitado . "%' OR eve.eve_desc LIKE '%" . $valorDigitado . "%'
                     OR eve.eve_solicitante LIKE '%" . $valorDigitado . "%'
                     OR amb.amb_eve_desc LIKE '%" . $valorDigitado . "%'
-                    OR blo.blo_eve_desc LIKE '%" . $valorDigitado . "%'";
+                    OR blo.blo_eve_desc LIKE '%" . $valorDigitado . "%' AND eve.eve_ativo = 1";
             $p_sql = ConexaoMysql::getInstance()->prepare($sql);
             $p_sql->execute();
 
@@ -230,7 +233,7 @@ class EventoDao {
         try {
 
             $sql = "SELECT eve.eve_id as id, eve.eve_nome, eve.eve_desc as title,
-                    eve.eve_solicitante, eve.eve_data_inicio as start, eve.eve_data_fim as end,
+                    eve.eve_solicitante, eve.eve_data_inicio as start, eve.eve_data_fim as end, eve.eve_ativo,
                     amb.amb_eve_id, amb.amb_eve_desc, blo.blo_eve_id, blo.blo_eve_desc, sev.set_eve_id,
                     sev.set_eve_desc, evt.eve_tip_rep_id, evt.eve_tip_rep_desc,
                     eva.eve_aula_id, eva.eve_aula_desc, evad.eve_aula_det_id, evad.eve_aula_det_pro, diaSem.dia_sem_nome
@@ -258,7 +261,7 @@ class EventoDao {
                     OR 
                     (DATE_FORMAT(eve_data_fim, '%H:%i') > DATE_FORMAT(?, '%H:%i')
                     AND DATE_FORMAT(eve_data_inicio, '%H:%i') <= DATE_FORMAT(?, '%H:%i')))
-                    AND eve.eve_amb_id = ? AND eve.eve_fkdia_codigo = ?";
+                    AND eve.eve_amb_id = ? AND eve.eve_fkdia_codigo = ? AND eve.eve_ativo = 1";
             $p_sql = ConexaoMysql::getInstance()->prepare($sql);
             $p_sql->bindParam(1, $dataInicio);
             $p_sql->bindParam(2, $dataFim);
@@ -285,7 +288,7 @@ class EventoDao {
     public function updateEventById($idEvento, $nomeEvento, $solicitante, $descricaoEvento, $tipoEvento, $blocoEvento, $ambienteEvento, $dataInicio, $dataFim) {
         try {
             $sql = "UPDATE eventos SET eve_nome = ?, eve_solicitante = ?, eve_desc = ?,
-                    eve_amb_id = ?, eve_data_inicio = ?, eve_data_fim = ? WHERE eve_id = ?";
+                    eve_amb_id = ?, eve_data_inicio = ?, eve_data_fim = ? WHERE eve_id = ? AND eve.eve_ativo = 1";
             $p_sql = ConexaoMysql::getInstance()->prepare($sql);
             $p_sql->bindParam(1, $nomeEvento);
             $p_sql->bindParam(2, $solicitante);
@@ -363,7 +366,7 @@ class EventoDao {
 
     public function updateEveLogicaToZero($idEvento) {
         try {
-            $sql = "UPDATE eventos SET eve_logica = 0 WHERE eve_id = ?";
+            $sql = "UPDATE eventos SET eve_logica = 0 WHERE eve_id = ? AND eve_ativo = 1";
             $p_sql = ConexaoMysql::getInstance()->prepare($sql);
             $p_sql->bindParam(1, $idEvento);
             return $p_sql->execute();
