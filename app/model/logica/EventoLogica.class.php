@@ -79,7 +79,7 @@ class EventoLogica {
                 $dataInicioToValorDia = date_format(date_create($dataInicioEvento), 'Y-m-d');
                 $diaNumero = date("w", strtotime($dataInicioToValorDia));
                 $dataFimEventoDiario = date_format(date_create($dataInicioEvento), "Y-m-d") . ' ' . $horarioFinal;
-                $random = $d->format("ymdHisu");
+                $random = $d->format("dHisu");
                 EventoDao::getInstance()->insertEventoSelecionado($idUsuario, $nomeEvento, $descricaoEvento, $solicitanteEvento, $telefoneSolicitante, $emailSolicitante, $dataInicioEvento, $dataFimEventoDiario, $eventoComeco, $eventoFinal, $ambienteEvento, $eventoTipoRepeticao, $idAula, $diaNumero, $random);
                 $dataInicioEvento = date('Y-m-d H:i', strtotime("+1 days", strtotime($dataInicioEvento)));
             }
@@ -91,7 +91,7 @@ class EventoLogica {
     public function insertEventoSelecionadoTipoRepeticao() {
         session_start();
         if ($_SESSION['usuario_tipo_id'] == 1 || $_SESSION['usuario_tipo_id'] == 2) {
-            $idUsuario = $_REQUEST['idUsuario'];
+            $idUsuario = $_SESSION['usuario_id'];
             $nomeEvento = $_REQUEST['nomeEvento'];
             $descricaoEvento = $_REQUEST['descricaoEvento'];
             $solicitanteEvento = $_REQUEST['solicitanteEvento'];
@@ -131,7 +131,7 @@ class EventoLogica {
                                 $dataInicioEvento = date('Y-m-d H:i', strtotime($dataFimEvento));
                                 return EventoView::getInstance()->modalErrorVerifyDates($objeto);
                             } else {
-                                $random = $d->format("ymdHisu");
+                                $random = $d->format("dHisu");
                                 EventoDao::getInstance()->insertEventoSelecionado($idUsuario, $nomeEvento, $descricaoEvento, $solicitanteEvento, $telefoneSolicitante, $emailSolicitante, $dataInicioEventoDiario, $dataFimEventoDiario, $eventoComeco, $eventoFinal, $ambienteEvento, $eventoTipoRepeticao, $idAula, $diaNumero, $random);
                                 $contador++;
                             }

@@ -2843,7 +2843,6 @@ $(function () {
 });
 
 function openDialogDeleteEvent(numeroRandom) {
-    console.log(numeroRandom);
     $(".textExclusao").html("Você deseja excluir esse evento?");
     $("#dialog-confirm").dialog({
         show: {
@@ -2874,7 +2873,7 @@ function deleteEventoByRandom(numeroRandom) {
             action: 'EventoLogica.deleteEventoByRandom',
             numeroRandom: numeroRandom
         }, success: function (data, textStatus, jqXHR) {
-//            location.reload();
+            location.reload();
         }
     });
 }
