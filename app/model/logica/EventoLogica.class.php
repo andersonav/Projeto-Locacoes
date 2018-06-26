@@ -171,6 +171,12 @@ class EventoLogica {
         return EventoDao::getInstance()->updateEventById($idEvento, $nomeEvento, $solicitante, $descricaoEvento, $tipoEvento, $blocoEvento, $ambienteEvento, $dataInicio, $dataFim);
     }
 
+    public function deleteEventoByRandom() {
+        $numeroRandom = $_REQUEST['numeroRandom'];
+
+        return EventoDao::getInstance()->deleteEventoByRandom($numeroRandom);
+    }
+
     public function verifyDates() {
         $dataInicio = $_REQUEST['dataInicio'];
         $dataFim = $_REQUEST['dataFim'];

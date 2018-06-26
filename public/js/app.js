@@ -7,8 +7,9 @@
  Created on : 14/09/2017, 13:58:42
  Author     : andersonalves
  */
+var controllerToAdmin = "controller/FrontController.php";
 $(function () {
-    var controllerToAdmin = "controller/FrontController.php";
+
     var hoje = new Date();
     var hora = hoje.getHours();
     var minutos = hoje.getMinutes();
@@ -2837,4 +2838,43 @@ $(function () {
     getAula();
     getTipoRepeticao();
 
+
+
 });
+
+function openDialogDeleteEvent(numeroRandom) {
+    console.log(numeroRandom);
+    $(".textExclusao").html("Você deseja excluir esse evento?");
+    $("#dialog-confirm").dialog({
+        show: {
+            effect: 'fade',
+            duration: 200 //at your convenience
+        },
+        resizable: false,
+        height: "auto",
+        width: 400,
+        modal: true,
+        buttons: {
+            "Sim": function () {
+                $(this).dialog("close");
+                deleteEventoByRandom(numeroRandom);
+            },
+            Não: function () {
+                $(this).dialog("close");
+            }
+        }
+    });
+}
+
+function deleteEventoByRandom(numeroRandom) {
+    $.ajax({
+        url: controllerToAdmin,
+        type: 'POST',
+        data: {
+            action: 'EventoLogica.deleteEventoByRandom',
+            numeroRandom: numeroRandom
+        }, success: function (data, textStatus, jqXHR) {
+//            location.reload();
+        }
+    });
+}

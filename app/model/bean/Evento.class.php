@@ -38,6 +38,7 @@ class Evento {
     public $equipamentoDescricaoEvento;
     public $equipamentoQtdUtilizadaEvento;
     public $diaSemanaDescricao;
+    public $eventoRandom;
 
     function getIdEvento() {
         return $this->idEvento;
@@ -123,6 +124,10 @@ class Evento {
         return $this->diaSemanaDescricao;
     }
 
+    function getEventoRandom() {
+        return $this->eventoRandom;
+    }
+
     function setIdEvento($idEvento) {
         $this->idEvento = $idEvento;
     }
@@ -205,6 +210,10 @@ class Evento {
 
     function setDiaSemanaDescricao($diaSemanaDescricao) {
         $this->diaSemanaDescricao = $diaSemanaDescricao;
+    }
+
+    function setEventoRandom($eventoRandom) {
+        $this->eventoRandom = $eventoRandom;
     }
 
 }

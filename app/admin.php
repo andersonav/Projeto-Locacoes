@@ -539,13 +539,10 @@ if (!isset($_SESSION['usuario_login']) || ($_SESSION['usuario_tipo_id'] == 3)) {
                     </div>
                 </div>
                 <div id="modalUpdateEvent" class="modal">
-                    <div class="modal-content" id="contentUpdateEvent">
+                    <div class="" id="contentUpdateEvent">
+                        
                     </div>
-                    <div class="modal-footer">
-                        <button class="btnModal buttonCancel">CANCELAR</button>
-                        <button class="btnModal buttonExcluir">EXCLUIR</button>
-                        <button class="btnModal buttonUpdate">ATUALIZAR</button>
-                    </div>
+                    
                 </div>
                 <br><br>
                 <div class="row">
