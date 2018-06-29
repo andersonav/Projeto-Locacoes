@@ -182,7 +182,7 @@ if (!isset($_SESSION['usuario_login'])) {
                                     </div>
                 </div>--><br><br><br>
                 <div class="row pesquisaBySelects">
-                    <div class="input-field col s12 m4">
+                    <div class="input-field col s12 m3">
                         <select name="tipo" class="sel-tipo-evento-pesquisa" id="sel-tipo-evento-pesquisa">
                             <option value="" disabled selected>Escolha sua opção</option>
                             <!--                        <option value="1">Servidor</option>
@@ -191,9 +191,9 @@ if (!isset($_SESSION['usuario_login'])) {
                                                     <option value="4">Mestrado</option>
                                                     <option value="5">Bolsista</option>-->
                         </select>
-                        <label class="corLogo-text">Tipo de Evento: </label>
+                        <label class="corLogo-text">Tipo: </label>
                     </div>
-                    <div class="input-field col s12 m4 divSelBloco">
+                    <div class="input-field col s12 m3 divSelBloco">
                         <select name="bloco" class="sel-bloco-pesquisa" id="sel-bloco-pesquisa">
                             <option value="" disabled selected>Escolha sua opção</option>
                             <!--                        <option value="1">Servidor</option>
@@ -204,7 +204,7 @@ if (!isset($_SESSION['usuario_login'])) {
                         </select>
                         <label class="corLogo-text">Bloco: </label>
                     </div>
-                    <div class="input-field col s12 m4 divSelAmbiente">
+                    <div class="input-field col s12 m3 divSelAmbiente">
                         <select name="ambiente" class="sel-ambiente-pesquisa" id="sel-ambiente-pesquisa">
                             <option value="" disabled selected>Escolha sua opção</option>
                             <!--<option value="" disabled selected>Escolha sua opção</option>-->
@@ -216,22 +216,10 @@ if (!isset($_SESSION['usuario_login'])) {
                         </select>
                         <label class="corLogo-text">Ambiente: </label>
                     </div>
-                    <div class="input-field col s12 m6 divDataInicio">
-                        <input id="formDataInicio" type="text" class="dataInicio" placeholder="Escolha a Data Inicial" name="dataInicio">
-                        <label for="icon_prefix" class="corLogo-text active dataInicioLabel">Data Início:</label>
+                    <div class="input-field col s12 m3">
+                        <a class="waves-effect waves-light btn btnLimparDados" id="limparCampos" style="">Limpar Dados</a>
                     </div>
-                    <!--                    <div class="input-field col s12 m3">
-                                            <input id="formHoraInicio" type="text" class="validate horaInicio" placeholder="Escolha a Hora Inicial" name="horaInicio">
-                                            <label for="icon_prefix" class="corLogo-text active">Hora Início:</label>-->
-                    <!--</div>-->
-                    <div class="input-field col s12 m6">
-                        <input id="formDataFim" type="text" class="dataFim" placeholder="Escolha a Data Final" name="dataFim">
-                        <label for="icon_prefix" class="corLogo-text active dataFimLabel">Data Fim:</label>
-                    </div>
-                    <!--                    <div class="input-field col s12 m3">
-                                            <input id="formHoraFim" type="text" class="validate horaFim" placeholder="Escolha a Hora Final" name="horaFim">
-                                            <label for="icon_prefix" class="corLogo-text active">Hora Fim:</label>
-                                        </div>-->
+
                 </div>
                 <!--            <div class="texto">
                                 <h3>SysReserva</h3>

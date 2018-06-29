@@ -161,18 +161,14 @@ $(function () {
                                 title = $(".descricaoEvento").val();
                                 var contadorInput = 0;
                                 var contadorSelect = 0;
+                                var idDescricao = "descricaoEvento";
                                 $("#form_add_event input[type=text]:enabled").each(function () {
                                     $(this).val() == "" ? contadorInput++ : "";
                                 });
                                 $("#form_add_event select:visible").each(function () {
                                     $(this).val() == null ? contadorSelect++ : "";
                                 });
-                                if ((contadorInput == 0) && (contadorSelect == 0)) {
-                                    eventData = {
-                                        title: title,
-                                        start: start,
-                                        end: end
-                                    };
+                                if ((contadorInput == 0) && (contadorSelect == 0) || (contadorInput == 0 && contadorSelect == 0 && title == "")) {
                                     if (insertEventoSelecionado(idUsuario, nomeEvento, solicitanteEvento, telefoneSolicitante, emailSolicitante, tipoEvento, blocoEvento, ambienteEvento, eventoTipoRepeticao, idAula, title, start, end) == true) {
                                         var valorIdEvento = getEventByAmbienteAndStartAndEnd(ambienteEvento, start, end);
                                         getQtdSolicitadaAndUpdateQtdDisponivel();
@@ -1305,6 +1301,9 @@ $(function () {
                 action: "SetorLogica.getSetor"
             },
             success: function (data) {
+                $("#sel-tipo-evento").empty();
+                $("#sel-tipo-evento-pesquisa").empty();
+                $("#sel-tipo-evento-update").empty();
                 $("#sel-tipo-evento").html(data);
                 $("#sel-tipo-evento-pesquisa").html(data);
                 $("#sel-tipo-evento-update").html(data);
@@ -2808,6 +2807,17 @@ $(function () {
                 }
             }
         });
+    });
+
+    $("#limparCampos").click(function () {
+        getSetor();
+        $("#sel-bloco-pesquisa").empty();
+        $("#sel-bloco-pesquisa").append('<option value="" disabled selected>Escolha sua opção</option>');
+        $("#sel-bloco-pesquisa").material_select();
+
+        $("#sel-ambiente-pesquisa").empty();
+        $("#sel-ambiente-pesquisa").append('<option value="" disabled selected>Escolha sua opção</option>');
+        $("#sel-ambiente-pesquisa").material_select();
     });
 
     function logout() {

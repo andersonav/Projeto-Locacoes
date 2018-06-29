@@ -44,7 +44,7 @@ class SetorDao {
 
         try {
 
-            $sql = "SELECT * FROM setor_evento";
+            $sql = "SELECT * FROM setor_evento WHERE set_eve_ativo = 1";
 
             $p_sql = ConexaoMysql::getInstance()->prepare($sql);
 

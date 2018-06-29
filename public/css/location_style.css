@@ -22,6 +22,14 @@ body{
     right: 0px !important;
 }
 
+.btnLimparDados{
+    width: 62% !important;
+    margin:0 auto;
+    display: block;
+    text-align: center; 
+    background-color: #006a20 !important;
+}
+
 #modalAdicionarEventoClickDay .fc-center, #modalAdicionarEventoClickDay .fc-right, #modalAdicionarEventoClickDay .fc-left{
     display: none !important;
 }
@@ -194,7 +202,7 @@ input:not(.browser-default):disabled + label {
     color: #006B43 !important;
 }
 
-input:enabled {
+input:enabled, textarea:enabled {
     border-bottom: 1px solid #006B43 !important;
 }
 .fc-day-number, .fc-list-heading-main, .fc-list-heading-alt{

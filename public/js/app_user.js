@@ -30,8 +30,9 @@ $(function () {
                 action: "SetorLogica.getSetor"
             },
             success: function (data) {
-                $(".sel-tipo-evento-pesquisa").html(data);
-                $(".sel-tipo-evento-pesquisa").material_select();
+                $("#sel-tipo-evento-pesquisa option").remove();
+                $("#sel-tipo-evento-pesquisa").html(data);
+                $("#sel-tipo-evento-pesquisa").material_select();
                 $("select").material_select();
             }
         });
@@ -521,6 +522,17 @@ $(function () {
                 }
             }
         });
+    });
+
+    $("#limparCampos").click(function () {
+        getSetorPageUser();
+        $("#sel-bloco-pesquisa").empty();
+        $("#sel-bloco-pesquisa").append('<option value="" disabled selected>Escolha sua opção</option>');
+        $("#sel-bloco-pesquisa").material_select();
+
+        $("#sel-ambiente-pesquisa").empty();
+        $("#sel-ambiente-pesquisa").append('<option value="" disabled selected>Escolha sua opção</option>');
+        $("#sel-ambiente-pesquisa").material_select();
     });
 
     function logout() {

@@ -55,7 +55,7 @@ if (!isset($_SESSION['usuario_login']) || ($_SESSION['usuario_tipo_id'] == 3)) {
                         </div>
                         <div class="blocoMenu">
                             <a class='dropdown-button openModalAdicionarEvento' href='#' data-activates='dropdown1'>
-                                Cadastros
+                                Adicionar Evento
                             </a>
                             <?php
                             if ($_SESSION['usuario_tipo_id'] == 1) {
@@ -436,29 +436,29 @@ if (!isset($_SESSION['usuario_login']) || ($_SESSION['usuario_tipo_id'] == 3)) {
                                 <!--<input type="hidden" value="<?php echo $_SESSION['usu_id']; ?>" id="idUsuario">-->
                                 <input type="hidden" value="1" id="idUsuario">
                                 <div class="input-field col s12 m6">
-                                    <input id="icon_prefix" type="text" class="validate nomeEvento" placeholder="Digite o nome do Evento">
+                                    <input id="nomeEvento" type="text" class="validate nomeEvento" placeholder="Digite o nome do Evento">
                                     <label for="icon_prefix" class="corLogo-text active">Nome do Evento:</label>
                                 </div>
                                 <div class="input-field col s12 m6">
-                                    <input id="icon_prefix" type="text" class="validate solicitante" placeholder="Digite o nome do Solicitante">
+                                    <input id="solicitante" type="text" class="validate solicitante" placeholder="Digite o nome do Solicitante">
                                     <label for="icon_prefix" class="corLogo-text active">Solicitante:</label>
                                 </div>
                                 <div class="input-field col s12 m6">
-                                    <input id="icon_prefix" type="tel" class="validate telefoneContatoSolicitante" maxlength="15" placeholder="Digite o telefone do Solicitante">
+                                    <input id="telefoneContatoSolicitante" type="text" class="validate telefoneContatoSolicitante" maxlength="15" placeholder="Digite o telefone do Solicitante">
                                     <label for="icon_prefix" class="corLogo-text active">Telefone para contato:</label>
                                 </div>
                                 <div class="input-field col s12 m6">
-                                    <input id="icon_prefix" type="email" class="validate emailContatoSolicitante" placeholder="Digite o email do Solicitante">
+                                    <input id="emailContatoSolicitante" type="email" class="validate emailContatoSolicitante" placeholder="Digite o email do Solicitante">
                                     <label for="icon_prefix" class="corLogo-text active">Email para contato:</label>
                                 </div>
                                 <div class="input-field col s12 m12">
-                                    <input type="text" id="descricaoEvento" class="validate descricaoEvento" data-length="200" maxlength="201" placeholder="Digite a descrição do Evento">
-                                    <label for="icon_prefix" class="corLogo-text active">Descrição do Evento</label>
+                                    <textarea id="descricaoEvento" class="materialize-textarea descricaoEvento" data-length="200" maxlength="201" placeholder="Digite a descrição do Evento"></textarea>
+                                    <label for="descricaoEvento" class="corLogo-text">Descrição do Evento</label>
                                 </div>
                                 <div class="input-field col s12 m4">
                                     <select name="tipo" class="sel-tipo-evento" id="sel-tipo-evento">
                                     </select>
-                                    <label class="corLogo-text">Ambiente: </label>
+                                    <label class="corLogo-text">Tipo: </label>
                                 </div>
                                 <div class="input-field col s12 m4">
                                     <select name="bloco" class="sel-bloco" id="sel-bloco">
@@ -468,7 +468,7 @@ if (!isset($_SESSION['usuario_login']) || ($_SESSION['usuario_tipo_id'] == 3)) {
                                 <div class="input-field col s12 m4">
                                     <select name="ambiente" class="sel-ambiente" id="sel-ambiente">
                                     </select>
-                                    <label class="corLogo-text">Local: </label>
+                                    <label class="corLogo-text">Ambiente: </label>
                                 </div>
                                 <div class="cadastroClickBtn mostrarWhenClickBtn center">
                                     <div class="input-field col s12 m5">
@@ -540,29 +540,32 @@ if (!isset($_SESSION['usuario_login']) || ($_SESSION['usuario_tipo_id'] == 3)) {
                 </div>
                 <div id="modalUpdateEvent" class="modal">
                     <div class="" id="contentUpdateEvent">
-                        
+
                     </div>
-                    
+
                 </div>
                 <br><br>
                 <div class="row">
-                    <div class="input-field col s12 m4">
+                    <div class="input-field col s12 m3">
                         <select name="tipo" class="sel-tipo-evento-pesquisa" id="sel-tipo-evento-pesquisa">
                             <option value="" disabled selected>Escolha sua opção</option>
                         </select>
-                        <label class="corLogo-text">Ambiente: </label>
+                        <label class="corLogo-text">Tipo: </label>
                     </div>
-                    <div class="input-field col s12 m4">
+                    <div class="input-field col s12 m3">
                         <select name="bloco" class="sel-bloco-pesquisa" id="sel-bloco-pesquisa">
                             <option value="" disabled selected>Escolha sua opção</option>
                         </select>
                         <label class="corLogo-text">Bloco: </label>
                     </div>
-                    <div class="input-field col s12 m4">
+                    <div class="input-field col s12 m3">
                         <select name="ambiente" class="sel-ambiente-pesquisa" id="sel-ambiente-pesquisa">
                             <option value="" disabled selected>Escolha sua opção</option>
                         </select>
-                        <label class="corLogo-text">Local: </label>
+                        <label class="corLogo-text">Ambiente: </label>
+                    </div>
+                    <div class="input-field col s12 m3">
+                        <a class="waves-effect waves-light btn btnLimparDados" id="limparCampos" style="">Limpar Dados</a>
                     </div>
                 </div>
                 <div id='calendar'></div>
