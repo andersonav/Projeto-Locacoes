@@ -44,9 +44,14 @@ main {
     width:20px;
     height:20px;
 }
+
+.checkEspera p{
+    text-align: center !important;
+}
 .scroll{
     overflow: auto;
     width: 100%;
+    height: 350px;
 }
 .material-icons {
     cursor: pointer;

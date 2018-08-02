@@ -113,16 +113,16 @@ if (!isset($_SESSION['usuario_login']) || ($_SESSION['usuario_tipo_id'] == 3)) {
             </div>
         </nav>
         <main>
-            <div class="submenu desktop">
-                <div class="container">
-                    <a href="#!" class="breadcrumb">início</a>
-                    <a href="#!" class="breadcrumb">Suporte</a>
-                    <a href="#!" class="breadcrumb">Sistemas</a>
-                    <a href="#!" class="breadcrumb">Reservas</a>
-                    <a href="#!" class="breadcrumb">Administrativo</a>
-
-                </div>
-            </div>
+            <!--            <div class="submenu desktop">
+                            <div class="container">
+                                <a href="#!" class="breadcrumb">início</a>
+                                <a href="#!" class="breadcrumb">Suporte</a>
+                                <a href="#!" class="breadcrumb">Sistemas</a>
+                                <a href="#!" class="breadcrumb">Reservas</a>
+                                <a href="#!" class="breadcrumb">Administrativo</a>
+            
+                            </div>
+                        </div>-->
 
             <div class="input-field col s12 pesquisar">
                 <div class="z-depth-2">
@@ -443,13 +443,18 @@ if (!isset($_SESSION['usuario_login']) || ($_SESSION['usuario_tipo_id'] == 3)) {
                                     <input id="solicitante" type="text" class="validate solicitante" placeholder="Digite o nome do Solicitante">
                                     <label for="icon_prefix" class="corLogo-text active">Solicitante:</label>
                                 </div>
-                                <div class="input-field col s12 m6">
+                                <div class="input-field col s12 m4">
                                     <input id="telefoneContatoSolicitante" type="text" class="validate telefoneContatoSolicitante" maxlength="15" placeholder="Digite o telefone do Solicitante">
                                     <label for="icon_prefix" class="corLogo-text active">Telefone para contato:</label>
                                 </div>
-                                <div class="input-field col s12 m6">
+                                <div class="input-field col s12 m4">
                                     <input id="emailContatoSolicitante" type="email" class="validate emailContatoSolicitante" placeholder="Digite o email do Solicitante">
                                     <label for="icon_prefix" class="corLogo-text active">Email para contato:</label>
+                                </div>
+                                <div class="input-field col s12 m4">
+                                    <select name="sel-filtro-evento" class="sel-filtro-evento" id="sel-filtro-evento">
+                                    </select>
+                                    <label class="corLogo-text">Filtro Evento: </label>
                                 </div>
                                 <div class="input-field col s12 m12">
                                     <textarea id="descricaoEvento" class="materialize-textarea descricaoEvento" data-length="200" maxlength="201" placeholder="Digite a descrição do Evento"></textarea>
@@ -471,7 +476,13 @@ if (!isset($_SESSION['usuario_login']) || ($_SESSION['usuario_tipo_id'] == 3)) {
                                     <label class="corLogo-text">Ambiente: </label>
                                 </div>
                                 <div class="cadastroClickBtn mostrarWhenClickBtn center">
-                                    <div class="input-field col s12 m5">
+                                    <div class="col s12 m3 checkEspera">
+                                        <p>
+                                            <input type="checkbox" id="teste"/>
+                                            <label for="teste">Em Espera</label>
+                                        </p>
+                                    </div>
+                                    <div class="input-field col s12 m2">
                                         <select name="tipoRepeticao" class="sel-tip-repeticao" id="sel-tip-repeticao">
                                         </select>
                                         <label class="corLogo-text">Repetir: </label>

@@ -64,6 +64,7 @@ class EventoLogica {
             $solicitanteEvento = $_REQUEST['solicitanteEvento'];
             $telefoneSolicitante = $_REQUEST['telefoneSolicitante'];
             $emailSolicitante = $_REQUEST['emailSolicitante'];
+            $filtroEvento = $_REQUEST['filtroEvento'];
             $dataInicioEvento = $_REQUEST['dataInicioEvento'];
             $dataFimEvento = $_REQUEST['dataFimEvento'];
             $ambienteEvento = $_REQUEST['ambienteEvento'];
@@ -80,7 +81,7 @@ class EventoLogica {
                 $diaNumero = date("w", strtotime($dataInicioToValorDia));
                 $dataFimEventoDiario = date_format(date_create($dataInicioEvento), "Y-m-d") . ' ' . $horarioFinal;
                 $random = $d->format("dHisu");
-                EventoDao::getInstance()->insertEventoSelecionado($idUsuario, $nomeEvento, $descricaoEvento, $solicitanteEvento, $telefoneSolicitante, $emailSolicitante, $dataInicioEvento, $dataFimEventoDiario, $eventoComeco, $eventoFinal, $ambienteEvento, $eventoTipoRepeticao, $idAula, $diaNumero, $random);
+                EventoDao::getInstance()->insertEventoSelecionado($idUsuario, $nomeEvento, $descricaoEvento, $solicitanteEvento, $telefoneSolicitante, $emailSolicitante, $filtroEvento, $dataInicioEvento, $dataFimEventoDiario, $eventoComeco, $eventoFinal, $ambienteEvento, $eventoTipoRepeticao, $idAula, $diaNumero, $random);
                 $dataInicioEvento = date('Y-m-d H:i', strtotime("+1 days", strtotime($dataInicioEvento)));
             }
         } else {
@@ -97,6 +98,7 @@ class EventoLogica {
             $solicitanteEvento = $_REQUEST['solicitanteEvento'];
             $telefoneSolicitante = $_REQUEST['telefoneSolicitante'];
             $emailSolicitante = $_REQUEST['emailSolicitante'];
+            $filtroEvento = $_REQUEST['filtroEvento'];
             $dataInicioEvento = $_REQUEST['dataInicioEvento'];
             $dataFimEvento = $_REQUEST['dataFimEvento'];
             $horaInicioEvento = json_decode(stripslashes($_REQUEST['horaInicioEvento']));
@@ -132,7 +134,7 @@ class EventoLogica {
                                 return EventoView::getInstance()->modalErrorVerifyDates($objeto);
                             } else {
                                 $random = $d->format("dHisu");
-                                EventoDao::getInstance()->insertEventoSelecionado($idUsuario, $nomeEvento, $descricaoEvento, $solicitanteEvento, $telefoneSolicitante, $emailSolicitante, $dataInicioEventoDiario, $dataFimEventoDiario, $eventoComeco, $eventoFinal, $ambienteEvento, $eventoTipoRepeticao, $idAula, $diaNumero, $random);
+                                EventoDao::getInstance()->insertEventoSelecionado($idUsuario, $nomeEvento, $descricaoEvento, $solicitanteEvento, $telefoneSolicitante, $emailSolicitante, $filtroEvento, $dataInicioEventoDiario, $dataFimEventoDiario, $eventoComeco, $eventoFinal, $ambienteEvento, $eventoTipoRepeticao, $idAula, $diaNumero, $random);
                                 $contador++;
                             }
                         }
@@ -161,14 +163,17 @@ class EventoLogica {
         $idEvento = $_REQUEST['idEvento'];
         $nomeEvento = $_REQUEST['nomeEvento'];
         $solicitante = $_REQUEST['solicitante'];
+        $telefoneSolicitante = $_REQUEST['telefoneSolicitante'];
+        $emailSolicitante = $_REQUEST['emailSolicitante'];
         $descricaoEvento = $_REQUEST['descricaoEvento'];
         $tipoEvento = $_REQUEST['tipoEvento'];
         $blocoEvento = $_REQUEST['blocoEvento'];
         $ambienteEvento = $_REQUEST['ambienteEvento'];
         $dataInicio = $_REQUEST['dataInicio'];
         $dataFim = $_REQUEST['dataFim'];
+        $filtroEvento = $_REQUEST['filtroEvento'];
 
-        return EventoDao::getInstance()->updateEventById($idEvento, $nomeEvento, $solicitante, $descricaoEvento, $tipoEvento, $blocoEvento, $ambienteEvento, $dataInicio, $dataFim);
+        return EventoDao::getInstance()->updateEventById($idEvento, $nomeEvento, $solicitante, $telefoneSolicitante, $emailSolicitante, $descricaoEvento, $tipoEvento, $blocoEvento, $ambienteEvento, $dataInicio, $dataFim, $filtroEvento);
     }
 
     public function deleteEventoByRandom() {

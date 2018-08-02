@@ -21,6 +21,8 @@ class Evento {
     public $nomeEvento;
     public $descricaoEvento;
     public $solicitanteEvento;
+    public $telefoneSolicitante;
+    public $emailSolicitante;
     public $dataInicioEvento;
     public $dataFimEvento;
     public $ambienteIdEvento;
@@ -39,6 +41,7 @@ class Evento {
     public $equipamentoQtdUtilizadaEvento;
     public $diaSemanaDescricao;
     public $eventoRandom;
+    public $idFiltroEvento;
 
     function getIdEvento() {
         return $this->idEvento;
@@ -54,6 +57,14 @@ class Evento {
 
     function getSolicitanteEvento() {
         return $this->solicitanteEvento;
+    }
+
+    function getTelefoneSolicitante() {
+        return $this->telefoneSolicitante;
+    }
+
+    function getEmailSolicitante() {
+        return $this->emailSolicitante;
     }
 
     function getDataInicioEvento() {
@@ -128,6 +139,10 @@ class Evento {
         return $this->eventoRandom;
     }
 
+    function getIdFiltroEvento() {
+        return $this->idFiltroEvento;
+    }
+
     function setIdEvento($idEvento) {
         $this->idEvento = $idEvento;
     }
@@ -142,6 +157,14 @@ class Evento {
 
     function setSolicitanteEvento($solicitanteEvento) {
         $this->solicitanteEvento = $solicitanteEvento;
+    }
+
+    function setTelefoneSolicitante($telefoneSolicitante) {
+        $this->telefoneSolicitante = $telefoneSolicitante;
+    }
+
+    function setEmailSolicitante($emailSolicitante) {
+        $this->emailSolicitante = $emailSolicitante;
     }
 
     function setDataInicioEvento($dataInicioEvento) {
@@ -214,6 +237,10 @@ class Evento {
 
     function setEventoRandom($eventoRandom) {
         $this->eventoRandom = $eventoRandom;
+    }
+
+    function setIdFiltroEvento($idFiltroEvento) {
+        $this->idFiltroEvento = $idFiltroEvento;
     }
 
 }

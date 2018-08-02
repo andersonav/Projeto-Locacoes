@@ -28,6 +28,8 @@ class EventoDao {
         $evento->setIdEvento($row->id);
         $evento->setNomeEvento($row->eve_nome);
         $evento->setDescricaoEvento($row->title);
+        $evento->setTelefoneSolicitante($row->eve_sol_tel);
+        $evento->setEmailSolicitante($row->eve_sol_email);
         $evento->setSolicitanteEvento($row->eve_solicitante);
         $evento->setDataInicioEvento($row->start);
         $evento->setDataFimEvento($row->end);
@@ -44,6 +46,7 @@ class EventoDao {
         $evento->setNomeProfessorEvento($row->eve_aula_det_pro);
         $evento->setDiaSemanaDescricao(utf8_decode($row->dia_sem_nome));
         $evento->setEventoRandom($row->eve_random);
+        $evento->setIdFiltroEvento($row->eve_fkfiltro_evento);
 
         return $evento;
     }
@@ -61,8 +64,8 @@ class EventoDao {
 
         try {
 
-            $sql = "SELECT eve.eve_id as id, eve.eve_nome, eve.eve_desc as title,
-                    eve.eve_solicitante, eve.eve_data_inicio as start, eve.eve_data_fim as end, eve.eve_random, eve.eve_ativo,
+            $sql = "SELECT eve.eve_id as id, eve.eve_nome, eve.eve_sol_tel, eve.eve_sol_email, eve.eve_desc as title,
+                    eve.eve_solicitante, eve.eve_data_inicio as start, eve.eve_data_fim as end, eve.eve_random, eve.eve_ativo, eve.eve_fkfiltro_evento,
                     amb.amb_eve_id, amb.amb_eve_desc, blo.blo_eve_id, blo.blo_eve_desc, sev.set_eve_id,
                     sev.set_eve_desc, evt.eve_tip_rep_id, evt.eve_tip_rep_desc,
                     eva.eve_aula_id, eva.eve_aula_desc, diaSem.dia_sem_nome, evad.eve_aula_det_id, evad.eve_aula_det_pro from eventos eve 
@@ -90,8 +93,8 @@ class EventoDao {
 
         try {
 
-            $sql = "SELECT eve.eve_id as id, eve.eve_nome, eve.eve_desc as title,
-                    eve.eve_solicitante, eve.eve_data_inicio as start, eve.eve_data_fim as end, eve.eve_random, eve.eve_ativo,
+            $sql = "SELECT eve.eve_id as id, eve.eve_nome, eve.eve_sol_tel, eve.eve_sol_email, eve.eve_desc as title,
+                    eve.eve_solicitante, eve.eve_data_inicio as start, eve.eve_data_fim as end, eve.eve_random, eve.eve_ativo, eve.eve_fkfiltro_evento,
                     amb.amb_eve_id, amb.amb_eve_desc, blo.blo_eve_id, blo.blo_eve_desc, sev.set_eve_id,
                     sev.set_eve_desc, evt.eve_tip_rep_id, evt.eve_tip_rep_desc,
                     eva.eve_aula_id, eva.eve_aula_desc, evad.eve_aula_det_id, evad.eve_aula_det_pro, diaSem.dia_sem_nome from eventos eve 
@@ -117,13 +120,13 @@ class EventoDao {
         }
     }
 
-    public function insertEventoSelecionado($idUsuario, $nomeEvento, $descricaoEvento, $solicitanteEvento, $telefoneSolicitante, $emailSolicitante, $dataInicioEvento, $dataFimEvento, $eventoComeco, $eventoFim, $ambienteEvento, $eventoTipoRepeticao, $idAula, $diaNumero, $random) {
+    public function insertEventoSelecionado($idUsuario, $nomeEvento, $descricaoEvento, $solicitanteEvento, $telefoneSolicitante, $emailSolicitante, $filtroEvento, $dataInicioEvento, $dataFimEvento, $eventoComeco, $eventoFim, $ambienteEvento, $eventoTipoRepeticao, $idAula, $diaNumero, $random) {
 
         try {
             $logicaAula = 1;
             $ativo = 1;
-            $sql = "INSERT INTO eventos (eve_nome, eve_desc, eve_solicitante, eve_sol_tel, eve_sol_email, eve_data_inicio, eve_data_fim, eve_comeco, eve_fim, eve_tip_rep_id, eve_aula_id, eve_amb_id, eve_usu_id, eve_fkdia_codigo, eve_logica, eve_random, eve_ativo)"
-                    . "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+            $sql = "INSERT INTO eventos (eve_nome, eve_desc, eve_solicitante, eve_sol_tel, eve_sol_email, eve_data_inicio, eve_data_fim, eve_comeco, eve_fim, eve_tip_rep_id, eve_aula_id, eve_amb_id, eve_usu_id, eve_fkdia_codigo, eve_logica, eve_random, eve_ativo, eve_fkfiltro_evento)"
+                    . "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
             $p_sql = ConexaoMysql::getInstance()->prepare($sql);
             $p_sql->bindParam(1, $nomeEvento);
             $p_sql->bindParam(2, $descricaoEvento);
@@ -142,6 +145,7 @@ class EventoDao {
             $p_sql->bindParam(15, $logicaAula);
             $p_sql->bindParam(16, $random);
             $p_sql->bindParam(17, $ativo);
+            $p_sql->bindParam(18, $filtroEvento);
             return $p_sql->execute();
         } catch (Exception $e) {
             echo $e->getTraceAsString();
@@ -152,8 +156,8 @@ class EventoDao {
 
         try {
 
-            $sql = "SELECT eve.eve_id as id, eve.eve_nome, eve.eve_desc as title,
-                    eve.eve_solicitante, eve.eve_data_inicio as start, eve.eve_data_fim as end, eve.eve_random, eve.eve_ativo,
+            $sql = "SELECT eve.eve_id as id, eve.eve_nome, eve.eve_sol_tel, eve.eve_sol_email, eve.eve_desc as title,
+                    eve.eve_solicitante, eve.eve_data_inicio as start, eve.eve_data_fim as end, eve.eve_random, eve.eve_ativo, eve.eve_fkfiltro_evento,
                     amb.amb_eve_id, amb.amb_eve_desc, blo.blo_eve_id, blo.blo_eve_desc, sev.set_eve_id,
                     sev.set_eve_desc, evt.eve_tip_rep_id, evt.eve_tip_rep_desc,
                     eva.eve_aula_id, eva.eve_aula_desc, evad.eve_aula_det_id, evad.eve_aula_det_pro, diaSem.dia_sem_nome from eventos eve 
@@ -179,8 +183,8 @@ class EventoDao {
 
     public function getEventById($idEvento) {
         try {
-            $sql = "SELECT eve.eve_id as id, eve.eve_nome, eve.eve_desc as title,
-                    eve.eve_solicitante, eve.eve_data_inicio as start, eve.eve_data_fim as end, eve.eve_random, eve.eve_ativo,
+            $sql = "SELECT eve.eve_id as id, eve.eve_nome, eve.eve_sol_tel, eve.eve_sol_email, eve.eve_desc as title,
+                    eve.eve_solicitante, eve.eve_data_inicio as start, eve.eve_data_fim as end, eve.eve_random, eve.eve_ativo, eve.eve_fkfiltro_evento,
                     amb.amb_eve_id, amb.amb_eve_desc, blo.blo_eve_id, blo.blo_eve_desc, sev.set_eve_id,
                     sev.set_eve_desc, evt.eve_tip_rep_id, evt.eve_tip_rep_desc,
                     eva.eve_aula_id, eva.eve_aula_desc, evad.eve_aula_det_id, evad.eve_aula_det_pro, diaSem.dia_sem_nome from eventos eve 
@@ -204,8 +208,8 @@ class EventoDao {
 
     public function getEventoByPesquisa($valorDigitado) {
         try {
-            $sql = "SELECT eve.eve_id as id, eve.eve_nome, eve.eve_desc as title,
-                    eve.eve_solicitante, eve.eve_data_inicio as start, eve.eve_data_fim as end, eve.eve_random, eve.eve_ativo,
+            $sql = "SELECT eve.eve_id as id, eve.eve_nome, eve.eve_sol_tel, eve.eve_sol_email, eve.eve_desc as title,
+                    eve.eve_solicitante, eve.eve_data_inicio as start, eve.eve_data_fim as end, eve.eve_random, eve.eve_ativo, eve.eve_fkfiltro_evento,
                     amb.amb_eve_id, amb.amb_eve_desc, blo.blo_eve_id, blo.blo_eve_desc, sev.set_eve_id,
                     sev.set_eve_desc, evt.eve_tip_rep_id, evt.eve_tip_rep_desc,
                     eva.eve_aula_id, eva.eve_aula_desc, evad.eve_aula_det_id, evad.eve_aula_det_pro, diaSem.dia_sem_nome from eventos eve 
@@ -233,8 +237,8 @@ class EventoDao {
 
         try {
 
-            $sql = "SELECT eve.eve_id as id, eve.eve_nome, eve.eve_desc as title,
-                    eve.eve_solicitante, eve.eve_data_inicio as start, eve.eve_data_fim as end, eve.eve_random, eve.eve_ativo,
+            $sql = "SELECT eve.eve_id as id, eve.eve_nome, eve.eve_sol_tel, eve.eve_sol_email, eve.eve_desc as title,
+                    eve.eve_solicitante, eve.eve_data_inicio as start, eve.eve_data_fim as end, eve.eve_random, eve.eve_ativo, eve.eve_fkfiltro_evento,
                     amb.amb_eve_id, amb.amb_eve_desc, blo.blo_eve_id, blo.blo_eve_desc, sev.set_eve_id,
                     sev.set_eve_desc, evt.eve_tip_rep_id, evt.eve_tip_rep_desc,
                     eva.eve_aula_id, eva.eve_aula_desc, evad.eve_aula_det_id, evad.eve_aula_det_pro, diaSem.dia_sem_nome
@@ -286,10 +290,10 @@ class EventoDao {
         }
     }
 
-    public function updateEventById($idEvento, $nomeEvento, $solicitante, $descricaoEvento, $tipoEvento, $blocoEvento, $ambienteEvento, $dataInicio, $dataFim) {
+    public function updateEventById($idEvento, $nomeEvento, $solicitante, $telefoneSolicitante, $emailSolicitante, $descricaoEvento, $tipoEvento, $blocoEvento, $ambienteEvento, $dataInicio, $dataFim, $filtroEvento) {
         try {
             $sql = "UPDATE eventos SET eve_nome = ?, eve_solicitante = ?, eve_desc = ?,
-                    eve_amb_id = ?, eve_data_inicio = ?, eve_data_fim = ? WHERE eve_id = ? AND eve_ativo = 1";
+                    eve_amb_id = ?, eve_data_inicio = ?, eve_data_fim = ?, eve_sol_tel = ?, eve_sol_email = ?, eve_fkfiltro_evento = ? WHERE eve_id = ? AND eve_ativo = 1";
             $p_sql = ConexaoMysql::getInstance()->prepare($sql);
             $p_sql->bindParam(1, $nomeEvento);
             $p_sql->bindParam(2, $solicitante);
@@ -297,7 +301,10 @@ class EventoDao {
             $p_sql->bindParam(4, $ambienteEvento);
             $p_sql->bindParam(5, $dataInicio);
             $p_sql->bindParam(6, $dataFim);
-            $p_sql->bindParam(7, $idEvento);
+            $p_sql->bindParam(7, $telefoneSolicitante);
+            $p_sql->bindParam(8, $emailSolicitante);
+            $p_sql->bindParam(9, $filtroEvento);
+            $p_sql->bindParam(10, $idEvento);
             return $p_sql->execute();
         } catch (Exception $e) {
             echo $e->getTraceAsString();

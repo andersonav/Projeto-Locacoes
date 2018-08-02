@@ -52,13 +52,25 @@ class EventoView {
                             <input id="icon_prefix" type="text" class="validate solicitante" placeholder="Digite o nome do Solicitante" value="<?= $evento->getSolicitanteEvento(); ?>">
                             <label for="icon_prefix" class="corLogo-text active">Solicitante:</label>
                         </div>
+                        <div class="input-field col s12 m4">
+                            <input id="telefoneContatoSolicitante" type="text" class="validate telefoneContatoSolicitante" value="<?= $evento->getTelefoneSolicitante(); ?>" maxlength="15" placeholder="Digite o telefone do Solicitante">
+                            <label for="icon_prefix" class="corLogo-text active">Telefone para contato:</label>
+                        </div>
+                        <div class="input-field col s12 m4">
+                            <input id="emailContatoSolicitante" type="email" class="validate emailContatoSolicitante" value="<?= $evento->getEmailSolicitante(); ?>" placeholder="Digite o email do Solicitante">
+                            <label for="icon_prefix" class="corLogo-text active">Email para contato:</label>
+                        </div>
+                        <div class="input-field col s12 m4">
+                            <select name="sel-filtro-evento-upd" class="sel-filtro-evento-upd" id="sel-filtro-evento-upd" value="<?= $evento->getIdFiltroEvento(); ?>">
+                            </select>
+                            <label class="corLogo-text">Filtro Evento: </label>
+                        </div>
                         <div class="input-field col s12 m12">
                             <input type="text" id="descricaoEvento" class="validate descricaoEvento" data-length="200" maxlength="201" value="<?= $evento->getDescricaoEvento(); ?>" placeholder="Digite a descrição do Evento">
                             <label for="icon_prefix" class="corLogo-text active">Descrição do Evento</label>
                         </div>
                         <div class="input-field col s12 m4">
-                            <select name="tipo" class="sel-tipo-evento-update" id="sel-tipo-evento-update">
-                                <option value="<?= $evento->getSetorIdEvento(); ?>"><?= $evento->getSetorDescricaoEvento(); ?></option>
+                            <select name="tipo" class="sel-tipo-evento-update" id="sel-tipo-evento-update" value="<?= $evento->getSetorIdEvento(); ?>">
                             </select>
                             <label class="corLogo-text">Tipo de Evento: </label>
                         </div>

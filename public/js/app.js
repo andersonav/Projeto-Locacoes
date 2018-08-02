@@ -152,6 +152,7 @@ $(function () {
                                 var idUsuario = $("#idUsuario").val();
                                 var solicitanteEvento = $(".solicitante").val();
                                 var telefoneSolicitante = $(".telefoneContatoSolicitante").val();
+                                var filtroEvento = $("#sel-filtro-evento").val();
                                 var emailSolicitante = $(".emailContatoSolicitante").val();
                                 var tipoEvento = $("#sel-tipo-evento").val();
                                 var blocoEvento = $("#sel-bloco").val();
@@ -169,7 +170,7 @@ $(function () {
                                     $(this).val() == null ? contadorSelect++ : "";
                                 });
                                 if ((contadorInput == 0) && (contadorSelect == 0) || (contadorInput == 0 && contadorSelect == 0 && title == "")) {
-                                    if (insertEventoSelecionado(idUsuario, nomeEvento, solicitanteEvento, telefoneSolicitante, emailSolicitante, tipoEvento, blocoEvento, ambienteEvento, eventoTipoRepeticao, idAula, title, start, end) == true) {
+                                    if (insertEventoSelecionado(idUsuario, nomeEvento, solicitanteEvento, telefoneSolicitante, emailSolicitante, filtroEvento, tipoEvento, blocoEvento, ambienteEvento, eventoTipoRepeticao, idAula, title, start, end) == true) {
                                         var valorIdEvento = getEventByAmbienteAndStartAndEnd(ambienteEvento, start, end);
                                         getQtdSolicitadaAndUpdateQtdDisponivel();
                                         for (var i = 0; i < valorIdEvento.length; i++) {
@@ -261,6 +262,7 @@ $(function () {
                         pickHoraInicio();
                         pickHoraFim();
                         getSetorUpdate();
+                        getFiltroEventoUpdate();
                         getBlocoBySetorModalUpdate();
                         getAmbienteByBlocoModalUpdate();
                         getEquipamentosByIdEvento(event.id);
@@ -1171,6 +1173,7 @@ $(function () {
             var solicitanteEvento = $(".solicitante").val();
             var telefoneSolicitante = $(".telefoneContatoSolicitante").val();
             var emailSolicitante = $(".emailContatoSolicitante").val();
+            var filtroEvento = $("#sel-filtro-evento").val();
             var tipoEvento = $("#sel-tipo-evento").val();
             var blocoEvento = $("#sel-bloco").val();
             var ambienteEvento = $("#sel-ambiente").val();
@@ -1206,7 +1209,7 @@ $(function () {
                             $("#modalCamposNulos").modal('open');
                         } else {
                             if (verifyDates(inicio, fim, ambienteEvento) == true) {
-                                if (insertEventoSelecionado(idUsuario, nomeEvento, solicitanteEvento, telefoneSolicitante, emailSolicitante, tipoEvento, blocoEvento, ambienteEvento, tipoRepeticao, idAula, descricaoEvento, inicio, fim) == true) {
+                                if (insertEventoSelecionado(idUsuario, nomeEvento, solicitanteEvento, telefoneSolicitante, emailSolicitante, filtroEvento, tipoEvento, blocoEvento, ambienteEvento, tipoRepeticao, idAula, descricaoEvento, inicio, fim) == true) {
                                     getQtdSolicitadaAndUpdateQtdDisponivel();
                                     if (tipoRepeticao == 1) {
                                         var valorIdEvento = getEventByAmbienteAndStartAndEnd(ambienteEvento, inicio, fim);
@@ -1312,6 +1315,36 @@ $(function () {
         });
     }
 
+    function getFiltroEvento() {
+        $.ajax({
+            url: controllerToAdmin,
+            type: "POST",
+            data: {
+                action: "FiltroEventoLogica.getFiltroEvento"
+            },
+            success: function (data) {
+                $("#sel-filtro-evento").html(data);
+                $("#sel-filtro-evento").material_select();
+            }
+        });
+    }
+
+    function getFiltroEventoUpdate() {
+        $.ajax({
+            url: controllerToAdmin,
+            type: "POST",
+            data: {
+                action: "FiltroEventoLogica.getFiltroEvento"
+            },
+            success: function (data) {
+                var valor = $("#sel-filtro-evento-upd").attr("value");
+                $("#sel-filtro-evento-upd").html(data);
+                $("#sel-filtro-evento-upd").val(valor);
+                $("#sel-filtro-evento-upd").material_select();
+            }
+        });
+    }
+
     function getSetorUpdate() {
         $.ajax({
             url: controllerToAdmin,
@@ -1320,7 +1353,9 @@ $(function () {
                 action: "SetorLogica.getSetor"
             },
             success: function (data) {
+                var valor = $("#sel-tipo-evento-update").attr("value");
                 $("#sel-tipo-evento-update").html(data);
+                $("#sel-tipo-evento-update").val(valor);
                 $("select").material_select();
             }
         });
@@ -1472,39 +1507,39 @@ $(function () {
                 }
             });
         } else if (idRepeticao == 2) {
-            $("#formHoraInicio").attr("disabled", true);
-            $("#formHoraFim").attr("disabled", true);
+            $("#modalAdicionarEventoClickDay #formHoraInicio").attr("disabled", true);
+            $("#modalAdicionarEventoClickDay #formHoraFim").attr("disabled", true);
             var dataInicio = $("#formDataInicio").val();
             var dataFim = $("#formDataFim").val();
             if (dataInicio != "" || dataFim != "") {
-                $("#formDataInicio").val("");
-                $("#formDataFim").val("");
-                $(".txt-data-inicial").val("");
-                $(".txt-data-final").val("");
-                $(".txt-data-inicial-servico").val("");
-                $(".txt-data-final-servico").val("");
-                $(".txt-data-inicial-refeicao").val("");
-                $(".txt-data-final-refeicao").val("");
-                $("#formDataFim").val("");
+                $("#modalAdicionarEventoClickDay #formDataInicio").val("");
+                $("#modalAdicionarEventoClickDay #formDataFim").val("");
+                $("#modalAdicionarEventoClickDay .txt-data-inicial").val("");
+                $("#modalAdicionarEventoClickDay .txt-data-final").val("");
+                $("#modalAdicionarEventoClickDay .txt-data-inicial-servico").val("");
+                $("#modalAdicionarEventoClickDay .txt-data-final-servico").val("");
+                $("#modalAdicionarEventoClickDay .txt-data-inicial-refeicao").val("");
+                $("#modalAdicionarEventoClickDay .txt-data-final-refeicao").val("");
+                $("#modalAdicionarEventoClickDay #formDataFim").val("");
                 $("#calendarDayOfWeek").fullCalendar("destroy");
             }
         } else {
-            $("#formHoraInicio").attr("disabled", false);
-            $("#formHoraFim").attr("disabled", false);
-            $("#formDataInicio").val("");
-            $("#formDataFim").val("");
-            $(".txt-data-inicial").val("");
-            $(".txt-data-final").val("");
-            $(".txt-data-inicial-servico").val("");
-            $(".txt-data-final-servico").val("");
-            $(".txt-data-inicial-refeicao").val("");
-            $(".txt-data-final-refeicao").val("");
+            $("#modalAdicionarEventoClickDay #formHoraInicio").attr("disabled", false);
+            $("#modalAdicionarEventoClickDay #formHoraFim").attr("disabled", false);
+            $("#modalAdicionarEventoClickDay #formDataInicio").val("");
+            $("#modalAdicionarEventoClickDay #formDataFim").val("");
+            $("#modalAdicionarEventoClickDay .txt-data-inicial").val("");
+            $("#modalAdicionarEventoClickDay .txt-data-final").val("");
+            $("#modalAdicionarEventoClickDay .txt-data-inicial-servico").val("");
+            $("#modalAdicionarEventoClickDay .txt-data-final-servico").val("");
+            $("#modalAdicionarEventoClickDay .txt-data-inicial-refeicao").val("");
+            $("#modalAdicionarEventoClickDay .txt-data-final-refeicao").val("");
             $("#calendarDayOfWeek").fullCalendar("destroy");
         }
 
     });
 
-    function insertEventoSelecionado(idUsuario, nomeEvento, solicitanteEvento, telefoneSolicitante, emailSolicitante, tipoEvento, blocoEvento, ambienteEvento, eventoTipoRepeticao, idAula, title, start, end) {
+    function insertEventoSelecionado(idUsuario, nomeEvento, solicitanteEvento, telefoneSolicitante, emailSolicitante, filtroEvento, tipoEvento, blocoEvento, ambienteEvento, eventoTipoRepeticao, idAula, title, start, end) {
         var boolean;
         if (eventoTipoRepeticao == 1) {
             $.ajax({
@@ -1518,6 +1553,7 @@ $(function () {
                     solicitanteEvento: solicitanteEvento,
                     telefoneSolicitante: telefoneSolicitante,
                     emailSolicitante: emailSolicitante,
+                    filtroEvento: filtroEvento,
                     ambienteEvento: ambienteEvento,
                     descricaoEvento: title,
                     eventoTipoRepeticao: eventoTipoRepeticao,
@@ -1541,6 +1577,7 @@ $(function () {
                     solicitanteEvento: solicitanteEvento,
                     telefoneSolicitante: telefoneSolicitante,
                     emailSolicitante: emailSolicitante,
+                    filtroEvento: filtroEvento,
                     ambienteEvento: ambienteEvento,
                     descricaoEvento: title,
                     eventoTipoRepeticao: eventoTipoRepeticao,
@@ -1619,6 +1656,8 @@ $(function () {
         $(".buttonUpdate").click(function () {
             var nomeEvento = $("#modalUpdateEvent .nomeEvento").val();
             var solicitante = $("#modalUpdateEvent .solicitante").val();
+            var telefoneSolicitante = $("#modalUpdateEvent .telefoneContatoSolicitante").val();
+            var emailSolicitante = $("#modalUpdateEvent .emailContatoSolicitante").val();
             var descricaoEvento = $("#modalUpdateEvent .descricaoEvento").val();
             var tipoEvento = $("#sel-tipo-evento-update").val();
             var blocoEvento = $("#sel-bloco-update").val();
@@ -1631,7 +1670,20 @@ $(function () {
             var horaFimEvento = $("#modalUpdateEvent .horaFim").val();
             var dataInicioUtilizada = dataInicioFormatada + " " + horaInicioEvento;
             var dataFimUtilizada = dataFimFormatada + " " + horaFimEvento;
-            if (nomeEvento == "" || solicitante == "" || descricaoEvento == "" || dataInicioUtilizada == "" || dataFimUtilizada == "" || tipoEvento == null || blocoEvento == null || ambienteEvento == null) {
+            var filtroEvento = $("#modalUpdateEvent #sel-filtro-evento-upd").val();
+            var contadorInput = 0;
+            var contadorSelect = 0;
+            $("#form_upd_event input[type=text]:enabled").each(function () {
+                if ($(this).val() == "") {
+                    contadorInput++;
+                }
+            });
+            $("#form_upd_event select:enabled").each(function () {
+                if ($(this).val() == null) {
+                    contadorSelect++;
+                }
+            });
+            if (contadorInput != 0 || contadorSelect != 0 || emailSolicitante == "") {
                 $("#modalCamposNulos").modal();
                 $("#modalCamposNulos").modal('open');
             } else {
@@ -1650,12 +1702,15 @@ $(function () {
                                 idEvento: idEvento,
                                 nomeEvento: nomeEvento,
                                 solicitante: solicitante,
+                                telefoneSolicitante: telefoneSolicitante,
+                                emailSolicitante: emailSolicitante,
                                 descricaoEvento: descricaoEvento,
                                 tipoEvento: tipoEvento,
                                 blocoEvento: blocoEvento,
                                 ambienteEvento: ambienteEvento,
                                 dataInicio: dataInicioUtilizada,
-                                dataFim: dataFimUtilizada
+                                dataFim: dataFimUtilizada,
+                                filtroEvento: filtroEvento
                             }, success: function (data, textStatus, jqXHR) {
                                 location.reload();
                             }
@@ -2847,7 +2902,7 @@ $(function () {
     getRefeicoes();
     getAula();
     getTipoRepeticao();
-
+    getFiltroEvento();
 
 
 });
