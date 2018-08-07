@@ -5,8 +5,8 @@
         <group>
             <file>file:/var/www/html/Projeto_Locacoes/app/model/dao/EventoDao.class.php</file>
             <file>file:/var/www/html/Projeto_Locacoes/app/admin.php</file>
+            <file>file:/var/www/html/Projeto_Locacoes/app/controller/FrontController.php</file>
             <file>file:/var/www/html/Projeto_Locacoes/app/view/EventoView.class.php</file>
-            <file>file:/var/www/html/Projeto_Locacoes/app/model/bean/Evento.class.php</file>
             <file>file:/var/www/html/Projeto_Locacoes/app/model/logica/EventoLogica.class.php</file>
             <file>file:/var/www/html/Projeto_Locacoes/public/js/app.js</file>
             <file>file:/var/www/html/Projeto_Locacoes/public/css/location_style.css</file>

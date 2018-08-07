@@ -25,6 +25,7 @@ $(function () {
         var pos = $(this).offset();
         $(this).closest('.upage').scrollTop(pos.top);
     });
+    $(".divSituacaoSolicitacaoBtn").hide();
 
 
     function calendarAdmin(idAmbiente, idBloco, idSetor) {
@@ -1314,6 +1315,20 @@ $(function () {
             }
         });
     }
+    function getSituacao() {
+        $.ajax({
+            url: controllerToAdmin,
+            type: "POST",
+            data: {
+                action: "SituacaoLogica.getSituacao"
+            },
+            success: function (data) {
+                $("#sel-tipo-evento-situacao").empty();
+                $("#sel-tipo-evento-situacao").html(data);
+                $("#sel-tipo-evento-situacao").material_select();
+            }
+        });
+    }
 
     function getFiltroEvento() {
         $.ajax({
@@ -1485,6 +1500,7 @@ $(function () {
         var idAmbiente = $("#sel-ambiente-pesquisa").val();
         var idBloco = $("#sel-bloco-pesquisa").val();
         var idSetor = $("#sel-tipo-evento-pesquisa").val();
+        $(".divSituacaoSolicitacaoBtn").show();
         calendarAdmin(idAmbiente, idBloco, idSetor);
     });
 

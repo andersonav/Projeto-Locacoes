@@ -45,6 +45,14 @@ main {
     height:20px;
 }
 
+.tab{
+    border: 1px solid #006e43;
+    border-left: none;
+}
+.tab:first-child { 
+    border-left:  1px solid #006e43;
+}
+
 .checkEspera p{
     text-align: center !important;
 }

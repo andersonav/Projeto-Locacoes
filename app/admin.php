@@ -478,8 +478,8 @@ if (!isset($_SESSION['usuario_login']) || ($_SESSION['usuario_tipo_id'] == 3)) {
                                 <div class="cadastroClickBtn mostrarWhenClickBtn center">
                                     <div class="col s12 m3 checkEspera">
                                         <p>
-                                            <input type="checkbox" id="teste"/>
-                                            <label for="teste">Em Espera</label>
+                                            <input type="checkbox" id="checkboxEspera"/>
+                                            <label for="checkboxEspera">Em Espera</label>
                                         </p>
                                     </div>
                                     <div class="input-field col s12 m2">
@@ -557,26 +557,41 @@ if (!isset($_SESSION['usuario_login']) || ($_SESSION['usuario_tipo_id'] == 3)) {
                 </div>
                 <br><br>
                 <div class="row">
-                    <div class="input-field col s12 m3">
+
+                    <div class="input-field col s12 m4">
                         <select name="tipo" class="sel-tipo-evento-pesquisa" id="sel-tipo-evento-pesquisa">
                             <option value="" disabled selected>Escolha sua opção</option>
                         </select>
-                        <label class="corLogo-text">Tipo: </label>
+                        <label class="corLogo-text">Tipo de Ambiente: </label>
                     </div>
-                    <div class="input-field col s12 m3">
+                    <div class="input-field col s12 m4">
                         <select name="bloco" class="sel-bloco-pesquisa" id="sel-bloco-pesquisa">
                             <option value="" disabled selected>Escolha sua opção</option>
                         </select>
                         <label class="corLogo-text">Bloco: </label>
                     </div>
-                    <div class="input-field col s12 m3">
+                    <div class="input-field col s12 m4">
                         <select name="ambiente" class="sel-ambiente-pesquisa" id="sel-ambiente-pesquisa">
                             <option value="" disabled selected>Escolha sua opção</option>
                         </select>
-                        <label class="corLogo-text">Ambiente: </label>
+                        <label class="corLogo-text">Local/Sala: </label>
                     </div>
-                    <div class="input-field col s12 m3">
-                        <a class="waves-effect waves-light btn btnLimparDados" id="limparCampos" style="">Limpar Dados</a>
+                    <div class="divSituacaoSolicitacaoBtn">
+                        <div class="input-field col s12 m4">
+                            <select name="sel-tipo-evento-situacao" class="sel-tipo-evento-situacao" id="sel-tipo-evento-situacao">
+                                <option value="" disabled selected>Escolha sua opção</option>
+                            </select>
+                            <label class="corLogo-text">Situação: </label>
+                        </div>
+                        <div class="input-field col s12 m4">
+                            <select name="sel-tipo-evento-filtro" class="sel-tipo-evento-filtro" id="sel-tipo-evento-filtro">
+                                <option value="" disabled selected>Escolha sua opção</option>
+                            </select>
+                            <label class="corLogo-text">Tipo de Solicitação: </label>
+                        </div>
+                        <div class="input-field col s12 m4">
+                            <a class="waves-effect waves-light btn btnLimparDados" id="limparCampos" style="">Limpar Dados</a>
+                        </div>
                     </div>
                 </div>
                 <div id='calendar'></div>
