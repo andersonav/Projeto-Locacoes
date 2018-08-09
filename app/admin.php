@@ -32,8 +32,8 @@ if (!isset($_SESSION['usuario_login']) || ($_SESSION['usuario_tipo_id'] == 3)) {
         <script src='../public/js/fullcalendar.min.js'></script>
         <script src='../public/js/locale-all.js'></script>
         <script src='../public/js/locale/pt-br.js'></script>
-        <script src='../public/js/app.js'></script>
         <script src='../public/js/materialize.min.js'></script>
+        <script src='../public/js/app.js'></script>
     </head>
     <body>
         <nav class="nav">
@@ -289,6 +289,15 @@ if (!isset($_SESSION['usuario_login']) || ($_SESSION['usuario_tipo_id'] == 3)) {
                     <div class="modal-content">
                         <h4>Alerta</h4>
                         <p>Por favor, selecione uma data.</p>
+                    </div>
+                    <div class="modal-footer">
+                        <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Fechar</a>
+                    </div>
+                </div>
+                <div id="modalNoAmbiente" class="modal">
+                    <div class="modal-content">
+                        <h4>Alerta</h4>
+                        <p>Por favor, selecione um ambiente.</p>
                     </div>
                     <div class="modal-footer">
                         <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Fechar</a>
@@ -557,24 +566,41 @@ if (!isset($_SESSION['usuario_login']) || ($_SESSION['usuario_tipo_id'] == 3)) {
                 </div>
                 <br><br>
                 <div class="row">
-
-                    <div class="input-field col s12 m4">
-                        <select name="tipo" class="sel-tipo-evento-pesquisa" id="sel-tipo-evento-pesquisa">
-                            <option value="" disabled selected>Escolha sua opção</option>
-                        </select>
-                        <label class="corLogo-text">Tipo de Ambiente: </label>
+                    <div class="pesquisaSimplificada">
+                        <div class="input-field col s12 m11">
+                            <input type="text" id="autocomplete" class="autocomplete" placeholder="Local/Sala">
+                            <label for="autocomplete">Pesquisa Simples</label>
+                        </div>
+                        <div class="input-field col s12 m1">
+                            <i class="material-icons">close</i>
+                        </div>
+                        <div class="input-field col s12 m12">
+                            <a class="waves-effect waves-light" id="pesquisaAvancada" style="">Pesquisa Avançada</a>
+                        </div>
                     </div>
-                    <div class="input-field col s12 m4">
-                        <select name="bloco" class="sel-bloco-pesquisa" id="sel-bloco-pesquisa">
-                            <option value="" disabled selected>Escolha sua opção</option>
-                        </select>
-                        <label class="corLogo-text">Bloco: </label>
-                    </div>
-                    <div class="input-field col s12 m4">
-                        <select name="ambiente" class="sel-ambiente-pesquisa" id="sel-ambiente-pesquisa">
-                            <option value="" disabled selected>Escolha sua opção</option>
-                        </select>
-                        <label class="corLogo-text">Local/Sala: </label>
+                    <div class="divPesquisaAvancada">
+                        <div class="input-field col s12 m4">
+                            <select name="tipo" class="sel-tipo-evento-pesquisa" id="sel-tipo-evento-pesquisa">
+                                <option value="" disabled selected>Escolha sua opção</option>
+                            </select>
+                            <label class="corLogo-text">Tipo de Ambiente: </label>
+                        </div>
+                        <div class="input-field col s12 m4">
+                            <select name="bloco" class="sel-bloco-pesquisa" id="sel-bloco-pesquisa">
+                                <option value="" disabled selected>Escolha sua opção</option>
+                            </select>
+                            <label class="corLogo-text">Bloco: </label>
+                        </div>
+                        <div class="input-field col s12 m4">
+                            <select name="ambiente" class="sel-ambiente-pesquisa" id="sel-ambiente-pesquisa">
+                                <option value="" disabled selected>Escolha sua opção</option>
+                            </select>
+                            <label class="corLogo-text">Local/Sala: </label>
+                        </div>
+                        <div class="input-field col s12 m12">
+                            <a class="waves-effect waves-light" id="pesquisaSimplificada" style="">Pesquisa Simplificada</a>
+                            <br><br>
+                        </div>
                     </div>
                     <div class="divSituacaoSolicitacaoBtn">
                         <div class="input-field col s12 m4">
@@ -590,10 +616,12 @@ if (!isset($_SESSION['usuario_login']) || ($_SESSION['usuario_tipo_id'] == 3)) {
                             <label class="corLogo-text">Tipo de Solicitação: </label>
                         </div>
                         <div class="input-field col s12 m4">
-                            <a class="waves-effect waves-light btn btnLimparDados" id="limparCampos" style="">Limpar Dados</a>
+                            <i class="material-icons" id="limparCampos" style="float: right !important;">close</i>
+                            <!--<a class="waves-effect waves-light btn btnLimparDados" id="limparCampos" style="">Limpar Dados</a>-->
                         </div>
                     </div>
                 </div>
+                <br><br>
                 <div id='calendar'></div>
                 <div id="readyCalendar"></div>
             </div>

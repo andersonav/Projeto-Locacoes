@@ -26,9 +26,9 @@ $(function () {
         $(this).closest('.upage').scrollTop(pos.top);
     });
     $(".divSituacaoSolicitacaoBtn").hide();
+    $(".divPesquisaAvancada").hide();
 
-
-    function calendarAdmin(idAmbiente, idBloco, idSetor) {
+    function calendarAdmin(idAmbiente, idBloco, idSetor, idSituacao, idTipoSolicitacao) {
         $('#calendar').fullCalendar('destroy');
         $("#readyCalendar").fullCalendar('destroy');
         $('#calendar').fullCalendar({
@@ -221,7 +221,9 @@ $(function () {
                         action: "EventoLogica.getEventoByAmbiente",
                         idAmbiente: idAmbiente,
                         idBloco: idBloco,
-                        idSetor: idSetor
+                        idSetor: idSetor,
+                        idSituacao: idSituacao,
+                        idTipoSolicitacao: idTipoSolicitacao
                     },
                     success: function (data) {
                         var events = [];
@@ -1325,7 +1327,23 @@ $(function () {
             success: function (data) {
                 $("#sel-tipo-evento-situacao").empty();
                 $("#sel-tipo-evento-situacao").html(data);
+                $("#sel-tipo-evento-situacao").val(1);
                 $("#sel-tipo-evento-situacao").material_select();
+            }
+        });
+    }
+
+    function getFiltroEventoSolicitacao() {
+        $.ajax({
+            url: controllerToAdmin,
+            type: "POST",
+            data: {
+                action: "FiltroEventoLogica.getFiltroEvento"
+            },
+            success: function (data) {
+                $("#sel-tipo-evento-filtro").html(data);
+                $("#sel-tipo-evento-filtro").val(1);
+                $("#sel-tipo-evento-filtro").material_select();
             }
         });
     }
@@ -1501,7 +1519,10 @@ $(function () {
         var idBloco = $("#sel-bloco-pesquisa").val();
         var idSetor = $("#sel-tipo-evento-pesquisa").val();
         $(".divSituacaoSolicitacaoBtn").show();
-        calendarAdmin(idAmbiente, idBloco, idSetor);
+        getSituacao();
+        getFiltroEventoSolicitacao();
+        logicToGetSituacaoAndSolicitacao();
+        calendarAdmin(idAmbiente, idBloco, idSetor, 1, 1);
     });
 
 
@@ -2902,6 +2923,67 @@ $(function () {
             }
         });
     }
+
+    $('input.autocomplete').autocomplete({
+        data: {
+            "Apple": null,
+            "Microsoft": null,
+            "Google": 'https://placehold.it/250x250'
+        },
+        limit: 20, // The max amount of results that can be shown at once. Default: Infinity.
+        onAutocomplete: function (val) {
+            // Callback function when value is autcompleted.
+        },
+        minLength: 1, // The minimum length of the input for the autocomplete to start. Default: 1.
+    });
+
+    $("#pesquisaAvancada").click(function () {
+        $(".pesquisaSimplificada").hide(1500);
+        $(".divPesquisaAvancada").show(1500);
+        $("#limparCampos").trigger("click");
+
+
+    });
+
+    $("#pesquisaSimplificada").click(function () {
+        $(".pesquisaSimplificada").show(1500);
+        $(".divPesquisaAvancada").hide(1500);
+        $(".divSituacaoSolicitacaoBtn").hide(1500);
+        $("#limparCampos").trigger("click");
+    });
+
+    function logicToGetSituacaoAndSolicitacao() {
+        $("#sel-tipo-evento-situacao").change(function () {
+            var valorSituacao = $(this).val();
+            var valorSelectTipoSolicitacao = $("#sel-tipo-evento-filtro").val();
+            var idAmbiente = $("#sel-ambiente-pesquisa").val();
+            if (idAmbiente == null) {
+                $("#modalNoAmbiente").modal();
+                $("#modalNoAmbiente").modal('open');
+            } else {
+                var idBloco = $("#sel-bloco-pesquisa").val();
+                var idSetor = $("#sel-tipo-evento-pesquisa").val();
+                calendarAdmin(idAmbiente, idBloco, idSetor, valorSituacao, valorSelectTipoSolicitacao);
+            }
+        });
+
+        $("#sel-tipo-evento-filtro").change(function () {
+            var valorSelectTipoSolicitacao = $(this).val();
+            var valorSituacao = $("#sel-tipo-evento-situacao").val();
+            var idAmbiente = $("#sel-ambiente-pesquisa").val();
+            if (idAmbiente == null) {
+                $("#modalNoAmbiente").modal();
+                $("#modalNoAmbiente").modal('open');
+            } else {
+                var idBloco = $("#sel-bloco-pesquisa").val();
+                var idSetor = $("#sel-tipo-evento-pesquisa").val();
+                calendarAdmin(idAmbiente, idBloco, idSetor, valorSituacao, valorSelectTipoSolicitacao);
+            }
+        });
+    }
+
+
+
 
 
     $('#tabs-swipe-demo.tabs').tabs();

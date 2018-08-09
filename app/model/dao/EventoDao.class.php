@@ -60,7 +60,7 @@ class EventoDao {
         return $arr;
     }
 
-    public function getEventoByAmbiente($idAmbiente, $idBloco, $idSetor) {
+    public function getEventoByAmbiente($idAmbiente, $idBloco, $idSetor, $idSituacao, $idTipoSolicitacao) {
 
         try {
 
@@ -76,11 +76,13 @@ class EventoDao {
                     JOIN evento_aula eva ON eva.eve_aula_id = eve.eve_aula_id
                     JOIN dias_semana diaSem ON diaSem.dia_sem_codigo = eve.eve_fkdia_codigo
                     LEFT JOIN evento_aula_detalhes evad ON evad.eve_aula_det_fkeve_id = eve.eve_id
-                    WHERE eve.eve_amb_id = ? AND blo.blo_eve_id = ? AND sev.set_eve_id = ? AND date(eve.eve_data_inicio) = date(eve.eve_data_fim) AND eve.eve_ativo = 1;";
+                    WHERE eve.eve_amb_id = ? AND blo.blo_eve_id = ? AND sev.set_eve_id = ? AND eve.eve_fksituacao_evento = ? AND eve.eve_fkfiltro_evento = ? AND date(eve.eve_data_inicio) = date(eve.eve_data_fim) AND eve.eve_ativo = 1;";
             $p_sql = ConexaoMysql::getInstance()->prepare($sql);
             $p_sql->bindParam(1, $idAmbiente);
             $p_sql->bindParam(2, $idBloco);
             $p_sql->bindParam(3, $idSetor);
+            $p_sql->bindParam(4, $idSituacao);
+            $p_sql->bindParam(5, $idTipoSolicitacao);
             $p_sql->execute();
 
             return $this->getListObjEvento($p_sql->fetchAll(PDO::FETCH_OBJ));
@@ -125,8 +127,8 @@ class EventoDao {
         try {
             $logicaAula = 1;
             $ativo = 1;
-            $sql = "INSERT INTO eventos (eve_nome, eve_desc, eve_solicitante, eve_sol_tel, eve_sol_email, eve_data_inicio, eve_data_fim, eve_comeco, eve_fim, eve_tip_rep_id, eve_aula_id, eve_amb_id, eve_usu_id, eve_fkdia_codigo, eve_logica, eve_random, eve_ativo, eve_fkfiltro_evento)"
-                    . "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+            $sql = "INSERT INTO eventos (eve_nome, eve_desc, eve_solicitante, eve_sol_tel, eve_sol_email, eve_data_inicio, eve_data_fim, eve_comeco, eve_fim, eve_tip_rep_id, eve_aula_id, eve_amb_id, eve_usu_id, eve_fkdia_codigo, eve_logica, eve_random, eve_ativo, eve_fkfiltro_evento, eve_fksituacao_evento)"
+                    . "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,1)";
             $p_sql = ConexaoMysql::getInstance()->prepare($sql);
             $p_sql->bindParam(1, $nomeEvento);
             $p_sql->bindParam(2, $descricaoEvento);

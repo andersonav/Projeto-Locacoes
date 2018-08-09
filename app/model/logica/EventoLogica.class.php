@@ -35,7 +35,10 @@ class EventoLogica {
         $idAmbiente = $_REQUEST['idAmbiente'];
         $idBloco = $_REQUEST['idBloco'];
         $idSetor = $_REQUEST['idSetor'];
-        $eventos = EventoDao::getInstance()->getEventoByAmbiente($idAmbiente, $idBloco, $idSetor);
+        $idSituacao = $_REQUEST['idSituacao'];
+        $idTipoSolicitacao = $_REQUEST['idTipoSolicitacao'];
+        
+        $eventos = EventoDao::getInstance()->getEventoByAmbiente($idAmbiente, $idBloco, $idSetor, $idSituacao, $idTipoSolicitacao);
         return EventoView::getInstance()->jsonCarregarEventos($eventos);
     }
 
