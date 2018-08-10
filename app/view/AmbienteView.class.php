@@ -37,4 +37,8 @@ class AmbienteView {
         }
     }
 
+    public function htmlAmbiente($ambientes) {
+        echo json_encode($ambientes);
+    }
+
 }

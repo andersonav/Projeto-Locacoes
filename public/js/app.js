@@ -2924,18 +2924,52 @@ $(function () {
         });
     }
 
-    $('input.autocomplete').autocomplete({
-        data: {
-            "Apple": null,
-            "Microsoft": null,
-            "Google": 'https://placehold.it/250x250'
-        },
-        limit: 20, // The max amount of results that can be shown at once. Default: Infinity.
-        onAutocomplete: function (val) {
-            // Callback function when value is autcompleted.
-        },
-        minLength: 1, // The minimum length of the input for the autocomplete to start. Default: 1.
-    });
+
+
+    function getAmbientes() {
+        $.ajax({
+            url: controllerToAdmin,
+            type: 'POST',
+            async: false,
+            data: {
+                action: 'AmbienteLogica.getAmbiente'
+            }, success: function (data, textStatus, jqXHR) {
+                console.log(data);
+                data = $.parseJSON(data);
+                var ambientes = [];
+                for (var i = 0; i < data.length; i++) {
+                    ambientes[i] = data[i].idAmbiente + " - " + data[i].ambienteDescricao + " / " + data[i].ambienteIdBloco + " - " + data[i].ambienteBlocoDescricao + " / " + data[i].ambienteIdSetor + " - " + data[i].ambienteSetorDescricao;
+                }
+                var dataAmbiente = {};
+                for (var i = 0; i < ambientes.length; i++) {
+                    //console.log(countryArray[i].name);
+                    dataAmbiente[ambientes[i]] = null; //countryArray[i].flag or null
+                }
+                $('input.autocomplete').autocomplete({
+                    data: dataAmbiente,
+//        limit: 20, // The max amount of results that can be shown at once. Default: Infinity.
+                    onAutocomplete: function (val) {
+                        var stringQuebrada = val.split("/");
+                        var stringQuebradaAmbiente = stringQuebrada[0].split("-");
+                        var ambiente = stringQuebradaAmbiente[0];
+
+                        var stringQuebradaBloco = stringQuebrada[1].split("-");
+                        var bloco = stringQuebradaBloco[0];
+
+                        var stringQuebradaTipo = stringQuebrada[2].split("-");
+                        var tipo = stringQuebradaTipo[0];
+
+                        calendarAdmin(ambiente, bloco, tipo, 1, 1);
+
+                        // Callback function when value is autcompleted.
+                    },
+                    minLength: 1, // The minimum length of the input for the autocomplete to start. Default: 1.
+                });
+            }
+        });
+    }
+
+
 
     $("#pesquisaAvancada").click(function () {
         $(".pesquisaSimplificada").hide(1500);
@@ -2950,6 +2984,10 @@ $(function () {
         $(".divPesquisaAvancada").hide(1500);
         $(".divSituacaoSolicitacaoBtn").hide(1500);
         $("#limparCampos").trigger("click");
+    });
+
+    $(".limparDadosInput").click(function () {
+        $("#autocomplete").val("");
     });
 
     function logicToGetSituacaoAndSolicitacao() {
@@ -3001,6 +3039,7 @@ $(function () {
     getAula();
     getTipoRepeticao();
     getFiltroEvento();
+    getAmbientes();
 
 
 });

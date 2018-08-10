@@ -17,12 +17,12 @@ class Ambiente {
         
     }
 
-    private $idAmbiente;
-    private $ambienteDescricao;
-    private $ambienteIdBloco;
-    private $ambienteBlocoDescricao;
-    private $ambienteIdSetor;
-    private $ambienteSetorDescricao;
+    public $idAmbiente;
+    public $ambienteDescricao;
+    public $ambienteIdBloco;
+    public $ambienteBlocoDescricao;
+    public $ambienteIdSetor;
+    public $ambienteSetorDescricao;
 
     function getIdAmbiente() {
         return $this->idAmbiente;

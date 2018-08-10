@@ -244,5 +244,5 @@ class EventoLogica {
 
         return EventoDao::getInstance()->updateEveLogicaToZero($valorIdEvento);
     }
-
+    
 }

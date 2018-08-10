@@ -572,7 +572,7 @@ if (!isset($_SESSION['usuario_login']) || ($_SESSION['usuario_tipo_id'] == 3)) {
                             <label for="autocomplete">Pesquisa Simples</label>
                         </div>
                         <div class="input-field col s12 m1">
-                            <i class="material-icons">close</i>
+                            <i class="material-icons limparDadosInput">close</i>
                         </div>
                         <div class="input-field col s12 m12">
                             <a class="waves-effect waves-light" id="pesquisaAvancada" style="">Pesquisa Avançada</a>

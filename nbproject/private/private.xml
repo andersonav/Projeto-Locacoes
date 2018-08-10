@@ -3,8 +3,14 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/var/www/html/Projeto_Locacoes/app/view/SituacaoView.class.php</file>
+            <file>file:/var/www/html/Projeto_Locacoes/app/model/logica/SituacaoLogica.class.php</file>
+            <file>file:/var/www/html/Projeto_Locacoes/app/model/dao/EventoDao.class.php</file>
             <file>file:/var/www/html/Projeto_Locacoes/app/admin.php</file>
+            <file>file:/var/www/html/Projeto_Locacoes/app/model/dao/SituacaoDao.class.php</file>
+            <file>file:/var/www/html/Projeto_Locacoes/app/model/logica/EventoLogica.class.php</file>
             <file>file:/var/www/html/Projeto_Locacoes/public/js/app.js</file>
+            <file>file:/var/www/html/Projeto_Locacoes/app/model/bean/Situacao.class.php</file>
         </group>
     </open-files>
 </project-private>

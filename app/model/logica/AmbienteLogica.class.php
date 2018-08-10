@@ -33,8 +33,12 @@ class AmbienteLogica {
 
     public function getAmbienteByBloco() {
         $valorBloco = $_REQUEST['valorBloco'];
-        
+
         return AmbienteView::getInstance()->htmlSelectAmbiente(AmbienteDao::getInstance()->getAmbienteByBloco($valorBloco));
+    }
+
+    public function getAmbiente() {
+        return AmbienteView::getInstance()->htmlAmbiente(AmbienteDao::getInstance()->getAmbiente());
     }
 
 }

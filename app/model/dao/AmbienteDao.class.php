@@ -62,4 +62,21 @@ class AmbienteDao {
         }
     }
 
+    public function getAmbiente() {
+
+        try {
+
+            $sql = "SELECT * FROM ambiente_evento amb
+                    JOIN bloco_evento blo ON blo.blo_eve_id = amb.amb_blo_eve_id
+                    JOIN setor_evento sev ON sev.set_eve_id=blo.blo_set_eve_id 
+                    ORDER BY amb_eve_desc";
+            $p_sql = ConexaoMysql::getInstance()->prepare($sql);
+            $p_sql->execute();
+
+            return $this->getListObjAmbiente($p_sql->fetchAll(PDO::FETCH_OBJ));
+        } catch (Exception $e) {
+            echo $e->getTraceAsString();
+        }
+    }
+
 }
